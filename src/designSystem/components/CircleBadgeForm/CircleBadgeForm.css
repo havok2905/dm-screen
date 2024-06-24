@@ -1,0 +1,30 @@
+.dm-screen-design-system-circle-badge-form {
+  align-items: center;
+  background-color: var(--back-50);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  height: 40px;
+  width: 40px;
+}
+
+.dm-screen-design-system-circle-badge-form input {
+  background: none;
+  border: none;
+  color: var(--white);
+  font-weight: 700;
+  text-align: center;
+  width: 100%;
+}
+
+.dm-screen-design-system-circle-badge-form-stroke-blue {
+  border: solid 4px var(--blue);
+}
+
+.dm-screen-design-system-circle-badge-form-stroke-green {
+  border: solid 4px var(--green);
+}
+
+.dm-screen-design-system-circle-badge-form-stroke-orange {
+  border: solid 4px var(--orange);
+}
