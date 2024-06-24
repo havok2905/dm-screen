@@ -18,13 +18,13 @@
 }
 
 .dm-screen-design-system-circle-badge-form-stroke-blue {
-  border: solid 4px var(--blue);
+  border: solid 4px var(--blue-200);
 }
 
 .dm-screen-design-system-circle-badge-form-stroke-green {
-  border: solid 4px var(--green);
+  border: solid 4px var(--green-100);
 }
 
 .dm-screen-design-system-circle-badge-form-stroke-orange {
-  border: solid 4px var(--orange);
+  border: solid 4px var(--orange-100);
 }
