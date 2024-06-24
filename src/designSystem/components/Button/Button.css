@@ -1,3 +1,39 @@
 .button {
+  background-color: var(--black-200);
+  border: solid 2px var(--light-grey);
+  border-radius: 8px;
+  box-shadow: var(--base-shadow);
+  color: var(--white);
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--base-font-family);
+  font-size: var(--button-font-size);
+  line-height: 1;
+  padding: 10px 20px;
+  user-select: none;
+}
 
+.button:hover {
+  background-color: var(--black-100);
+}
+
+.button:focus {
+  background-color: var(--black-100);
+}
+
+.button:active {
+  background-color: var(--black-300);
+}
+
+.button-disabled,
+.button:disabled {
+  background-color: var(--grey-100);
+  cursor: not-allowed;
+}
+
+.button-disabled:hover,
+.button-disabled:focus,
+.button-disabled:active {
+  background-color: var(--grey-100);
+  cursor: not-allowed;
 }

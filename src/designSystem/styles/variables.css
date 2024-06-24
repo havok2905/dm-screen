@@ -1,8 +1,10 @@
 :root {
+  /* COLORS  */
   --black: #000000;
   --back-50: #111111;
   --black-100: #1a1a1a;
   --black-200: #333333;
+  --black-300: #444444;
   --blue-50: #36498b;
   --blue-100: #5d6fb1;
   --blue-200: #8698db;
@@ -19,6 +21,15 @@
   --red-100: #ad1c1c;
   --red-200: #c04848;
   --white: #ffffff;
+
+  /* FONT FAMILIES */
+  --base-font-family: sans-serif;
+
+  /* FONT SIZES */
+  --button-font-size: 0.875rem;
+
+  /* SHADOWS */
+  --base-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
 
   --background-color: var(--off-white);
   
