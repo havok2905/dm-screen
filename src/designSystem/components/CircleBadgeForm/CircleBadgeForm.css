@@ -13,6 +13,7 @@
   background: none;
   border: none;
   color: var(--white);
+  font-family: var(--base-font-family);
   font-size: var(--sub-font-size);
   font-weight: 400;
   outline: none;
