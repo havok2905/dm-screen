@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@designSystem/*": [
+        "./src/designSystem/*"
+      ]
+    }
+  }
+}

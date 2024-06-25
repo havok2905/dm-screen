@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { CircleBadgeForm } from '../../../designSystem/components';
+import { CircleBadgeForm } from '@designSystem/components';
 
 import './InitiativeCard.css';
 
