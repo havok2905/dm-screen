@@ -2,29 +2,32 @@
   align-items: center;
   background-color: var(--back-50);
   border-radius: 50%;
+  box-shadow: var(--base-shadow);
   cursor: pointer;
   display: flex;
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
 }
 
 .dm-screen-design-system-circle-badge-form input {
   background: none;
   border: none;
   color: var(--white);
-  font-weight: 700;
+  font-size: var(--sub-font-size);
+  font-weight: 400;
+  outline: none;
   text-align: center;
   width: 100%;
 }
 
 .dm-screen-design-system-circle-badge-form-stroke-blue {
-  border: solid 4px var(--blue-200);
+  border: solid 2px var(--blue-200);
 }
 
 .dm-screen-design-system-circle-badge-form-stroke-green {
-  border: solid 4px var(--green-100);
+  border: solid 2px var(--green-100);
 }
 
 .dm-screen-design-system-circle-badge-form-stroke-orange {
-  border: solid 4px var(--orange-100);
+  border: solid 2px var(--orange-100);
 }

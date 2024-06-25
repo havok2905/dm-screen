@@ -1,20 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from './Button';
+import { InitiativeCard } from './InitiativeCard';
 
 const meta = {
-  title: 'DesignSystem/Button',
-  component: Button,
+  title: 'dm-screen/InitiativeCard',
+  component: InitiativeCard,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
   argTypes: {
-    buttonText: { control: 'text' }
+
   },
   args: {
 
   }
-} satisfies Meta<typeof Button>;
+} satisfies Meta<typeof InitiativeCard>;
 
 export default meta;
 
@@ -22,6 +22,9 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    buttonText: 'Button'
+    ac: 10,
+    characterName: 'John Doe',
+    hp: 10,
+    initiativeRoll: 20
   }
 };

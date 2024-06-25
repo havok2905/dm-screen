@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { CircleBadgeForm } from './CircleBadgeForm';
 
 const meta = {
-  title: 'CircleBadgeForm',
+  title: 'DesignSystem/CircleBadgeForm',
   component: CircleBadgeForm,
   parameters: {
     layout: 'centered',
