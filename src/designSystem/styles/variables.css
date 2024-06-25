@@ -26,8 +26,21 @@
   --base-font-family: "Roboto", sans-serif;
 
   /* FONT SIZES */
+  --base-font-size: 1rem;
   --button-font-size: 0.875rem;
+  --h1-font-size: 3rem;
+  --h2-font-size: 2.5rem;
+  --h3-font-size: 2rem;
+  --h4-font-size: 1.75rem;
+  --h5-font-size: 1.5rem;
+  --h6-font-size: 1.25rem;
   --sub-font-size: 0.75rem;
+
+  /* FONT WEIGHTS */
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;  
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
 
   /* SHADOWS */
   --base-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
