@@ -1,0 +1,41 @@
+.dm-screen-design-system-link-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  text-decoration: underline;
+}
+
+.dm-screen-design-system-link-button:disabled,
+.dm-screen-design-system-link-button:disabled:active,
+.dm-screen-design-system-link-button:disabled:focus,
+.dm-screen-design-system-link-button:disabled:hover {
+  color: var(--light-grey);
+  cursor: not-allowed;
+}
+
+.dm-screen-design-system-link-button-green {
+  color: var(--green-100);
+}
+
+.dm-screen-design-system-link-button-green:focus,
+.dm-screen-design-system-link-button-green:hover {
+  color: var(--green-200);
+}
+
+.dm-screen-design-system-link-button-green:active {
+  color: var(--green-50);
+}
+
+.dm-screen-design-system-link-button-red {
+  color: var(--red-100);
+}
+
+.dm-screen-design-system-link-button-red:focus,
+.dm-screen-design-system-link-button-red:hover {
+  color: var(--red-200);
+}
+
+.dm-screen-design-system-link-button-red:active {
+  color: var(--red-50);
+}
