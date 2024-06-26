@@ -1,0 +1,59 @@
+.dm-screen-design-system-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 100%;
+}
+
+.dm-screen-design-system-row {
+  display: flex;
+  gap: 1em;
+}
+
+.dm-screen-design-system-item-1 {
+  width: 8.33%;
+}
+
+.dm-screen-design-system-item-2 {
+  width: 16.66%;
+}
+
+.dm-screen-design-system-item-3 {
+  width: 25%;
+}
+
+.dm-screen-design-system-item-4 {
+  width: 33.33%;
+}
+
+.dm-screen-design-system-item-5 {
+  width: 41.66%;
+}
+
+.dm-screen-design-system-item-6 {
+  width: 50%;
+}
+
+.dm-screen-design-system-item-7 {
+  width: 58.33%;
+}
+
+.dm-screen-design-system-item-8 {
+  width: 66.66%;
+}
+
+.dm-screen-design-system-item-9 {
+  width: 75%;
+}
+
+.dm-screen-design-system-item-10 {
+  width: 83.33%;
+}
+
+.dm-screen-design-system-item-11 {
+  width: 91.66%;
+}
+
+.dm-screen-design-system-item-12 {
+  width: 100%;
+}
