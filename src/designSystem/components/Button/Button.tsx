@@ -93,8 +93,8 @@ export const Button = ({
 
   if (as === 'a') {
     const classList = {
-      'button': true,
-      'button-disabled': disabled
+      'dm-screen-design-system-button': true,
+      'dm-screen-design-system-button-disabled': disabled
     };
 
     if (href) {
@@ -135,7 +135,7 @@ export const Button = ({
 
   return (
     <button
-      className="button"
+      className="dm-screen-design-system-button"
       disabled={disabled}
       onBlur={handleOnBlur}
       onClick={handleOnClick}

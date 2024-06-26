@@ -1,4 +1,4 @@
-.button {
+.dm-screen-design-system-button {
   background-color: var(--black-200);
   border: solid 2px var(--light-grey);
   border-radius: 8px;
@@ -13,27 +13,27 @@
   user-select: none;
 }
 
-.button:hover {
+.dm-screen-design-system-button:hover {
   background-color: var(--black-100);
 }
 
-.button:focus {
+.dm-screen-design-system-button:focus {
   background-color: var(--black-100);
 }
 
-.button:active {
+.dm-screen-design-system-button:active {
   background-color: var(--black-300);
 }
 
-.button-disabled,
-.button:disabled {
+.dm-screen-design-system-button-disabled,
+.dm-screen-design-system-button:disabled {
   background-color: var(--grey-100);
   cursor: not-allowed;
 }
 
-.button-disabled:hover,
-.button-disabled:focus,
-.button-disabled:active {
+.dm-screen-design-system-button-disabled:hover,
+.dm-screen-design-system-button-disabled:focus,
+.dm-screen-design-system-button-disabled:active {
   background-color: var(--grey-100);
   cursor: not-allowed;
 }
