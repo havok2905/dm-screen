@@ -18,7 +18,10 @@
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "^@designSystem/(.*)$": "<rootDir>/src/designSystem/$1"
-    }
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/setup-jest.js"
+    ]
   },
   "dependencies": {
     "classnames": "^2.5.1",
