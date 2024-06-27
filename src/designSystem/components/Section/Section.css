@@ -1,0 +1,9 @@
+.dm-screen-design-system-section-header {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+}
+
+.dm-screen-design-system-section-header * {
+  flex-grow: 0;
+}

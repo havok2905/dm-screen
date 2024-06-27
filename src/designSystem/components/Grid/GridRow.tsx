@@ -2,13 +2,13 @@ import { ReactNode } from 'react';
 
 import './Grid.css';
 
-export interface RowProps {
+export interface GridRowProps {
   children: ReactNode;
 }
 
-export const Row = ({
+export const GridRow = ({
   children
-}: RowProps) => {
+}: GridRowProps) => {
   return (
     <div className="dm-screen-design-system-row">
       {children}

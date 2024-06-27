@@ -15,7 +15,9 @@ export const TableRow = ({
       {
         row.data.map((value, index) => <TableCell key={index} value={value}/>)
       }
-      <TableRowActions actions={row.actions}/>
+      <TableRowActions
+        actions={row.actions}
+        rowData={row.data}/>
     </tr>
   );
 };

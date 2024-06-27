@@ -1,4 +1,7 @@
 :root {
+  /* BORDER RADIUS  */
+  --border-radius: 8px;
+
   /* COLORS  */
   --black: #000000;
   --back-50: #111111;

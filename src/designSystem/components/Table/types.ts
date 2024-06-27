@@ -10,19 +10,21 @@ export interface Column {
 
 export type Columns = Column[];
 
+export type RowData = (string | number | boolean)[];
+
 export interface RowAction {
   name: string;
-  onBlur?: (e: FocusEvent) => void;
-  onClick?: (e: MouseEvent) => void;
-  onFocus?: (e: FocusEvent) => void;
-  onKeyDown?: (e: KeyboardEvent) => void;
-  onKeyUp?: (e: KeyboardEvent) => void;
-  onMouseEnter?: (e: MouseEvent) => void;
-  onMouseLeave?: (e: MouseEvent) => void;
+  onBlur?: (e: FocusEvent, rowData: RowData) => void;
+  onClick?: (e: MouseEvent, rowData: RowData) => void;
+  onFocus?: (e: FocusEvent, rowData: RowData) => void;
+  onKeyDown?: (e: KeyboardEvent, rowData: RowData) => void;
+  onKeyUp?: (e: KeyboardEvent, rowData: RowData) => void;
+  onMouseEnter?: (e: MouseEvent, rowData: RowData) => void;
+  onMouseLeave?: (e: MouseEvent, rowData: RowData) => void;
 }
 
 export interface Row {
-  data: string[];
+  data: RowData;
   actions: RowAction[];
 }
 

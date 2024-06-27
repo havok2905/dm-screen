@@ -1,0 +1,7 @@
+.dm-screen-design-system-input {
+  box-sizing: border-box;
+  border: solid 2px var(--light-grey);
+  border-radius: var(--border-radius);
+  height: 38px;
+  padding: 10px;
+}

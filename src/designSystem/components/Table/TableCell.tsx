@@ -1,13 +1,28 @@
 export interface TableCellProps {
-  value: string;
+  value: string | number | boolean;
 }
 
 export const TableCell = ({
   value
 }: TableCellProps) => {
+  const getStringValue = (): string => {
+    if (typeof value === 'string') {
+      return value;
+    }
+
+    if (
+      typeof value === 'boolean' ||
+      typeof value === 'number'
+    ) {
+      return String(value);
+    }
+
+    return '';
+  }
+  
   return (
     <td className="dm-screen-design-system-table-cell">
-      {value}
+      {getStringValue()}
     </td>
   );
 };

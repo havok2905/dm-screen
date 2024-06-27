@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Grid } from './Grid';
 import { Item } from './Item';
-import { Row } from './Row';
+import { GridRow } from './GridRow';
 
 const meta = {
   title: 'DesignSystem/Grid',
@@ -16,19 +16,19 @@ const meta = {
   args: {
     children: (
       <>
-        <Row>
+        <GridRow>
           <Item columns={1}>One</Item>
           <Item columns={11}>Two</Item>
-        </Row>
-        <Row>
+        </GridRow>
+        <GridRow>
           <Item columns={6}>One</Item>
           <Item columns={6}>One</Item>
-        </Row>
-        <Row>
+        </GridRow>
+        <GridRow>
           <Item columns={4}>One</Item>
           <Item columns={4}>Two</Item>
           <Item columns={4}>Three</Item>
-        </Row>
+        </GridRow>
       </>
     )
   }
