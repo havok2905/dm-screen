@@ -1,0 +1,45 @@
+.dm-screen-design-system-side-drawer-backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: var(  --z-index-side-drawer-backdrop);
+}
+
+.dm-screen-design-system-side-drawer {
+  background-color: var(--black-100);
+  border-left: solid 1px var(--back-300);
+  box-shadow: var(--base-shadow);
+  box-sizing: border-box;
+  color: var(--white);
+  height: 100%;
+  margin-right: -400px;
+  overflow-y: scroll;
+  padding: 20px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transition: margin-right 0.5s;
+  width: 400px;
+  z-index: var(--z-index-side-drawer);
+}
+
+.dm-screen-design-system-side-drawer.dm-screen-design-system-side-drawer-open {
+  margin-right: 0;
+}
+
+.dm-screen-design-system-side-drawer-header {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.dm-screen-design-system-side-drawer-header-close-button {
+  cursor: pointer;
+  display: inline-block;
+}
+
+.dm-screen-design-system-side-drawer-header-close-button:focus {
+  outline: solid 2px var(--blue-100);
+}
