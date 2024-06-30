@@ -1,5 +1,6 @@
 import {
   FocusEvent,
+  forwardRef,
   KeyboardEvent,
   MouseEvent,
   RefObject
@@ -22,11 +23,10 @@ export interface IconButtonProps {
   onKeyUp?: (e: KeyboardEvent) => void;
   onMouseEnter?: (e: MouseEvent) => void;
   onMouseLeave?: (e: MouseEvent) => void;
-  ref?: RefObject<HTMLButtonElement>;
   tabIndex?: number;
 }
 
-export const IconButton = ({
+export const IconButton = forwardRef(({
   icon,
   onBlur,
   onClick,
@@ -35,9 +35,8 @@ export const IconButton = ({
   onKeyUp,
   onMouseEnter,
   onMouseLeave,
-  ref,
   tabIndex = 0
-}: IconButtonProps) => {
+}: IconButtonProps, ref) => {
   const getIcon = (): ReactNode => {
     if (icon === 'close') return <CloseIcon/>;
     if (icon === 'menu') return <MenuIcon/>;
@@ -97,10 +96,10 @@ export const IconButton = ({
       onKeyUp={handleOnKeyUp}
       onMouseEnter={handleOnMouseEnter}
       onMouseLeave={handleOnMouseLeave}
-      ref={ref}
+      ref={ref as RefObject<HTMLButtonElement>}
       role="button"
       tabIndex={tabIndex}>
       {getIcon()}
     </button>
   );
-};
+});
