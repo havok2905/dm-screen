@@ -1,0 +1,23 @@
+.dm-screen-design-system-footer {
+  background-color: var(--black-100);
+  border-top: solid 1px var(--black-300);
+  bottom: 0;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  color: var(--white);
+  left: 0;
+  min-height: 80px;
+  padding: var(--spacing-standard);
+  position: fixed;
+  width: 100%;
+  z-index: var(--z-index-fixed);
+}
+
+.dm-screen-design-system-footer svg {
+  fill: var(--white);
+}
+
+.dm-screen-design-system-footer-offset {
+  margin-bottom: 80px;
+}
+

@@ -35,11 +35,6 @@
   text-align: right;
 }
 
-.dm-screen-design-system-side-drawer-header-close-button {
-  cursor: pointer;
-  display: inline-block;
-}
-
-.dm-screen-design-system-side-drawer-header-close-button:focus {
-  outline: solid 2px var(--blue-100);
+.dm-screen-design-system-side-drawer svg {
+  fill: var(--white);
 }

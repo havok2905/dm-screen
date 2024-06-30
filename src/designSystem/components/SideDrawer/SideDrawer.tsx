@@ -1,8 +1,14 @@
 import classNames from 'classnames';
-import { KeyboardEvent, ReactNode, useEffect, useRef } from 'react';
+import {
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+  useEffect,
+  useRef
+} from 'react';
 import { createPortal, } from 'react-dom';
 
-import { CloseIcon } from '../Icons';
+import { IconButton } from '../IconButton';
 
 import './SideDrawer.css';
 
@@ -19,7 +25,7 @@ export const SideDrawer = ({
   onClose,
   portalElement
 }: SideDrawerProps) => {
-  const closeButtonRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -59,15 +65,13 @@ export const SideDrawer = ({
     <>
       <div className={classNames(classList)}>
         <div className="dm-screen-design-system-side-drawer-header">
-          <div
-            className="dm-screen-design-system-side-drawer-header-close-button"
+          <IconButton
+            icon="close"
             onClick={handleOnCloseClick}
             onKeyDown={handleOnCloseKeyboard}
             ref={closeButtonRef}
-            role="button"
-            tabIndex={isOpen ? 0 : -1}>
-            <CloseIcon/>
-          </div>
+            tabIndex={isOpen ? 0 : -1}
+          />
         </div>
         {
           isOpen ? (
