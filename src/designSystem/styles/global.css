@@ -41,7 +41,7 @@ h6 {
 p {
   font-size: var(--base-font-size);
   line-height: 1.5;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-standard);
 }
 
 a {
@@ -87,7 +87,7 @@ sup {
 }
 
 dl {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-standard);
 }
 
 dd {
@@ -99,19 +99,19 @@ dt {
   display: inline;
   font-weight: var(--font-weight-bold);
   line-height: 1.5;
-  margin-right: 0.5rem;
+  margin-right: var(--spacing-small);
 }
 
 ol {
   list-style-type: decimal;
   margin-left: 20px;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-standard);
 }
 
 ul {
   list-style-type: disc;
   margin-left: 20px;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-standard);
 }
 
 li {
@@ -119,18 +119,18 @@ li {
 }
 
 table {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-standard);
   width: 100%;
 }
 
 th {
   font-weight: var(--font-weight-bold);
-  padding: 10px 0;
+  padding: var(--spacing-small) 0;
   text-align: left;
 }
 
 td {
-  padding: 10px 0;
+  padding: var(--spacing-small) 0;
 }
 
 tr {

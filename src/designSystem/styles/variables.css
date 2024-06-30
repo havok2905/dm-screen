@@ -48,6 +48,10 @@
   /* SHADOWS */
   --base-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
 
+  /* SPACING */
+  --spacing-small: 10px;
+  --spacing-standard: 20px;
+
   /* Z-INDEX */
   --z-index-navbar: 995;
   --z-index-dropdown: 1000;

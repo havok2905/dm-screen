@@ -9,18 +9,18 @@
 }
 
 .dm-screen-design-system-table-header:first-child {
-  padding-left: 12px;
+  padding-left: var(--spacing-small);
 }
 
 .dm-screen-design-system-table-header:last-child {
-  padding-right: 12px;
+  padding-right: var(--spacing-small);
 }
 
 .dm-screen-design-system-table-cell {
   background-color: var(--row-item-background-color);
   border-radius: 0;
-  padding-bottom: 12px;
-  padding-top: 12px;
+  padding-bottom: var(--spacing-small);
+  padding-top: var(--spacing-small);
   vertical-align: middle;
 }
 
@@ -44,7 +44,7 @@
 .dm-screen-design-system-table-row .dm-screen-design-system-table-cell:first-child {
   border-bottom-left-radius: var(--border-radius);
   border-left: solid 2px var(--row-item-border-color);
-  padding-left: 12px;
+  padding-left: var(--spacing-small);
   border-top-left-radius: var(--border-radius);
 }
 
@@ -52,7 +52,7 @@
 .dm-screen-design-system-table-row .dm-screen-design-system-table-cell:last-child {
   border-bottom-right-radius: var(--border-radius);
   border-right: solid 2px var(--row-item-border-color);
-  padding-right: 12px;
+  padding-right: var(--spacing-small);
   border-top-right-radius: var(--border-radius);
 }
 

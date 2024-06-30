@@ -15,7 +15,7 @@
   color: var(--white);
   font-family: var(--base-font-family);
   font-size: var(--sub-font-size);
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
   outline: none;
   text-align: center;
   width: 100%;

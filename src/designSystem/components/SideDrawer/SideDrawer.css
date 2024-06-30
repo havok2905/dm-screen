@@ -17,7 +17,7 @@
   height: 100%;
   margin-right: -400px;
   overflow-y: scroll;
-  padding: 20px;
+  padding: var(--spacing-standard);
   position: fixed;
   right: 0;
   top: 0;
