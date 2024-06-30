@@ -7,11 +7,13 @@ import {
   IconButton,
   Input,
   Item,
+  LinkButton,
   Section,
   SideDrawer,
   Table
 } from '@designSystem/components';
 import {useState} from 'react';
+import {InitiativeCard} from '../InitiativeCard';
 
 export const SampleLayout = () => {
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
@@ -27,6 +29,72 @@ export const SampleLayout = () => {
   return (
     <>
       <FooterOffset>
+        <div style={{
+          backgroundColor: '#111111',
+          marginBottom: '60px'
+        }}>
+          <div style={{
+            display: 'flex',
+            width: '100%'
+          }}>
+            <InitiativeCard
+              ac={10}
+              characterName="Victoria Faerith"
+              hp={39}
+              initiativeRoll={12}
+            />
+            <InitiativeCard
+              ac={10}
+              characterName="Victoria Faerith"
+              hp={39}
+              initiativeRoll={12}
+            />
+            <InitiativeCard
+              ac={10}
+              characterName="Victoria Faerith"
+              hp={39}
+              initiativeRoll={12}
+            />
+            <InitiativeCard
+              ac={10}
+              characterName="Victoria Faerith"
+              hp={39}
+              initiativeRoll={12}
+            />
+            <InitiativeCard
+              ac={10}
+              characterName="Victoria Faerith"
+              hp={39}
+              initiativeRoll={12}
+            />
+            <InitiativeCard
+              ac={10}
+              characterName="Victoria Faerith"
+              hp={39}
+              initiativeRoll={12}
+            />
+          </div>
+          <div style={{
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '20px'
+          }}>
+            <div>
+              <Button buttonText="Prev"/>
+              <Button buttonText="Next"/>
+              <Button buttonText="Sort"/>
+            </div>
+            <div>
+              <LinkButton
+                buttonText="Start New Combat"
+                color="green"/>
+              <LinkButton
+                buttonText="End Combat"
+                color="red"/>
+            </div>
+          </div>
+        </div>
         <Grid>
           <GridRow>
             <Item columns={6}>
@@ -255,12 +323,22 @@ export const SampleLayout = () => {
           </GridRow>
         </Grid>
         <Footer>
-          <IconButton
-            icon="menu"
-            onClick={() => {
-              setIsSideDrawerOpen(true);
-            }}
-          />
+          <div style={{
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%'
+          }}>
+            <Input
+              inputId="console"
+              inputName="console"/>
+            <IconButton
+              icon="menu"
+              onClick={() => {
+                setIsSideDrawerOpen(true);
+              }}
+            />
+          </div>
         </Footer>
       </FooterOffset>
       <SideDrawer
