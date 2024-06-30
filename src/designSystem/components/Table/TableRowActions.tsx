@@ -3,7 +3,7 @@ import {
   KeyboardEvent,
   MouseEvent
 } from 'react';
-import { Button } from '../Button';
+import { LinkButton } from '../LinkButton';
 import { RowAction, RowData } from './types';
 
 export interface TableRowActionsProps {
@@ -73,8 +73,9 @@ export const TableRowActions = ({
           };
 
           return (
-            <Button
+            <LinkButton
               buttonText={name}
+              color="green"
               key={index}
               onBlur={handleOnBlur}
               onClick={handleOnClick}

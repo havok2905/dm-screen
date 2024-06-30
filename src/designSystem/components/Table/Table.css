@@ -1,6 +1,6 @@
 .dm-screen-design-system-table {
   border-collapse: separate; 
-  border-spacing: 0 1rem;
+  border-spacing: 0 var(--spacing-small);
   width: 100%;
 }
 
@@ -32,7 +32,7 @@
   background: none;
   border-radius: var(--border-radius);
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  height: 66px;
+  height: 46px;
 }
 
 /* Bottom Side */

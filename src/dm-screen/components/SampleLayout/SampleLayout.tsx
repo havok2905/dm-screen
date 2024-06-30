@@ -31,7 +31,7 @@ export const SampleLayout = () => {
       <FooterOffset>
         <div style={{
           backgroundColor: '#111111',
-          marginBottom: '60px'
+          marginBottom: '40px'
         }}>
           <div style={{
             display: 'flex',
@@ -78,7 +78,7 @@ export const SampleLayout = () => {
             alignItems: 'center',
             display: 'flex',
             justifyContent: 'space-between',
-            padding: '20px'
+            padding: '10px'
           }}>
             <div>
               <Button buttonText="Prev"/>
@@ -100,7 +100,7 @@ export const SampleLayout = () => {
             <Item columns={6}>
               <Section
                 sectionActions={addPlayerCharacterButton}
-                sectionHeaderEl="h2"
+                sectionHeaderEl="h3"
                 sectionTitle="Player Characters">
                 <Table
                   columns={[
@@ -139,7 +139,7 @@ export const SampleLayout = () => {
             </Item>
             <Item columns={6}>
               <Section
-                sectionHeaderEl="h2"
+                sectionHeaderEl="h3"
                 sectionTitle="Handouts">
                 <></>
               </Section>
@@ -153,7 +153,7 @@ export const SampleLayout = () => {
                     inputId="creatures"
                     inputName="creatures"/>
                 )}
-                sectionHeaderEl="h2"
+                sectionHeaderEl="h3"
                 sectionTitle="Creatures">
                 <Table
                   columns={[
@@ -241,7 +241,7 @@ export const SampleLayout = () => {
                     inputId="items"
                     inputName="items"/>
                 )}
-                sectionHeaderEl="h2"
+                sectionHeaderEl="h3"
                 sectionTitle="Items">
                 <Table
                   columns={[

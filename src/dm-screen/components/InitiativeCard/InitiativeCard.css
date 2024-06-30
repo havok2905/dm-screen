@@ -4,9 +4,9 @@
   background-repeat: no-repeat;
   background-size: cover;
   border: solid 4px var(--red-50);
-  height: 230px;
+  height: 150px;
   position: relative;
-  width: 150px;
+  width: 100px;
 }
 
 .initiative-card-ac {
