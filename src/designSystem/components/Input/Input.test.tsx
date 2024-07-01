@@ -20,6 +20,21 @@ describe('Input', () => {
     expect(input?.props.id).toEqual('input');
     expect(input?.props.name).toEqual('input');
     expect(input?.props.value).toEqual('test');
+    expect(input?.props.className?.includes('dm-screen-design-system-input-full')).toEqual(false);
+  });
+
+  it('should render full', () => {
+    const wrapper = mount(
+      <Input
+        full
+        inputId="input"
+        inputName="input"
+        value="test" />
+    );
+
+    const input = wrapper.find('input');
+
+    expect(input?.props.className?.includes('dm-screen-design-system-input-full')).toEqual(true);
   });
 
   it('should fire events', () => {

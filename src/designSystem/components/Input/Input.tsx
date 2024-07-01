@@ -2,19 +2,21 @@ import {
   ChangeEvent,
   FocusEvent
 } from 'react';
-
+import classNames from 'classnames';
 import './Input.css';
 
 export interface InputProps {
+  full?: boolean;
   inputId: string;
   inputName: string;
-  onBlur?: (e: FocusEvent) => void;
-  onChange?: (e: ChangeEvent) => void;
-  onFocus?: (e: FocusEvent) => void;
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
   value?: string;
 }
 
 export const Input = ({
+  full = false,
   inputId,
   inputName,
   onBlur,
@@ -22,27 +24,32 @@ export const Input = ({
   onFocus,
   value = ''
 }: InputProps) => {
-  const handleOnBlur = (e: FocusEvent) => {
+  const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
     if (onBlur) {
       onBlur(e);
     }
   };
 
-  const handleOnChange = (e: ChangeEvent) => {
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e);
     }
   };
 
-  const handleOnFocus = (e: FocusEvent) => {
+  const handleOnFocus = (e: FocusEvent<HTMLInputElement>) => {
     if (onFocus) {
       onFocus(e);
     }
   };
 
+  const classList = {
+    'dm-screen-design-system-input': true,
+    'dm-screen-design-system-input-full': full
+  }
+
   return (
     <input
-      className="dm-screen-design-system-input"
+      className={classNames(classList)}
       id={inputId}
       name={inputName}
       onBlur={handleOnBlur}

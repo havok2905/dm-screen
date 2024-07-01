@@ -5,3 +5,7 @@
   height: 38px;
   padding: var(--spacing-small);
 }
+
+.dm-screen-design-system-input-full {
+  width: 100%;
+}

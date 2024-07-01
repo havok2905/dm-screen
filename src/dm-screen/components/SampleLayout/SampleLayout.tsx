@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Button,
   Footer,
@@ -12,8 +13,8 @@ import {
   SideDrawer,
   Table
 } from '@designSystem/components';
-import {useState} from 'react';
-import {InitiativeCard} from '../InitiativeCard';
+import { InitiativeCard } from '../InitiativeCard';
+import {RulesSearch} from '../RulesSearch';
 
 export const SampleLayout = () => {
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
@@ -347,18 +348,7 @@ export const SampleLayout = () => {
         portalElement={document.body}
       >
         <h3>Rules Dictionary</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Non enim praesent elementum facilisis leo vel fringilla. Sed arcu non odio euismod lacinia at. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Id nibh tortor id aliquet lectus proin nibh nisl condimentum. Nulla facilisi nullam vehicula ipsum. Laoreet suspendisse interdum consectetur libero. Amet nisl purus in mollis nunc. Scelerisque mauris pellentesque pulvinar pellentesque. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa. Tellus cras adipiscing enim eu turpis egestas pretium aenean. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt. In nulla posuere sollicitudin aliquam ultrices sagittis orci a. Urna duis convallis convallis tellus id interdum velit laoreet. Maecenas pharetra convallis posuere morbi leo urna. Cursus in hac habitasse platea dictumst. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Sed felis eget velit aliquet sagittis. Nullam vehicula ipsum a arcu cursus vitae congue.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Non enim praesent elementum facilisis leo vel fringilla. Sed arcu non odio euismod lacinia at. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Id nibh tortor id aliquet lectus proin nibh nisl condimentum. Nulla facilisi nullam vehicula ipsum. Laoreet suspendisse interdum consectetur libero. Amet nisl purus in mollis nunc. Scelerisque mauris pellentesque pulvinar pellentesque. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa. Tellus cras adipiscing enim eu turpis egestas pretium aenean. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt. In nulla posuere sollicitudin aliquam ultrices sagittis orci a. Urna duis convallis convallis tellus id interdum velit laoreet. Maecenas pharetra convallis posuere morbi leo urna. Cursus in hac habitasse platea dictumst. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Sed felis eget velit aliquet sagittis. Nullam vehicula ipsum a arcu cursus vitae congue.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Non enim praesent elementum facilisis leo vel fringilla. Sed arcu non odio euismod lacinia at. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Id nibh tortor id aliquet lectus proin nibh nisl condimentum. Nulla facilisi nullam vehicula ipsum. Laoreet suspendisse interdum consectetur libero. Amet nisl purus in mollis nunc. Scelerisque mauris pellentesque pulvinar pellentesque. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa. Tellus cras adipiscing enim eu turpis egestas pretium aenean. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt. In nulla posuere sollicitudin aliquam ultrices sagittis orci a. Urna duis convallis convallis tellus id interdum velit laoreet. Maecenas pharetra convallis posuere morbi leo urna. Cursus in hac habitasse platea dictumst. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Sed felis eget velit aliquet sagittis. Nullam vehicula ipsum a arcu cursus vitae congue.
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Non enim praesent elementum facilisis leo vel fringilla. Sed arcu non odio euismod lacinia at. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Id nibh tortor id aliquet lectus proin nibh nisl condimentum. Nulla facilisi nullam vehicula ipsum. Laoreet suspendisse interdum consectetur libero. Amet nisl purus in mollis nunc. Scelerisque mauris pellentesque pulvinar pellentesque. Ut morbi tincidunt augue interdum velit euismod in pellentesque massa. Tellus cras adipiscing enim eu turpis egestas pretium aenean. Dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt. In nulla posuere sollicitudin aliquam ultrices sagittis orci a. Urna duis convallis convallis tellus id interdum velit laoreet. Maecenas pharetra convallis posuere morbi leo urna. Cursus in hac habitasse platea dictumst. Quam lacus suspendisse faucibus interdum posuere lorem ipsum. Sed felis eget velit aliquet sagittis. Nullam vehicula ipsum a arcu cursus vitae congue.
-        </p>
+        <RulesSearch/>
       </SideDrawer>
     </>
   );
