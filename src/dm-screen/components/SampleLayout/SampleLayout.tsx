@@ -5,7 +5,6 @@ import {
   FooterOffset,
   Grid,
   GridRow,
-  IconButton,
   Input,
   Item,
   LinkButton,
@@ -14,7 +13,8 @@ import {
   Table
 } from '@designSystem/components';
 import { InitiativeCard } from '../InitiativeCard';
-import {RulesSearch} from '../RulesSearch';
+import { RulesSearch } from '../RulesSearch';
+import { ToolbarFooter } from '../ToolbarFooter';
 
 export const SampleLayout = () => {
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
@@ -324,22 +324,7 @@ export const SampleLayout = () => {
           </GridRow>
         </Grid>
         <Footer>
-          <div style={{
-            alignItems: 'center',
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%'
-          }}>
-            <Input
-              inputId="console"
-              inputName="console"/>
-            <IconButton
-              icon="menu"
-              onClick={() => {
-                setIsSideDrawerOpen(true);
-              }}
-            />
-          </div>
+          <ToolbarFooter setIsSideDrawerOpen={setIsSideDrawerOpen}/>
         </Footer>
       </FooterOffset>
       <SideDrawer
@@ -347,7 +332,6 @@ export const SampleLayout = () => {
         onClose={onSideDrawerClose}
         portalElement={document.body}
       >
-        <h3>Rules Dictionary</h3>
         <RulesSearch/>
       </SideDrawer>
     </>

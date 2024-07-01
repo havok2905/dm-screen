@@ -81,6 +81,7 @@ export const RulesSearch = () => {
           value={searchTerm}
         />
       </div>
+      <h3>Rules Dictionary</h3>
       {
         results.length === 0 ? (
           empty

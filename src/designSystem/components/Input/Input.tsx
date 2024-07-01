@@ -1,6 +1,7 @@
 import {
   ChangeEvent,
-  FocusEvent
+  FocusEvent,
+  KeyboardEvent
 } from 'react';
 import classNames from 'classnames';
 import './Input.css';
@@ -12,6 +13,8 @@ export interface InputProps {
   onBlur?: (e: FocusEvent<HTMLInputElement>) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
+  onKeyUp?: (e: KeyboardEvent<HTMLInputElement>) => void;
   value?: string;
 }
 
@@ -22,6 +25,8 @@ export const Input = ({
   onBlur,
   onChange,
   onFocus,
+  onKeyDown,
+  onKeyUp,
   value = ''
 }: InputProps) => {
   const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
@@ -42,6 +47,18 @@ export const Input = ({
     }
   };
 
+  const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (onKeyDown) {
+      onKeyDown(e);
+    }
+  };
+
+  const handleOnKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (onKeyUp) {
+      onKeyUp(e);
+    }
+  };
+
   const classList = {
     'dm-screen-design-system-input': true,
     'dm-screen-design-system-input-full': full
@@ -55,6 +72,8 @@ export const Input = ({
       onBlur={handleOnBlur}
       onChange={handleOnChange}
       onFocus={handleOnFocus}
+      onKeyDown={handleOnKeyDown}
+      onKeyUp={handleOnKeyUp}
       type="text"
       value={value}
     />
