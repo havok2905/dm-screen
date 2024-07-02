@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import {
+  useContext,
+  useState
+} from 'react';
 import {
   Modal,
   Table
 } from '@designSystem/components';
+import { AdventureContext } from '../AdventureContext/AdventureContext';
 import { Markdown } from '../Markdown';
-import { adventure } from '../../../core';
 
 export interface ItemsTableProps {
   searchTerm: string;
@@ -15,6 +18,8 @@ export const ItemsTable = ({
 }: ItemsTableProps) => {
   const [currentItem, setCurrentItem] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  const adventure = useContext(AdventureContext);
 
   const handleClose = () => {
     setCurrentItem(null);

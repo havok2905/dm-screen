@@ -1,4 +1,8 @@
-import { ChangeEvent, useState } from 'react';
+import {
+  ChangeEvent,
+  useContext,
+  useState
+} from 'react';
 import {
   Button,
   Container,
@@ -13,17 +17,19 @@ import {
   SideDrawer,
   Table
 } from '@designSystem/components';
+import { AdventureContext } from '../AdventureContext/AdventureContext';
 import { CreaturesTable } from '../CreaturesTable';
 import { InitiativeCard } from '../InitiativeCard';
 import { ItemsTable } from '../ItemsTable';
 import { RulesSearch } from '../RulesSearch';
 import { ToolbarFooter } from '../ToolbarFooter';
-import { adventure } from '../../../core';
 
 export const DmView = () => {
   const [creatureSearchTerm, setCreatureSearchTerm] = useState('');
   const [itemSearchTerm, setItemSearchTerm] = useState('');
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
+
+  const adventure = useContext(AdventureContext);
 
   const onSideDrawerClose = () => {
     setIsSideDrawerOpen(false);
