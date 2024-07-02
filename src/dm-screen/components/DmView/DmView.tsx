@@ -12,14 +12,13 @@ import {
   GridRow,
   Input,
   Item,
-  LinkButton,
   Section,
   SideDrawer,
   Table
 } from '@designSystem/components';
 import { AdventureContext } from '../AdventureContext';
 import { CreaturesTable } from '../CreaturesTable';
-import { InitiativeCard } from '../InitiativeCard';
+import { InitiativeOrder } from '../InitiativeOrder';
 import { ItemsTable } from '../ItemsTable';
 import { PlayersContext } from '../PlayersContext';
 import { RulesSearch } from '../RulesSearch';
@@ -54,69 +53,7 @@ export const DmView = () => {
   return (
     <>
       <FooterOffset>
-        <div style={{
-          backgroundColor: '#111111',
-          marginBottom: '40px'
-        }}>
-          <div style={{
-            display: 'flex',
-            width: '100%'
-          }}>
-            <InitiativeCard
-              ac={10}
-              characterName="Victoria Faerith"
-              hp={39}
-              initiativeRoll={12}
-            />
-            <InitiativeCard
-              ac={10}
-              characterName="Victoria Faerith"
-              hp={39}
-              initiativeRoll={12}
-            />
-            <InitiativeCard
-              ac={10}
-              characterName="Victoria Faerith"
-              hp={39}
-              initiativeRoll={12}
-            />
-            <InitiativeCard
-              ac={10}
-              characterName="Victoria Faerith"
-              hp={39}
-              initiativeRoll={12}
-            />
-            <InitiativeCard
-              ac={10}
-              characterName="Victoria Faerith"
-              hp={39}
-              initiativeRoll={12}
-            />
-            <InitiativeCard
-              ac={10}
-              characterName="Victoria Faerith"
-              hp={39}
-              initiativeRoll={12}
-            />
-          </div>
-          <div style={{
-            alignItems: 'center',
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '20px'
-          }}>
-            <div>
-              <Button buttonText="Prev"/>
-              <Button buttonText="Next"/>
-              <Button buttonText="Sort"/>
-            </div>
-            <div>
-              <LinkButton
-                buttonText="Start New Combat"
-                color="green"/>
-            </div>
-          </div>
-        </div>
+        <InitiativeOrder/>
         <Container>
           <Grid>
             <GridRow>

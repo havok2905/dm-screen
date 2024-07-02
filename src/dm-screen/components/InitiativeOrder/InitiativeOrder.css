@@ -1,0 +1,16 @@
+.initiative-order {
+  background-color: var(--black-100);
+  margin-bottom: 40px;
+}
+
+.initiative-order-card-list {
+  display: flex;
+  width: 100%;
+}
+
+.initiative-order-card-button-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-standard);
+}
