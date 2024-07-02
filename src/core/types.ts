@@ -33,3 +33,19 @@ export interface Player {
   id: string;
   name: string;
 }
+
+export interface InitiativeItem {
+  entityId: string;
+  entityType: 'creature' | 'player';
+  id: number;
+  name: string;
+  resourceA: number;
+  resourceB: number;
+  sortValue: number;
+}
+
+export interface InitiativeOrder {
+  currentIndex: number;
+  items: InitiativeItem[];
+  round: number;
+}

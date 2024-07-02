@@ -1,50 +1,30 @@
+import { useContext } from 'react';
 import {
   Button,
   LinkButton
 } from '@designSystem/components';
 import { InitiativeCard } from '../InitiativeCard';
+import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import './InitiativeOrder.css';
 
 export const InitiativeOrder = () => {
+  const initiativeOrder = useContext(InitiativeOrderContext);
+
   return (
     <div className="initiative-order">
       <div className="initiative-order-card-list">
-        <InitiativeCard
-          ac={10}
-          characterName="Victoria Faerith"
-          hp={39}
-          initiativeRoll={12}
-        />
-        <InitiativeCard
-          ac={10}
-          characterName="Victoria Faerith"
-          hp={39}
-          initiativeRoll={12}
-        />
-        <InitiativeCard
-          ac={10}
-          characterName="Victoria Faerith"
-          hp={39}
-          initiativeRoll={12}
-        />
-        <InitiativeCard
-          ac={10}
-          characterName="Victoria Faerith"
-          hp={39}
-          initiativeRoll={12}
-        />
-        <InitiativeCard
-          ac={10}
-          characterName="Victoria Faerith"
-          hp={39}
-          initiativeRoll={12}
-        />
-        <InitiativeCard
-          ac={10}
-          characterName="Victoria Faerith"
-          hp={39}
-          initiativeRoll={12}
-        />
+        {
+          initiativeOrder.items.map((item) => {
+            return (
+              <InitiativeCard
+                ac={item.resourceA}
+                characterName={item.name}
+                hp={item.resourceB}
+                initiativeRoll={item.sortValue}
+              />
+            );
+          })
+        }
       </div>
       <div className="initiative-order-card-button-container">
         <div>
