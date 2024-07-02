@@ -17,10 +17,11 @@ import {
   SideDrawer,
   Table
 } from '@designSystem/components';
-import { AdventureContext } from '../AdventureContext/AdventureContext';
+import { AdventureContext } from '../AdventureContext';
 import { CreaturesTable } from '../CreaturesTable';
 import { InitiativeCard } from '../InitiativeCard';
 import { ItemsTable } from '../ItemsTable';
+import { PlayersContext } from '../PlayersContext';
 import { RulesSearch } from '../RulesSearch';
 import { ToolbarFooter } from '../ToolbarFooter';
 
@@ -30,6 +31,7 @@ export const DmView = () => {
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
 
   const adventure = useContext(AdventureContext);
+  const players = useContext(PlayersContext);
 
   const onSideDrawerClose = () => {
     setIsSideDrawerOpen(false);
@@ -129,32 +131,18 @@ export const DmView = () => {
                       { name: 'Character' },
                       { name: 'AC' },
                     ]}
-                    rows={[
-                      {
-                        data: ['Johnathan Doe', 'Eryn Sylveren', 12],
-                        actions: []
-                      },
-                      {
-                        data: ['John Smith', 'Victoria Faerith', 16],
-                        actions: []
-                      },
-                      {
-                        data: ['Gilbert Godfried', 'Simon Evans', 10],
-                        actions: []
-                      },
-                      {
-                        data: ['Kevin Smith', 'Aamon Ortis', 11],
-                        actions: []
-                      },
-                      {
-                        data: ['Christopher Perkins', 'Ella Olkereth', 13],
-                        actions: []
-                      },
-                      {
-                        data: ['John Carpenter', 'Daagon', 18],
-                        actions: []
-                      }
-                    ]}
+                    rows={
+                      players.map((player) => {
+                        return {
+                          data: [
+                            player.name,
+                            player.characterName,
+                            player.ac
+                          ],
+                          actions: []
+                        };
+                      })
+                    }
                   />
                 </Section>
               </Item>

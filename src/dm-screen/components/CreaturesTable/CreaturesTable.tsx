@@ -6,7 +6,7 @@ import {
   Modal,
   Table
 } from '@designSystem/components';
-import { AdventureContext } from '../AdventureContext/AdventureContext';
+import { AdventureContext } from '../AdventureContext';
 import { Markdown } from '../Markdown';
 
 export interface CreaturesTableProps {

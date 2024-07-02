@@ -26,3 +26,10 @@ export interface Adventure {
   handouts: Handout[];
   items: MarkdownEntity[];
 }
+
+export interface Player {
+  ac: number;
+  characterName: string;
+  id: string;
+  name: string;
+}
