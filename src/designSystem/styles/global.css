@@ -140,3 +140,8 @@ tr {
 tbody tr:last-of-type {
   border: none;
 }
+
+label {
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+}
