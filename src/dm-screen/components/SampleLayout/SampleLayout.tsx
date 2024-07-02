@@ -106,9 +106,6 @@ export const SampleLayout = () => {
               <LinkButton
                 buttonText="Start New Combat"
                 color="green"/>
-              <LinkButton
-                buttonText="End Combat"
-                color="red"/>
             </div>
           </div>
         </div>
