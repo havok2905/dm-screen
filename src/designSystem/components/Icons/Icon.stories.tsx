@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CloseIcon, MenuIcon } from './Icons';
+import {
+  BookIcon,
+  CloseIcon,
+  MenuIcon
+} from './Icons';
 
 const IconsComponent = () => {
   return (
@@ -10,6 +14,9 @@ const IconsComponent = () => {
       </div>
       <div>
         <MenuIcon/>
+      </div>
+      <div>
+        <BookIcon/>
       </div>
     </>
   );

@@ -1,10 +1,8 @@
-import { Button } from './designSystem/components/Button';
+import { SampleLayout } from './dm-screen/components/SampleLayout';
 
 export const App = () =>  {
   return (
-    <div>
-      Hello <Button buttonText="Click me"/>
-    </div>
+    <SampleLayout/>
   );
 };
 

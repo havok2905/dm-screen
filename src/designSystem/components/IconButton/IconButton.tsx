@@ -8,6 +8,7 @@ import {
 import {ReactNode} from 'react';
 
 import {
+  BookIcon,
   CloseIcon,
   MenuIcon
 } from '../Icons';
@@ -15,7 +16,7 @@ import {
 import './IconButton.css';
 
 export interface IconButtonProps {
-  icon: 'close' | 'menu';
+  icon: 'book' | 'close' | 'menu';
   onBlur?: (e: FocusEvent) => void;
   onClick?: (e: MouseEvent) => void;
   onFocus?: (e: FocusEvent) => void;
@@ -38,6 +39,7 @@ export const IconButton = forwardRef(({
   tabIndex = 0
 }: IconButtonProps, ref) => {
   const getIcon = (): ReactNode => {
+    if (icon === 'book') return <BookIcon/>;
     if (icon === 'close') return <CloseIcon/>;
     if (icon === 'menu') return <MenuIcon/>;
     return null;

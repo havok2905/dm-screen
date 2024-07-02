@@ -76,12 +76,20 @@ export const ToolbarFooter = ({
           {rolledValue}
         </span>
       </div>
-      <IconButton
-        icon="menu"
-        onClick={() => {
-          setIsSideDrawerOpen(true);
-        }}
-      />
+      <div>
+        <IconButton
+          icon="book"
+          onClick={() => {
+            setIsSideDrawerOpen(true);
+          }}
+        />
+        <IconButton
+          icon="menu"
+          onClick={() => {
+            setIsSideDrawerOpen(true);
+          }}
+        />
+      </div>
     </div>
   );
 };

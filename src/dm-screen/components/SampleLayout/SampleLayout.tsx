@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import {
   Button,
+  Container,
   Footer,
   FooterOffset,
   Grid,
@@ -12,19 +13,34 @@ import {
   SideDrawer,
   Table
 } from '@designSystem/components';
+import { CreaturesTable } from '../CreaturesTable';
 import { InitiativeCard } from '../InitiativeCard';
+import { ItemsTable } from '../ItemsTable';
 import { RulesSearch } from '../RulesSearch';
 import { ToolbarFooter } from '../ToolbarFooter';
+import { adventure } from '../../../core';
 
 export const SampleLayout = () => {
+  const [creatureSearchTerm, setCreatureSearchTerm] = useState('');
+  const [itemSearchTerm, setItemSearchTerm] = useState('');
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
 
   const onSideDrawerClose = () => {
     setIsSideDrawerOpen(false);
   };
 
+  const handleOnCreatureChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCreatureSearchTerm(value);
+  }
+
+  const handleOnItemChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setItemSearchTerm(value);
+  }
+
   const addPlayerCharacterButton = (
-    <Button buttonText="Add"/>
+    <Button buttonText="Add all"/>
   );
 
   return (
@@ -79,7 +95,7 @@ export const SampleLayout = () => {
             alignItems: 'center',
             display: 'flex',
             justifyContent: 'space-between',
-            padding: '10px'
+            padding: '20px'
           }}>
             <div>
               <Button buttonText="Prev"/>
@@ -96,235 +112,97 @@ export const SampleLayout = () => {
             </div>
           </div>
         </div>
-        <Grid>
-          <GridRow>
-            <Item columns={6}>
-              <Section
-                sectionActions={addPlayerCharacterButton}
-                sectionHeaderEl="h3"
-                sectionTitle="Player Characters">
-                <Table
-                  columns={[
-                    { name: 'Player' },
-                    { name: 'Character' },
-                    { name: 'AC' },
-                  ]}
-                  rows={[
-                    {
-                      data: ['Johnathan Doe', 'Eryn Sylveren', 12],
-                      actions: []
-                    },
-                    {
-                      data: ['John Smith', 'Victoria Faerith', 16],
-                      actions: []
-                    },
-                    {
-                      data: ['Gilbert Godfried', 'Simon Evans', 10],
-                      actions: []
-                    },
-                    {
-                      data: ['Kevin Smith', 'Aamon Ortis', 11],
-                      actions: []
-                    },
-                    {
-                      data: ['Christopher Perkins', 'Ella Olkereth', 13],
-                      actions: []
-                    },
-                    {
-                      data: ['John Carpenter', 'Daagon', 18],
-                      actions: []
-                    }
-                  ]}
-                />
-              </Section>
-            </Item>
-            <Item columns={6}>
-              <Section
-                sectionHeaderEl="h3"
-                sectionTitle="Handouts">
-                <></>
-              </Section>
-            </Item>
-          </GridRow>
-          <GridRow>
-            <Item columns={6}>
-              <Section
-                sectionActions={(
-                  <Input
-                    inputId="creatures"
-                    inputName="creatures"/>
-                )}
-                sectionHeaderEl="h3"
-                sectionTitle="Creatures">
-                <Table
-                  columns={[
-                    { name: 'Creature' },
-                    { name: 'Type' },
-                    { name: 'AC' },
-                    { name: 'HP' },
-                    { name: 'CR' },
-                  ]}
-                  rows={[
-                    {
-                      data: ['Adult Red Dragon', 'Dragon', 12, 112, '8'],
-                      actions: [
-                        {
-                          name: 'Add',
-                          onClick(e, rowData) {
-                            console.log(e, rowData);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Ghost', 'Undead', 13, 59, '4'],
-                      actions: [
-                        {
-                          name: 'Add',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Ghast', 'Undead', 12, 18, '1'],
-                      actions: [
-                        {
-                          name: 'Add',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Mind FLayer', 'Aberration', 16, 69, '8'],
-                      actions: [
-                        {
-                          name: 'Add',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Giant Rat', 'Beast', 13, 12, '1/4'],
-                      actions: [
-                        {
-                          name: 'Add',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Giant Crab', 'Beast', 18, 11, '1/8'],
-                      actions: [
-                        {
-                          name: 'Add',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    }
-                  ]}
-                />
-              </Section>
-            </Item>
-            <Item columns={6}>
-              <Section
-                sectionActions={(
-                  <Input
-                    inputId="items"
-                    inputName="items"/>
-                )}
-                sectionHeaderEl="h3"
-                sectionTitle="Items">
-                <Table
-                  columns={[
-                    { name: 'Item' },
-                    { name: 'Rarity' },
-                    { name: 'Cost' }
-                  ]}
-                  rows={[
-                    {
-                      data: ['Potion of Healing', 'Common', '100gp'],
-                      actions: [
-                        {
-                          name: 'View',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Potion of Healing', 'Common', '100gp'],
-                      actions: [
-                        {
-                          name: 'View',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Potion of Healing', 'Common', '100gp'],
-                      actions: [
-                        {
-                          name: 'View',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Potion of Healing', 'Common', '100gp'],
-                      actions: [
-                        {
-                          name: 'View',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Potion of Healing', 'Common', '100gp'],
-                      actions: [
-                        {
-                          name: 'View',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    },
-                    {
-                      data: ['Potion of Healing', 'Common', '100gp'],
-                      actions: [
-                        {
-                          name: 'View',
-                          onClick(e) {
-                            console.log(e);
-                          },
-                        }
-                      ]
-                    }
-                  ]}
-                />
-              </Section>
-            </Item>
-          </GridRow>
-        </Grid>
+        <Container>
+          <Grid>
+            <GridRow>
+              <Item columns={6}>
+                <Section
+                  sectionActions={addPlayerCharacterButton}
+                  sectionHeaderEl="h3"
+                  sectionTitle="Player Characters">
+                  <Table
+                    columns={[
+                      { name: 'Player' },
+                      { name: 'Character' },
+                      { name: 'AC' },
+                    ]}
+                    rows={[
+                      {
+                        data: ['Johnathan Doe', 'Eryn Sylveren', 12],
+                        actions: []
+                      },
+                      {
+                        data: ['John Smith', 'Victoria Faerith', 16],
+                        actions: []
+                      },
+                      {
+                        data: ['Gilbert Godfried', 'Simon Evans', 10],
+                        actions: []
+                      },
+                      {
+                        data: ['Kevin Smith', 'Aamon Ortis', 11],
+                        actions: []
+                      },
+                      {
+                        data: ['Christopher Perkins', 'Ella Olkereth', 13],
+                        actions: []
+                      },
+                      {
+                        data: ['John Carpenter', 'Daagon', 18],
+                        actions: []
+                      }
+                    ]}
+                  />
+                </Section>
+              </Item>
+              <Item columns={6}>
+                <Section
+                  sectionHeaderEl="h3"
+                  sectionTitle="Handouts">
+                  {
+                    adventure.handouts.map(handout => (
+                      <img alt={handout.description} src={handout.url}/>
+                    ))
+                  }
+                  <></>
+                </Section>
+              </Item>
+            </GridRow>
+            <GridRow>
+              <Item columns={6}>
+                <Section
+                  sectionActions={(
+                    <Input
+                      inputId="creatures"
+                      inputName="creatures"
+                      onChange={handleOnCreatureChange}
+                      value={creatureSearchTerm}/>
+                  )}
+                  sectionHeaderEl="h3"
+                  sectionTitle="Creatures">
+                  <CreaturesTable searchTerm={creatureSearchTerm}/>
+                </Section>
+              </Item>
+              <Item columns={6}>
+                <Section
+                  sectionActions={(
+                    <Input
+                      inputId="items"
+                      inputName="items"
+                      onChange={handleOnItemChange}
+                      value={itemSearchTerm}/>
+                  )}
+                  sectionHeaderEl="h3"
+                  sectionTitle="Items">
+                  <ItemsTable searchTerm={itemSearchTerm}/>
+                </Section>
+              </Item>
+            </GridRow>
+          </Grid>
+        </Container>
         <Footer>
-          <ToolbarFooter setIsSideDrawerOpen={setIsSideDrawerOpen}/>
+          <ToolbarFooter
+            setIsSideDrawerOpen={setIsSideDrawerOpen}/>
         </Footer>
       </FooterOffset>
       <SideDrawer
