@@ -1,8 +1,8 @@
-import { SampleLayout } from './dm-screen/components/SampleLayout';
+import { DmView } from './dm-screen/components/DmView';
 
 export const App = () =>  {
   return (
-    <SampleLayout/>
+    <DmView/>
   );
 };
 

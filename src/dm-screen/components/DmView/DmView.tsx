@@ -20,7 +20,7 @@ import { RulesSearch } from '../RulesSearch';
 import { ToolbarFooter } from '../ToolbarFooter';
 import { adventure } from '../../../core';
 
-export const SampleLayout = () => {
+export const DmView = () => {
   const [creatureSearchTerm, setCreatureSearchTerm] = useState('');
   const [itemSearchTerm, setItemSearchTerm] = useState('');
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
