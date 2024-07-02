@@ -1,19 +1,4 @@
-import { Adventure, Player } from './types';
-
-export const players: Player[] = [
-  {
-    id: '1',
-    name: 'John Doe',
-    characterName: 'Wizard Wizardly',
-    ac: 10
-  },
-  {
-    id: '2',
-    name: 'John Smith',
-    characterName: 'Rogue Roguely',
-    ac: 11
-  }
-];
+import { Adventure } from './types';
 
 export const adventure: Adventure = {
   name: 'Test Adventure',
