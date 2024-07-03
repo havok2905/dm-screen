@@ -5,7 +5,6 @@ import {
 } from 'react';
 import { Player } from '../../../core/types';
 
-
 export interface PlayersContextModel {
   players: Player[];
   setPlayers: (players: Player[]) => void;

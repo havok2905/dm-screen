@@ -1,10 +1,16 @@
 .initiative-order {
   background-color: var(--black-100);
+  color: var(--white);
   margin-bottom: 40px;
+}
+
+.initiative-order button:not(:first-of-type) {
+  margin-left: var(--spacing-small);
 }
 
 .initiative-order-card-list {
   display: flex;
+  height: 150px;
   width: 100%;
 }
 

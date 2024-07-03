@@ -37,7 +37,7 @@ export interface Player {
 export interface InitiativeItem {
   entityId: string;
   entityType: 'creature' | 'player';
-  id: number;
+  id: string;
   name: string;
   resourceA: number;
   resourceB: number;
@@ -45,7 +45,7 @@ export interface InitiativeItem {
 }
 
 export interface InitiativeOrder {
-  currentIndex: number;
+  currentId: string;
   items: InitiativeItem[];
   round: number;
 }

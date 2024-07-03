@@ -3,7 +3,13 @@ import { Table } from '@designSystem/components';
 import { PlayersContext } from '../PlayersContext';
 
 export const PlayersTable = () => {
-  const { players } = useContext(PlayersContext);
+  const { players, setPlayers } = useContext(PlayersContext);
+
+  if (!players.length) {
+    return (
+      <p>There are no players set for this adventure.</p>
+    )
+  }
 
   return (
     <Table
@@ -24,7 +30,9 @@ export const PlayersTable = () => {
             actions: [
               {
                 name: 'Remove',
-                onClick: () => {}
+                onClick: () => {
+                  setPlayers(players.filter((p) => p.id !== player.id))
+                }
               }
             ]
           };

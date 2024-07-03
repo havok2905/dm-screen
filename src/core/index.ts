@@ -1,13 +1,19 @@
 import { Adventure } from './types';
+import { v4 as uuidv4 } from 'uuid';
 
 export const adventure: Adventure = {
   name: 'Test Adventure',
   notes: `
+# The Adventure
+
+## Lorem ipsum header 2
+
+Lorem ipsum dolor set amet.
 `,
   system: 'D&D 5e (2014)',
   creatures: [
     {
-      id: '1',
+      id: uuidv4(),
       name: 'Giant Rat',
       metadata: [
         {
@@ -69,7 +75,7 @@ export const adventure: Adventure = {
   ],
   items: [
     {
-      id: '1',
+      id: uuidv4(),
       name: 'Potion of Healing',
       metadata: [
         {
@@ -92,7 +98,7 @@ A character who drinks the magical red fluid in this vial regains 2d4 + 2 hit po
   ],
   handouts: [
     {
-      id: '1',
+      id: uuidv4(),
       name: 'Test Handout',
       description: 'Lorem ipsum dolor set amet',
       url: 'https://placekitten.com/200/300'

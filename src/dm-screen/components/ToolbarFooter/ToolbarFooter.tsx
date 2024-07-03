@@ -12,10 +12,12 @@ import {
 import './ToolbarFooter.css';
 
 export interface ToolbarFooterProps {
+  setIsNotesDrawerOpen: (value: boolean) => void;
   setIsSideDrawerOpen: (value: boolean) => void;
 }
 
 export const ToolbarFooter = ({
+  setIsNotesDrawerOpen,
   setIsSideDrawerOpen
 }: ToolbarFooterProps) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
@@ -80,7 +82,7 @@ export const ToolbarFooter = ({
         <IconButton
           icon="book"
           onClick={() => {
-            setIsSideDrawerOpen(true);
+            setIsNotesDrawerOpen(true);
           }}
         />
         <IconButton

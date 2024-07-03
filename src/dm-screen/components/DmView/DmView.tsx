@@ -13,14 +13,18 @@ import {
   GridRow,
   Input,
   Item,
-  Modal,
   Section,
   SideDrawer
 } from '@designSystem/components';
+import { v4 as uuidv4 } from 'uuid';
 import { AdventureContext } from '../AdventureContext';
 import { CreaturesTable } from '../CreaturesTable';
+import { InitiativeItem } from '../../../core/types';
 import { InitiativeOrder } from '../InitiativeOrder';
+import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { ItemsTable } from '../ItemsTable';
+import { ManagePlayersModal } from '../ManagePlayersModal';
+import { Markdown } from '../Markdown';
 import { PlayersContext } from '../PlayersContext';
 import { PlayersTable } from '../PlayersTable';
 import { RulesSearch } from '../RulesSearch';
@@ -30,16 +34,24 @@ export const DmView = () => {
   const [creatureSearchTerm, setCreatureSearchTerm] = useState('');
   const [itemSearchTerm, setItemSearchTerm] = useState('');
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
+  const [isNotesDrawerOpen, setIsNotesDrawerOpen] = useState(false)
   const [isManagePlayersModalOpen, setIsManagePlayersModalOpen] = useState(false);
-  const [newPlayerName, setNewPlayerName] = useState('');
-  const [newCharacterName, setNewCharacterName] = useState('');
-  const [newCharacterAc, setNewCharacterAc] = useState(0);
 
   const adventure = useContext(AdventureContext);
-  const { players, setPlayers } = useContext(PlayersContext);
+  const { players } = useContext(PlayersContext);
+  const {
+    initiativeOrder: {
+      items
+    },
+    setItems
+  } = useContext(InitiativeOrderContext);
 
   const onSideDrawerClose = () => {
     setIsSideDrawerOpen(false);
+  };
+
+  const onNotesDrawerClose = () => {
+    setIsNotesDrawerOpen(false);
   };
 
   const handleManagePlayersModalClose = () => {
@@ -50,21 +62,29 @@ export const DmView = () => {
     setIsManagePlayersModalOpen(true);
   }
 
-  const newPlayersModalSubmit = () => {
-    if (newPlayerName && newCharacterName) {
-      setPlayers([
-        ...players,
-        {
-          ac: newCharacterAc,
-          id: String(Date.now()),
-          name: newPlayerName,
-          characterName: newCharacterName
-        }
-      ]);
-      setNewPlayerName('');
-      setNewCharacterName('');
-      setNewCharacterAc(0);
-    }
+  const handleAddAllToInitiativeOrder = () => {
+    const newItems: InitiativeItem[]= players.map((player) => {
+      const {
+        ac,
+        id,
+        name
+      } = player;
+
+      return {
+        entityId: id,
+        entityType: 'player',
+        id: uuidv4(),
+        name,
+        resourceA: ac,
+        resourceB: 0,
+        sortValue: 0
+      };
+    });
+
+    setItems([
+      ...items,
+      ...newItems
+    ])
   }
 
   const handleOnCreatureChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,9 +99,17 @@ export const DmView = () => {
 
   const playerCharacterButtons = (
     <>
-      <Button buttonText="Add all to combat"/>
       <Button
-        buttonText="Manage Players"
+        buttonText="Add all to combat"
+        disabled={!players.length}
+        onClick={handleAddAllToInitiativeOrder}
+        onKeyDown={(e: KeyboardEvent) => {
+          if (e.key === 'Enter') {
+            handleAddAllToInitiativeOrder();
+          }
+        }}/>
+      <Button
+        buttonText="Manage players"
         onClick={handleManagePlayersModalOpen}
         onKeyDown={(e: KeyboardEvent) => {
           if (e.key === 'Enter') {
@@ -108,20 +136,6 @@ export const DmView = () => {
               </Item>
               <Item columns={6}>
                 <Section
-                  sectionHeaderEl="h3"
-                  sectionTitle="Handouts">
-                  {
-                    adventure.handouts.map(handout => (
-                      <img alt={handout.description} src={handout.url}/>
-                    ))
-                  }
-                  <></>
-                </Section>
-              </Item>
-            </GridRow>
-            <GridRow>
-              <Item columns={6}>
-                <Section
                   sectionActions={(
                     <Input
                       inputId="creatures"
@@ -134,8 +148,10 @@ export const DmView = () => {
                   <CreaturesTable searchTerm={creatureSearchTerm}/>
                 </Section>
               </Item>
+            </GridRow>
+            <GridRow>
               <Item columns={6}>
-                <Section
+               <Section
                   sectionActions={(
                     <Input
                       inputId="items"
@@ -148,12 +164,25 @@ export const DmView = () => {
                   <ItemsTable searchTerm={itemSearchTerm}/>
                 </Section>
               </Item>
+              <Item columns={6}>
+                <Section
+                  sectionHeaderEl="h3"
+                  sectionTitle="Handouts">
+                  {
+                    adventure.handouts.map(handout => (
+                      <img alt={handout.description} src={handout.url} />
+                    ))
+                  }
+                  <></>
+                </Section>
+              </Item>
             </GridRow>
           </Grid>
         </Container>
         <Footer>
           <ToolbarFooter
-            setIsSideDrawerOpen={setIsSideDrawerOpen}/>
+            setIsSideDrawerOpen={setIsSideDrawerOpen}
+            setIsNotesDrawerOpen={setIsNotesDrawerOpen}/>
         </Footer>
       </FooterOffset>
       <SideDrawer
@@ -163,70 +192,15 @@ export const DmView = () => {
       >
         <RulesSearch/>
       </SideDrawer>
-      <Modal
-        isOpen={isManagePlayersModalOpen}
-        onClose={handleManagePlayersModalClose}
+      <SideDrawer
+        isOpen={isNotesDrawerOpen}
+        onClose={onNotesDrawerClose}
         portalElement={document.body}>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          newPlayersModalSubmit();
-        }}>
-          <h2>
-            Manage Players
-          </h2>
-          <label htmlFor="player-name">
-            Player Name
-          </label>
-          <Input
-            full
-            inputId="player-name"
-            inputName="player-name"
-            onChange={(e) => {
-              setNewPlayerName(e.target.value);
-            }}
-            value={newPlayerName}/>
-          <label htmlFor="character-name">
-            Character Name
-          </label>
-          <Input
-            full
-            inputId="character-name"
-            inputName="character-name"
-            onChange={(e) => {
-              setNewCharacterName(e.target.value);
-            }}
-            value={newCharacterName}/>
-          <label htmlFor="character-ac">
-            AC
-          </label>
-          <Input
-            full
-            inputId="character-ac"
-            inputName="character-ac"
-            onChange={(e) => {
-              setNewCharacterAc(Number(e.target.value));
-            }}
-            value={String(newCharacterAc)}/>
-          <Button
-            buttonText="Add Player"
-            onClick={newPlayersModalSubmit}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                newPlayersModalSubmit();
-              }
-            }}/>
-          <Button
-            buttonText="Cancel"
-            onClick={() => {
-              handleManagePlayersModalClose();
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleManagePlayersModalClose();
-              }
-            }}/>
-        </form>
-      </Modal>
+        <Markdown content={adventure.notes}/>
+      </SideDrawer>
+      <ManagePlayersModal
+        isOpen={isManagePlayersModalOpen}
+        onClose={handleManagePlayersModalClose}/>
     </>
   );
 };

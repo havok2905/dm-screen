@@ -6,7 +6,9 @@ import {
   Modal,
   Table
 } from '@designSystem/components';
+import { v4 as uuidv4 } from 'uuid';
 import { AdventureContext } from '../AdventureContext';
+import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { Markdown } from '../Markdown';
 
 export interface CreaturesTableProps {
@@ -20,6 +22,12 @@ export const CreaturesTable = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const adventure = useContext(AdventureContext);
+  const {
+    initiativeOrder: {
+      items
+    },
+    setItems
+  } = useContext(InitiativeOrderContext);
 
   const handleClose = () => {
     setCurrentCreature(null);
@@ -75,6 +83,18 @@ export const CreaturesTable = ({
                 {
                   name: 'Add',
                   onClick(e, rowData) {
+                    setItems([
+                      ...items,
+                      {
+                        entityId: creature.id,
+                        entityType: 'creature',
+                        id: uuidv4(),
+                        name: creature.name,
+                        resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
+                        resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
+                        sortValue: 0
+                      }
+                    ])
                     console.log(id, e, rowData);
                   },
                 }

@@ -8,11 +8,7 @@ export const App = () =>  {
   return (
     <AdventureContextProvider value={adventure}>
       <PlayersContextProvider>
-        <InitiativeOrderContextProvider value={{
-          currentIndex: 0,
-          items: [],
-          round: 1
-        }}>
+        <InitiativeOrderContextProvider>
           <DmView/>
         </InitiativeOrderContextProvider>
       </PlayersContextProvider>

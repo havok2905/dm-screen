@@ -9,6 +9,10 @@
   width: 100px;
 }
 
+.initiative-card-active {
+  border: solid 4px var(--white);
+}
+
 .initiative-card-ac {
   bottom: 38px;
   left: 8px;

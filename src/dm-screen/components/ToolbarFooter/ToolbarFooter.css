@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.toolbar-footer button {
+  margin-left: var(--spacing-small);
+}
+
 .toolbar-footer-rolled-value {
   margin-left: var(--spacing-standard);
 }

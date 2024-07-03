@@ -1,27 +1,34 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
+import classNames from 'classnames';
 import { CircleBadgeForm } from '@designSystem/components';
 
 import './InitiativeCard.css';
 
 export interface InitiativeCardProps {
-  ac: number;
-  hp: number;
+  active?: boolean;
   imageSrc?: string;
-  initiativeRoll: number;
-  characterName: string;
+  name: string;
+  onDoubleClick: () => void;
+  onResourceAChange: (value: number) => void;
+  onResourceBChange: (value: number) => void;
+  onSortValueChange: (value: number) => void;
+  resourceA: number;
+  resourceB: number;
+  sortValue: number;
 }
 
 export const InitiativeCard = ({
-  ac,
-  hp,
+  active,
   imageSrc,
-  initiativeRoll,
-  characterName
+  name,
+  onDoubleClick,
+  onResourceAChange,
+  onResourceBChange,
+  onSortValueChange,
+  resourceA,
+  resourceB,
+  sortValue
 }: InitiativeCardProps) => {
-  const [currentAc, setCurrentAc] = useState<number>(ac);
-  const [currentHp, setCurrentHp] = useState<number>(hp);
-  const [currentInitiativeRoll, setCurrentInitiativeRoll] = useState<number>(initiativeRoll);
-
   const isNum = useCallback((value: string): boolean => {
     const asNum = Number(value);
     return !Number.isNaN(asNum);
@@ -33,54 +40,48 @@ export const InitiativeCard = ({
     }
   ) : undefined;
 
+  const classList = {
+    'initiative-card': true,
+    'initiative-card-active': active
+  };
+
   return (
     <div
-      className="initiative-card"
+      className={classNames(classList)}
+      onDoubleClick={onDoubleClick}
       style={styles}>
       <div className="initiative-card-initiative-roll">
         <CircleBadgeForm
           color="orange"
           onChange={(value) => {
-            if (!value) {
-              setCurrentInitiativeRoll(0);
-            } else {
-              setCurrentInitiativeRoll(Number(value));
-            }
+            onSortValueChange(Number(value) ?? 0);
           }}
           onValidate={isNum}
-          value={String(currentInitiativeRoll)}
+          value={String(sortValue)}
         />
       </div>
       <div className="initiative-card-ac">
         <CircleBadgeForm
           color="blue"
           onChange={(value) => {
-            if (!value) {
-              setCurrentAc(0);
-            } else {
-              setCurrentAc(Number(value));
-            }
+            onResourceAChange(Number(value) ?? 0);
           }}
           onValidate={isNum}
-          value={String(currentAc)}
+          value={String(resourceA)}
         />
       </div>
       <div className="initiative-card-hp">
         <CircleBadgeForm
           color="green"
           onChange={(value) => {
-            if (!value) {
-              setCurrentHp(0);
-            } else {
-              setCurrentHp(Number(value));
-            }
+            onResourceBChange(Number(value) ?? 0);
           }}
           onValidate={isNum}
-          value={String(currentHp)}
+          value={String(resourceB)}
         />
       </div>
       <p className="initiative-card-character-name">
-        {characterName}
+        {name}
       </p>
     </div>
   );
