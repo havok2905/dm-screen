@@ -4,14 +4,16 @@ import {
   Table
 } from '@designSystem/components';
 import { Markdown } from '../Markdown';
-import { MarkdownEntity } from '../../../core/types';
+import { Handout, MarkdownEntity } from '../../../core/types';
 
 export interface ItemsTableProps {
+  handleShowHandout: (handout: Handout | null) => void;
   items: MarkdownEntity[];
   searchTerm: string;
 }
 
 export const ItemsTable = ({
+  handleShowHandout,
   items,
   searchTerm
 }: ItemsTableProps) => {
@@ -68,7 +70,12 @@ export const ItemsTable = ({
                 {
                   name: 'Show',
                   onClick() {
-                    
+                    handleShowHandout({
+                      description: item.name,
+                      id: '',
+                      name: item.name,
+                      url: item.image ?? ''
+                    });
                   },
                 }
               ]

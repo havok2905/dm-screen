@@ -2,8 +2,13 @@ import {
   ChangeEvent,
   KeyboardEvent,
   useContext,
+  useEffect,
+  useRef,
   useState
 } from 'react';
+import { io } from 'socket.io-client';
+import { Socket } from 'socket.io';
+import { v4 as uuidv4 } from 'uuid';
 import {
   useQuery
 } from '@tanstack/react-query';
@@ -19,9 +24,12 @@ import {
   Section,
   SideDrawer
 } from '@designSystem/components';
-import { v4 as uuidv4 } from 'uuid';
 import { CreaturesTable } from '../CreaturesTable';
-import { Adventure, InitiativeItem } from '../../../core/types';
+import {
+  Adventure,
+  Handout,
+  InitiativeItem
+} from '../../../core/types';
 import { InitiativeOrder } from '../InitiativeOrder';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { ItemsTable } from '../ItemsTable';
@@ -39,6 +47,8 @@ export const DmView = () => {
   const [isNotesDrawerOpen, setIsNotesDrawerOpen] = useState(false);
   const [isManagePlayersModalOpen, setIsManagePlayersModalOpen] = useState(false);
 
+  const socketRef = useRef<Socket | null>(null);
+
   const {
     data,
     isFetching,
@@ -55,10 +65,30 @@ export const DmView = () => {
 
   const {
     initiativeOrder: {
-      items
+      currentId,
+      items,
+      round
     },
     setItems
   } = useContext(InitiativeOrderContext);
+
+  useEffect(() => {
+    if (!socketRef.current) {
+      socketRef.current = io('http://localhost:3000');
+    }
+  }, []);
+
+  useEffect(() => {
+    socketRef.current?.emit('initiative:dispatch', {
+      currentId,
+      items,
+      round
+    });
+  }, [
+    currentId,
+    items,
+    round
+  ]);
 
   const onSideDrawerClose = () => {
     setIsSideDrawerOpen(false);
@@ -112,6 +142,10 @@ export const DmView = () => {
     setItemSearchTerm(value);
   }
 
+  const handleShowHandout = (handout: Handout | null) => {
+    socketRef.current?.emit('handout:dispatch-show', handout);
+  };
+
   const playerCharacterButtons = (
     <>
       <Button
@@ -160,8 +194,6 @@ export const DmView = () => {
                   sectionTitle="Player Characters">
                   <PlayersTable/>
                 </Section>
-              </Item>
-              <Item columns={6}>
                 <Section
                   sectionActions={(
                     <Input
@@ -174,13 +206,10 @@ export const DmView = () => {
                   sectionTitle="Creatures">
                   <CreaturesTable
                     creatures={adventure.creatures}
+                    handleShowHandout={handleShowHandout}
                     searchTerm={creatureSearchTerm}/>
                 </Section>
-              </Item>
-            </GridRow>
-            <GridRow>
-              <Item columns={6}>
-               <Section
+                <Section
                   sectionActions={(
                     <Input
                       inputId="items"
@@ -191,6 +220,7 @@ export const DmView = () => {
                   sectionHeaderEl="h3"
                   sectionTitle="Items">
                   <ItemsTable
+                    handleShowHandout={handleShowHandout}
                     items={adventure.items}
                     searchTerm={itemSearchTerm}/>
                 </Section>
@@ -201,10 +231,15 @@ export const DmView = () => {
                   sectionTitle="Handouts">
                   {
                     adventure.handouts.map(handout => (
-                      <img alt={handout.description} src={handout.url} />
+                      <img 
+                        alt={handout.description}
+                        key={handout.id}
+                        onClick={() => {
+                          handleShowHandout(handout);
+                        }}
+                        src={handout.url} />
                     ))
                   }
-                  <></>
                 </Section>
               </Item>
             </GridRow>
@@ -212,6 +247,7 @@ export const DmView = () => {
         </Container>
         <Footer>
           <ToolbarFooter
+            handleShowHandout={handleShowHandout}
             setIsSideDrawerOpen={setIsSideDrawerOpen}
             setIsNotesDrawerOpen={setIsNotesDrawerOpen}/>
         </Footer>

@@ -6,17 +6,22 @@ import {
 
 import {
   IconButton,
-  Input
+  Input,
+  LinkButton
 } from '@designSystem/components';
+
+import { Handout } from '../../../core/types';
 
 import './ToolbarFooter.css';
 
 export interface ToolbarFooterProps {
+  handleShowHandout: (handout: Handout | null) => void;
   setIsNotesDrawerOpen: (value: boolean) => void;
   setIsSideDrawerOpen: (value: boolean) => void;
 }
 
 export const ToolbarFooter = ({
+  handleShowHandout,
   setIsNotesDrawerOpen,
   setIsSideDrawerOpen
 }: ToolbarFooterProps) => {
@@ -79,6 +84,14 @@ export const ToolbarFooter = ({
         <span className="toolbar-footer-rolled-value">
           {rolledValue}
         </span>
+      </div>
+      <div>
+        <LinkButton
+          buttonText="Clear Handouts"
+          color="red"
+          onClick={() => {
+            handleShowHandout(null);
+          }}/>
       </div>
       <div>
         <IconButton

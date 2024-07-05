@@ -18,6 +18,7 @@ export interface InitiativeOrderContextModel {
   setResourceA: (id: string, value: number) => void;
   setResourceB: (id: string, value: number) => void;
   setSortValue: (id: string, value: number) => void;
+  setRound: (round: number) => void;
   sort: () => void;
 }
 
@@ -37,6 +38,7 @@ const defaultInitiativeOrder: InitiativeOrderContextModel = {
   setItems: () => {},
   setResourceA: () => {},
   setResourceB: () => {},
+  setRound: () => {},
   setSortValue: () => {},
   sort: () => {},
 };
@@ -210,6 +212,10 @@ export const InitiativeOrderContextProvider = ({
     }
   }
 
+  const handleSetRound = (round: number) => {
+    setRound(round);
+  }
+
   const handleSort = () => {
     const toBeSorted = [
       ...items
@@ -244,6 +250,7 @@ export const InitiativeOrderContextProvider = ({
     setItems: handleSetItems,
     setResourceA: handleSetResourceA,
     setResourceB: handleSetResourceB,
+    setRound: handleSetRound,
     setSortValue: handleSetSortValue,
     sort: handleSort
   };

@@ -1,4 +1,7 @@
-import { useContext, useState } from 'react';
+import {
+  useContext,
+  useState
+} from 'react';
 import {
   Button,
   LinkButton
@@ -11,10 +14,12 @@ import './InitiativeOrder.css';
 
 export interface InitiativeOrderProps {
   creatures: MarkdownEntity[];
+  playerView?: boolean;
 }
 
 export const InitiativeOrder = ({
-  creatures
+  creatures,
+  playerView
 }: InitiativeOrderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
@@ -83,51 +88,59 @@ export const InitiativeOrder = ({
           }
         </div>
         <div className="initiative-order-card-button-container">
-          <div>
-            <Button
-              buttonText="Prev"
-              disabled={items.length === 0}
-              onClick={prev}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  prev();
-                }
-              }}/>
-            <Button
-              buttonText="Next"
-              disabled={items.length === 0}
-              onClick={next}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  next();
-                }
-              }}/>
-            <Button
-              buttonText="Sort"
-              disabled={items.length === 0}
-              onClick={sort}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  sort();
-                }
-              }}/>
-          </div>
+          {
+            !playerView && (
+              <div>
+                <Button
+                  buttonText="Prev"
+                  disabled={items.length === 0}
+                  onClick={prev}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      prev();
+                    }
+                  }}/>
+                <Button
+                  buttonText="Next"
+                  disabled={items.length === 0}
+                  onClick={next}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      next();
+                    }
+                  }}/>
+                <Button
+                  buttonText="Sort"
+                  disabled={items.length === 0}
+                  onClick={sort}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      sort();
+                    }
+                  }}/>
+              </div>
+            )
+          }
           <div>
             <p>
               Round: {round}
             </p>
           </div>
-          <div>
-            <LinkButton
-              buttonText="Reset Combat"
-              color="red"
-              onClick={handleStartNewCombatClick}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleStartNewCombatClick();
-                }
-              }}/>
-          </div>
+          {
+            !playerView && (
+              <div>
+                <LinkButton
+                  buttonText="Reset Combat"
+                  color="red"
+                  onClick={handleStartNewCombatClick}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleStartNewCombatClick();
+                    }
+                  }}/>
+              </div>
+            )
+          }
         </div>
       </div>
       <InitiativeItemModal

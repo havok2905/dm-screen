@@ -9,15 +9,17 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { Markdown } from '../Markdown';
-import { MarkdownEntity } from '../../../core/types';
+import { Handout, MarkdownEntity } from '../../../core/types';
 
 export interface CreaturesTableProps {
   creatures: MarkdownEntity[];
+  handleShowHandout: (handout: Handout | null) => void;
   searchTerm: string;
 }
 
 export const CreaturesTable = ({
   creatures,
+  handleShowHandout,
   searchTerm
 }: CreaturesTableProps) => {
   const [currentCreature, setCurrentCreature] = useState<string | null>(null);
@@ -79,8 +81,13 @@ export const CreaturesTable = ({
                 },
                 {
                   name: 'Show',
-                  onClick(e, rowData) {
-                    console.log(id, e, rowData);
+                  onClick() {
+                    handleShowHandout({
+                      description: creature.name,
+                      id: '',
+                      name: creature.name,
+                      url: creature.image ?? ''
+                    });
                   },
                 },
                 {
