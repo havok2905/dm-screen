@@ -1,7 +1,7 @@
 #coverage.yml
 name: 'coverage'
 on:
-  pull_request:
+  push:
     branches:
       - main
       - develop
