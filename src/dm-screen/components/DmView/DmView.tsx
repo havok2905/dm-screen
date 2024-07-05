@@ -34,7 +34,7 @@ export const DmView = () => {
   const [creatureSearchTerm, setCreatureSearchTerm] = useState('');
   const [itemSearchTerm, setItemSearchTerm] = useState('');
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
-  const [isNotesDrawerOpen, setIsNotesDrawerOpen] = useState(false)
+  const [isNotesDrawerOpen, setIsNotesDrawerOpen] = useState(false);
   const [isManagePlayersModalOpen, setIsManagePlayersModalOpen] = useState(false);
 
   const adventure = useContext(AdventureContext);
