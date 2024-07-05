@@ -12,15 +12,15 @@ jobs:
       pull-requests: write
       contents: write
     runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - uses: actions/setup-node@v3
-          with:
-            cache: 'yarn'
-        - uses: ArtiomTr/jest-coverage-report-action@v2.1.2
-          id: coverage
-          with:
-            annotations: none
-            package-manager: yarn
-            test-script: yarn coverage
-            icons: emoji
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'yarn'
+      - uses: ArtiomTr/jest-coverage-report-action@v2.1.2
+        id: coverage
+        with:
+          annotations: none
+          package-manager: yarn
+          test-script: yarn coverage
+          icons: emoji
