@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - develop
 jobs:
   coverage:
     permissions:
@@ -24,3 +23,7 @@ jobs:
           package-manager: npm
           test-script: npm run coverage
           icons: emoji
+      - uses: cicirello/jacoco-badge-generator@v2
+          with:
+            jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+            badges-directory: build/reports/jacoco/test/html/badges
