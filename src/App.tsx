@@ -2,9 +2,11 @@ import {
   createBrowserRouter,
   RouterProvider
 } from "react-router-dom";
+import {
+  QueryClient,
+  QueryClientProvider
+} from '@tanstack/react-query'
 
-import { adventure } from './core';
-import { AdventureContextProvider } from './dm-screen/components/AdventureContext';
 import { DmView } from './dm-screen/components/DmView';
 import { InitiativeOrderContextProvider } from './dm-screen/components/InitiativeOrderContext';
 import { PlayerView } from './dm-screen/components/PlayerView';
@@ -25,15 +27,17 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 export const App = () =>  {
   return (
-    <AdventureContextProvider value={adventure}>
+    <QueryClientProvider client={queryClient}>
       <PlayersContextProvider>
         <InitiativeOrderContextProvider>
           <RouterProvider router={router} />
         </InitiativeOrderContextProvider>
       </PlayersContextProvider>
-    </AdventureContextProvider>
+    </QueryClientProvider>
   );
 };
 

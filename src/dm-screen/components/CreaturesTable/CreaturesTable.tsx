@@ -7,21 +7,22 @@ import {
   Table
 } from '@designSystem/components';
 import { v4 as uuidv4 } from 'uuid';
-import { AdventureContext } from '../AdventureContext';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { Markdown } from '../Markdown';
+import { MarkdownEntity } from '../../../core/types';
 
 export interface CreaturesTableProps {
+  creatures: MarkdownEntity[];
   searchTerm: string;
 }
 
 export const CreaturesTable = ({
+  creatures,
   searchTerm
 }: CreaturesTableProps) => {
   const [currentCreature, setCurrentCreature] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const adventure = useContext(AdventureContext);
   const {
     initiativeOrder: {
       items
@@ -34,11 +35,11 @@ export const CreaturesTable = ({
     setIsOpen(false);
   };
 
-  const filtered = adventure.creatures.filter((creature) => {
+  const filtered = creatures.filter((creature) => {
     return creature.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase());
   });
 
-  const currentCreatureEntity = adventure.creatures.find((creature) => creature.id === currentCreature);
+  const currentCreatureEntity = creatures.find((creature) => creature.id === currentCreature);
 
   if (!filtered.length) {
     return (
@@ -54,7 +55,7 @@ export const CreaturesTable = ({
         columns={
           [
             { name: 'Creature' },
-            ...adventure.creatures[0].metadata.map((item) => {
+            ...creatures[0].metadata.map((item) => {
               return { name: item.name };
             })
           ]

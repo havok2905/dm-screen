@@ -39,7 +39,9 @@ export const ToolbarFooter = ({
       setRolledValue(null);
       setSearchTerm('');
 
-      const match = rollRegex.exec(e.target.value ?? '');
+      const target = e.target as HTMLInputElement;
+
+      const match = rollRegex.exec(target.value ?? '');
       
       if (!match) return;
 

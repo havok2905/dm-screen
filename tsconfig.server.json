@@ -21,17 +21,11 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
-      "@designSystem/*": [
-         "./src/designSystem/*"
-      ]
     }
   },
   "include": [
-    "src"
+    "server"
   ],
-  "exclude": [
-    "**/*.stories.tsx",
-    "**/*.stories.ts"
-  ],
+  "exclude": [],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

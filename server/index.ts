@@ -1,7 +1,17 @@
-import { Adventure } from './types';
+import cors from 'cors';
+import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
-export const adventure: Adventure = {
+const app = express();
+const port = process.env.PORT ?? 3000;
+
+app.use(cors());
+
+app.get('/', (_req, res) => {
+  res.send({});
+});
+
+const adventure = {
   name: 'Test Adventure',
   notes: `
 # The Adventure
@@ -107,3 +117,11 @@ A character who drinks the magical red fluid in this vial regains 2d4 + 2 hit po
     }
   ]
 };
+
+app.get('/adventure/:id', (_req, res) => {
+  res.send(adventure);
+});
+
+app.listen(port, () => {
+  console.log(`[server]: Server is running at http://localhost:${port}`);
+});

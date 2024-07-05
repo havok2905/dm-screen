@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "dm-screen is an application to leverage the speed of virtual D&D tooling to assist with running in-person TTRPGS.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev-client": "vite",
+    "dev-server": "ts-node --esm --project tsconfig.server.json server/index.ts",
+    "build-client": "tsc && vite build",
     "eslint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "stylelint": "stylelint \"src/**/*.css\"",
-    "preview": "vite preview",
+    "preview-client": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "jest --coverage",
@@ -26,7 +28,10 @@
       "!**/*.stories.ts",
       "!**/*.stories.tsx"
     ],
-    "coverageReporters": [ "text", "text-summary"],
+    "coverageReporters": [
+      "text",
+      "text-summary"
+    ],
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "^@designSystem/(.*)$": "<rootDir>/src/designSystem/$1"
@@ -36,7 +41,10 @@
     ]
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.50.1",
     "classnames": "^2.5.1",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
     "marked": "^13.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -58,8 +66,11 @@
     "@storybook/react": "^8.1.10",
     "@storybook/react-vite": "^8.1.10",
     "@storybook/test": "^8.1.10",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
     "@types/marked": "^6.0.0",
+    "@types/node": "^20.14.9",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
@@ -76,7 +87,8 @@
     "storybook": "^8.1.10",
     "stylelint": "^16.6.1",
     "stylelint-config-standard": "^36.0.1",
-    "typescript": "^5.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3",
     "vite": "^5.2.0"
   }
 }

@@ -25,6 +25,7 @@ describe('InitiativeCard', () => {
         resourceA={10}
         resourceB={12}
         sortValue={16}
+        visibilityState="on"
       />
     );
 

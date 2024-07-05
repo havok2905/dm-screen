@@ -127,10 +127,12 @@ export const InitiativeOrderContextProvider = ({
   const handleRemove = (id: string) => {
     const filtered = items.map((item) => {
       if (item.id === id) {
-        return {
+        const initiativeItem: InitiativeItem = {
           ...item,
           visibilityState: 'removed'
-        }
+        };
+
+        return initiativeItem
       }
 
       return item;

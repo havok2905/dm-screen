@@ -1,13 +1,13 @@
 import { ReactNode, useContext } from 'react';
 import { Modal } from '@designSystem/components';
-import { AdventureContext } from '../AdventureContext';
-import { InitiativeItem } from '../../../core/types';
+import { InitiativeItem, MarkdownEntity } from '../../../core/types';
 import { Markdown } from '../Markdown';
 import { PlayersContext } from '../PlayersContext';
 import './InitiativeItemModal.css';
 
 export interface InitiativeItemModalProps {
   children: ReactNode;
+  creatures: MarkdownEntity[];
   onClose: () => void;
   isOpen: boolean;
   item: InitiativeItem | null;
@@ -15,13 +15,11 @@ export interface InitiativeItemModalProps {
 
 export const InitiativeItemModal = ({
   children,
+  creatures,
   onClose,
   isOpen,
   item
 }: InitiativeItemModalProps) => {
-  const {
-    creatures
-  } = useContext(AdventureContext);
 
   const {
     players

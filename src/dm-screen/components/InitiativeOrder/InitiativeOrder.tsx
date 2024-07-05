@@ -6,9 +6,16 @@ import {
 import { InitiativeCard } from '../InitiativeCard';
 import { InitiativeItemModal } from '../InitiativeItemModal';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
+import { MarkdownEntity } from '../../../core/types';
 import './InitiativeOrder.css';
 
-export const InitiativeOrder = () => {
+export interface InitiativeOrderProps {
+  creatures: MarkdownEntity[];
+}
+
+export const InitiativeOrder = ({
+  creatures
+}: InitiativeOrderProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -124,6 +131,7 @@ export const InitiativeOrder = () => {
         </div>
       </div>
       <InitiativeItemModal
+        creatures={creatures}
         isOpen={isOpen}
         item={currentItem}
         onClose={handleModalClose}>

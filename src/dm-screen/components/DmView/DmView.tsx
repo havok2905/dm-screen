@@ -5,6 +5,9 @@ import {
   useState
 } from 'react';
 import {
+  useQuery
+} from '@tanstack/react-query';
+import {
   Button,
   Container,
   Footer,
@@ -17,9 +20,8 @@ import {
   SideDrawer
 } from '@designSystem/components';
 import { v4 as uuidv4 } from 'uuid';
-import { AdventureContext } from '../AdventureContext';
 import { CreaturesTable } from '../CreaturesTable';
-import { InitiativeItem } from '../../../core/types';
+import { Adventure, InitiativeItem } from '../../../core/types';
 import { InitiativeOrder } from '../InitiativeOrder';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { ItemsTable } from '../ItemsTable';
@@ -37,8 +39,20 @@ export const DmView = () => {
   const [isNotesDrawerOpen, setIsNotesDrawerOpen] = useState(false);
   const [isManagePlayersModalOpen, setIsManagePlayersModalOpen] = useState(false);
 
-  const adventure = useContext(AdventureContext);
+  const {
+    data,
+    isFetching,
+    isLoading,
+    isPending
+  } = useQuery({
+    queryKey: ['adventureData'],
+    queryFn: () => {
+      return fetch('http://localhost:3000/adventure/1').then((response) => response.json())
+    }  
+  });
+
   const { players } = useContext(PlayersContext);
+
   const {
     initiativeOrder: {
       items
@@ -120,10 +134,22 @@ export const DmView = () => {
     </>
   );
 
+  if (
+    isFetching ||
+    isLoading ||
+    isPending
+  ) return null;
+
+  if (!data) {
+    return null;
+  }
+
+  const adventure = data as Adventure;
+
   return (
     <>
       <FooterOffset>
-        <InitiativeOrder/>
+        <InitiativeOrder creatures={adventure.creatures}/>
         <Container>
           <Grid>
             <GridRow>
@@ -146,7 +172,9 @@ export const DmView = () => {
                   )}
                   sectionHeaderEl="h3"
                   sectionTitle="Creatures">
-                  <CreaturesTable searchTerm={creatureSearchTerm}/>
+                  <CreaturesTable
+                    creatures={adventure.creatures}
+                    searchTerm={creatureSearchTerm}/>
                 </Section>
               </Item>
             </GridRow>
@@ -162,7 +190,9 @@ export const DmView = () => {
                   )}
                   sectionHeaderEl="h3"
                   sectionTitle="Items">
-                  <ItemsTable searchTerm={itemSearchTerm}/>
+                  <ItemsTable
+                    items={adventure.items}
+                    searchTerm={itemSearchTerm}/>
                 </Section>
               </Item>
               <Item columns={6}>

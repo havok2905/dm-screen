@@ -1,34 +1,31 @@
-import {
-  useContext,
-  useState
-} from 'react';
+import { useState } from 'react';
 import {
   Modal,
   Table
 } from '@designSystem/components';
-import { AdventureContext } from '../AdventureContext';
 import { Markdown } from '../Markdown';
+import { MarkdownEntity } from '../../../core/types';
 
 export interface ItemsTableProps {
+  items: MarkdownEntity[];
   searchTerm: string;
 }
 
 export const ItemsTable = ({
+  items,
   searchTerm
 }: ItemsTableProps) => {
   const [currentItem, setCurrentItem] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-
-  const adventure = useContext(AdventureContext);
 
   const handleClose = () => {
     setCurrentItem(null);
     setIsOpen(false);
   };
 
-  const currentItemEntity =  adventure.items.find((item) => item.id === currentItem);
+  const currentItemEntity =  items.find((item) => item.id === currentItem);
 
-  const filtered = adventure.items.filter((item) => {
+  const filtered = items.filter((item) => {
     return item.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase());
   });
 
@@ -46,7 +43,7 @@ export const ItemsTable = ({
         columns={
           [
             { name: 'Item' },
-            ...adventure.items[0].metadata.map((item) => {
+            ...items[0].metadata.map((item) => {
               return { name: item.name };
             })
           ]
