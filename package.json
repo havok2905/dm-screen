@@ -11,11 +11,22 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "coverage": "jest --json --coverage --outputFile=report.json"
   },
   "author": "",
   "license": "ISC",
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{tsx,ts}",
+      "!**/node_modules/**",
+      "!**/vite-env.ts",
+      "!**/vite-env.d.ts",
+      "!**/*.stories.ts",
+      "!**/*.stories.tsx"
+    ],
+    "coverageReporters": [ "text", "text-summary"],
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "^@designSystem/(.*)$": "<rootDir>/src/designSystem/$1"

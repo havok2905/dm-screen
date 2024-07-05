@@ -26,3 +26,5 @@ dist-ssr
 *storybook.log
 
 coverage
+
+report.json
