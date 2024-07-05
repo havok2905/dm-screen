@@ -21,6 +21,6 @@ jobs:
         id: coverage
         with:
           annotations: none
-          package-manager: yarn
-          test-script: yarn coverage
+          package-manager: npm
+          test-script: npm run coverage
           icons: emoji
