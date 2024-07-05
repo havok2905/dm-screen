@@ -15,6 +15,7 @@ Lorem ipsum dolor set amet.
     {
       id: uuidv4(),
       name: 'Giant Rat',
+      image: '/giant-rat.png',
       metadata: [
         {
           name: 'Type',
@@ -77,6 +78,7 @@ Lorem ipsum dolor set amet.
     {
       id: uuidv4(),
       name: 'Potion of Healing',
+      image: '/potion-of-healing.png',
       metadata: [
         {
           name: 'Rarity',

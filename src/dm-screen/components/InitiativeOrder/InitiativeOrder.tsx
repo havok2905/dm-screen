@@ -1,14 +1,11 @@
 import { useContext, useState } from 'react';
 import {
   Button,
-  LinkButton,
-  Modal
+  LinkButton
 } from '@designSystem/components';
-import { AdventureContext } from '../AdventureContext';
 import { InitiativeCard } from '../InitiativeCard';
+import { InitiativeItemModal } from '../InitiativeItemModal';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
-import { Markdown } from '../Markdown';
-import { PlayersContext } from '../PlayersContext';
 import './InitiativeOrder.css';
 
 export const InitiativeOrder = () => {
@@ -16,14 +13,7 @@ export const InitiativeOrder = () => {
   const [openId, setOpenId] = useState<string | null>(null);
 
   const {
-    creatures
-  } = useContext(AdventureContext);
-
-  const {
-    players
-  } = useContext(PlayersContext);
-
-  const {
+    hide,
     initiativeOrder: {
       currentId,
       items,
@@ -33,6 +23,7 @@ export const InitiativeOrder = () => {
     prev,
     remove,
     reset,
+    reveal,
     setResourceA,
     setResourceB,
     setSortValue,
@@ -43,33 +34,12 @@ export const InitiativeOrder = () => {
     reset();
   };
 
-
   const handleModalClose = () => {
     setIsOpen(false);
     setOpenId(null);
   };
 
-  const getContentForModal = () => {
-    if (!openId || !isOpen)  return null;
-
-    const currentItem = items.find((item) => item.id === openId);
-
-    if (currentItem?.entityType === 'creature') {
-      const currentEntity = creatures.find((item) => item.id === currentItem.entityId);
-
-      return (
-        <Markdown content={currentEntity?.content ?? ''}/>
-      )
-    } else if (currentItem?.entityType === 'player') {
-      const currentEntity = players.find((item) => item.id === currentItem.entityId);
-
-      return (
-        <p>{JSON.stringify(currentEntity)}</p>
-      )
-    } else {
-      return null;
-    }
-  };
+  const currentItem = items.find((item) => item.id === openId) ?? null;
 
   return (
     <>
@@ -80,6 +50,7 @@ export const InitiativeOrder = () => {
               return (
                 <InitiativeCard
                   active={item.id === currentId}
+                  imageSrc={item.imageSrc}
                   key={item.id}
                   name={item.name}
                   onDoubleClick={() => {
@@ -98,6 +69,7 @@ export const InitiativeOrder = () => {
                   resourceA={item.resourceA}
                   resourceB={item.resourceB}
                   sortValue={item.sortValue}
+                  visibilityState={item.visibilityState}
                 />
               );
             })
@@ -107,6 +79,7 @@ export const InitiativeOrder = () => {
           <div>
             <Button
               buttonText="Prev"
+              disabled={items.length === 0}
               onClick={prev}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -115,6 +88,7 @@ export const InitiativeOrder = () => {
               }}/>
             <Button
               buttonText="Next"
+              disabled={items.length === 0}
               onClick={next}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -123,6 +97,7 @@ export const InitiativeOrder = () => {
               }}/>
             <Button
               buttonText="Sort"
+              disabled={items.length === 0}
               onClick={sort}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -148,10 +123,10 @@ export const InitiativeOrder = () => {
           </div>
         </div>
       </div>
-      <Modal
+      <InitiativeItemModal
         isOpen={isOpen}
-        onClose={handleModalClose}
-        portalElement={document.body}>
+        item={currentItem}
+        onClose={handleModalClose}>
         <Button
           buttonText="Remove from initiative"
           onClick={() => {
@@ -165,8 +140,31 @@ export const InitiativeOrder = () => {
             }
           }}
         />
-        {getContentForModal()}
-      </Modal>
+        <Button
+          buttonText="Hide"
+          disabled={currentItem?.visibilityState !== 'on'}
+          onClick={() => {
+            hide(openId ?? '');
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              hide(openId ?? '');
+            }
+          }}
+        />
+        <Button
+          buttonText="Reveal"
+          disabled={currentItem?.visibilityState !== 'hidden'}
+          onClick={() => {
+            reveal(openId ?? '');
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              reveal(openId ?? '');
+            }
+          }}
+        />
+      </InitiativeItemModal>
     </>
   )
 };

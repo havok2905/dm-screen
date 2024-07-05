@@ -38,6 +38,8 @@ export const CreaturesTable = ({
     return creature.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase());
   });
 
+  const currentCreatureEntity = adventure.creatures.find((creature) => creature.id === currentCreature);
+
   if (!filtered.length) {
     return (
       <div>
@@ -89,10 +91,32 @@ export const CreaturesTable = ({
                         entityId: creature.id,
                         entityType: 'creature',
                         id: uuidv4(),
+                        imageSrc: creature.image ?? '',
                         name: creature.name,
                         resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
                         resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
-                        sortValue: 0
+                        sortValue: 0,
+                        visibilityState: 'on'
+                      }
+                    ])
+                    console.log(id, e, rowData);
+                  },
+                },
+                {
+                  name: 'Add Hidden',
+                  onClick(e, rowData) {
+                    setItems([
+                      ...items,
+                      {
+                        entityId: creature.id,
+                        entityType: 'creature',
+                        id: uuidv4(),
+                        imageSrc: creature.image ?? '',
+                        name: creature.name,
+                        resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
+                        resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
+                        sortValue: 0,
+                        visibilityState: 'hidden'
                       }
                     ])
                     console.log(id, e, rowData);
@@ -109,9 +133,17 @@ export const CreaturesTable = ({
         portalElement={document.body}
       >
         {
+          !!currentCreatureEntity?.image && (
+            <img
+              alt={currentCreatureEntity.name}
+              src={currentCreatureEntity.image}
+              style={{ maxWidth: "100%" }}/>
+          )
+        }
+        {
           currentCreature ? (
             <Markdown content={
-              adventure.creatures.find((creature) => creature.id === currentCreature)?.content ?? ''
+              currentCreatureEntity?.content ?? ''
             }/>
           ) : null
         }

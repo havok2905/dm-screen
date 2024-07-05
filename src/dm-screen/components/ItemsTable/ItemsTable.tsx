@@ -26,6 +26,8 @@ export const ItemsTable = ({
     setIsOpen(false);
   };
 
+  const currentItemEntity =  adventure.items.find((item) => item.id === currentItem);
+
   const filtered = adventure.items.filter((item) => {
     return item.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase());
   });
@@ -65,6 +67,12 @@ export const ItemsTable = ({
                     setIsOpen(true);
                     setCurrentItem(id);
                   },
+                },
+                {
+                  name: 'Show',
+                  onClick() {
+                    
+                  },
                 }
               ]
             }
@@ -77,9 +85,17 @@ export const ItemsTable = ({
         portalElement={document.body}
       >
         {
+          !!currentItemEntity?.image && (
+            <img
+              alt={currentItemEntity.name}
+              src={currentItemEntity.image}
+              style={{ maxWidth: "100%" }}/>
+          )
+        }
+        {
           currentItem ? (
             <Markdown content={
-              adventure.items.find((item) => item.id === currentItem)?.content ?? ''
+              currentItemEntity?.content ?? ''
             }/>
           ) : null
         }

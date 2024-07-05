@@ -15,6 +15,7 @@ export interface InitiativeCardProps {
   resourceA: number;
   resourceB: number;
   sortValue: number;
+  visibilityState: 'on' | 'removed' | 'hidden';
 }
 
 export const InitiativeCard = ({
@@ -27,7 +28,8 @@ export const InitiativeCard = ({
   onSortValueChange,
   resourceA,
   resourceB,
-  sortValue
+  sortValue,
+  visibilityState
 }: InitiativeCardProps) => {
   const isNum = useCallback((value: string): boolean => {
     const asNum = Number(value);
@@ -42,7 +44,9 @@ export const InitiativeCard = ({
 
   const classList = {
     'initiative-card': true,
-    'initiative-card-active': active
+    'initiative-card-active': active,
+    'initiative-card-hidden': visibilityState === 'hidden',
+    'initiative-card-removed': visibilityState === 'removed'
   };
 
   return (

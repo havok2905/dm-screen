@@ -66,10 +66,9 @@
   --z-index-snackbar: 1085;
   --z-index-toast: 1090;
 
+  /* CUSTOM */
   --background-color: var(--off-white);
-  
   --row-item-background-color: var(--white);
   --row-item-border-color: var(--light-grey);
-
   --text-color: var(--black);
 }

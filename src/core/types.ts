@@ -7,6 +7,7 @@ export interface MetaData {
 export interface MarkdownEntity {
   content: string;
   id: string;
+  image?: string;
   metadata: MetaData[];
   name: string;
 }
@@ -38,10 +39,12 @@ export interface InitiativeItem {
   entityId: string;
   entityType: 'creature' | 'player';
   id: string;
+  imageSrc?: string;
   name: string;
   resourceA: number;
   resourceB: number;
   sortValue: number;
+  visibilityState: 'on' | 'removed' | 'hidden';
 }
 
 export interface InitiativeOrder {

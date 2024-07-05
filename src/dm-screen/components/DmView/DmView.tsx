@@ -77,7 +77,8 @@ export const DmView = () => {
         name,
         resourceA: ac,
         resourceB: 0,
-        sortValue: 0
+        sortValue: 0,
+        visibilityState: 'on'
       };
     });
 

@@ -6,11 +6,25 @@
   border: solid 4px var(--red-50);
   height: 150px;
   position: relative;
+  transition: 0.3s;
   width: 100px;
 }
 
 .initiative-card-active {
   border: solid 4px var(--white);
+  height: 170px;
+  width: 120px;
+}
+
+.initiative-card-hidden {
+  opacity: 0.4;
+}
+
+.initiative-card-removed {
+  border: 0;
+  opacity: 0;
+  width: 0;
+  visibility: hidden;
 }
 
 .initiative-card-ac {

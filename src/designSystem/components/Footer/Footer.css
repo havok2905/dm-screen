@@ -2,7 +2,7 @@
   background-color: var(--black-100);
   border-top: solid 1px var(--black-300);
   bottom: 0;
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
   box-sizing: border-box;
   color: var(--white);
   left: 0;

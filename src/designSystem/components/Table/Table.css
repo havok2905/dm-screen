@@ -35,9 +35,10 @@
   height: 46px;
 }
 
-/* Bottom Side */
+/* Bottom/Top Side */
 .dm-screen-design-system-table-row .dm-screen-design-system-table-cell {
   border-bottom: solid 2px var(--row-item-border-color);
+  border-top: solid 2px var(--row-item-border-color);
 }
 
 /* Left Side */
@@ -54,9 +55,4 @@
   border-right: solid 2px var(--row-item-border-color);
   padding-right: var(--spacing-small);
   border-top-right-radius: var(--border-radius);
-}
-
-/* Top Side */
-.dm-screen-design-system-table-row .dm-screen-design-system-table-cell {
-  border-top: solid 2px var(--row-item-border-color);
 }

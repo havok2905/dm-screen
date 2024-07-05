@@ -6,11 +6,13 @@ import {
 import { InitiativeItem, InitiativeOrder } from '../../../core/types';
 
 export interface InitiativeOrderContextModel {
+  hide: (id: string) => void;
   initiativeOrder: InitiativeOrder;
   next: () => void;
   prev: () => void;
   remove: (id: string) => void;
   reset: () => void;
+  reveal: (id: string) => void;
   setCurrentId: (id: string) => void;
   setItems: (items: InitiativeItem[]) => void;
   setResourceA: (id: string, value: number) => void;
@@ -20,6 +22,7 @@ export interface InitiativeOrderContextModel {
 }
 
 const defaultInitiativeOrder: InitiativeOrderContextModel = {
+  hide: () => {},
   initiativeOrder: {
     currentId: '',
     items: [],
@@ -29,6 +32,7 @@ const defaultInitiativeOrder: InitiativeOrderContextModel = {
   prev: () => {},
   remove: () => {},
   reset: () => {},
+  reveal: () => {},
   setCurrentId: () => {},
   setItems: () => {},
   setResourceA: () => {},
@@ -50,60 +54,111 @@ export const InitiativeOrderContextProvider = ({
   const [items, setItems] = useState<InitiativeItem[]>([]);
   const [round, setRound] = useState<number>(1);
 
+  const handleHide = (id: string) => {
+    const newItems = items.map((item) => {
+      if (item.id === id) {
+        item.visibilityState = 'hidden';
+      }
+
+      return item;
+    });
+
+    setItems(newItems);
+  };
+
   const handleNext = () => {
-    const currentIndex = items.findIndex((item) => item.id === currentId);
+    const currentItemIndex = items.findIndex((item) => item.id === currentId); 
+    let nextItem: InitiativeItem | null = null;
 
-    const nextId = items.length === currentIndex + 1
-      ? items[0].id
-      : items[currentIndex + 1].id;
+    let x = currentItemIndex;
+    while(!nextItem) {
+      const nextIndex = x === items.length - 1
+        ? 0
+        : x+1;
+      
+      const n = items[nextIndex];
 
-    if (currentIndex + 1 === items.length) {
+      if (
+        n.visibilityState === 'on' ||
+        n.visibilityState === 'hidden'
+      ) {
+        nextItem = n;
+      }
+
+      x = nextIndex;
+    }
+
+    if (currentItemIndex + 1 === items.length) {
       setRound(round + 1);
     }
 
-    setCurrentId(nextId);
+    setCurrentId(nextItem?.id ?? '');
   };
 
   const handlePrev = () => {
-    const currentIndex = items.findIndex((item) => item.id === currentId);
+    const currentItemIndex = items.findIndex((item) => item.id === currentId); 
+    let prevItem: InitiativeItem | null = null;
 
-    const nextId = currentIndex === 0
-      ? items[items.length - 1].id
-      : items[currentIndex - 1].id;
+    let x = currentItemIndex;
+    while(!prevItem) {
+      const prevIndex = x === 0
+        ? items.length - 1
+        : x-1;
+      
+      const n = items[prevIndex];
 
-    if (currentIndex === 0 && round > 1) {
-      setRound(round - 1);
+      if (
+        n.visibilityState === 'on' ||
+        n.visibilityState === 'hidden'
+      ) {
+        prevItem = n;
+      }
+
+      x = prevIndex;
     }
 
-    setCurrentId(nextId);
+    if (currentItemIndex === 0 && round > 1) {
+      setRound(round -1);
+    }
+
+    setCurrentId(prevItem?.id ?? '');
   };
 
   const handleRemove = (id: string) => {
-    const filtered = items.filter((item) => item.id !== id);
+    const filtered = items.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          visibilityState: 'removed'
+        }
+      }
 
-    const currentIndex = items.findIndex((item) => item.id === currentId);
-    const targetIndex = items.findIndex((item) => item.id === id);
-    const shiftTotal = items.length - filtered.length;
-
-    console.log({ shiftTotal, currentIndex, targetIndex });
-
-    // progress forward for number of items removed, but this should almost always be 1 since we use GUIDs.
-    for(let x=0; x<shiftTotal; x++) {
-      handleNext();
-    }
-
-    // if we are removing the item directly after the current item, we won't have a target to move to, so we have to progress again
-    if (currentIndex === targetIndex - 1) {
-      handleNext();
-    }
+      return item;
+    });
 
     setItems(filtered);
+
+    if (currentId === id) {
+      handleNext();
+    }
   };
 
   const handleReset = () => {
     setCurrentId('');
     setItems([]);
     setRound(1);
+  };
+
+  const handleReveal = (id: string) => {
+    const newItems = items.map((item) => {
+      if (item.id === id) {
+        item.visibilityState = 'on';
+      }
+
+      return item;
+    });
+
+    setItems(newItems);
   };
 
   const handleSetCurrentId = (id: string) => {
@@ -148,6 +203,9 @@ export const InitiativeOrderContextProvider = ({
 
   const handleSetItems = (items: InitiativeItem[]) => {
     setItems(items);
+    if (items.length === 1) {
+      setCurrentId(items[0].id);
+    }
   }
 
   const handleSort = () => {
@@ -169,6 +227,7 @@ export const InitiativeOrderContextProvider = ({
   };
 
   const contextModel: InitiativeOrderContextModel = {
+    hide: handleHide,
     initiativeOrder: {
       currentId,
       items,
@@ -178,6 +237,7 @@ export const InitiativeOrderContextProvider = ({
     prev: handlePrev,
     remove: handleRemove,
     reset: handleReset,
+    reveal: handleReveal,
     setCurrentId: handleSetCurrentId,
     setItems: handleSetItems,
     setResourceA: handleSetResourceA,
