@@ -4,7 +4,7 @@ import express from 'express';
 import { Server } from 'socket.io';
 
 import { establishModelRelationships } from './database/models';
-import {getAdventureById} from './services';
+import { getAdventureById } from './services';
 
 establishModelRelationships();
 
