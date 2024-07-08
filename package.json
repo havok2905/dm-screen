@@ -37,6 +37,7 @@
     ],
     "moduleNameMapper": {
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
+      "^@core/(.*)$": "<rootDir>/src/core/$1",
       "^@designSystem/(.*)$": "<rootDir>/src/designSystem/$1"
     },
     "setupFilesAfterEnv": [
