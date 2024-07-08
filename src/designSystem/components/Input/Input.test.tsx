@@ -41,6 +41,8 @@ describe('Input', () => {
     const onBlur = jest.fn();
     const onChange = jest.fn();
     const onFocus = jest.fn();
+    const onKeyDown = jest.fn();
+    const onKeyUp = jest.fn();
 
     const mockEvent = {};
 
@@ -51,6 +53,8 @@ describe('Input', () => {
         onBlur={onBlur}
         onChange={onChange}
         onFocus={onFocus}
+        onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
         value="test" />
     );
 
@@ -59,6 +63,8 @@ describe('Input', () => {
     input?.trigger('onBlur', mockEvent);
     input?.trigger('onChange', mockEvent);
     input?.trigger('onFocus', mockEvent);
+    input?.trigger('onKeyDown', mockEvent);
+    input?.trigger('onKeyUp', mockEvent);
 
     expect(onBlur).toHaveBeenCalledTimes(1);
     expect(onBlur).toHaveBeenCalledWith(mockEvent);
@@ -68,5 +74,11 @@ describe('Input', () => {
   
     expect(onFocus).toHaveBeenCalledTimes(1);
     expect(onFocus).toHaveBeenCalledWith(mockEvent);
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+    expect(onKeyDown).toHaveBeenCalledWith(mockEvent);
+
+    expect(onKeyUp).toHaveBeenCalledTimes(1);
+    expect(onKeyUp).toHaveBeenCalledWith(mockEvent);
   });
 });

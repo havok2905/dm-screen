@@ -1,5 +1,5 @@
 export interface TableCellProps {
-  value: string | number | boolean;
+  value: string | number | boolean | null;
 }
 
 export const TableCell = ({

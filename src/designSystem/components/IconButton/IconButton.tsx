@@ -3,10 +3,9 @@ import {
   forwardRef,
   KeyboardEvent,
   MouseEvent,
+  ReactNode,
   RefObject
 } from 'react';
-import {ReactNode} from 'react';
-
 import {
   BookIcon,
   CloseIcon,
@@ -16,7 +15,7 @@ import {
 import './IconButton.css';
 
 export interface IconButtonProps {
-  icon: 'book' | 'close' | 'menu';
+  icon: 'book' | 'close' | 'menu' | null;
   onBlur?: (e: FocusEvent) => void;
   onClick?: (e: MouseEvent) => void;
   onFocus?: (e: FocusEvent) => void;

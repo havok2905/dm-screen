@@ -36,4 +36,14 @@ describe('Table', () => {
 
     expect(cell?.text()).toEqual('false');
   });
+
+  it('renders with null', () => {
+    const wrapper = mount(
+      <TableCell value={null} />
+    );
+
+    const cell = wrapper.find('td');
+
+    expect(cell?.text()).toEqual('');
+  });
 });
