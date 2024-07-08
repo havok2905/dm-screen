@@ -16,7 +16,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { Markdown } from '../Markdown';
 
-
 export interface CreaturesTableProps {
   creatures: MarkdownEntity[];
   handleShowHandout: (handout: Handout | null) => void;
@@ -98,7 +97,7 @@ export const CreaturesTable = ({
                 },
                 {
                   name: 'Add',
-                  onClick(e, rowData) {
+                  onClick() {
                     setItems([
                       ...items,
                       {
@@ -113,12 +112,11 @@ export const CreaturesTable = ({
                         visibilityState: 'on'
                       }
                     ])
-                    console.log(id, e, rowData);
                   },
                 },
                 {
                   name: 'Add Hidden',
-                  onClick(e, rowData) {
+                  onClick() {
                     setItems([
                       ...items,
                       {
@@ -133,7 +131,6 @@ export const CreaturesTable = ({
                         visibilityState: 'hidden'
                       }
                     ])
-                    console.log(id, e, rowData);
                   },
                 }
               ]
