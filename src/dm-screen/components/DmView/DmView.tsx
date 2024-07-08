@@ -74,6 +74,7 @@ export const DmView = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
+      // @ts-expect-error socket.io type setup isn't the most well documented and needs to be solved later. 
       socketRef.current = io('http://localhost:3000');
     }
   }, []);
