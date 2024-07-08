@@ -105,3 +105,5 @@ export const IconButton = forwardRef(({
     </button>
   );
 });
+
+IconButton.displayName = 'IconButton';

@@ -253,8 +253,9 @@ export const DmView = () => {
         <Footer>
           <ToolbarFooter
             handleShowHandout={handleShowHandout}
+            setIsNotesDrawerOpen={setIsNotesDrawerOpen}
             setIsSideDrawerOpen={setIsSideDrawerOpen}
-            setIsNotesDrawerOpen={setIsNotesDrawerOpen}/>
+          />
         </Footer>
       </FooterOffset>
       <SideDrawer
