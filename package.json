@@ -3,18 +3,21 @@
   "version": "1.0.0",
   "description": "dm-screen is an application to leverage the speed of virtual D&D tooling to assist with running in-person TTRPGS.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
+    "compile-server": "tsc --project tsconfig.server.json",
+    "db-create": "node ./dist/server/database/setup-scripts/create.js",
+    "db-destroy": "rimraf db.sqlite",
+    "db-seed": "node ./dist/server/database/setup-scripts/seed.js",
+    "run-server": "node ./dist/server/index.js",
+    "compile-client": "tsc && vite build",
     "dev-client": "vite",
-    "dev-server": "ts-node --esm --project tsconfig.server.json server/index.ts",
-    "build-client": "tsc && vite build",
+    "preview-client": "vite preview",
+    "build-storybook": "storybook build",
+    "storybook": "storybook dev -p 6006",
+    "coverage": "jest --json --coverage --outputFile=report.json",
     "eslint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "stylelint": "stylelint \"src/**/*.css\"",
-    "preview-client": "vite preview",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "test": "jest --coverage",
-    "coverage": "jest --json --coverage --outputFile=report.json"
+    "test": "jest --coverage"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +41,10 @@
     },
     "setupFilesAfterEnv": [
       "<rootDir>/setup-jest.js"
+    ],
+    "testMatch": [
+      "**/src/**/*.test.ts",
+      "**/src/**/*.test.tsx"
     ]
   },
   "dependencies": {
@@ -89,6 +96,7 @@
     "eslint-plugin-storybook": "^0.8.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "rimraf": "^5.0.8",
     "storybook": "^8.1.10",
     "stylelint": "^16.6.1",
     "stylelint-config-standard": "^36.0.1",
