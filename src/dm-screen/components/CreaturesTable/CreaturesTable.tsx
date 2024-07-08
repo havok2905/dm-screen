@@ -3,13 +3,17 @@ import {
   useState
 } from 'react';
 import {
+  Handout,
+  MarkdownEntity
+} from '@core/types';
+import {
   Modal,
   Table
 } from '@designSystem/components';
 import { v4 as uuidv4 } from 'uuid';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { Markdown } from '../Markdown';
-import { Handout, MarkdownEntity } from '../../../core/types';
+
 
 export interface CreaturesTableProps {
   creatures: MarkdownEntity[];

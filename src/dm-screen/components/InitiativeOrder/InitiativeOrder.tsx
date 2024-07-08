@@ -6,10 +6,10 @@ import {
   Button,
   LinkButton
 } from '@designSystem/components';
+import { MarkdownEntity } from '@core/types';
 import { InitiativeCard } from '../InitiativeCard';
 import { InitiativeItemModal } from '../InitiativeItemModal';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
-import { MarkdownEntity } from '../../../core/types';
 import './InitiativeOrder.css';
 
 export interface InitiativeOrderProps {

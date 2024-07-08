@@ -3,7 +3,10 @@ import {
   ReactNode,
   useState
 } from 'react';
-import { InitiativeItem, InitiativeOrder } from '../../../core/types';
+import {
+  InitiativeItem,
+  InitiativeOrder
+} from '@core/types';
 
 export interface InitiativeOrderContextModel {
   hide: (id: string) => void;

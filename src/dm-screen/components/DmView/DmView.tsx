@@ -13,6 +13,11 @@ import {
   useQuery
 } from '@tanstack/react-query';
 import {
+  Adventure,
+  Handout,
+  InitiativeItem
+} from '@core/types';
+import {
   Button,
   Container,
   Footer,
@@ -25,11 +30,6 @@ import {
   SideDrawer
 } from '@designSystem/components';
 import { CreaturesTable } from '../CreaturesTable';
-import {
-  Adventure,
-  Handout,
-  InitiativeItem
-} from '../../../core/types';
 import { InitiativeOrder } from '../InitiativeOrder';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { ItemsTable } from '../ItemsTable';

@@ -3,14 +3,12 @@ import {
   KeyboardEvent,
   useState
 } from 'react';
-
+import { Handout } from '@core/types';
 import {
   IconButton,
   Input,
   LinkButton
 } from '@designSystem/components';
-
-import { Handout } from '../../../core/types';
 
 import './ToolbarFooter.css';
 

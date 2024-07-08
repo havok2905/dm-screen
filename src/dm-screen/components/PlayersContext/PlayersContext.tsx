@@ -3,7 +3,7 @@ import {
   ReactNode,
   useState
 } from 'react';
-import { Player } from '../../../core/types';
+import { Player } from '@core/types';
 
 export interface PlayersContextModel {
   players: Player[];

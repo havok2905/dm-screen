@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import {
+  Handout,
+  MarkdownEntity
+} from '@core/types';
+import {
   Modal,
   Table
 } from '@designSystem/components';
 import { Markdown } from '../Markdown';
-import { Handout, MarkdownEntity } from '../../../core/types';
+
 
 export interface ItemsTableProps {
   handleShowHandout: (handout: Handout | null) => void;

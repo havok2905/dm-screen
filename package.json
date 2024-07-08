@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "compile-server": "tsc --project tsconfig.server.json",
-    "db-create": "node ./dist/server/database/setup-scripts/create.js",
+    "db-create": "node ./dist-server/server/database/setup-scripts/create.js",
     "db-destroy": "rimraf db.sqlite",
-    "db-seed": "node ./dist/server/database/setup-scripts/seed.js",
-    "run-server": "node ./dist/server/index.js",
+    "db-seed": "node ./dist-server/server/database/setup-scripts/seed.js",
+    "run-server": "node ./dist-server/server/index.js",
     "compile-client": "tsc && vite build",
     "dev-client": "vite",
     "preview-client": "vite preview",
