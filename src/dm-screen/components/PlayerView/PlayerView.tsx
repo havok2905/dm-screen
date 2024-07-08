@@ -16,13 +16,17 @@ import {
   Item,
   Modal
 } from '@designSystem/components';
-import { Adventure, InitiativeItem } from '../../../core/types';
+import {
+  Adventure,
+  Handout,
+  InitiativeItem
+} from '../../../core/types';
 import { InitiativeOrder } from '../InitiativeOrder';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 
 export const PlayerView = () => {
   const socketRef = useRef<Socket | null>(null);
-  const [imageToDisplay, setImageToDisplay] = useState<any>(null);
+  const [imageToDisplay, setImageToDisplay] = useState<Handout | null>(null);
 
   const {
     data,
@@ -48,6 +52,7 @@ export const PlayerView = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
+      // @ts-expect-error socket.io type setup isn't the most well documented and needs to be solved later. 
       socketRef.current = io('http://localhost:3000');
     }
 
@@ -55,7 +60,6 @@ export const PlayerView = () => {
 
     ws?.on('handout:receive-show', (data) => {
       setImageToDisplay(data);
-      console.log({ data });
     });
 
     ws?.on('initiative:receive', (data) => {
