@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Handout,
   MarkdownEntity
@@ -7,6 +6,9 @@ import {
   Modal,
   Table
 } from '@designSystem/components';
+
+import { useState } from 'react';
+
 import { Markdown } from '../Markdown';
 
 

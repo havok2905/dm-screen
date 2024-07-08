@@ -4,6 +4,7 @@
 
 import '@shopify/react-testing/matchers';
 import { mount } from '@shopify/react-testing';
+
 import { Grid } from './Grid';
 
 describe('Grid', () => {

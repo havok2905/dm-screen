@@ -3,7 +3,9 @@ import {
   FocusEvent,
   KeyboardEvent
 } from 'react';
+
 import classNames from 'classnames';
+
 import './Input.css';
 
 export interface InputProps {

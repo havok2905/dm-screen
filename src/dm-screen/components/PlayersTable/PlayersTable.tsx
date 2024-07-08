@@ -1,5 +1,6 @@
-import { useContext } from 'react';
 import { Table } from '@designSystem/components';
+import { useContext } from 'react';
+
 import { PlayersContext } from '../PlayersContext';
 
 export const PlayersTable = () => {

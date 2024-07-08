@@ -1,5 +1,8 @@
 import { ChangeEvent, useState } from 'react';
 import { Input } from '@designSystem/components';
+
+import { Markdown } from '../Markdown';
+
 import {
   BLINDED,
   CHARMED,
@@ -17,7 +20,7 @@ import {
   STUNNED,
   UNCONSCIOUS
 } from '../../rules/conditions';
-import { Markdown } from '../Markdown';
+
 import './RulesSearch.css';
 
 export const RulesSearch = () => {

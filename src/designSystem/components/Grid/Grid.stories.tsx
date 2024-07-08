@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Grid } from './Grid';
-import { Item } from './Item';
 import { GridRow } from './GridRow';
+import { Item } from './Item';
 
 const meta = {
   title: 'DesignSystem/Grid',

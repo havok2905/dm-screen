@@ -1,8 +1,17 @@
-import { ReactNode, useContext } from 'react';
-import { InitiativeItem, MarkdownEntity } from '@core/types';
+import {
+  InitiativeItem,
+  MarkdownEntity
+} from '@core/types';
+import {
+  ReactNode,
+  useContext
+} from 'react';
+
 import { Modal } from '@designSystem/components';
+
 import { Markdown } from '../Markdown';
 import { PlayersContext } from '../PlayersContext';
+
 import './InitiativeItemModal.css';
 
 export interface InitiativeItemModalProps {

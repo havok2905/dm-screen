@@ -3,8 +3,9 @@
  */
 
 import '@shopify/react-testing/matchers';
-import ReactDOM from 'react-dom';
 import { mount } from '@shopify/react-testing';
+import ReactDOM from 'react-dom';
+
 import { SideDrawer } from './SideDrawer';
 
 describe('SideDrawer', () => {

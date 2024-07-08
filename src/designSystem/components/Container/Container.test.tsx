@@ -4,6 +4,7 @@
 
 import '@shopify/react-testing/matchers';
 import { mount } from '@shopify/react-testing';
+
 import { Container } from './Container';
 
 describe('Container', () => {

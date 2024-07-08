@@ -6,9 +6,19 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
+    'no-unused-disable': 0,
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
     ],
+    'sort-imports': [
+      'error', {
+        'ignoreCase': true,
+        'ignoreDeclarationSort': false,
+        'ignoreMemberSort': false,
+        'memberSyntaxSortOrder': ['none', 'all', 'multiple', 'single'],
+        'allowSeparatedGroups': true
+      }
+    ]
   },
 }

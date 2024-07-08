@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import './Section.css';
 
 export interface SectionProps {

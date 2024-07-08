@@ -1,15 +1,18 @@
 import {
-  useContext,
-  useState
-} from 'react';
-import {
   Button,
   LinkButton
 } from '@designSystem/components';
+import {
+  useContext,
+  useState
+} from 'react';
+
 import { MarkdownEntity } from '@core/types';
+
 import { InitiativeCard } from '../InitiativeCard';
 import { InitiativeItemModal } from '../InitiativeItemModal';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
+
 import './InitiativeOrder.css';
 
 export interface InitiativeOrderProps {

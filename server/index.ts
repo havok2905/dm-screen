@@ -1,10 +1,10 @@
 import cors from 'cors';
-import http from 'http';
 import express from 'express';
-import { Server } from 'socket.io';
+import http from 'http';
 
 import { establishModelRelationships } from './database/models';
 import { getAdventureById } from './services';
+import { Server } from 'socket.io';
 
 establishModelRelationships();
 

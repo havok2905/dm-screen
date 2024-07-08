@@ -3,7 +3,9 @@ import {
   KeyboardEvent,
   MouseEvent
 } from 'react';
+
 import { LinkButton } from '../LinkButton';
+
 import { RowAction, RowData } from './types';
 
 export interface TableRowActionsProps {

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import './Footer.css';
 
 export interface FooterOffsetProps {

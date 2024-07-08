@@ -1,8 +1,4 @@
 import {
-  useContext,
-  useState
-} from 'react';
-import {
   Handout,
   MarkdownEntity
 } from '@core/types';
@@ -10,8 +6,14 @@ import {
   Modal,
   Table
 } from '@designSystem/components';
-import { v4 as uuidv4 } from 'uuid';
+import {
+  useContext,
+  useState
+} from 'react';
+
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
+import { v4 as uuidv4 } from 'uuid';
+
 import { Markdown } from '../Markdown';
 
 

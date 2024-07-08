@@ -1,9 +1,10 @@
+import classNames from 'classnames';
+
 import {
   FocusEvent,
   KeyboardEvent,
   MouseEvent
 } from 'react';
-import classNames from 'classnames';
 
 import './LinkButton.css';
 

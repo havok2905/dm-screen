@@ -1,13 +1,15 @@
 import {
-  useContext,
-  useState
-} from 'react';
-import {
   Button,
   Input,
   Modal
 } from '@designSystem/components';
+import {
+  useContext,
+  useState
+} from 'react';
+
 import { v4 as uuidv4 } from 'uuid';
+
 import { PlayersContext } from '../PlayersContext';
 
 export interface ManagePlayersModal {

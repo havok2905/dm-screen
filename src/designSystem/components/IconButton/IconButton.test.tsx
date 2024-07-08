@@ -4,6 +4,7 @@
 
 import '@shopify/react-testing/matchers';
 import { mount } from '@shopify/react-testing';
+
 import { IconButton } from './IconButton';
 
 describe('IconButton', () => {

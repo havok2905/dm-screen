@@ -1,18 +1,4 @@
 import {
-  ChangeEvent,
-  KeyboardEvent,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-} from 'react';
-import { io } from 'socket.io-client';
-import { Socket } from 'socket.io';
-import { v4 as uuidv4 } from 'uuid';
-import {
-  useQuery
-} from '@tanstack/react-query';
-import {
   Adventure,
   Handout,
   InitiativeItem
@@ -29,6 +15,20 @@ import {
   Section,
   SideDrawer
 } from '@designSystem/components';
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
+
+import { io } from 'socket.io-client';
+import { Socket } from 'socket.io';
+import { useQuery } from '@tanstack/react-query';
+import { v4 as uuidv4 } from 'uuid';
+
 import { CreaturesTable } from '../CreaturesTable';
 import { InitiativeOrder } from '../InitiativeOrder';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';

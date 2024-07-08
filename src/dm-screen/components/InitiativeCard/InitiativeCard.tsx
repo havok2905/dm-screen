@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
-import classNames from 'classnames';
 import { CircleBadgeForm } from '@designSystem/components';
+import classNames from 'classnames';
+import { useCallback } from 'react';
 
 import './InitiativeCard.css';
 

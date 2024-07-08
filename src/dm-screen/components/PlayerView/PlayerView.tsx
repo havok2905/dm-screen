@@ -1,15 +1,4 @@
 import {
-  useEffect,
-  useState,
-  useRef,
-  useContext
-} from 'react';
-import { io } from 'socket.io-client';
-import { Socket } from 'socket.io';
-import {
-  useQuery
-} from '@tanstack/react-query';
-import {
   Adventure,
   Handout,
   InitiativeItem
@@ -21,6 +10,17 @@ import {
   Item,
   Modal
 } from '@designSystem/components';
+import {
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
+
+import { io } from 'socket.io-client';
+import { Socket } from 'socket.io';
+import { useQuery } from '@tanstack/react-query';
+
 import { InitiativeOrder } from '../InitiativeOrder';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 
