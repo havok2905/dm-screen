@@ -1,13 +1,13 @@
 .dm-screen-design-system-grid {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-standard);
+  gap: var(--spacing-large);
   width: 100%;
 }
 
 .dm-screen-design-system-row {
   display: flex;
-  gap: var(--spacing-standard);
+  gap: var(--spacing-large);
 }
 
 .dm-screen-design-system-item-1 {

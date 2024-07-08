@@ -92,8 +92,6 @@ export const ToolbarFooter = ({
           onClick={() => {
             handleShowHandout(null);
           }}/>
-      </div>
-      <div>
         <IconButton
           icon="book"
           onClick={() => {

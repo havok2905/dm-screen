@@ -1,6 +1,6 @@
 .dm-screen-design-system-footer {
-  background-color: var(--black-100);
-  border-top: solid 1px var(--black-300);
+  background-color: var(--black);
+  border-top: solid 1px var(--black-200);
   bottom: 0;
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
   box-sizing: border-box;

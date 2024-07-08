@@ -1,6 +1,6 @@
 .dm-screen-design-system-button {
   background-color: var(--black-200);
-  border: solid 2px var(--light-grey);
+  border: solid 1px var(--light-grey);
   border-radius: var(--border-radius);
   box-shadow: var(--base-shadow);
   color: var(--white);

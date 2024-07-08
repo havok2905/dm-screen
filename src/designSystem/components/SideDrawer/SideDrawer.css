@@ -9,8 +9,8 @@
 }
 
 .dm-screen-design-system-side-drawer {
-  background-color: var(--black-100);
-  border-left: solid 1px var(--back-300);
+  background-color: var(--black-50);
+  border-left: solid 1px var(--black-200);
   box-shadow: var(--base-shadow);
   box-sizing: border-box;
   color: var(--white);

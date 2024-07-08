@@ -11,9 +11,12 @@ import {
 } from '@tanstack/react-query';
 import { 
   Container,
+  Grid,
+  GridRow,
+  Item,
   Modal
 } from '@designSystem/components';
-import { Adventure } from '../../../core/types';
+import { Adventure, InitiativeItem } from '../../../core/types';
 import { InitiativeOrder } from '../InitiativeOrder';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 
@@ -34,6 +37,10 @@ export const PlayerView = () => {
   });
 
   const {
+    initiativeOrder: {
+      currentId,
+      items
+    },
     setCurrentId,
     setItems,
     setRound
@@ -80,14 +87,64 @@ export const PlayerView = () => {
 
   const adventure = data as Adventure;
 
+  const getCurrentPlayer = (): InitiativeItem | null => {
+    return items.find((i) => i.id === currentId) ?? null;
+  };
+
+  const getNextPlayer = (): InitiativeItem => {
+    const itemIndex = items.findIndex((i) => i.id === currentId);
+    if (itemIndex === items.length - 1) {
+      return items[0];
+    }
+
+    return items[itemIndex + 1];
+  };
+
+  const currentPlayer = getCurrentPlayer();
+  const nextPlayer = getNextPlayer();
+
   return (
     <>
       <InitiativeOrder
         creatures={adventure.creatures}
         playerView/>
       <Container>
-        <h1>Playing:</h1>
-        <h2>On Deck:</h2>
+        <Grid>
+          <GridRow>
+            <Item columns={6}>
+              <div style={{
+                textAlign: 'center'
+              }}>
+                <h2>Playing</h2>
+                <h4>{currentPlayer?.name}</h4>
+                <img
+                  alt={currentPlayer?.name}
+                  src={currentPlayer?.imageSrc ?? '/d20.jpg'}
+                  style={{
+                    maxHeight: '250px',
+                    maxWidth: '100%'
+                  }}
+                />
+              </div>
+            </Item>
+            <Item columns={6}>
+              <div style={{
+                textAlign: 'center'
+              }}>
+                <h2>On Deck</h2>
+                <h4>{nextPlayer?.name}</h4>
+                <img
+                  alt={nextPlayer?.name}
+                  src={nextPlayer?.imageSrc ?? '/d20.jpg'}
+                  style={{
+                    maxHeight: '250px',
+                    maxWidth: '100%'
+                  }}
+                />
+              </div>
+            </Item>
+          </GridRow>
+        </Grid>
         {
           !!imageToDisplay && (
             <Modal
@@ -102,6 +159,8 @@ export const PlayerView = () => {
                 key={imageToDisplay.id}
                 src={imageToDisplay.url}
                 style={{
+                  display: 'block',
+                  margin: '0 auto',
                   maxWidth: '100%'
                 }}/>
             </Modal>

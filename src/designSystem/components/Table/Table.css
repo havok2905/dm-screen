@@ -17,7 +17,7 @@
 }
 
 .dm-screen-design-system-table-cell {
-  background-color: var(--row-item-background-color);
+  background-color: var(--black-100);
   border-radius: 0;
   padding-bottom: var(--spacing-small);
   padding-top: var(--spacing-small);
@@ -29,22 +29,22 @@
 }
 
 .dm-screen-design-system-table-row {
-  background: none;
+  background-color: var(--black-100);
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+  box-shadow: var(--base-shadow);
   height: 46px;
 }
 
 /* Bottom/Top Side */
 .dm-screen-design-system-table-row .dm-screen-design-system-table-cell {
-  border-bottom: solid 2px var(--row-item-border-color);
-  border-top: solid 2px var(--row-item-border-color);
+  border-bottom: solid 1px var(--black-300);
+  border-top: solid 1px var(--black-300);
 }
 
 /* Left Side */
 .dm-screen-design-system-table-row .dm-screen-design-system-table-cell:first-child {
   border-bottom-left-radius: var(--border-radius);
-  border-left: solid 2px var(--row-item-border-color);
+  border-left: solid 1px var(--black-300);
   padding-left: var(--spacing-small);
   border-top-left-radius: var(--border-radius);
 }
@@ -52,7 +52,7 @@
 /* Right Side */
 .dm-screen-design-system-table-row .dm-screen-design-system-table-cell:last-child {
   border-bottom-right-radius: var(--border-radius);
-  border-right: solid 2px var(--row-item-border-color);
+  border-right: solid 1px var(--black-300);
   padding-right: var(--spacing-small);
   border-top-right-radius: var(--border-radius);
 }

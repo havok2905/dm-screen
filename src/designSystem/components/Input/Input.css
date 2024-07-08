@@ -1,7 +1,10 @@
 .dm-screen-design-system-input {
+  background-color: var(--black-100);
   box-sizing: border-box;
-  border: solid 2px var(--light-grey);
+  box-shadow: inset 0 0 10px 0 var(--black);
+  border: solid 1px var(--black-200);
   border-radius: var(--border-radius);
+  color: var(--off-white);
   height: 38px;
   padding: var(--spacing-small);
 }

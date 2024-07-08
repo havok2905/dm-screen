@@ -57,7 +57,7 @@ export const DmView = () => {
   } = useQuery({
     queryKey: ['adventureData'],
     queryFn: () => {
-      return fetch('http://localhost:3000/adventure/1').then((response) => response.json())
+      return fetch('http://localhost:3000/adventure/68c8bd92-04ff-4359-9856-8d2d6b02b69b').then((response) => response.json())
     }  
   });
 
@@ -237,7 +237,11 @@ export const DmView = () => {
                         onClick={() => {
                           handleShowHandout(handout);
                         }}
-                        src={handout.url} />
+                        src={handout.url}
+                        style={{
+                          cursor: 'pointer',
+                          maxWidth: '100%'
+                        }} />
                     ))
                   }
                 </Section>

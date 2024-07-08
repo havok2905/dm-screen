@@ -1,6 +1,6 @@
 .dm-screen-design-system-circle-badge-form {
   align-items: center;
-  background-color: var(--back-50);
+  background-color: var(--black-50);
   border-radius: 50%;
   box-shadow: var(--base-shadow);
   cursor: pointer;
