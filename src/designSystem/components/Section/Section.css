@@ -1,3 +1,7 @@
+.dm-screen-design-system-section {
+  margin-bottom: var(--spacing-standard);
+}
+
 .dm-screen-design-system-section-header {
   align-items: flex-start;
   display: flex;
