@@ -1,5 +1,12 @@
 # dm-screen
 
+## Current Node Versions
+
+Developing against LTS is likely fine. If there are issues setting up the project, here are my current targets.
+
+- Node: 18.13.0
+- NPM: 8.19.3
+
 ## Setup
 
 1. Clone this repository
@@ -75,6 +82,7 @@ The server component is still in flight and I am still establishing development 
 - Automatic data mapping for DB responses to API responses.
 - Express exception catching middleware.
 - Unit testing.
+- Develop against up to date node version. ( Currently on 18.X )
 
 ## Auto Generated Vite Documentation
 
