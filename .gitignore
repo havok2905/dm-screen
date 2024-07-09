@@ -24,6 +24,8 @@ dist-server
 *.sln
 *.sw?
 
+.env
+
 *storybook.log
 
 coverage

@@ -15,14 +15,14 @@
   box-sizing: border-box;
   color: var(--white);
   height: 100%;
-  margin-right: -400px;
+  margin-right: -600px;
   overflow-y: scroll;
   padding: var(--spacing-standard);
   position: fixed;
   right: 0;
   top: 0;
   transition: margin-right 0.5s;
-  width: 400px;
+  width: 600px;
   z-index: var(--z-index-side-drawer);
 }
 
@@ -33,6 +33,10 @@
 .dm-screen-design-system-side-drawer-header {
   margin-bottom: 20px;
   text-align: right;
+}
+
+.dm-screen-design-system-side-drawer img {
+  max-width: 100%;
 }
 
 .dm-screen-design-system-side-drawer svg {

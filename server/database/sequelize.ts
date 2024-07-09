@@ -1,8 +1,17 @@
-import { Sequelize } from 'sequelize';
+import {
+  Dialect,
+  Sequelize
+} from 'sequelize';
 
-import { DBSOURCE } from '../database/constants';
+import dotenv from 'dotenv';
+
+import { ServerConfig } from '../config';
+
+dotenv.config();
+
+const config = new ServerConfig();
 
 export const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: DBSOURCE
+  dialect: config.getDbType() as Dialect,
+  storage: config.getDbSource()
 });

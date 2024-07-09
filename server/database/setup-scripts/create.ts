@@ -1,6 +1,11 @@
+import dotenv from 'dotenv';
 import sqlite3 from 'sqlite3';
 
-import { DBSOURCE } from '../constants';
+import { ServerConfig } from '../../config';
+
+dotenv.config();
+
+const config = new ServerConfig();
 
 const createAdventureSQL = `CREATE TABLE adventures (
   id TEXT NOT NULL PRIMARY KEY,
@@ -46,7 +51,7 @@ const createAdventureItemSQL = `CREATE TABLE adventureitems (
   FOREIGN KEY(adventureid) REFERENCES adventures(id)
 );`;
 
-const database = new sqlite3.Database(DBSOURCE, (error) => {
+const database = new sqlite3.Database(config.getDbSource(), (error) => {
   if (error) {
     console.log(error);
     throw error;
