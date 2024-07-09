@@ -2,10 +2,8 @@
 
 ## Current Node Versions
 
-Developing against LTS is likely fine. If there are issues setting up the project, here are my current targets.
-
-- Node: 18.13.0
-- NPM: 8.19.3
+- Node: v22.3.0
+- NPM: 10.8.1
 
 ## Setup
 
