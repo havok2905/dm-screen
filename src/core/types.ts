@@ -17,6 +17,7 @@ export interface Handout {
   id: string;
   name: string;
   url: string;
+  isShowcaseView?: boolean;
 }
 
 export interface Adventure {

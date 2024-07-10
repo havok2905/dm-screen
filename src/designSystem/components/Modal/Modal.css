@@ -25,3 +25,10 @@
   width: 700px;
   z-index: var(--z-index-modal);
 }
+
+.showcase {
+  height: fit-content;
+  width: fit-content;
+  overflow-y: unset;
+  max-height: unset;
+}

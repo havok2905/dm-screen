@@ -13,13 +13,15 @@ export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   portalElement: HTMLElement;
+  isShowcaseView?: boolean;
 }
 
 export const Modal = ({
   children,
   isOpen,
   onClose,
-  portalElement
+  portalElement,
+  isShowcaseView
 }: ModalProps) => {
   useEffect(() => {
     if (isOpen) {
@@ -40,7 +42,7 @@ export const Modal = ({
 
   const modal = (
     <>
-      <div className="dm-screen-design-system-modal">
+      <div className={`dm-screen-design-system-modal ${isShowcaseView ? "showcase": ""}`}>
         {children}
       </div>
       <div
