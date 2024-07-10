@@ -3,7 +3,7 @@ import {
   AdventureCreature,
   AdventureHandout,
   AdventureItem
-} from '../database/models';
+} from '../sequelize/db';
 import {
   AdventureResponse
 } from '../responses';

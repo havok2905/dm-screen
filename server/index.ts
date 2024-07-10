@@ -4,11 +4,8 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 
-import { establishModelRelationships } from './database/models';
 import { getAdventureById } from './services';
 import { ServerConfig } from './config';
-
-establishModelRelationships();
 
 dotenv.config();
 
