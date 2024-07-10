@@ -157,6 +157,7 @@ export const PlayerView = () => {
                 setImageToDisplay(null);
               }}
               portalElement={document.body}
+              isShowcaseView={true}
               >
               <img
                 alt={imageToDisplay.description}
