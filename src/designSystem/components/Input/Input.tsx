@@ -21,6 +21,10 @@ export interface InputProps {
   passedRef?: any;
 }
 
+// TODO: Something to hush the react warning in the console :(
+// because we are using the ref that is passed down in props,
+// not the ref created in forwardRef.
+// If we remove forwardRef here, the warnings are worse. (3x!)
 export const Input = React.forwardRef(({
   full = false,
   inputId,
@@ -30,7 +34,7 @@ export const Input = React.forwardRef(({
   onFocus,
   onKeyDown,
   onKeyUp,
-  value = '',
+  value,
   passedRef
 }: InputProps) => {
   const handleOnBlur = (e: FocusEvent<HTMLInputElement>) => {
