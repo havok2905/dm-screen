@@ -153,11 +153,11 @@ export const PlayerView = () => {
           !!imageToDisplay && (
             <Modal
               isOpen={!!imageToDisplay}
+              isShowcaseView={true}
               onClose={() => {
                 setImageToDisplay(null);
               }}
               portalElement={document.body}
-              isShowcaseView={true}
               >
               <img
                 alt={imageToDisplay.description}
