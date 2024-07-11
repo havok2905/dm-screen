@@ -1,10 +1,16 @@
+export interface MetadataResponse {
+  name: string;
+  type: 'string' | 'number';
+  value: string | number;
+}
+
 export interface AdventureCreatureResponse {
   id: string;
   adventureid: string;
   name: string;
   image: string;
   content: string;
-  metadata: string;
+  metadata: MetadataResponse[];
 }
 
 export interface AdventureHandoutResponse {
@@ -21,7 +27,7 @@ export interface AdventureItemResponse {
   name: string;
   image: string;
   content: string;
-  metadata: string;
+  metadata: MetadataResponse[];
 }
 
 export interface AdventureResponse {
