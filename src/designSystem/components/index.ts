@@ -1,6 +1,7 @@
 export * from './Button';
 export * from './CircleBadgeForm';
 export * from './Container';
+export * from './ErrorDisplay';
 export * from './Footer';
 export * from './Grid';
 export * from './IconButton';
