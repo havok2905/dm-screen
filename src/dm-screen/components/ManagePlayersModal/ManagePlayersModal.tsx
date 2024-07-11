@@ -3,11 +3,12 @@ import {
   Input,
   Modal
 } from '@designSystem/components';
-import {
+import React, {
+  forwardRef,
   useContext,
   useState
 } from 'react';
-
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 
 import { PlayersContext } from '../PlayersContext';
@@ -15,6 +16,12 @@ import { PlayersContext } from '../PlayersContext';
 export interface ManagePlayersModal {
   isOpen: boolean;
   onClose: () => void;
+}
+
+interface IFormInput {
+  firstName: string
+  lastName: string
+  iceCreamType: { label: string; value: string }
 }
 
 export const ManagePlayersModal = ({
@@ -52,6 +59,18 @@ export const ManagePlayersModal = ({
     }
   }
 
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      playerName: "",
+      characterName: "",
+      characterAc: 0
+    }, 
+  });
+
+  // let playerNameRef = React.useRef<HTMLInputElement>(null);
+  // let characterNameRef = React.useRef<HTMLInputElement>(null);
+  // let characterAcRef = React.useRef<HTMLInputElement>(null);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -65,43 +84,70 @@ export const ManagePlayersModal = ({
           Manage Players
         </h2>
         <fieldset>
-          <label htmlFor="player-name">
+          <label htmlFor="playerName">
             Player Name
           </label>
-          <Input
-            full
-            inputId="player-name"
-            inputName="player-name"
-            onChange={(e) => {
-              setNewPlayerName(e.target.value);
-            }}
-            value={newPlayerName}/>
+          <Controller 
+            name="playerName"
+            control={control}
+            render={({ field }) => 
+              <Input
+                {...field}
+                full
+                inputId="playerName"
+                inputName="playerName"
+                onChange={(e) => {
+                  setNewPlayerName(e.target.value);
+                }}
+                value={newPlayerName}
+                passedRef={field.ref}
+              />
+            }
+          />
         </fieldset>
         <fieldset>
-          <label htmlFor="character-name">
+          <label htmlFor="characterName">
             Character Name
           </label>
-          <Input
-            full
-            inputId="character-name"
-            inputName="character-name"
-            onChange={(e) => {
-              setNewCharacterName(e.target.value);
-            }}
-            value={newCharacterName}/>
+          <Controller 
+            name="characterName"
+            control={control}
+            render={({ field }) => 
+              <Input
+                {...field}
+                full
+                inputId="characterName"
+                inputName="characterName"
+                onChange={(e) => {
+                  setNewCharacterName(e.target.value);
+                }}
+                value={newCharacterName}
+                passedRef={field.ref}
+              />
+            }
+          />
         </fieldset>
         <fieldset>
-          <label htmlFor="character-ac">
+          <label htmlFor="characterAc">
             AC
           </label>
-          <Input
-            full
-            inputId="character-ac"
-            inputName="character-ac"
-            onChange={(e) => {
-              setNewCharacterAc(Number(e.target.value));
-            }}
-            value={String(newCharacterAc)}/>
+          <Controller 
+            name="characterAc"
+            control={control}
+            render={({ field }) => 
+              <Input
+                {...field}
+                full
+                inputId="characterAc"
+                inputName="characterAc"
+                onChange={(e) => {
+                  setNewCharacterAc(Number(e.target.value));
+                }}
+                value={String(newCharacterAc)}
+                passedRef={field.ref}
+              />
+            }
+          />
         </fieldset>
         <fieldset>
           <Button
