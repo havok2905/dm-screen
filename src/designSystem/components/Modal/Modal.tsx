@@ -4,6 +4,8 @@ import {
   useEffect
 } from 'react';
 
+import classNames from 'classnames';
+
 import { createPortal, } from 'react-dom';
 
 import './Modal.css';
@@ -40,9 +42,14 @@ export const Modal = ({
     handleOnCloseClick();
   };
 
+  const classList = {
+    'dm-screen-design-system-modal': true,
+    'showcase': isShowcaseView
+  };
+
   const modal = (
     <>
-      <div className={`dm-screen-design-system-modal ${isShowcaseView ? "showcase": ""}`}>
+      <div className={classNames(classList)}>
         {children}
       </div>
       <div

@@ -25,7 +25,15 @@ export interface AdventureItemResponse {
 }
 
 export interface AdventureResponse {
-  creatures: AdventureCreatureResponse[];
-  handouts: AdventureHandoutResponse[];
-  items: AdventureItemResponse[];
+  id: string;
+  name: string;
+  notes: string;
+  system: string;
+  creatures?: AdventureCreatureResponse[];
+  handouts?: AdventureHandoutResponse[];
+  items?: AdventureItemResponse[];
+}
+
+export type AdventuresResponse = {
+  adventures: AdventureResponse[];
 }

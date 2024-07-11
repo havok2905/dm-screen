@@ -4,7 +4,10 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 
-import { getAdventureById } from './services';
+import {
+  getAdventureById,
+  getAdventures
+} from './services';
 import { ServerConfig } from './config';
 
 dotenv.config();
@@ -24,6 +27,11 @@ app.use(cors());
 
 app.get('/', (_req, res) => {
   res.send({});
+});
+
+app.get('/adventures', async (_request, response) => {
+  const responseJson = await getAdventures();
+  response.json(responseJson);
 });
 
 app.get('/adventure/:id', async (request, response) => {
