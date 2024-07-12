@@ -3,11 +3,8 @@ import {
   Input,
   Modal
 } from '@designSystem/components';
-import {
-  useContext,
-  useState
-} from 'react';
-
+import { useContext } from 'react';
+import { useForm, useFormState, Controller, SubmitHandler } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 
 import { PlayersContext } from '../PlayersContext';
@@ -21,96 +18,127 @@ export const ManagePlayersModal = ({
   isOpen,
   onClose
 }: ManagePlayersModal) => {
-  const [newPlayerName, setNewPlayerName] = useState('');
-  const [newCharacterName, setNewCharacterName] = useState('');
-  const [newCharacterAc, setNewCharacterAc] = useState(0);
-
   const { players, setPlayers } = useContext(PlayersContext);
 
   const newPlayersModalCancel = () => {
-    setNewPlayerName('');
-    setNewCharacterName('');
-    setNewCharacterAc(0);
+    reset();
     onClose();
   };
 
-  const newPlayersModalSubmit = () => {
-    if (newPlayerName && newCharacterName) {
+  type PlayerModalInputs = {
+    playerName: string
+    characterName: string
+    characterAc: number
+  }
+
+  const newPlayersModalSubmit: SubmitHandler<PlayerModalInputs> = (data) => {
+    if (data.playerName && data.characterName) {
       setPlayers([
         ...players,
         {
-          ac: newCharacterAc,
+          ac: data.characterAc,
           id: uuidv4(),
-          name: newPlayerName,
-          characterName: newCharacterName
+          name: data.playerName,
+          characterName: data.characterName
         }
       ]);
-      setNewPlayerName('');
-      setNewCharacterName('');
-      setNewCharacterAc(0);
+      reset();
       onClose();
     }
   }
+
+  const { control, handleSubmit, reset } = useForm({
+    defaultValues: {
+      playerName: "",
+      characterName: "",
+      characterAc: 0
+    }, 
+  });
+
+  const { isValid } = useFormState({control});
 
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
       portalElement={document.body}>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        newPlayersModalSubmit();
-      }}>
+      <form onSubmit={handleSubmit(newPlayersModalSubmit)}>
         <h2>
           Manage Players
         </h2>
         <fieldset>
-          <label htmlFor="player-name">
+          <label htmlFor="playerName">
             Player Name
           </label>
-          <Input
-            full
-            inputId="player-name"
-            inputName="player-name"
-            onChange={(e) => {
-              setNewPlayerName(e.target.value);
+          <Controller 
+            name="playerName"
+            control={control}
+            rules={{
+              required: true
             }}
-            value={newPlayerName}/>
+            render={({ field }) => 
+              <Input
+                {...field}
+                full
+                inputId="playerName"
+                inputName="playerName"
+                passedRef={field.ref}
+              />
+            }
+          />
         </fieldset>
         <fieldset>
-          <label htmlFor="character-name">
+          <label htmlFor="characterName">
             Character Name
           </label>
-          <Input
-            full
-            inputId="character-name"
-            inputName="character-name"
-            onChange={(e) => {
-              setNewCharacterName(e.target.value);
+          <Controller 
+            name="characterName"
+            control={control}
+            rules={{
+              required: true
             }}
-            value={newCharacterName}/>
+            render={({ field }) => 
+              <Input
+                {...field}
+                full
+                inputId="characterName"
+                inputName="characterName"
+                passedRef={field.ref}
+              />
+            }
+          />
         </fieldset>
         <fieldset>
-          <label htmlFor="character-ac">
+          <label htmlFor="characterAc">
             AC
           </label>
-          <Input
-            full
-            inputId="character-ac"
-            inputName="character-ac"
-            onChange={(e) => {
-              setNewCharacterAc(Number(e.target.value));
+          <Controller 
+            name="characterAc"
+            control={control}
+            rules={{
+              // placeholder AC, 0 - 100
+              pattern: /^(0|[1-9][0-9]?|100)$/
             }}
-            value={String(newCharacterAc)}/>
+            render={({ field }) => 
+              <Input
+                {...field}
+                full
+                inputId="characterAc"
+                inputName="characterAc"
+                value={String(field.value)}
+                passedRef={field.ref}
+              />
+            }
+          />
         </fieldset>
         <fieldset>
           <Button
             buttonText="Add Player"
-            disabled={!newCharacterName || !newPlayerName}
-            onClick={newPlayersModalSubmit}
+            disabled={!isValid}
+            onClick={handleSubmit(newPlayersModalSubmit)}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                newPlayersModalSubmit();
+                handleSubmit(newPlayersModalSubmit);
               }
             }}/>
           <Button
