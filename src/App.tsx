@@ -9,6 +9,8 @@ import {
   QueryClientProvider
 } from '@tanstack/react-query'
 
+import { InitiativeOrder } from '@core/InitiativeOrder';
+
 import { DmView } from './dm-screen/components/DmView';
 import { InitiativeOrderContextProvider } from './dm-screen/components/InitiativeOrderContext';
 import { PlayersContextProvider } from './dm-screen/components/PlayersContext';

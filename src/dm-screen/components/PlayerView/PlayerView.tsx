@@ -17,11 +17,12 @@ import {
   useState
 } from 'react';
 
+import { InitiativeOrder}  from '@core/InitiativeOrder';
 import { io } from 'socket.io-client';
 import { Socket } from 'socket.io';
 import { useQuery } from '@tanstack/react-query';
 
-import { InitiativeOrder } from '../InitiativeOrder';
+import { InitiativeOrderComponent } from '../InitiativeOrderComponent';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 
 export const PlayerView = () => {
@@ -41,13 +42,22 @@ export const PlayerView = () => {
   });
 
   const {
-    initiativeOrder: {
-      currentId,
-      items
-    },
-    setCurrentId,
-    setItems,
-    setRound
+    data: initiativeData,
+    isFetching: initiativeDataIsFetching,
+    isLoading: initiativeDataIsLoading,
+    isPending: initiativeDataIsPending
+  } = useQuery({
+    queryKey: ['initiativeData'],
+    queryFn: () => {
+      return fetch('http://localhost:3000/initiative/68c8bd92-04ff-4359-9856-8d2d6b02b69b').then((response) => response.json())
+    }  
+  });
+
+  const {
+    getInitiativeOrder,
+    initiativeOrderState,
+    setInitiativeOrder,
+    setInitiativeOrderState
   } = useContext(InitiativeOrderContext);
 
   useEffect(() => {
@@ -69,20 +79,49 @@ export const PlayerView = () => {
         round,
       } = data;
 
-      setCurrentId(currentId);
-      setItems(items);
-      setRound(round);
+      const initiativeOrder = getInitiativeOrder();
+
+      if (initiativeOrder) {
+        initiativeOrder?.setCurrentId(currentId);
+        initiativeOrder?.setItems(items);
+        initiativeOrder?.setRound(round);
+
+        setInitiativeOrderState(initiativeOrder.getState());
+      }
     });
   }, [
-    setCurrentId,
-    setItems,
-    setRound
+    getInitiativeOrder,
+    setInitiativeOrderState
+  ]);
+
+  useEffect(() => {
+    const initiativeOrder = getInitiativeOrder() ?? new InitiativeOrder();
+
+    if (initiativeData) {
+      initiativeOrder.setCurrentId(initiativeData.initiativeOrderState.currentId);
+      initiativeOrder.setItems(initiativeData.initiativeOrderState.items);
+      initiativeOrder.setRound(initiativeData.initiativeOrderState.round);
+    }
+  
+    setInitiativeOrder(initiativeOrder);
+    setInitiativeOrderState(initiativeOrder.getState());
+  }, [
+    getInitiativeOrder,
+    initiativeData,
+    setInitiativeOrder,
+    setInitiativeOrderState
   ]);
 
   if (
     isFetching ||
     isLoading ||
     isPending
+  ) return null;
+
+  if (
+    initiativeDataIsFetching ||
+    initiativeDataIsLoading ||
+    initiativeDataIsPending
   ) return null;
 
   if (!data) {
@@ -92,16 +131,24 @@ export const PlayerView = () => {
   const adventure = data as Adventure;
 
   const getCurrentPlayer = (): InitiativeItem | null => {
-    return items.find((i) => i.id === currentId) ?? null;
-  };
-
-  const getNextPlayer = (): InitiativeItem => {
-    const itemIndex = items.findIndex((i) => i.id === currentId);
-    if (itemIndex === items.length - 1) {
-      return items[0];
+    if (initiativeOrderState) {
+      return initiativeOrderState.items.find((i) => i.id === initiativeOrderState.currentId) ?? null;
     }
 
-    return items[itemIndex + 1];
+    return null;
+  };
+
+  const getNextPlayer = (): InitiativeItem | null => {
+    if (initiativeOrderState) {
+      const itemIndex = initiativeOrderState.items.findIndex((i) => i.id === initiativeOrderState.currentId);
+      if (itemIndex === initiativeOrderState.items.length - 1) {
+        return initiativeOrderState.items[0];
+      }
+
+      return initiativeOrderState.items[itemIndex + 1];
+    }
+
+    return null;
   };
 
   const currentPlayer = getCurrentPlayer();
@@ -109,7 +156,7 @@ export const PlayerView = () => {
 
   return (
     <>
-      <InitiativeOrder
+      <InitiativeOrderComponent
         creatures={adventure.creatures}
         playerView/>
       <Container>

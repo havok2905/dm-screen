@@ -5,9 +5,10 @@ import http from 'http';
 import { Server } from 'socket.io';
 
 import {
-  getAdventureById,
-  getAdventures
+  AdventureService,
+  InitiativeService
 } from './services';
+
 import { ServerConfig } from './config';
 
 dotenv.config();
@@ -24,18 +25,40 @@ const config = new ServerConfig();
 const port = config.getServerPort();
 
 app.use(cors());
+app.use(express.json())
 
 app.get('/', (_req, res) => {
   res.send({});
 });
 
 app.get('/adventures', async (_request, response) => {
-  const responseJson = await getAdventures();
+  const responseJson = await AdventureService.getAdventures();
   response.json(responseJson);
 });
 
 app.get('/adventure/:id', async (request, response) => {
-  const responseJson = await getAdventureById(request.params.id ?? '');
+  const responseJson = await AdventureService.getAdventureById(request.params.id ?? '');
+  response.json(responseJson);
+});
+
+app.get('/initiative/:adventureid', async(request, response) => {
+  const responseJson = await InitiativeService.getInitiativeByAdventureId(request.params.adventureid ?? '');
+  response.json(responseJson);
+});
+
+app.patch('/initiative/:id', async(request, response) => {
+  const requestBody = request.body;
+  const responseJson = await InitiativeService.updateInitiativeById(request.params.id ?? '', requestBody);
+  response.json(responseJson);
+});
+
+app.post('/initiative/:adventureid', async(request, response) => {
+  const responseJson = await InitiativeService.bootstrapInitiativeByAdventureId(request.params.adventureid ?? '');
+  response.json(responseJson);
+});
+
+app.delete('/initiative/:id', async(request, response) => {
+  const responseJson = await InitiativeService.destroyInitiativeById(request.params.id ?? '');
   response.json(responseJson);
 });
 

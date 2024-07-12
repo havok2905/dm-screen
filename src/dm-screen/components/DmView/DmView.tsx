@@ -23,14 +23,18 @@ import {
   useRef,
   useState
 } from 'react';
+import {
+  useMutation,
+  useQuery
+} from '@tanstack/react-query';
 
+import { InitiativeOrder } from '@core/InitiativeOrder';
 import { io } from 'socket.io-client';
 import { Socket } from 'socket.io';
-import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CreaturesTable } from '../CreaturesTable';
-import { InitiativeOrder } from '../InitiativeOrder';
+import { InitiativeOrderComponent } from '../InitiativeOrderComponent';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { ItemsTable } from '../ItemsTable';
 import { ManagePlayersModal } from '../ManagePlayersModal';
@@ -61,15 +65,66 @@ export const DmView = () => {
     }  
   });
 
+  const {
+    data: initiativeData,
+    isFetching: initiativeDataIsFetching,
+    isLoading: initiativeDataIsLoading,
+    isPending: initiativeDataIsPending
+  } = useQuery({
+    queryKey: ['initiativeData'],
+    queryFn: () => {
+      return fetch('http://localhost:3000/initiative/68c8bd92-04ff-4359-9856-8d2d6b02b69b').then((response) => response.json())
+    }  
+  });
+
+  const {
+    mutate: bootstrapInitiative
+  } = useMutation({
+    mutationFn: () => {
+      return fetch(`http://localhost:3000/initiative/68c8bd92-04ff-4359-9856-8d2d6b02b69b`, {
+        method: 'POST'
+      }).then((response) => response.json())
+    },
+  });
+
+  const {
+    mutate: destroyInitiative
+  } = useMutation({
+    mutationFn: (id: string) => {
+      return fetch(`http://localhost:3000/initiative/${id}`, {
+        method: 'DELETE'
+      }).then((response) => response.json())
+    },
+  });
+
+  const {
+    mutate: updateInitiative
+  } = useMutation({
+    mutationFn: (data: { id: string;  initiativeOrderState: string; }) => {
+      const {
+        id,
+        initiativeOrderState
+      } = data;
+      
+      return fetch(`http://localhost:3000/initiative/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          initiativeOrderState
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      }).then((response) => response.json())
+    },
+  });
+
   const { players } = useContext(PlayersContext);
 
   const {
-    initiativeOrder: {
-      currentId,
-      items,
-      round
-    },
-    setItems
+    getInitiativeOrder,
+    initiativeOrderState,
+    setInitiativeOrder,
+    setInitiativeOrderState
   } = useContext(InitiativeOrderContext);
 
   useEffect(() => {
@@ -80,15 +135,33 @@ export const DmView = () => {
   }, []);
 
   useEffect(() => {
-    socketRef.current?.emit('initiative:dispatch', {
-      currentId,
-      items,
-      round
-    });
+    if (initiativeOrderState) {
+      socketRef.current?.emit('initiative:dispatch', {
+        currentId: initiativeOrderState.currentId,
+        items: initiativeOrderState.items,
+        round: initiativeOrderState.round
+      });
+    }
   }, [
-    currentId,
-    items,
-    round
+    initiativeOrderState
+  ]);
+
+  useEffect(() => {
+    const initiativeOrder = getInitiativeOrder() ?? new InitiativeOrder();
+
+    if (initiativeData) {
+      initiativeOrder.setCurrentId(initiativeData.initiativeOrderState.currentId);
+      initiativeOrder.setItems(initiativeData.initiativeOrderState.items);
+      initiativeOrder.setRound(initiativeData.initiativeOrderState.round);
+
+      setInitiativeOrder(initiativeOrder);
+      setInitiativeOrderState(initiativeOrder.getState());
+    }
+  }, [
+    getInitiativeOrder,
+    initiativeData,
+    setInitiativeOrder,
+    setInitiativeOrderState
   ]);
 
   const onSideDrawerClose = () => {
@@ -106,6 +179,27 @@ export const DmView = () => {
   const handleManagePlayersModalOpen = () => {
     setIsManagePlayersModalOpen(true);
   }
+
+  const handleBootstrapInitiativeOrder = () => {
+    bootstrapInitiative();
+  };
+
+  const handleDestroyInitiativeOrder = () => {
+    if (initiativeData) {
+      destroyInitiative(initiativeData.id);
+    }
+  };
+
+  const handleUpdateInitiativeOrder = () => {
+    const initiativeOrder = getInitiativeOrder();
+
+    if (initiativeData && initiativeOrder) {
+      updateInitiative({
+        id: initiativeData.id,
+        initiativeOrderState: JSON.stringify(initiativeOrder.getState())
+      });
+    }
+  };
 
   const handleAddAllToInitiativeOrder = () => {
     const newItems: InitiativeItem[]= players.map((player) => {
@@ -127,10 +221,17 @@ export const DmView = () => {
       };
     });
 
-    setItems([
-      ...items,
-      ...newItems
-    ])
+    const initiativeOrder = getInitiativeOrder();
+
+    if (initiativeOrder) {
+      initiativeOrder.setItems([
+        ...initiativeOrder?.getItems() ?? [],
+        ...newItems
+      ]);
+
+      handleUpdateInitiativeOrder();
+      setInitiativeOrderState(initiativeOrder.getState());
+    }
   }
 
   const handleOnCreatureChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -175,6 +276,12 @@ export const DmView = () => {
     isPending
   ) return null;
 
+  if (
+    initiativeDataIsFetching ||
+    initiativeDataIsLoading ||
+    initiativeDataIsPending
+  ) return null;
+
   if (!data) {
     return null;
   }
@@ -184,7 +291,11 @@ export const DmView = () => {
   return (
     <>
       <FooterOffset>
-        <InitiativeOrder creatures={adventure.creatures}/>
+        <InitiativeOrderComponent
+          creatures={adventure.creatures}
+          handleBootstrapInitiativeOrder={handleBootstrapInitiativeOrder}
+          handleDestroyInitiativeOrder={handleDestroyInitiativeOrder}
+          handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}/>
         <Container>
           <Grid>
             <GridRow>
@@ -208,6 +319,7 @@ export const DmView = () => {
                   <CreaturesTable
                     creatures={adventure.creatures}
                     handleShowHandout={handleShowHandout}
+                    handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
                     searchTerm={creatureSearchTerm}/>
                 </Section>
                 <Section

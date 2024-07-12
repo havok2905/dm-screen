@@ -19,22 +19,22 @@ import { Markdown } from '../Markdown';
 export interface CreaturesTableProps {
   creatures: MarkdownEntity[];
   handleShowHandout: (handout: Handout | null) => void;
+  handleUpdateInitiativeOrder: () => void;
   searchTerm: string;
 }
 
 export const CreaturesTable = ({
   creatures,
   handleShowHandout,
+  handleUpdateInitiativeOrder,
   searchTerm
 }: CreaturesTableProps) => {
   const [currentCreature, setCurrentCreature] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const {
-    initiativeOrder: {
-      items
-    },
-    setItems
+    getInitiativeOrder,
+    setInitiativeOrderState
   } = useContext(InitiativeOrderContext);
 
   const handleClose = () => {
@@ -98,39 +98,53 @@ export const CreaturesTable = ({
                 {
                   name: 'Add',
                   onClick() {
-                    setItems([
-                      ...items,
-                      {
-                        entityId: creature.id,
-                        entityType: 'creature',
-                        id: uuidv4(),
-                        imageSrc: creature.image ?? '',
-                        name: creature.name,
-                        resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
-                        resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
-                        sortValue: 0,
-                        visibilityState: 'on'
-                      }
-                    ])
+                    const initiativeOrder = getInitiativeOrder();
+                    
+                    if (initiativeOrder) {
+                      initiativeOrder.setItems([
+                        ...initiativeOrder.getItems(),
+                        {
+                          entityId: creature.id,
+                          entityType: 'creature',
+                          id: uuidv4(),
+                          imageSrc: creature.image ?? '',
+                          name: creature.name,
+                          resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
+                          resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
+                          sortValue: 0,
+                          visibilityState: 'on'
+                        }
+                      ]);
+
+                      handleUpdateInitiativeOrder();
+                      setInitiativeOrderState(initiativeOrder.getState());
+                    }
                   },
                 },
                 {
                   name: 'Add Hidden',
                   onClick() {
-                    setItems([
-                      ...items,
-                      {
-                        entityId: creature.id,
-                        entityType: 'creature',
-                        id: uuidv4(),
-                        imageSrc: creature.image ?? '',
-                        name: creature.name,
-                        resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
-                        resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
-                        sortValue: 0,
-                        visibilityState: 'hidden'
-                      }
-                    ])
+                    const initiativeOrder = getInitiativeOrder();
+
+                    if (initiativeOrder) {
+                      initiativeOrder.setItems([
+                        ...initiativeOrder.getItems(),
+                        {
+                          entityId: creature.id,
+                          entityType: 'creature',
+                          id: uuidv4(),
+                          imageSrc: creature.image ?? '',
+                          name: creature.name,
+                          resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
+                          resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
+                          sortValue: 0,
+                          visibilityState: 'hidden'
+                        }
+                      ]);
+
+                      handleUpdateInitiativeOrder();
+                      setInitiativeOrderState(initiativeOrder.getState());
+                    }
                   },
                 }
               ]

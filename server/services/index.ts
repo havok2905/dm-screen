@@ -1,2 +1,2 @@
-export * from './getAdventures';
-export * from './getAdventureById';
+export * from './AdvenutreService';
+export * from './InitiativeService';

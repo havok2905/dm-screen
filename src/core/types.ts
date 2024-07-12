@@ -48,7 +48,7 @@ export interface InitiativeItem {
   visibilityState: 'on' | 'removed' | 'hidden';
 }
 
-export interface InitiativeOrder {
+export interface InitiativeOrderState {
   currentId: string;
   items: InitiativeItem[];
   round: number;

@@ -43,3 +43,27 @@ export interface AdventureResponse {
 export type AdventuresResponse = {
   adventures: AdventureResponse[];
 }
+
+export interface InitiativeOrderItemResponse {
+  entityId: string;
+  entityType: 'creature' | 'player';
+  id: string;
+  imageSrc: string;
+  name: string;
+  resourceA:  number;
+  resourceB: number;
+  sortValue: number;
+  visibilityState: 'on' | 'hidden' | 'removed';
+}
+
+export interface InitiativeResponse {
+  initiative: {
+    id: string;
+    adventureid: string;
+    initiativeOrderState: {
+      currentId: string;
+      items: InitiativeOrderItemResponse[];
+      round: number;
+    };
+  }
+}

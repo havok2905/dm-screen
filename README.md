@@ -11,10 +11,10 @@
 2. Run `npm install`
 3. Fetch a copy of the `.env` file from a contributor and place it in the root of the project. Reference `.env.example` for what this should look like.
 4. Create empty `dist` and `dist-server` directories in the root of the project.
-5. Run `npm run compile-server`. This will run the Typescript build for the API project and drop the build in `dist-server`.
-6. Run `npm run db-create`. This will run the SQL to generate the Sqlite database in the root of this project.
-7. Run `npm run db-seed`. This will populate the database with the test adventure data.
-9. Run `npm run run-server` to start the API server.
+5. Run `npm run compile:server`. This will run the Typescript build for the API project and drop the build in `dist-server`.
+6. Run `npm run db:migrate`. This will run the SQL to generate the Sqlite database in the root of this project.
+7. Run `npm run db:seed`. This will populate the database with the test adventure data.
+9. Run `npm run run:server` to start the API server.
 10. In a new terminal run `npm run dev-client` to start the development client server.
 11. Open the client app at the root route to see the app.
 11. Open a new tab of the client app and navigate to `/player-view` to see the player's page.
@@ -32,11 +32,11 @@
 
 | Command | Description |
 | ------- | ----------- |
-| compile-server | Runs a generic typescript compile on the server code |
-| db-create ( Likely to be replaced soon ) | Runs SQL to generate a sqlite database in the root fo the project. |
-| db-destroy ( Likely to be replaced soon ) | Removes the sqlite database from the project. |
-| db-seed ( Likely to be replaced soon ) | Generates test data for the app. |
-| run-server | Runs the typescript project in /dist-server |
+| compile:server | Runs a generic typescript compile on the server code |
+| db:destroy | Removes the sqlite database from the project. |
+| db:migrate | Runs database migrations and generates a sqlite database in the root fo the project. |
+| db:seed | Generates test data for the app. |
+| run:server | Runs the typescript project in /dist-server |
 
 ### Test Commands
 
