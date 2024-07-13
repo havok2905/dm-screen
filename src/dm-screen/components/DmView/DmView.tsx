@@ -229,7 +229,7 @@ export const DmView = () => {
 
     if (initiativeOrder) {
       initiativeOrder.setItems([
-        ...initiativeOrder?.getItems() ?? [],
+        ...initiativeOrder.getItems(),
         ...newItems
       ]);
 
