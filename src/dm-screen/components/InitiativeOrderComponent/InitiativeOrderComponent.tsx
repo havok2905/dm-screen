@@ -1,8 +1,4 @@
 import {
-  Button,
-  LinkButton
-} from '@designSystem/components';
-import {
   InitiativeItem,
   MarkdownEntity
 } from '@core/types';
@@ -11,11 +7,14 @@ import {
   useState
 } from 'react';
 
+import { Button } from '@designSystem/components';
 import { InitiativeOrder } from '@core/InitiativeOrder';
 
 import { InitiativeCard } from '../InitiativeCard';
 import { InitiativeItemModal } from '../InitiativeItemModal';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
+import { InitiativeOrderDmControls } from './InitiativeOrderDmControls';
+import { InitiativeOrderDmNavControls } from './InitiativeOrderDmNavControls';
 
 import './InitiativeOrderComponent.css';
 
@@ -193,41 +192,13 @@ export const InitiativeOrderComponent = ({
         <div className="initiative-order-card-button-container">
           {
             !playerView && (
-              <div>
-                <Button
-                  buttonText="Prev"
-                  disabled={!initiativeOrderState?.items?.length}
-                  onClick={() => {
-                    prev();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      prev();
-                    }
-                  }}/>
-                <Button
-                  buttonText="Next"
-                  disabled={!initiativeOrderState?.items?.length}
-                  onClick={() => {
-                    next();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      next();
-                    }
-                  }}/>
-                <Button
-                  buttonText="Sort"
-                  disabled={!initiativeOrderState?.items?.length}
-                  onClick={() => {
-                    sort();
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      sort();
-                    }
-                  }}/>
-              </div>
+              <InitiativeOrderDmNavControls
+                isDisabled={!initiativeOrderState?.items?.length}
+                isPlayer={!!playerView}
+                next={next}
+                prev={prev}
+                sort={sort}
+              />
             )
           }
           <div>
@@ -237,28 +208,11 @@ export const InitiativeOrderComponent = ({
           </div>
           {
             !playerView && (
-              <>
-                <div>
-                  <LinkButton
-                    buttonText="End Combat"
-                    color="red"
-                    onClick={handleRemoveInitiativeClick}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        handleRemoveInitiativeClick();
-                      }
-                    }}/>
-                    <LinkButton
-                      buttonText="Bootstrap Combat"
-                      color="green"
-                      onClick={handleBootstrapInitiativeClick}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          handleBootstrapInitiativeClick();
-                        }
-                      }}/>
-                </div>
-              </>
+              <InitiativeOrderDmControls
+                handleBootstrapInitiativeClick={handleBootstrapInitiativeClick}
+                handleRemoveInitiativeClick={handleRemoveInitiativeClick}
+                isPlayer={!!playerView}
+              />
             )
           }
         </div>
