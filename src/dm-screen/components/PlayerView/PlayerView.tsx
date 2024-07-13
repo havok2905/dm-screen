@@ -77,7 +77,7 @@ export const PlayerView = () => {
         currentId,
         items,
         round,
-      } = data;
+      } = data ?? {};
 
       const initiativeOrder = getInitiativeOrder();
 
@@ -87,6 +87,8 @@ export const PlayerView = () => {
         initiativeOrder?.setRound(round);
 
         setInitiativeOrderState(initiativeOrder.getState());
+      } else {
+        setInitiativeOrderState(null);
       }
     });
   }, [
@@ -98,9 +100,9 @@ export const PlayerView = () => {
     const initiativeOrder = getInitiativeOrder() ?? new InitiativeOrder();
 
     if (initiativeData) {
-      initiativeOrder.setCurrentId(initiativeData.initiativeOrderState.currentId);
-      initiativeOrder.setItems(initiativeData.initiativeOrderState.items);
-      initiativeOrder.setRound(initiativeData.initiativeOrderState.round);
+      initiativeOrder.setCurrentId(initiativeData.initiativeOrderState?.currentId);
+      initiativeOrder.setItems(initiativeData.initiativeOrderState?.items);
+      initiativeOrder.setRound(initiativeData.initiativeOrderState?.round);
     }
   
     setInitiativeOrder(initiativeOrder);
@@ -131,24 +133,23 @@ export const PlayerView = () => {
   const adventure = data as Adventure;
 
   const getCurrentPlayer = (): InitiativeItem | null => {
-    if (initiativeOrderState) {
-      return initiativeOrderState.items.find((i) => i.id === initiativeOrderState.currentId) ?? null;
-    }
-
-    return null;
+    return initiativeOrderState?.items?.find((i) => i.id === initiativeOrderState?.currentId) ?? null;
   };
 
   const getNextPlayer = (): InitiativeItem | null => {
-    if (initiativeOrderState) {
-      const itemIndex = initiativeOrderState.items.findIndex((i) => i.id === initiativeOrderState.currentId);
-      if (itemIndex === initiativeOrderState.items.length - 1) {
-        return initiativeOrderState.items[0];
-      }
+    const items = initiativeOrderState?.items ?? [];
 
-      return initiativeOrderState.items[itemIndex + 1];
+    const itemIndex = items.findIndex((i) => i.id === initiativeOrderState?.currentId);
+
+    if (itemIndex === items.length - 1) {
+      return items[0];
     }
 
-    return null;
+    if (!itemIndex && itemIndex !== 0) {
+      return null;
+    }
+
+    return items[itemIndex + 1];
   };
 
   const currentPlayer = getCurrentPlayer();

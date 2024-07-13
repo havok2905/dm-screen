@@ -1,6 +1,8 @@
 import {
+  EntityType,
   Handout,
-  MarkdownEntity
+  MarkdownEntity,
+  VisibilityState
 } from '@core/types';
 import {
   Modal,
@@ -105,14 +107,14 @@ export const CreaturesTable = ({
                         ...initiativeOrder.getItems(),
                         {
                           entityId: creature.id,
-                          entityType: 'creature',
+                          entityType: EntityType.CREATURE,
                           id: uuidv4(),
                           imageSrc: creature.image ?? '',
                           name: creature.name,
                           resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
                           resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
                           sortValue: 0,
-                          visibilityState: 'on'
+                          visibilityState: VisibilityState.ON
                         }
                       ]);
 
@@ -131,14 +133,14 @@ export const CreaturesTable = ({
                         ...initiativeOrder.getItems(),
                         {
                           entityId: creature.id,
-                          entityType: 'creature',
+                          entityType: EntityType.CREATURE,
                           id: uuidv4(),
                           imageSrc: creature.image ?? '',
                           name: creature.name,
                           resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
                           resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
                           sortValue: 0,
-                          visibilityState: 'hidden'
+                          visibilityState: VisibilityState.HIDDEN
                         }
                       ]);
 

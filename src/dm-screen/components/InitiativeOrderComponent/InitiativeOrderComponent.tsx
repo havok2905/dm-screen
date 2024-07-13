@@ -3,14 +3,15 @@ import {
   LinkButton
 } from '@designSystem/components';
 import {
+  InitiativeItem,
+  MarkdownEntity
+} from '@core/types';
+import {
   useContext,
   useState
 } from 'react';
 
-import {
-  InitiativeItem,
-  MarkdownEntity
-} from '@core/types';
+import { InitiativeOrder } from '@core/InitiativeOrder';
 
 import { InitiativeCard } from '../InitiativeCard';
 import { InitiativeItemModal } from '../InitiativeItemModal';
@@ -39,18 +40,24 @@ export const InitiativeOrderComponent = ({
   const {
     getInitiativeOrder,
     initiativeOrderState,
+    setInitiativeOrder,
     setInitiativeOrderState
   } = useContext(InitiativeOrderContext);
 
   const handleBootstrapInitiativeClick = () => {
     if (handleBootstrapInitiativeOrder) {
       handleBootstrapInitiativeOrder();
+      const initiativeOrder = new InitiativeOrder();
+      setInitiativeOrder(initiativeOrder);
+      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
   const handleRemoveInitiativeClick = () => {
     if (handleDestroyInitiativeOrder) {
       handleDestroyInitiativeOrder();
+      setInitiativeOrder(null);
+      setInitiativeOrderState(null);
     }
   };
 
@@ -147,14 +154,14 @@ export const InitiativeOrderComponent = ({
     }
   };
 
-  const currentItem = initiativeOrderState?.items.find((item) => item.id === openId) ?? null;
+  const currentItem = initiativeOrderState?.items?.find((item) => item.id === openId) ?? null;
 
   return (
     <>
       <div className="initiative-order">
         <div className="initiative-order-card-list">
           {
-            initiativeOrderState?.items.map((item) => {
+            initiativeOrderState?.items?.map((item) => {
               return (
                 <InitiativeCard
                   active={item.id === initiativeOrderState?.currentId}
@@ -189,7 +196,7 @@ export const InitiativeOrderComponent = ({
               <div>
                 <Button
                   buttonText="Prev"
-                  disabled={!initiativeOrderState?.items.length}
+                  disabled={!initiativeOrderState?.items?.length}
                   onClick={() => {
                     prev();
                   }}
@@ -200,7 +207,7 @@ export const InitiativeOrderComponent = ({
                   }}/>
                 <Button
                   buttonText="Next"
-                  disabled={!initiativeOrderState?.items.length}
+                  disabled={!initiativeOrderState?.items?.length}
                   onClick={() => {
                     next();
                   }}
@@ -211,7 +218,7 @@ export const InitiativeOrderComponent = ({
                   }}/>
                 <Button
                   buttonText="Sort"
-                  disabled={!initiativeOrderState?.items.length}
+                  disabled={!initiativeOrderState?.items?.length}
                   onClick={() => {
                     sort();
                   }}

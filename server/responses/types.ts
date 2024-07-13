@@ -44,9 +44,14 @@ export type AdventuresResponse = {
   adventures: AdventureResponse[];
 }
 
+export enum EntityType {
+  CREATURE = "creature",
+  PLAYER = "player"
+}
+
 export interface InitiativeOrderItemResponse {
   entityId: string;
-  entityType: 'creature' | 'player';
+  entityType: EntityType;
   id: string;
   imageSrc: string;
   name: string;

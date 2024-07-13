@@ -141,6 +141,8 @@ export const DmView = () => {
         items: initiativeOrderState.items,
         round: initiativeOrderState.round
       });
+    } else {
+      socketRef.current?.emit('initiative:dispatch', null);
     }
   }, [
     initiativeOrderState

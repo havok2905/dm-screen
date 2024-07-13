@@ -35,6 +35,7 @@
 | compile:server | Runs a generic typescript compile on the server code |
 | db:destroy | Removes the sqlite database from the project. |
 | db:migrate | Runs database migrations and generates a sqlite database in the root fo the project. |
+| db:reset | Destroys database, migrates, and seeds. |
 | db:seed | Generates test data for the app. |
 | run:server | Runs the typescript project in /dist-server |
 

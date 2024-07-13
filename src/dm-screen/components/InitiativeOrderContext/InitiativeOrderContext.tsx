@@ -16,8 +16,8 @@ import {
 export interface InitiativeOrderContextModel {
   getInitiativeOrder: () => InitiativeOrderInterface | null;
   initiativeOrderState: InitiativeOrderState | null;
-  setInitiativeOrder: (initiativeOrder: InitiativeOrderInterface) => void;
-  setInitiativeOrderState: (initiativeOrderState: InitiativeOrderState) => void;
+  setInitiativeOrder: (initiativeOrder: InitiativeOrderInterface | null) => void;
+  setInitiativeOrderState: (initiativeOrderState: InitiativeOrderState | null) => void;
 }
 
 const defaultInitiativeOrder: InitiativeOrderContextModel = {
@@ -45,11 +45,11 @@ export const InitiativeOrderContextProvider = ({
     return initiativeOrderRef.current;
   }, []);
 
-  const handleSetInitiativeOrderState = useCallback((initiativeOrderState: InitiativeOrderState) => {
+  const handleSetInitiativeOrderState = useCallback((initiativeOrderState: InitiativeOrderState | null) => {
     setInitiativeOrderState(initiativeOrderState);
   }, []);
 
-  const setInitiativeOrder = useCallback((initiativeOrder: InitiativeOrderInterface) => {
+  const setInitiativeOrder = useCallback((initiativeOrder: InitiativeOrderInterface | null) => {
     initiativeOrderRef.current = initiativeOrder;
   }, []);
 
