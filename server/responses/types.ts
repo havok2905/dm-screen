@@ -49,6 +49,12 @@ export enum EntityType {
   PLAYER = "player"
 }
 
+export enum VisibilityState {
+  HIDDEN = 'hidden',
+  ON = 'on',
+  REMOVED = 'removed'
+}
+
 export interface InitiativeOrderItemResponse {
   entityId: string;
   entityType: EntityType;
@@ -58,7 +64,7 @@ export interface InitiativeOrderItemResponse {
   resourceA:  number;
   resourceB: number;
   sortValue: number;
-  visibilityState: 'on' | 'hidden' | 'removed';
+  visibilityState: VisibilityState;
 }
 
 export interface InitiativeResponse {
