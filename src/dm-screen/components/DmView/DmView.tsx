@@ -1,7 +1,9 @@
 import {
   Adventure,
+  EntityType,
   Handout,
-  InitiativeItem
+  InitiativeItem,
+  VisibilityState
 } from '@core/types';
 import {
   Button,
@@ -213,13 +215,13 @@ export const DmView = () => {
 
       return {
         entityId: id,
-        entityType: 'player',
+        entityType: EntityType.PLAYER,
         id: uuidv4(),
         name,
         resourceA: ac,
         resourceB: 0,
         sortValue: 0,
-        visibilityState: 'on'
+        visibilityState: VisibilityState.ON
       };
     });
 
