@@ -38,6 +38,8 @@ export class InitiativeService {
         id
       }
     });
+
+    if (!initiative) return false;
   
     initiative?.destroy();
     initiative?.save();

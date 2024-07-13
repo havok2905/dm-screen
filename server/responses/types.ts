@@ -68,13 +68,11 @@ export interface InitiativeOrderItemResponse {
 }
 
 export interface InitiativeResponse {
-  initiative: {
-    id: string;
-    adventureid: string;
-    initiativeOrderState: {
-      currentId: string;
-      items: InitiativeOrderItemResponse[];
-      round: number;
-    };
-  }
+  id: string;
+  adventureid: string;
+  initiativeOrderState: {
+    currentId: string;
+    items: InitiativeOrderItemResponse[];
+    round: number;
+  };
 }
