@@ -9,7 +9,7 @@ import {
   AdventuresResponse
 } from '../responses';
 
-import { AdventureService } from './AdvenutreService';
+import { AdventureService } from './AdventureService';
 
 describe('AdventureService', () => {
   describe('getAdventures', () => {

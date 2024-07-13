@@ -1,2 +1,2 @@
-export * from './AdvenutreService';
+export * from './AdventureService';
 export * from './InitiativeService';
