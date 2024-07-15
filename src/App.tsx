@@ -9,8 +9,7 @@ import {
   QueryClientProvider
 } from '@tanstack/react-query'
 
-import { InitiativeOrder } from '@core/InitiativeOrder';
-
+import { AdventuresPage } from './dm-screen/components/Compendium';
 import { DmView } from './dm-screen/components/DmView';
 import { InitiativeOrderContextProvider } from './dm-screen/components/InitiativeOrderContext';
 import { PlayersContextProvider } from './dm-screen/components/PlayersContext';
@@ -34,6 +33,14 @@ const router = createBrowserRouter([
       </RouteErrorBoundary>
     ),
   },
+  {
+    path: "compendium/adventures",
+    element: (
+      <RouteErrorBoundary>
+        <AdventuresPage/>
+      </RouteErrorBoundary>
+    )
+  }
 ]);
 
 const queryClient = new QueryClient();
