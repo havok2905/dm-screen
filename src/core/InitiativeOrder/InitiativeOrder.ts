@@ -1,6 +1,7 @@
 import {
   InitiativeItem,
-  InitiativeOrderState
+  InitiativeOrderState,
+  VisibilityState
 } from '@core/types';
 
 export interface InitiativeOrderInterface {
@@ -57,7 +58,7 @@ export class InitiativeOrder implements InitiativeOrderInterface {
   hide(id: string) {
     const newItems = this.items.map((item) => {
       if (item.id === id) {
-        item.visibilityState = 'hidden';
+        item.visibilityState = VisibilityState.HIDDEN;
       }
 
       return item;
@@ -129,7 +130,7 @@ export class InitiativeOrder implements InitiativeOrderInterface {
       if (item.id === id) {
         const initiativeItem: InitiativeItem = {
           ...item,
-          visibilityState: 'removed'
+          visibilityState: VisibilityState.REMOVED
         };
 
         return initiativeItem
@@ -154,7 +155,7 @@ export class InitiativeOrder implements InitiativeOrderInterface {
   reveal = (id: string) => {
     const newItems = this.items.map((item) => {
       if (item.id === id) {
-        item.visibilityState = 'on';
+        item.visibilityState = VisibilityState.ON;
       }
 
       return item;

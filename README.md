@@ -115,3 +115,106 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+## How Initiative Tracker Works
+
+### Initiative Order Class
+
+Initiative state is not something we can store in a TypeScript literal. As such, we can't simply store it in a useState variable. There may also be cases in the future of wanting to reuse initiative order logic outside of the context of react ( encounter simulations on the server end for example ).
+
+`src/core/InitiativeOrder` captures this logic and returns its current state with `getState`.
+
+Running initiative state change outside of react also leaves out potential issues with batch state changes not working properly. React is good about batching state change, but not perfect. For example, you may need to deal with the following:
+
+```Typescript
+initiativeOrder.next();
+initiativeOrder.hide();
+initiativeOrder.setResourceA(a);
+initiativeOrder.setResourceB(b);
+initiativeOrder.sort();
+
+// Update data on the backend and proc a refetch of data. React updates accordingly with the single state update.
+updateInitiativeOrderMutation(initiativeOrder.getState);
+```
+
+### Working with Initiative Order Components
+
+At the page level we need to import the Initiative Order context. This will make our Initiative Order Typescript class available to all other sub components.
+
+**Set up at the page level:**
+
+```Typescript
+import { InitiativeOrderContext } from '../InitiativeOrderContext';
+
+const {
+  getInitiativeOrder,
+  setInitiativeOrder
+} = useContext(InitiativeOrderContext);
+
+useEffect(() => {
+  // Initialize initiative order if it does't already exist
+  const initiativeOrder = getInitiativeOrder() ?? new InitiativeOrder();
+
+  // If we have data, populate the InitiativeOrder class instance
+  if (initiativeData) {
+    initiativeOrder.setCurrentId(initiativeData.initiativeOrderState.currentId);
+    initiativeOrder.setItems(initiativeData.initiativeOrderState.items);
+    initiativeOrder.setRound(initiativeData.initiativeOrderState.round);
+  }
+
+  // Set the current InitiativeOrder instance on the context
+  setInitiativeOrder(initiativeOrder);
+}, [
+  initiativeData,
+  getInitiativeOrder,
+  setInitiativeOrder
+]);
+```
+
+**Change Initiative State:**
+
+```TypeScript
+const handleUpdateInitiativeOrder = () => {
+  // Get the InitiativeOrder instance on the context
+  const initiativeOrder = getInitiativeOrder();
+
+  if (initiativeData && initiativeOrder) {
+    updateInitiative({
+      id: initiativeData.id,
+      // grab state from the InitiativeOrderInstance and use it to make an API call
+      initiativeOrderState: JSON.stringify(initiativeOrder.getState())
+    });
+
+    // refetch initiative order state from API
+    initiativeDataRefetch();
+  }
+};
+```
+
+**Proc initiative order event:**
+
+```TypeScript
+useEffect(() => {
+  if (initiativeData) {
+    socketRef.current?.emit('initiative:dispatch');
+  }
+}, [
+  initiativeData
+]);
+```
+
+**Listen on initiative order event:**
+
+```TypeScript
+  useEffect(() => {
+    const ws = socketRef.current;
+
+    // Listen on initiative item update event
+    ws?.on('initiative:receive', () => {
+      // Refetch data
+      initiativeDataRefetch();
+    });
+  }, [
+    initiativeDataRefetch
+  ]);
+```
