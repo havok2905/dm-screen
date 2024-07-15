@@ -76,4 +76,154 @@ describe('InitiativeOrderDmNavControls', () => {
     expect(prev).toHaveBeenCalledTimes(0);
     expect(sort).toHaveBeenCalledTimes(0);
   });
+
+  it('should trigger prev onClick', () => {
+    const next = jest.fn();
+    const prev = jest.fn();
+    const sort = jest.fn();
+
+    const wrapper = mount(
+      <InitiativeOrderDmNavControls
+        isDisabled={false}
+        isPlayer={false}
+        next={next}
+        prev={prev}
+        sort={sort}
+      />
+    );
+
+    const prevButton = wrapper.findAll('button')[0];
+
+    prevButton.trigger('onClick');
+
+    expect(next).toHaveBeenCalledTimes(0);
+    expect(prev).toHaveBeenCalledTimes(1);
+    expect(sort).toHaveBeenCalledTimes(0);
+  });
+
+  it('should trigger prev onKeyDown', () => {
+    const next = jest.fn();
+    const prev = jest.fn();
+    const sort = jest.fn();
+
+    const wrapper = mount(
+      <InitiativeOrderDmNavControls
+        isDisabled={false}
+        isPlayer={false}
+        next={next}
+        prev={prev}
+        sort={sort}
+      />
+    );
+
+    const prevButton = wrapper.findAll('button')[0];
+
+    prevButton.trigger('onKeyDown', {
+      key: 'Enter'
+    });
+
+    expect(next).toHaveBeenCalledTimes(0);
+    expect(prev).toHaveBeenCalledTimes(1);
+    expect(sort).toHaveBeenCalledTimes(0);
+  });
+
+  it('should trigger next onClick', () => {
+    const next = jest.fn();
+    const prev = jest.fn();
+    const sort = jest.fn();
+
+    const wrapper = mount(
+      <InitiativeOrderDmNavControls
+        isDisabled={false}
+        isPlayer={false}
+        next={next}
+        prev={prev}
+        sort={sort}
+      />
+    );
+
+    const nextButton = wrapper.findAll('button')[1];
+
+    nextButton.trigger('onClick');
+
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(prev).toHaveBeenCalledTimes(0);
+    expect(sort).toHaveBeenCalledTimes(0);
+  });
+
+  it('should trigger next onKeyDown', () => {
+    const next = jest.fn();
+    const prev = jest.fn();
+    const sort = jest.fn();
+
+    const wrapper = mount(
+      <InitiativeOrderDmNavControls
+        isDisabled={false}
+        isPlayer={false}
+        next={next}
+        prev={prev}
+        sort={sort}
+      />
+    );
+
+    const nextButton = wrapper.findAll('button')[1];
+
+    nextButton.trigger('onKeyDown', {
+      key: 'Enter'
+    });
+
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(prev).toHaveBeenCalledTimes(0);
+    expect(sort).toHaveBeenCalledTimes(0);
+  });
+
+  it('should trigger sort onClick', () => {
+    const next = jest.fn();
+    const prev = jest.fn();
+    const sort = jest.fn();
+
+    const wrapper = mount(
+      <InitiativeOrderDmNavControls
+        isDisabled={false}
+        isPlayer={false}
+        next={next}
+        prev={prev}
+        sort={sort}
+      />
+    );
+
+    const sortButton = wrapper.findAll('button')[2];
+
+    sortButton.trigger('onClick');
+
+    expect(next).toHaveBeenCalledTimes(0);
+    expect(prev).toHaveBeenCalledTimes(0);
+    expect(sort).toHaveBeenCalledTimes(1);
+  });
+
+  it('should trigger sort onKeyDown', () => {
+    const next = jest.fn();
+    const prev = jest.fn();
+    const sort = jest.fn();
+
+    const wrapper = mount(
+      <InitiativeOrderDmNavControls
+        isDisabled={false}
+        isPlayer={false}
+        next={next}
+        prev={prev}
+        sort={sort}
+      />
+    );
+
+    const sortButton = wrapper.findAll('button')[2];
+
+    sortButton.trigger('onKeyDown', {
+      key: 'Enter'
+    });
+
+    expect(next).toHaveBeenCalledTimes(0);
+    expect(prev).toHaveBeenCalledTimes(0);
+    expect(sort).toHaveBeenCalledTimes(1);
+  });
 });

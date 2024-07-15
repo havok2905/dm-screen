@@ -1,18 +1,19 @@
 /**
  * @jest-environment jsdom
  */
-
 import '@shopify/react-testing/matchers';
+
 import { MarkdownEntity } from '@core/types';
 import { mount } from '@shopify/react-testing';
+import { MountInitiativeOrder } from '@jestHelpers/helpers';
 
 import { CreaturesTable } from './CreaturesTable';
 import { InitiativeOrderContextProvider } from '../InitiativeOrderContext';
 
-
 describe('CreaturesTable', () => {
   it('should render', () => {
     const handleShowHandout = jest.fn();
+    const handleUpdateInitiativeOrder = jest.fn();
 
     const creatures: MarkdownEntity[] = [
       {
@@ -37,11 +38,14 @@ describe('CreaturesTable', () => {
 
     const wrapper = mount(
       <InitiativeOrderContextProvider>
-        <CreaturesTable
-          creatures={creatures}
-          handleShowHandout={handleShowHandout}
-          searchTerm=""
-        />
+        <MountInitiativeOrder>
+          <CreaturesTable
+            creatures={creatures}
+            handleShowHandout={handleShowHandout}
+            handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
+            searchTerm=""
+          />
+        </MountInitiativeOrder>
       </InitiativeOrderContextProvider>
     );
 
@@ -77,6 +81,7 @@ describe('CreaturesTable', () => {
 
   it('should open a view modal', () => {
     const handleShowHandout = jest.fn();
+    const handleUpdateInitiativeOrder = jest.fn();
 
     const creatures: MarkdownEntity[] = [
       {
@@ -101,11 +106,14 @@ describe('CreaturesTable', () => {
 
     const wrapper = mount(
       <InitiativeOrderContextProvider>
-        <CreaturesTable
-          creatures={creatures}
-          handleShowHandout={handleShowHandout}
-          searchTerm=""
-        />
+        <MountInitiativeOrder>
+          <CreaturesTable
+            creatures={creatures}
+            handleShowHandout={handleShowHandout}
+            handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
+            searchTerm=""
+          />
+        </MountInitiativeOrder>
       </InitiativeOrderContextProvider>
     );
 
@@ -137,6 +145,7 @@ describe('CreaturesTable', () => {
 
   it('should execute add/add-hidden buttons', () => {
     const handleShowHandout = jest.fn();
+    const handleUpdateInitiativeOrder = jest.fn();
 
     const creatures: MarkdownEntity[] = [
       {
@@ -161,11 +170,14 @@ describe('CreaturesTable', () => {
 
     const wrapper = mount(
       <InitiativeOrderContextProvider>
-        <CreaturesTable
-          creatures={creatures}
-          handleShowHandout={handleShowHandout}
-          searchTerm=""
-        />
+        <MountInitiativeOrder>
+          <CreaturesTable
+            creatures={creatures}
+            handleShowHandout={handleShowHandout}
+            handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
+            searchTerm=""
+          />
+        </MountInitiativeOrder>
       </InitiativeOrderContextProvider>
     );
 
@@ -185,6 +197,7 @@ describe('CreaturesTable', () => {
 
   it('should search', () => {
     const handleShowHandout = jest.fn();
+    const handleUpdateInitiativeOrder = jest.fn();
 
     const creatures: MarkdownEntity[] = [
       {
@@ -209,11 +222,14 @@ describe('CreaturesTable', () => {
 
     const wrapper = mount(
       <InitiativeOrderContextProvider>
-        <CreaturesTable
-          creatures={creatures}
-          handleShowHandout={handleShowHandout}
-          searchTerm="Test"
-        />
+        <MountInitiativeOrder>
+          <CreaturesTable
+            creatures={creatures}
+            handleShowHandout={handleShowHandout}
+            handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
+            searchTerm="Test"
+          />
+        </MountInitiativeOrder>
       </InitiativeOrderContextProvider>
     );
 
@@ -224,6 +240,7 @@ describe('CreaturesTable', () => {
 
   it('should show an empty result', () => {
     const handleShowHandout = jest.fn();
+    const handleUpdateInitiativeOrder = jest.fn();
 
     const creatures: MarkdownEntity[] = [
       {
@@ -248,11 +265,14 @@ describe('CreaturesTable', () => {
 
     const wrapper = mount(
       <InitiativeOrderContextProvider>
-        <CreaturesTable
-          creatures={creatures}
-          handleShowHandout={handleShowHandout}
-          searchTerm="z"
-        />
+        <MountInitiativeOrder>
+          <CreaturesTable
+            creatures={creatures}
+            handleShowHandout={handleShowHandout}
+            handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
+            searchTerm="z"
+          />
+        </MountInitiativeOrder>
       </InitiativeOrderContextProvider>
     );
 

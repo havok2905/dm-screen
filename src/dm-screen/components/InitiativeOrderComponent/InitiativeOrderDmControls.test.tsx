@@ -29,6 +29,29 @@ describe('InitiativeOrderDmControls', () => {
     expect(handleRemoveInitiativeClick).toHaveBeenCalledTimes(0);
   });
 
+  it('should render and use onKeyDown', () => {
+    const handleBootstrapInitiativeClick = jest.fn();
+    const handleRemoveInitiativeClick = jest.fn();
+
+    const wrapper = mount(
+      <InitiativeOrderDmControls
+        handleBootstrapInitiativeClick={handleBootstrapInitiativeClick}
+        handleRemoveInitiativeClick={handleRemoveInitiativeClick}
+        inInCombat={false}
+        isPlayer={false}
+      />
+    );
+
+    const buttons = wrapper.findAll('button');
+
+    buttons[0].trigger('onKeyDown', {
+      key: 'Enter'
+    });
+
+    expect(handleBootstrapInitiativeClick).toHaveBeenCalledTimes(1);
+    expect(handleRemoveInitiativeClick).toHaveBeenCalledTimes(0);
+  });
+
   it('should render in combat', () => {
     const handleBootstrapInitiativeClick = jest.fn();
     const handleRemoveInitiativeClick = jest.fn();
@@ -50,6 +73,29 @@ describe('InitiativeOrderDmControls', () => {
     expect(handleRemoveInitiativeClick).toHaveBeenCalledTimes(1);
   });
 
+  it('should render in combat and use onKeyDown', () => {
+    const handleBootstrapInitiativeClick = jest.fn();
+    const handleRemoveInitiativeClick = jest.fn();
+
+    const wrapper = mount(
+      <InitiativeOrderDmControls
+        handleBootstrapInitiativeClick={handleBootstrapInitiativeClick}
+        handleRemoveInitiativeClick={handleRemoveInitiativeClick}
+        inInCombat={true}
+        isPlayer={false}
+      />
+    );
+
+    const buttons = wrapper.findAll('button');
+
+    buttons[0].trigger('onKeyDown', {
+      key: 'Enter'
+    });
+
+    expect(handleBootstrapInitiativeClick).toHaveBeenCalledTimes(0);
+    expect(handleRemoveInitiativeClick).toHaveBeenCalledTimes(1);
+  });
+
 
   it('should render null when it is a player', () => {
     const handleBootstrapInitiativeClick = jest.fn();
@@ -59,6 +105,7 @@ describe('InitiativeOrderDmControls', () => {
       <InitiativeOrderDmControls
         handleBootstrapInitiativeClick={handleBootstrapInitiativeClick}
         handleRemoveInitiativeClick={handleRemoveInitiativeClick}
+        inInCombat={false}
         isPlayer
       />
     );

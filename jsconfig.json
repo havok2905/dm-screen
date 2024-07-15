@@ -6,6 +6,9 @@
       ],
       "@designSystem/*": [
         "./src/designSystem/*"
+      ],
+      "@jestHelpers/*": [
+        "./jestHelpers/*"
       ]
     }
   }

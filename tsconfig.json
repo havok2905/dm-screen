@@ -26,11 +26,15 @@
       ],
       "@designSystem/*": [
          "./src/designSystem/*"
-      ]
+      ],
+      "@jestHelpers/*": [
+        "./jestHelpers/*"
+     ]
     }
   },
   "include": [
-    "src"
+    "src",
+    "jestHelpers"  
   ],
   "exclude": [
     "**/*.stories.tsx",
