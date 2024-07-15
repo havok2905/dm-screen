@@ -13,9 +13,9 @@ import {
   useState
 } from 'react';
 
-import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { v4 as uuidv4 } from 'uuid';
 
+import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { Markdown } from '../Markdown';
 
 export interface CreaturesTableProps {
@@ -34,10 +34,7 @@ export const CreaturesTable = ({
   const [currentCreature, setCurrentCreature] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const {
-    getInitiativeOrder,
-    setInitiativeOrderState
-  } = useContext(InitiativeOrderContext);
+  const { getInitiativeOrder } = useContext(InitiativeOrderContext);
 
   const handleClose = () => {
     setCurrentCreature(null);
@@ -119,7 +116,6 @@ export const CreaturesTable = ({
                       ]);
 
                       handleUpdateInitiativeOrder();
-                      setInitiativeOrderState(initiativeOrder.getState());
                     }
                   },
                 },
@@ -145,7 +141,6 @@ export const CreaturesTable = ({
                       ]);
 
                       handleUpdateInitiativeOrder();
-                      setInitiativeOrderState(initiativeOrder.getState());
                     }
                   },
                 }

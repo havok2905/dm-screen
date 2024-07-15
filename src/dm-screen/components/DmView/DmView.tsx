@@ -27,7 +27,8 @@ import {
 } from 'react';
 import {
   useMutation,
-  useQuery
+  useQuery,
+  useQueryClient
 } from '@tanstack/react-query';
 
 import { InitiativeOrder } from '@core/InitiativeOrder';
@@ -55,6 +56,8 @@ export const DmView = () => {
 
   const socketRef = useRef<Socket | null>(null);
 
+  const queryClient = useQueryClient();
+
   const {
     data,
     isFetching,
@@ -69,9 +72,7 @@ export const DmView = () => {
 
   const {
     data: initiativeData,
-    isFetching: initiativeDataIsFetching,
-    isLoading: initiativeDataIsLoading,
-    isPending: initiativeDataIsPending
+    refetch: initiativeDataRefetch
   } = useQuery({
     queryKey: ['initiativeData'],
     queryFn: () => {
@@ -87,6 +88,9 @@ export const DmView = () => {
         method: 'POST'
       }).then((response) => response.json())
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
+    },
   });
 
   const {
@@ -96,6 +100,9 @@ export const DmView = () => {
       return fetch(`http://localhost:3000/initiative/${id}`, {
         method: 'DELETE'
       }).then((response) => response.json())
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
     },
   });
 
@@ -118,15 +125,16 @@ export const DmView = () => {
         },
       }).then((response) => response.json())
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
+    },
   });
 
   const { players } = useContext(PlayersContext);
 
   const {
     getInitiativeOrder,
-    initiativeOrderState,
-    setInitiativeOrder,
-    setInitiativeOrderState
+    setInitiativeOrder
   } = useContext(InitiativeOrderContext);
 
   useEffect(() => {
@@ -137,17 +145,13 @@ export const DmView = () => {
   }, []);
 
   useEffect(() => {
-    if (initiativeOrderState) {
-      socketRef.current?.emit('initiative:dispatch', {
-        currentId: initiativeOrderState.currentId,
-        items: initiativeOrderState.items,
-        round: initiativeOrderState.round
-      });
+    if (initiativeData) {
+      socketRef.current?.emit('initiative:dispatch');
     } else {
       socketRef.current?.emit('initiative:dispatch', null);
     }
   }, [
-    initiativeOrderState
+    initiativeData
   ]);
 
   useEffect(() => {
@@ -157,15 +161,13 @@ export const DmView = () => {
       initiativeOrder.setCurrentId(initiativeData.initiativeOrderState.currentId);
       initiativeOrder.setItems(initiativeData.initiativeOrderState.items);
       initiativeOrder.setRound(initiativeData.initiativeOrderState.round);
-
-      setInitiativeOrder(initiativeOrder);
-      setInitiativeOrderState(initiativeOrder.getState());
     }
+
+    setInitiativeOrder(initiativeOrder);
   }, [
-    getInitiativeOrder,
     initiativeData,
-    setInitiativeOrder,
-    setInitiativeOrderState
+    getInitiativeOrder,
+    setInitiativeOrder
   ]);
 
   const onSideDrawerClose = () => {
@@ -202,6 +204,8 @@ export const DmView = () => {
         id: initiativeData.id,
         initiativeOrderState: JSON.stringify(initiativeOrder.getState())
       });
+
+      initiativeDataRefetch();
     }
   };
 
@@ -234,7 +238,6 @@ export const DmView = () => {
       ]);
 
       handleUpdateInitiativeOrder();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   }
 
@@ -280,12 +283,6 @@ export const DmView = () => {
     isPending
   ) return null;
 
-  if (
-    initiativeDataIsFetching ||
-    initiativeDataIsLoading ||
-    initiativeDataIsPending
-  ) return null;
-
   if (!data) {
     return null;
   }
@@ -299,7 +296,8 @@ export const DmView = () => {
           creatures={adventure.creatures}
           handleBootstrapInitiativeOrder={handleBootstrapInitiativeOrder}
           handleDestroyInitiativeOrder={handleDestroyInitiativeOrder}
-          handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}/>
+          handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
+          initiativeOrderState={initiativeData?.initiativeOrderState ?? null}/>
         <Container>
           <Grid>
             <GridRow>

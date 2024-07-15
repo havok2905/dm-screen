@@ -2,31 +2,23 @@ import {
   createContext,
   ReactNode,
   useCallback,
-  useRef,
-  useState
+  useRef
 } from 'react';
 import {
   InitiativeOrder,
   InitiativeOrderInterface
 } from '@core/InitiativeOrder';
-import {
-  InitiativeOrderState
-} from '@core/types';
 
 export interface InitiativeOrderContextModel {
   getInitiativeOrder: () => InitiativeOrderInterface | null;
-  initiativeOrderState: InitiativeOrderState | null;
   setInitiativeOrder: (initiativeOrder: InitiativeOrderInterface | null) => void;
-  setInitiativeOrderState: (initiativeOrderState: InitiativeOrderState | null) => void;
 }
 
 const defaultInitiativeOrder: InitiativeOrderContextModel = {
   getInitiativeOrder: () => {
     return new InitiativeOrder();
   },
-  initiativeOrderState: new InitiativeOrder().getState(),
-  setInitiativeOrder: () => {},
-  setInitiativeOrderState: () => {}
+  setInitiativeOrder: () => {}
 };
 
 export const InitiativeOrderContext = createContext<InitiativeOrderContextModel>(defaultInitiativeOrder);
@@ -39,14 +31,9 @@ export const InitiativeOrderContextProvider = ({
   children
 }: InitiativeOrderContextProviderProps) => {
   const initiativeOrderRef = useRef<InitiativeOrderInterface | null>(null);
-  const [initiativeOrderState, setInitiativeOrderState] = useState<InitiativeOrderState | null>(null);
 
   const getInitiativeOrder = useCallback((): InitiativeOrderInterface | null => {
     return initiativeOrderRef.current;
-  }, []);
-
-  const handleSetInitiativeOrderState = useCallback((initiativeOrderState: InitiativeOrderState | null) => {
-    setInitiativeOrderState(initiativeOrderState);
   }, []);
 
   const setInitiativeOrder = useCallback((initiativeOrder: InitiativeOrderInterface | null) => {
@@ -55,9 +42,7 @@ export const InitiativeOrderContextProvider = ({
 
   const contextModel: InitiativeOrderContextModel = {
     getInitiativeOrder,
-    initiativeOrderState,
-    setInitiativeOrder,
-    setInitiativeOrderState: handleSetInitiativeOrderState
+    setInitiativeOrder
   };
 
   return (

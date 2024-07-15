@@ -1,14 +1,14 @@
+import { Button } from '@designSystem/components';
+
 import {
   InitiativeItem,
+  InitiativeOrderState,
   MarkdownEntity
 } from '@core/types';
 import {
   useContext,
   useState
 } from 'react';
-
-import { Button } from '@designSystem/components';
-import { InitiativeOrder } from '@core/InitiativeOrder';
 
 import { InitiativeCard } from '../InitiativeCard';
 import { InitiativeItemModal } from '../InitiativeItemModal';
@@ -23,6 +23,7 @@ export interface InitiativeOrderComponentProps {
   handleBootstrapInitiativeOrder?: () => void;
   handleDestroyInitiativeOrder?: () => void;
   handleUpdateInitiativeOrder?: () => void;
+  initiativeOrderState: InitiativeOrderState | null;
   playerView?: boolean;
 }
 
@@ -31,32 +32,23 @@ export const InitiativeOrderComponent = ({
   handleBootstrapInitiativeOrder,
   handleDestroyInitiativeOrder,
   handleUpdateInitiativeOrder,
+  initiativeOrderState,
   playerView
 }: InitiativeOrderComponentProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
 
-  const {
-    getInitiativeOrder,
-    initiativeOrderState,
-    setInitiativeOrder,
-    setInitiativeOrderState
-  } = useContext(InitiativeOrderContext);
+  const { getInitiativeOrder } = useContext(InitiativeOrderContext);
 
   const handleBootstrapInitiativeClick = () => {
     if (handleBootstrapInitiativeOrder) {
       handleBootstrapInitiativeOrder();
-      const initiativeOrder = new InitiativeOrder();
-      setInitiativeOrder(initiativeOrder);
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
   const handleRemoveInitiativeClick = () => {
     if (handleDestroyInitiativeOrder) {
       handleDestroyInitiativeOrder();
-      setInitiativeOrder(null);
-      setInitiativeOrderState(null);
     }
   };
 
@@ -76,7 +68,6 @@ export const InitiativeOrderComponent = ({
     if (initiativeOrder) {
       initiativeOrder.hide(openId ?? '');
       handleUpdateInitiativeOrderInternal();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
@@ -85,7 +76,6 @@ export const InitiativeOrderComponent = ({
     if (initiativeOrder) {
       initiativeOrder.setResourceA(item.id, value);
       handleUpdateInitiativeOrderInternal();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
@@ -94,7 +84,6 @@ export const InitiativeOrderComponent = ({
     if (initiativeOrder) {
       initiativeOrder.setResourceA(item.id, value);
       handleUpdateInitiativeOrderInternal();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
@@ -103,7 +92,6 @@ export const InitiativeOrderComponent = ({
     if (initiativeOrder) {
       initiativeOrder.setSortValue(item.id, value);
       handleUpdateInitiativeOrderInternal();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
@@ -112,7 +100,6 @@ export const InitiativeOrderComponent = ({
     if (initiativeOrder) {
       initiativeOrder.next();
       handleUpdateInitiativeOrderInternal();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
@@ -121,7 +108,6 @@ export const InitiativeOrderComponent = ({
     if (initiativeOrder) {
       initiativeOrder.prev();
       handleUpdateInitiativeOrderInternal();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
@@ -130,7 +116,6 @@ export const InitiativeOrderComponent = ({
     if (initiativeOrder) {
       initiativeOrder.remove(openId ?? '');
       handleUpdateInitiativeOrderInternal();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
     handleModalClose();
   };
@@ -140,7 +125,6 @@ export const InitiativeOrderComponent = ({
     if (initiativeOrder) {
       initiativeOrder.reveal(openId ?? '');
       handleUpdateInitiativeOrderInternal();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
@@ -149,18 +133,17 @@ export const InitiativeOrderComponent = ({
     if (initiativeOrder) {
       initiativeOrder.sort();
       handleUpdateInitiativeOrderInternal();
-      setInitiativeOrderState(initiativeOrder.getState());
     }
   };
 
-  const currentItem = initiativeOrderState?.items?.find((item) => item.id === openId) ?? null;
+  const currentItem = initiativeOrderState?.items?.find((item: InitiativeItem) => item.id === openId) ?? null;
 
   return (
     <>
       <div className="initiative-order">
         <div className="initiative-order-card-list">
           {
-            initiativeOrderState?.items?.map((item) => {
+            initiativeOrderState?.items?.map((item: InitiativeItem) => {
               return (
                 <InitiativeCard
                   active={item.id === initiativeOrderState?.currentId}
@@ -203,7 +186,17 @@ export const InitiativeOrderComponent = ({
           }
           <div>
             <p>
-              Round: {initiativeOrderState?.round ?? 0}
+              {
+                initiativeOrderState ? (
+                  <>
+                    Round: { initiativeOrderState?.round }
+                  </>
+                ) : (
+                  <>
+                    Out of initiative
+                  </>
+                )
+              }
             </p>
           </div>
           {
@@ -211,6 +204,7 @@ export const InitiativeOrderComponent = ({
               <InitiativeOrderDmControls
                 handleBootstrapInitiativeClick={handleBootstrapInitiativeClick}
                 handleRemoveInitiativeClick={handleRemoveInitiativeClick}
+                inInCombat={!!initiativeOrderState}
                 isPlayer={!!playerView}
               />
             )
