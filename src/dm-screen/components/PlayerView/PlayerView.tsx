@@ -14,7 +14,8 @@ import {
 import {
   useEffect,
   useRef,
-  useState
+  useState,
+  useCallback
 } from 'react';
 
 import { io } from 'socket.io-client';
@@ -26,6 +27,7 @@ import {
 } from '../../hooks';
 
 import { InitiativeOrderComponent } from '../InitiativeOrderComponent';
+import { PlayerSplash } from './PlayerSplash';
 
 export const PlayerView = () => {
   const socketRef = useRef<Socket | null>(null);
@@ -73,14 +75,13 @@ export const PlayerView = () => {
   }
 
   const adventure = data as Adventure;
+  const items: InitiativeItem[] = initiativeData?.initiativeOrderState?.items ?? [];
 
   const getCurrentPlayer = (): InitiativeItem | null => {
     return initiativeData?.initiativeOrderState?.items?.find((i: InitiativeItem) => i.id === initiativeData?.initiativeOrderState?.currentId) ?? null;
   };
 
   const getNextPlayer = (): InitiativeItem | null => {
-    const items: InitiativeItem[] = initiativeData?.initiativeOrderState?.items ?? [];
-
     const itemIndex = items.findIndex((i: InitiativeItem) => i.id === initiativeData?.initiativeOrderState?.currentId);
 
     // Next player does not exist
@@ -112,72 +113,76 @@ export const PlayerView = () => {
   const currentPlayer = getCurrentPlayer();
   const nextPlayer = getNextPlayer();
 
-  return (
-    <>
-      <InitiativeOrderComponent
-        creatures={adventure.creatures}
-        initiativeOrderState={initiativeData?.initiativeOrderState ?? null}
-        playerView/>
-      <Container>
-        <Grid>
-          <GridRow>
-            <Item columns={6}>
-              <div style={{
-                textAlign: 'center'
-              }}>
-                <h2>Playing</h2>
-                <h4>{currentPlayer?.name}</h4>
+  if (items.length === 0) {
+        return (<PlayerSplash adventure={adventure} />);
+  } else {
+    return (
+      <>
+        <InitiativeOrderComponent
+          creatures={adventure.creatures}
+          initiativeOrderState={initiativeData?.initiativeOrderState ?? null}
+          playerView/>
+        <Container>
+          <Grid>
+            <GridRow>
+              <Item columns={6}>
+                <div style={{
+                  textAlign: 'center'
+                }}>
+                  <h2>Playing</h2>
+                  <h4>{currentPlayer?.name}</h4>
+                  <img
+                    alt={currentPlayer?.name}
+                    src={currentPlayer?.imageSrc ?? '/d20.jpg'}
+                    style={{
+                      maxHeight: '250px',
+                      maxWidth: '100%'
+                    }}
+                  />
+                </div>
+              </Item>
+              <Item columns={6}>
+                <div style={{
+                  textAlign: 'center'
+                }}>
+                  <h2>On Deck</h2>
+                  <h4>{nextPlayer?.name}</h4>
+                  <img
+                    alt={nextPlayer?.name}
+                    src={nextPlayer?.imageSrc ?? '/d20.jpg'}
+                    style={{
+                      maxHeight: '250px',
+                      maxWidth: '100%'
+                    }}
+                  />
+                </div>
+              </Item>
+            </GridRow>
+          </Grid>
+          {
+            !!imageToDisplay && (
+              <Modal
+                isOpen={!!imageToDisplay}
+                isShowcaseView={true}
+                onClose={() => {
+                  setImageToDisplay(null);
+                }}
+                portalElement={document.body}
+                >
                 <img
-                  alt={currentPlayer?.name}
-                  src={currentPlayer?.imageSrc ?? '/d20.jpg'}
+                  alt={imageToDisplay.description}
+                  key={imageToDisplay.id}
+                  src={imageToDisplay.url}
                   style={{
-                    maxHeight: '250px',
+                    display: 'block',
+                    margin: '0 auto',
                     maxWidth: '100%'
-                  }}
-                />
-              </div>
-            </Item>
-            <Item columns={6}>
-              <div style={{
-                textAlign: 'center'
-              }}>
-                <h2>On Deck</h2>
-                <h4>{nextPlayer?.name}</h4>
-                <img
-                  alt={nextPlayer?.name}
-                  src={nextPlayer?.imageSrc ?? '/d20.jpg'}
-                  style={{
-                    maxHeight: '250px',
-                    maxWidth: '100%'
-                  }}
-                />
-              </div>
-            </Item>
-          </GridRow>
-        </Grid>
-        {
-          !!imageToDisplay && (
-            <Modal
-              isOpen={!!imageToDisplay}
-              isShowcaseView={true}
-              onClose={() => {
-                setImageToDisplay(null);
-              }}
-              portalElement={document.body}
-              >
-              <img
-                alt={imageToDisplay.description}
-                key={imageToDisplay.id}
-                src={imageToDisplay.url}
-                style={{
-                  display: 'block',
-                  margin: '0 auto',
-                  maxWidth: '100%'
-                }}/>
-            </Modal>
-          )
-        }
-      </Container>
-    </>
-  )
+                  }}/>
+              </Modal>
+            )
+          }
+        </Container>
+      </>
+    )
+  }
 };
