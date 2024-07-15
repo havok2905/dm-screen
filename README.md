@@ -13,6 +13,7 @@
 4. Create empty `dist` and `dist-server` directories in the root of the project.
 5. Run `npm run compile:server`. This will run the Typescript build for the API project and drop the build in `dist-server`.
 6. Run `npm run db:migrate`. This will run the SQL to generate the Sqlite database in the root of this project.
+7. Run `npm run db:reset`. This will remove the database, remigrate, and reseed.
 7. Run `npm run db:seed`. This will populate the database with the test adventure data.
 9. Run `npm run run:server` to start the API server.
 10. In a new terminal run `npm run dev-client` to start the development client server.
