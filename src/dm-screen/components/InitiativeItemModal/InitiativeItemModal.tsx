@@ -1,4 +1,5 @@
 import {
+  EntityType,
   InitiativeItem,
   MarkdownEntity
 } from '@core/types';
@@ -37,7 +38,7 @@ export const InitiativeItemModal = ({
   const getContentForModal = () => {
     if (!item || !isOpen)  return null;
 
-    if (item.entityType === 'creature') {
+    if (item.entityType === EntityType.CREATURE) {
       const currentEntity = creatures.find((i) => i.id === item.entityId);
 
       if (!currentEntity) return null;
@@ -55,7 +56,7 @@ export const InitiativeItemModal = ({
           <Markdown content={currentEntity.content ?? ''}/>
         </>
       )
-    } else if (item.entityType === 'player') {
+    } else if (item.entityType === EntityType.PLAYER) {
       const currentEntity = players.find((i) => i.id === item.entityId);
 
       if (!currentEntity) return null;

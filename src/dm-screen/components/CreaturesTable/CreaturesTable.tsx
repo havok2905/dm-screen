@@ -1,6 +1,8 @@
 import {
+  EntityType,
   Handout,
-  MarkdownEntity
+  MarkdownEntity,
+  VisibilityState
 } from '@core/types';
 import {
   Modal,
@@ -11,31 +13,28 @@ import {
   useState
 } from 'react';
 
-import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { v4 as uuidv4 } from 'uuid';
 
+import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { Markdown } from '../Markdown';
 
 export interface CreaturesTableProps {
   creatures: MarkdownEntity[];
   handleShowHandout: (handout: Handout | null) => void;
+  handleUpdateInitiativeOrder: () => void;
   searchTerm: string;
 }
 
 export const CreaturesTable = ({
   creatures,
   handleShowHandout,
+  handleUpdateInitiativeOrder,
   searchTerm
 }: CreaturesTableProps) => {
   const [currentCreature, setCurrentCreature] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const {
-    initiativeOrder: {
-      items
-    },
-    setItems
-  } = useContext(InitiativeOrderContext);
+  const { getInitiativeOrder } = useContext(InitiativeOrderContext);
 
   const handleClose = () => {
     setCurrentCreature(null);
@@ -98,39 +97,51 @@ export const CreaturesTable = ({
                 {
                   name: 'Add',
                   onClick() {
-                    setItems([
-                      ...items,
-                      {
-                        entityId: creature.id,
-                        entityType: 'creature',
-                        id: uuidv4(),
-                        imageSrc: creature.image ?? '',
-                        name: creature.name,
-                        resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
-                        resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
-                        sortValue: 0,
-                        visibilityState: 'on'
-                      }
-                    ])
+                    const initiativeOrder = getInitiativeOrder();
+                    
+                    if (initiativeOrder) {
+                      initiativeOrder.setItems([
+                        ...initiativeOrder.getItems(),
+                        {
+                          entityId: creature.id,
+                          entityType: EntityType.CREATURE,
+                          id: uuidv4(),
+                          imageSrc: creature.image ?? '',
+                          name: creature.name,
+                          resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
+                          resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
+                          sortValue: 0,
+                          visibilityState: VisibilityState.ON
+                        }
+                      ]);
+
+                      handleUpdateInitiativeOrder();
+                    }
                   },
                 },
                 {
                   name: 'Add Hidden',
                   onClick() {
-                    setItems([
-                      ...items,
-                      {
-                        entityId: creature.id,
-                        entityType: 'creature',
-                        id: uuidv4(),
-                        imageSrc: creature.image ?? '',
-                        name: creature.name,
-                        resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
-                        resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
-                        sortValue: 0,
-                        visibilityState: 'hidden'
-                      }
-                    ])
+                    const initiativeOrder = getInitiativeOrder();
+
+                    if (initiativeOrder) {
+                      initiativeOrder.setItems([
+                        ...initiativeOrder.getItems(),
+                        {
+                          entityId: creature.id,
+                          entityType: EntityType.CREATURE,
+                          id: uuidv4(),
+                          imageSrc: creature.image ?? '',
+                          name: creature.name,
+                          resourceA: creature.metadata.find((meta) => meta.name === 'AC')?.value as number ?? 0,
+                          resourceB: creature.metadata.find((meta) => meta.name === 'HP')?.value as number ?? 0,
+                          sortValue: 0,
+                          visibilityState: VisibilityState.HIDDEN
+                        }
+                      ]);
+
+                      handleUpdateInitiativeOrder();
+                    }
                   },
                 }
               ]

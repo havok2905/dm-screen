@@ -1,7 +1,9 @@
 import {
   Adventure,
+  EntityType,
   Handout,
-  InitiativeItem
+  InitiativeItem,
+  VisibilityState
 } from '@core/types';
 import {
   Button,
@@ -23,14 +25,19 @@ import {
   useRef,
   useState
 } from 'react';
+import {
+  useMutation,
+  useQuery,
+  useQueryClient
+} from '@tanstack/react-query';
 
+import { InitiativeOrder } from '@core/InitiativeOrder';
 import { io } from 'socket.io-client';
 import { Socket } from 'socket.io';
-import { useQuery } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CreaturesTable } from '../CreaturesTable';
-import { InitiativeOrder } from '../InitiativeOrder';
+import { InitiativeOrderComponent } from '../InitiativeOrderComponent';
 import { InitiativeOrderContext } from '../InitiativeOrderContext';
 import { ItemsTable } from '../ItemsTable';
 import { ManagePlayersModal } from '../ManagePlayersModal';
@@ -49,6 +56,8 @@ export const DmView = () => {
 
   const socketRef = useRef<Socket | null>(null);
 
+  const queryClient = useQueryClient();
+
   const {
     data,
     isFetching,
@@ -61,15 +70,71 @@ export const DmView = () => {
     }  
   });
 
+  const {
+    data: initiativeData,
+    refetch: initiativeDataRefetch
+  } = useQuery({
+    queryKey: ['initiativeData'],
+    queryFn: () => {
+      return fetch('http://localhost:3000/initiative/68c8bd92-04ff-4359-9856-8d2d6b02b69b').then((response) => response.json())
+    }  
+  });
+
+  const {
+    mutate: bootstrapInitiative
+  } = useMutation({
+    mutationFn: () => {
+      return fetch(`http://localhost:3000/initiative/68c8bd92-04ff-4359-9856-8d2d6b02b69b`, {
+        method: 'POST'
+      }).then((response) => response.json())
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
+    },
+  });
+
+  const {
+    mutate: destroyInitiative
+  } = useMutation({
+    mutationFn: (id: string) => {
+      return fetch(`http://localhost:3000/initiative/${id}`, {
+        method: 'DELETE'
+      }).then((response) => response.json())
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
+    },
+  });
+
+  const {
+    mutate: updateInitiative
+  } = useMutation({
+    mutationFn: (data: { id: string;  initiativeOrderState: string; }) => {
+      const {
+        id,
+        initiativeOrderState
+      } = data;
+      
+      return fetch(`http://localhost:3000/initiative/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          initiativeOrderState
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      }).then((response) => response.json())
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
+    },
+  });
+
   const { players } = useContext(PlayersContext);
 
   const {
-    initiativeOrder: {
-      currentId,
-      items,
-      round
-    },
-    setItems
+    getInitiativeOrder,
+    setInitiativeOrder
   } = useContext(InitiativeOrderContext);
 
   useEffect(() => {
@@ -80,15 +145,29 @@ export const DmView = () => {
   }, []);
 
   useEffect(() => {
-    socketRef.current?.emit('initiative:dispatch', {
-      currentId,
-      items,
-      round
-    });
+    if (initiativeData) {
+      socketRef.current?.emit('initiative:dispatch');
+    } else {
+      socketRef.current?.emit('initiative:dispatch', null);
+    }
   }, [
-    currentId,
-    items,
-    round
+    initiativeData
+  ]);
+
+  useEffect(() => {
+    const initiativeOrder = getInitiativeOrder() ?? new InitiativeOrder();
+
+    if (initiativeData) {
+      initiativeOrder.setCurrentId(initiativeData.initiativeOrderState.currentId);
+      initiativeOrder.setItems(initiativeData.initiativeOrderState.items);
+      initiativeOrder.setRound(initiativeData.initiativeOrderState.round);
+    }
+
+    setInitiativeOrder(initiativeOrder);
+  }, [
+    initiativeData,
+    getInitiativeOrder,
+    setInitiativeOrder
   ]);
 
   const onSideDrawerClose = () => {
@@ -107,6 +186,29 @@ export const DmView = () => {
     setIsManagePlayersModalOpen(true);
   }
 
+  const handleBootstrapInitiativeOrder = () => {
+    bootstrapInitiative();
+  };
+
+  const handleDestroyInitiativeOrder = () => {
+    if (initiativeData) {
+      destroyInitiative(initiativeData.id);
+    }
+  };
+
+  const handleUpdateInitiativeOrder = () => {
+    const initiativeOrder = getInitiativeOrder();
+
+    if (initiativeData && initiativeOrder) {
+      updateInitiative({
+        id: initiativeData.id,
+        initiativeOrderState: JSON.stringify(initiativeOrder.getState())
+      });
+
+      initiativeDataRefetch();
+    }
+  };
+
   const handleAddAllToInitiativeOrder = () => {
     const newItems: InitiativeItem[]= players.map((player) => {
       const {
@@ -117,20 +219,26 @@ export const DmView = () => {
 
       return {
         entityId: id,
-        entityType: 'player',
+        entityType: EntityType.PLAYER,
         id: uuidv4(),
         name,
         resourceA: ac,
         resourceB: 0,
         sortValue: 0,
-        visibilityState: 'on'
+        visibilityState: VisibilityState.ON
       };
     });
 
-    setItems([
-      ...items,
-      ...newItems
-    ])
+    const initiativeOrder = getInitiativeOrder();
+
+    if (initiativeOrder) {
+      initiativeOrder.setItems([
+        ...initiativeOrder.getItems(),
+        ...newItems
+      ]);
+
+      handleUpdateInitiativeOrder();
+    }
   }
 
   const handleOnCreatureChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -184,7 +292,12 @@ export const DmView = () => {
   return (
     <>
       <FooterOffset>
-        <InitiativeOrder creatures={adventure.creatures}/>
+        <InitiativeOrderComponent
+          creatures={adventure.creatures}
+          handleBootstrapInitiativeOrder={handleBootstrapInitiativeOrder}
+          handleDestroyInitiativeOrder={handleDestroyInitiativeOrder}
+          handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
+          initiativeOrderState={initiativeData?.initiativeOrderState ?? null}/>
         <Container>
           <Grid>
             <GridRow>
@@ -208,6 +321,7 @@ export const DmView = () => {
                   <CreaturesTable
                     creatures={adventure.creatures}
                     handleShowHandout={handleShowHandout}
+                    handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
                     searchTerm={creatureSearchTerm}/>
                 </Section>
                 <Section

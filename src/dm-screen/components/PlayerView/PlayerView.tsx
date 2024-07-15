@@ -11,7 +11,6 @@ import {
   Modal
 } from '@designSystem/components';
 import {
-  useContext,
   useEffect,
   useRef,
   useState
@@ -21,8 +20,7 @@ import { io } from 'socket.io-client';
 import { Socket } from 'socket.io';
 import { useQuery } from '@tanstack/react-query';
 
-import { InitiativeOrder } from '../InitiativeOrder';
-import { InitiativeOrderContext } from '../InitiativeOrderContext';
+import { InitiativeOrderComponent } from '../InitiativeOrderComponent';
 
 export const PlayerView = () => {
   const socketRef = useRef<Socket | null>(null);
@@ -41,14 +39,14 @@ export const PlayerView = () => {
   });
 
   const {
-    initiativeOrder: {
-      currentId,
-      items
-    },
-    setCurrentId,
-    setItems,
-    setRound
-  } = useContext(InitiativeOrderContext);
+    data: initiativeData,
+    refetch: initiativeDataRefetch
+  } = useQuery({
+    queryKey: ['initiativeData'],
+    queryFn: () => {
+      return fetch('http://localhost:3000/initiative/68c8bd92-04ff-4359-9856-8d2d6b02b69b').then((response) => response.json())
+    }  
+  });
 
   useEffect(() => {
     if (!socketRef.current) {
@@ -62,21 +60,11 @@ export const PlayerView = () => {
       setImageToDisplay(data);
     });
 
-    ws?.on('initiative:receive', (data) => {
-      const {
-        currentId,
-        items,
-        round,
-      } = data;
-
-      setCurrentId(currentId);
-      setItems(items);
-      setRound(round);
+    ws?.on('initiative:receive', () => {
+      initiativeDataRefetch();
     });
   }, [
-    setCurrentId,
-    setItems,
-    setRound
+    initiativeDataRefetch
   ]);
 
   if (
@@ -92,13 +80,20 @@ export const PlayerView = () => {
   const adventure = data as Adventure;
 
   const getCurrentPlayer = (): InitiativeItem | null => {
-    return items.find((i) => i.id === currentId) ?? null;
+    return initiativeData?.initiativeOrderState?.items?.find((i: InitiativeItem) => i.id === initiativeData?.initiativeOrderState?.currentId) ?? null;
   };
 
-  const getNextPlayer = (): InitiativeItem => {
-    const itemIndex = items.findIndex((i) => i.id === currentId);
+  const getNextPlayer = (): InitiativeItem | null => {
+    const items = initiativeData?.initiativeOrderState?.items ?? [];
+
+    const itemIndex = items.findIndex((i: InitiativeItem) => i.id === initiativeData?.initiativeOrderState?.currentId);
+
     if (itemIndex === items.length - 1) {
       return items[0];
+    }
+
+    if (!itemIndex && itemIndex !== 0) {
+      return null;
     }
 
     return items[itemIndex + 1];
@@ -109,8 +104,9 @@ export const PlayerView = () => {
 
   return (
     <>
-      <InitiativeOrder
+      <InitiativeOrderComponent
         creatures={adventure.creatures}
+        initiativeOrderState={initiativeData?.initiativeOrderState ?? null}
         playerView/>
       <Container>
         <Grid>

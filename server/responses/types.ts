@@ -43,3 +43,36 @@ export interface AdventureResponse {
 export type AdventuresResponse = {
   adventures: AdventureResponse[];
 }
+
+export enum EntityType {
+  CREATURE = "creature",
+  PLAYER = "player"
+}
+
+export enum VisibilityState {
+  HIDDEN = 'hidden',
+  ON = 'on',
+  REMOVED = 'removed'
+}
+
+export interface InitiativeOrderItemResponse {
+  entityId: string;
+  entityType: EntityType;
+  id: string;
+  imageSrc: string;
+  name: string;
+  resourceA:  number;
+  resourceB: number;
+  sortValue: number;
+  visibilityState: VisibilityState;
+}
+
+export interface InitiativeResponse {
+  id: string;
+  adventureid: string;
+  initiativeOrderState: {
+    currentId: string;
+    items: InitiativeOrderItemResponse[];
+    round: number;
+  };
+}

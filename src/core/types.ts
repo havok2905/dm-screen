@@ -36,19 +36,30 @@ export interface Player {
   name: string;
 }
 
+export enum EntityType {
+  CREATURE = 'creature',
+  PLAYER = 'player'
+}
+
+export enum VisibilityState {
+  HIDDEN = 'hidden',
+  ON = 'on',
+  REMOVED = 'removed'
+}
+
 export interface InitiativeItem {
   entityId: string;
-  entityType: 'creature' | 'player';
+  entityType: EntityType;
   id: string;
   imageSrc?: string;
   name: string;
   resourceA: number;
   resourceB: number;
   sortValue: number;
-  visibilityState: 'on' | 'removed' | 'hidden';
+  visibilityState: VisibilityState;
 }
 
-export interface InitiativeOrder {
+export interface InitiativeOrderState {
   currentId: string;
   items: InitiativeItem[];
   round: number;
