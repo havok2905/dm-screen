@@ -4,7 +4,9 @@ import {
 } from '@designSystem/components';
 
 import { Adventure } from '@core/types';
+import { useNavigate } from "react-router-dom";
 
+import { ADVENTURE_PATH } from '../../../routes';
 import { useAdventures } from '../../../hooks';
 
 export const AdventuresPage = () => {
@@ -14,6 +16,8 @@ export const AdventuresPage = () => {
     isLoading,
     isPending
   } = useAdventures();
+
+  const navigate = useNavigate();
 
   if (
     !data ||
@@ -41,11 +45,14 @@ export const AdventuresPage = () => {
       data: [id, name, system],
       actions: [
         {
-          name: 'View'
+          name: 'View',
+          onClick: () => {
+            navigate(ADVENTURE_PATH)
+          }
         }
       ]
     };
-  })
+  });
 
   return (
     <Container>

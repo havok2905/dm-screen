@@ -9,7 +9,20 @@ import {
   QueryClientProvider
 } from '@tanstack/react-query'
 
-import { AdventuresPage } from './dm-screen/components/Compendium';
+import {
+  AdventurePage,
+  AdventuresPage,
+  CompendiumPage
+} from './dm-screen/components/Compendium';
+
+import {
+  ADVENTURE_PATH,
+  ADVENTURES_PATH,
+  COMPENDIUM_PATH,
+  PLAYER_VIEW_PATH,
+  ROOT_PATH
+} from './dm-screen/routes';
+
 import { DmView } from './dm-screen/components/DmView';
 import { InitiativeOrderContextProvider } from './dm-screen/components/InitiativeOrderContext';
 import { PlayersContextProvider } from './dm-screen/components/PlayersContext';
@@ -18,7 +31,7 @@ import { RouteErrorBoundary } from './dm-screen/components/RouteErrorBoundary';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROOT_PATH,
     element: (
       <RouteErrorBoundary>
         <DmView/>
@@ -26,7 +39,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "player-view",
+    path: PLAYER_VIEW_PATH,
     element: (
       <RouteErrorBoundary>
         <PlayerView/>
@@ -34,7 +47,23 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "compendium/adventures",
+    path: COMPENDIUM_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <CompendiumPage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: ADVENTURE_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <AdventurePage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: ADVENTURES_PATH,
     element: (
       <RouteErrorBoundary>
         <AdventuresPage/>

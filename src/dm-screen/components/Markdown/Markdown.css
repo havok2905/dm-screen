@@ -1,3 +1,7 @@
 .marked-inline-highlight {
   background-color: var(--orange-200);
 }
+
+.markdown-article img {
+  max-width: 100%;
+}

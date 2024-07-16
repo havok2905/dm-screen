@@ -46,6 +46,10 @@ h6 {
   text-transform: uppercase;
 }
 
+hr {
+  margin: var(--spacing-standard) 0;
+}
+
 p {
   font-size: var(--base-font-size);
   line-height: 1.5;

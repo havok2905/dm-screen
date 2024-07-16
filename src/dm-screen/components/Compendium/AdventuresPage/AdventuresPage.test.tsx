@@ -11,6 +11,13 @@ import { mount } from '@shopify/react-testing';
 
 import { AdventuresPage } from './AdventuresPage';
 
+// This needs to be imported for mock behavior in jest.
+/* eslint-disable-next-line */
+import { useNavigate } from 'react-router-dom';
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn()
+}));
+
 import { useAdventures } from '../../../hooks';
 jest.mock('../../../hooks', () => ({
   useAdventures: jest.fn()
@@ -19,6 +26,13 @@ jest.mock('../../../hooks', () => ({
 describe('CreaturesTable', () => {
   it('should render', async () => {
     const queryClient = new QueryClient();
+
+    const navigate = jest.fn();
+
+    // @ts-expect-error This is a Jest mock
+    useNavigate.mockImplementation(() => {
+      return navigate;
+    });
 
     // @ts-expect-error This is a Jest mock
     useAdventures.mockImplementation(() => {
@@ -59,7 +73,12 @@ describe('CreaturesTable', () => {
     expect(secondRowCells[0]).toContainReactText('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
     expect(secondRowCells[1]).toContainReactText('The Embroidermancer');
     expect(secondRowCells[2]).toContainReactText('D&D 5e (2014)');
-    expect(secondRowCells[3].find('button')).toBeTruthy();
+
+    const viewButton = secondRowCells[3].find('button');
+    
+    viewButton?.trigger('onClick');
+
+    expect(navigate).toHaveBeenCalledTimes(1);
   });
 
   it('should show nothing if it is loading', () => {

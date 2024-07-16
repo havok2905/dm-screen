@@ -12,7 +12,9 @@ export const Markdown = ({
   const html = marked.parse(content);
 
   return (
-    <article dangerouslySetInnerHTML={{
+    <article
+      className="markdown-article"
+      dangerouslySetInnerHTML={{
       __html: html
     }}/>
   );
