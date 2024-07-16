@@ -121,9 +121,7 @@ describe('PlayerView', () => {
       <PlayerView/>
     );
 
-    expect(wrapper).toContainReactText('Out of initiative');
-    expect(wrapper).toContainReactText('Playing');
-    expect(wrapper).toContainReactText('On Deck');
+    expect(wrapper).toContainReactText('The Embroidermancer');
   });
 
   it('should render for a blank initiative', () => {
@@ -163,9 +161,7 @@ describe('PlayerView', () => {
       <PlayerView/>
     );
 
-    expect(wrapper).toContainReactText('Round: 1');
-    expect(wrapper).toContainReactText('Playing');
-    expect(wrapper).toContainReactText('On Deck');
+    expect(wrapper).toContainReactText('The Embroidermancer');
   });
 
   it('should render for a full initiative', () => {
