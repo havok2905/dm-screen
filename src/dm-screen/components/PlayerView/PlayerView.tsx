@@ -18,7 +18,11 @@ import {
 
 import { io } from 'socket.io-client';
 import { Socket } from 'socket.io';
-import { useQuery } from '@tanstack/react-query';
+
+import {
+  useAdventure,
+  useInitiative
+} from '../../hooks';
 
 import { InitiativeOrderComponent } from '../InitiativeOrderComponent';
 
@@ -31,22 +35,12 @@ export const PlayerView = () => {
     isFetching,
     isLoading,
     isPending
-  } = useQuery({
-    queryKey: ['adventureData'],
-    queryFn: () => {
-      return fetch('http://localhost:3000/adventure/1').then((response) => response.json())
-    }  
-  });
+  } = useAdventure('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
 
   const {
     data: initiativeData,
     refetch: initiativeDataRefetch
-  } = useQuery({
-    queryKey: ['initiativeData'],
-    queryFn: () => {
-      return fetch('http://localhost:3000/initiative/68c8bd92-04ff-4359-9856-8d2d6b02b69b').then((response) => response.json())
-    }  
-  });
+  } = useInitiative('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
 
   useEffect(() => {
     if (!socketRef.current) {

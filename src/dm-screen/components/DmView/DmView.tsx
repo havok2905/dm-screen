@@ -25,16 +25,19 @@ import {
   useRef,
   useState
 } from 'react';
-import {
-  useMutation,
-  useQuery,
-  useQueryClient
-} from '@tanstack/react-query';
 
 import { InitiativeOrder } from '@core/InitiativeOrder';
 import { io } from 'socket.io-client';
 import { Socket } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
+
+import {
+  useAdventure,
+  useBootstrapInitiative,
+  useDestroyInitiative,
+  useInitiative,
+  useUpdateInitiative
+} from '../../hooks';
 
 import { CreaturesTable } from '../CreaturesTable';
 import { InitiativeOrderComponent } from '../InitiativeOrderComponent';
@@ -56,79 +59,21 @@ export const DmView = () => {
 
   const socketRef = useRef<Socket | null>(null);
 
-  const queryClient = useQueryClient();
-
   const {
     data,
     isFetching,
     isLoading,
     isPending
-  } = useQuery({
-    queryKey: ['adventureData'],
-    queryFn: () => {
-      return fetch('http://localhost:3000/adventure/68c8bd92-04ff-4359-9856-8d2d6b02b69b').then((response) => response.json())
-    }  
-  });
+  } = useAdventure('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
 
   const {
     data: initiativeData,
     refetch: initiativeDataRefetch
-  } = useQuery({
-    queryKey: ['initiativeData'],
-    queryFn: () => {
-      return fetch('http://localhost:3000/initiative/68c8bd92-04ff-4359-9856-8d2d6b02b69b').then((response) => response.json())
-    }  
-  });
+  } = useInitiative('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
 
-  const {
-    mutate: bootstrapInitiative
-  } = useMutation({
-    mutationFn: () => {
-      return fetch(`http://localhost:3000/initiative/68c8bd92-04ff-4359-9856-8d2d6b02b69b`, {
-        method: 'POST'
-      }).then((response) => response.json())
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
-    },
-  });
-
-  const {
-    mutate: destroyInitiative
-  } = useMutation({
-    mutationFn: (id: string) => {
-      return fetch(`http://localhost:3000/initiative/${id}`, {
-        method: 'DELETE'
-      }).then((response) => response.json())
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
-    },
-  });
-
-  const {
-    mutate: updateInitiative
-  } = useMutation({
-    mutationFn: (data: { id: string;  initiativeOrderState: string; }) => {
-      const {
-        id,
-        initiativeOrderState
-      } = data;
-      
-      return fetch(`http://localhost:3000/initiative/${id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({
-          initiativeOrderState
-        }),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      }).then((response) => response.json())
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
-    },
-  });
+  const { mutate: bootstrapInitiative } = useBootstrapInitiative();
+  const { mutate: destroyInitiative } = useDestroyInitiative();
+  const { mutate: updateInitiative } = useUpdateInitiative();
 
   const { players } = useContext(PlayersContext);
 
@@ -187,7 +132,7 @@ export const DmView = () => {
   }
 
   const handleBootstrapInitiativeOrder = () => {
-    bootstrapInitiative();
+    bootstrapInitiative('68c8bd92-04ff-4359-9856-8d2d6b02b69');
   };
 
   const handleDestroyInitiativeOrder = () => {
