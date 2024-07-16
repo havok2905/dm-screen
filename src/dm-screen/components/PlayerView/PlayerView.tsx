@@ -15,7 +15,6 @@ import {
   useEffect,
   useRef,
   useState,
-  useCallback
 } from 'react';
 
 import { io } from 'socket.io-client';
@@ -113,6 +112,7 @@ export const PlayerView = () => {
   const currentPlayer = getCurrentPlayer();
   const nextPlayer = getNextPlayer();
 
+  // Placeholder check until there's a better way to know when out of combat
   if (items.length === 0) {
         return (<PlayerSplash adventure={adventure} />);
   } else {

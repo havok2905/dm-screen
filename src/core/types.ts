@@ -23,6 +23,8 @@ export interface Handout {
 export interface Adventure {
   name: string;
   notes: string; // as markdown
+  description: string;
+  splashImgSrc: string;
   system: string;
   creatures: MarkdownEntity[];
   handouts: Handout[];

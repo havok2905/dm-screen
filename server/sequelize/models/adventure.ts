@@ -24,7 +24,9 @@ export default (sequelize) => {
     },
     name: DataTypes.TEXT,
     system: DataTypes.TEXT,
-    notes: DataTypes.TEXT
+    notes: DataTypes.TEXT,
+    description: DataTypes.TEXT,
+    splashImgSrc: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'Adventure',
