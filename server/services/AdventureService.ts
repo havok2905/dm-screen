@@ -9,19 +9,37 @@ import {
   AdventuresResponse
 } from '../responses';
 
+import {
+  AdventureNotFoundException,
+  AdventuresNotFoundException,
+  MissingArgumentException
+} from '../exceptions';
+
 export class AdventureService {
   static async getAdventures(): Promise<AdventuresResponse> {
     const adventures = await Adventure.findAll();
+
+    if (!adventures.length) {
+      throw new AdventuresNotFoundException();    
+    }
 
     return this.mapAdventuresResponseJson(adventures);
   }
 
   static async getAdventureById(id: string): Promise<AdventureResponse> {
+    if (!id) {
+      throw new MissingArgumentException();
+    }
+
     const adventure = await Adventure.findOne({
       where: {
         id: id
       }
     });
+
+    if (!adventure) {
+      throw new AdventureNotFoundException();
+    }
   
     const adventureCreatures = await AdventureCreature.findAll({
       where: {

@@ -9,36 +9,38 @@ import {
   InitiativeService
 } from './services';
 
+import { errorHandler } from './middleware';
 import { ServerConfig } from './config';
 
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: '*',
-  }
-});
-
 const config = new ServerConfig();
 const port = config.getServerPort();
 
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
 app.get('/', (_req, res) => {
   res.send({});
 });
 
-app.get('/adventures', async (_request, response) => {
-  const responseJson = await AdventureService.getAdventures();
-  response.json(responseJson);
+app.get('/adventures', async (_request, response, next) => {
+  try {
+    const responseJson = await AdventureService.getAdventures();
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
 });
 
-app.get('/adventure/:id', async (request, response) => {
-  const responseJson = await AdventureService.getAdventureById(request.params.id ?? '');
-  response.json(responseJson);
+app.get('/adventure/:id', async (request, response, next) => {
+  try {
+    const responseJson = await AdventureService.getAdventureById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.get('/initiative/:adventureid', async(request, response) => {
@@ -60,6 +62,16 @@ app.post('/initiative/:adventureid', async(request, response) => {
 app.delete('/initiative/:id', async(request, response) => {
   const responseJson = await InitiativeService.destroyInitiativeById(request.params.id ?? '');
   response.json(responseJson);
+});
+
+app.use(errorHandler);
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  }
 });
 
 io.on('connection', (socket) => {

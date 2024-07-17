@@ -1,14 +1,19 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import {
-  Initiative
-} from '../sequelize/db';
-import {
-  InitiativeResponse
-} from '../responses';
+  InitiativeNotFoundException,
+  MissingArgumentException
+} from '../exceptions';
+
+import { Initiative } from '../sequelize/db';
+import { InitiativeResponse } from '../responses';
 
 export class InitiativeService {
   static async bootstrapInitiativeByAdventureId(adventureid: string): Promise<InitiativeResponse | null> {
+    if (!adventureid) {
+      throw new MissingArgumentException();
+    }
+
     const foundInitiative = await Initiative.findAll({
       where: {
         adventureid
@@ -33,13 +38,19 @@ export class InitiativeService {
   }
 
   static async destroyInitiativeById(id: string): Promise<boolean> {
+    if (!id) {
+      throw new MissingArgumentException();
+    }
+
     const initiative = await Initiative.findOne({
       where: {
         id
       }
     });
 
-    if (!initiative) return false;
+    if (!initiative) {
+      throw new InitiativeNotFoundException();
+    }
   
     initiative?.destroy();
     initiative?.save();
@@ -48,27 +59,39 @@ export class InitiativeService {
   }
 
   static async getInitiativeByAdventureId(adventureid: string): Promise<InitiativeResponse | null> {
+    if (!adventureid) {
+      throw new MissingArgumentException();
+    }
+
     const initiative = await Initiative.findOne({
       where: {
         adventureid
       }
     });
   
-    if (!initiative) return null;
+    if (!initiative) {
+      throw new InitiativeNotFoundException();
+    }
   
     return this.mapResponseJson(initiative);
   }
 
   static async updateInitiativeById(id: string, updateRequest): Promise<InitiativeResponse | null> {
+    if (!id) {
+      throw new MissingArgumentException();
+    }
+
     const initiative = await Initiative.findOne({
       where: {
         id
       }
     });
   
-    if (!initiative) return null;
+    if (!initiative) {
+      throw new InitiativeNotFoundException();
+    }
 
-    const { initiativeOrderState } = updateRequest;
+    const { initiativeOrderState } = updateRequest ?? {};
 
     initiative.update({ initiativeOrderState });
     initiative.save();

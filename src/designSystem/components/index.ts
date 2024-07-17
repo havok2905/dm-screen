@@ -1,4 +1,5 @@
 export * from './Button';
+export * from './CenteredContainer';
 export * from './CircleBadgeForm';
 export * from './Container';
 export * from './ErrorDisplay';
@@ -11,4 +12,5 @@ export * from './LinkButton';
 export * from './Modal';
 export * from './Section';
 export * from './SideDrawer';
+export * from './Spinner';
 export * from './Table';
