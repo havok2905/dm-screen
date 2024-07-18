@@ -136,6 +136,14 @@ export const InitiativeOrderComponent = ({
     }
   };
 
+  const toggleGmOnly = () => {
+    const initiativeOrder = getInitiativeOrder();
+    if (initiativeOrder) {
+      initiativeOrder.toggleGmOnly(openId ?? '');
+      handleUpdateInitiativeOrderInternal();
+    }
+  };
+
   const currentItem = initiativeOrderState?.items?.find((item: InitiativeItem) => item.id === openId) ?? null;
 
   return (
@@ -147,6 +155,7 @@ export const InitiativeOrderComponent = ({
               return (
                 <InitiativeCard
                   active={item.id === initiativeOrderState?.currentId}
+                  gmOnly={item.gmOnly}
                   imageSrc={item.imageSrc}
                   key={item.id}
                   name={item.name}
@@ -163,6 +172,7 @@ export const InitiativeOrderComponent = ({
                   onSortValueChange={(value) => {
                     onSortValueChange(item, value);
                   }}
+                  playerView={playerView}
                   resourceA={item.resourceA}
                   resourceB={item.resourceB}
                   sortValue={item.sortValue}
@@ -216,6 +226,20 @@ export const InitiativeOrderComponent = ({
         isOpen={isOpen}
         item={currentItem}
         onClose={handleModalClose}>
+        <fieldset>
+          <label>
+            GM Only
+          </label>
+          <input
+            checked={currentItem?.gmOnly}
+            id="gm-only-toggle"
+            name="gm-only-toggle"
+            onChange={() => {
+              toggleGmOnly();
+            }}
+            type="checkbox"
+          />
+        </fieldset>
         <Button
           buttonText="Remove from initiative"
           onClick={() => {

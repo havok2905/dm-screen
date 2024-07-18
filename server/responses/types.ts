@@ -58,6 +58,7 @@ export enum VisibilityState {
 export interface InitiativeOrderItemResponse {
   entityId: string;
   entityType: EntityType;
+  gmOnly: boolean;
   id: string;
   imageSrc: string;
   name: string;

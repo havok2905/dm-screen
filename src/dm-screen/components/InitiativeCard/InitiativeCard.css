@@ -16,6 +16,11 @@
   width: 120px;
 }
 
+.initiative-card-gm-only {
+  border: solid 4px var(--blue-50);
+  opacity: 0.4;
+}
+
 .initiative-card-hidden {
   opacity: 0.4;
 }

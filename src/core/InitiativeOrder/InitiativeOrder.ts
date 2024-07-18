@@ -22,6 +22,7 @@ export interface InitiativeOrderInterface {
   getState(): InitiativeOrderState;
   setRound(round: number): void;
   sort: () => void;
+  toggleGmOnly: (id: string) => void;
 }
 
 export class InitiativeOrder implements InitiativeOrderInterface {
@@ -79,10 +80,7 @@ export class InitiativeOrder implements InitiativeOrderInterface {
       
       const n = this.items[nextIndex];
 
-      if (
-        n.visibilityState === 'on' ||
-        n.visibilityState === 'hidden'
-      ) {
+      if (n.visibilityState != VisibilityState.REMOVED && !n.gmOnly) {
         nextItem = n;
       }
 
@@ -108,10 +106,7 @@ export class InitiativeOrder implements InitiativeOrderInterface {
       
       const n = this.items[prevIndex];
 
-      if (
-        n.visibilityState === 'on' ||
-        n.visibilityState === 'hidden'
-      ) {
+      if (n.visibilityState != VisibilityState.REMOVED && !n.gmOnly) {
         prevItem = n;
       }
 
@@ -228,5 +223,17 @@ export class InitiativeOrder implements InitiativeOrderInterface {
     }
 
     this.items = toBeSorted;
+  }
+
+  toggleGmOnly(id: string) {
+    const newItems = this.items.map((item) => {
+      if (item.id === id) {
+        item.gmOnly = !item.gmOnly;
+      }
+
+      return item;
+    });
+
+    this.items = newItems;
   }
 }

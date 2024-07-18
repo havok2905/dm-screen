@@ -50,7 +50,9 @@ export const InitiativeItemModal = ({
               <img
                 alt={currentEntity.name}
                 src={currentEntity.image}
-                width="100%"/>
+                style={{
+                  maxWidth: "100%"
+                }}/>
             )
           }
           <Markdown content={currentEntity.content ?? ''}/>
