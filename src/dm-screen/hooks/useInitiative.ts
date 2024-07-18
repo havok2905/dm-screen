@@ -5,7 +5,8 @@ export const useInitiative = (id: string) => {
     queryKey: ['initiativeData'],
     queryFn: () => {
       return fetch(`http://localhost:3000/initiative/${id}`).then((response) => response.json())
-    }  
+    },
+    retry: 1
   });
 
   return result;

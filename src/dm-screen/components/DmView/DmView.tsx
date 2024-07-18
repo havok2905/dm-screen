@@ -68,6 +68,7 @@ export const DmView = () => {
 
   const {
     data: initiativeData,
+    isError: initiativeItemIsError,
     refetch: initiativeDataRefetch
   } = useInitiative('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
 
@@ -132,7 +133,7 @@ export const DmView = () => {
   }
 
   const handleBootstrapInitiativeOrder = () => {
-    bootstrapInitiative('68c8bd92-04ff-4359-9856-8d2d6b02b69');
+    bootstrapInitiative('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
   };
 
   const handleDestroyInitiativeOrder = () => {
@@ -165,6 +166,7 @@ export const DmView = () => {
       return {
         entityId: id,
         entityType: EntityType.PLAYER,
+        gmOnly: false,
         id: uuidv4(),
         name,
         resourceA: ac,
@@ -233,6 +235,7 @@ export const DmView = () => {
   }
 
   const adventure = data as Adventure;
+  const initiativeOrderState = initiativeItemIsError ? null : initiativeData?.initiativeOrderState ?? null;
 
   return (
     <>
@@ -242,7 +245,7 @@ export const DmView = () => {
           handleBootstrapInitiativeOrder={handleBootstrapInitiativeOrder}
           handleDestroyInitiativeOrder={handleDestroyInitiativeOrder}
           handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
-          initiativeOrderState={initiativeData?.initiativeOrderState ?? null}/>
+          initiativeOrderState={initiativeOrderState}/>
         <Container>
           <Grid>
             <GridRow>

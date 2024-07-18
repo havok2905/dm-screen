@@ -43,25 +43,41 @@ app.get('/adventure/:id', async (request, response, next) => {
   }
 });
 
-app.get('/initiative/:adventureid', async(request, response) => {
-  const responseJson = await InitiativeService.getInitiativeByAdventureId(request.params.adventureid ?? '');
-  response.json(responseJson);
+app.get('/initiative/:adventureid', async(request, response, next) => {
+  try {
+    const responseJson = await InitiativeService.getInitiativeByAdventureId(request.params.adventureid ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
 });
 
-app.patch('/initiative/:id', async(request, response) => {
-  const requestBody = request.body;
-  const responseJson = await InitiativeService.updateInitiativeById(request.params.id ?? '', requestBody);
-  response.json(responseJson);
+app.patch('/initiative/:id', async(request, response, next) => {
+  try {
+    const requestBody = request.body;
+    const responseJson = await InitiativeService.updateInitiativeById(request.params.id ?? '', requestBody);
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
 });
 
-app.post('/initiative/:adventureid', async(request, response) => {
-  const responseJson = await InitiativeService.bootstrapInitiativeByAdventureId(request.params.adventureid ?? '');
-  response.json(responseJson);
+app.post('/initiative/:adventureid', async(request, response, next) => {
+  try {
+    const responseJson = await InitiativeService.bootstrapInitiativeByAdventureId(request.params.adventureid ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
 });
 
-app.delete('/initiative/:id', async(request, response) => {
-  const responseJson = await InitiativeService.destroyInitiativeById(request.params.id ?? '');
-  response.json(responseJson);
+app.delete('/initiative/:id', async(request, response, next) => {
+  try {
+    const responseJson = await InitiativeService.destroyInitiativeById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
 });
 
 app.use(errorHandler);

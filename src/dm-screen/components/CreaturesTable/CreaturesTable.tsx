@@ -105,6 +105,7 @@ export const CreaturesTable = ({
                         {
                           entityId: creature.id,
                           entityType: EntityType.CREATURE,
+                          gmOnly: false,
                           id: uuidv4(),
                           imageSrc: creature.image ?? '',
                           name: creature.name,
@@ -130,6 +131,7 @@ export const CreaturesTable = ({
                         {
                           entityId: creature.id,
                           entityType: EntityType.CREATURE,
+                          gmOnly: false,
                           id: uuidv4(),
                           imageSrc: creature.image ?? '',
                           name: creature.name,

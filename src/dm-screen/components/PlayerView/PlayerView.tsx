@@ -1,7 +1,8 @@
 import {
   Adventure,
   Handout,
-  InitiativeItem
+  InitiativeItem,
+  VisibilityState
 } from '@core/types';
 import { 
   Container,
@@ -78,19 +79,34 @@ export const PlayerView = () => {
   };
 
   const getNextPlayer = (): InitiativeItem | null => {
-    const items = initiativeData?.initiativeOrderState?.items ?? [];
+    const items: InitiativeItem[] = initiativeData?.initiativeOrderState?.items ?? [];
 
     const itemIndex = items.findIndex((i: InitiativeItem) => i.id === initiativeData?.initiativeOrderState?.currentId);
 
-    if (itemIndex === items.length - 1) {
-      return items[0];
-    }
-
-    if (!itemIndex && itemIndex !== 0) {
+    // Next player does not exist
+    if (itemIndex === -1) {
       return null;
     }
 
-    return items[itemIndex + 1];
+    // Find the next possible next item
+    // TODO: Turn this into a generic helper function
+    let nextItem: InitiativeItem | null = null;
+    let x = itemIndex;
+    while(!nextItem) {
+      const nextIndex = x === items.length - 1
+        ? 0
+        : x+1;
+      
+      const n = items[nextIndex];
+
+      if (n.visibilityState != VisibilityState.REMOVED && !n.gmOnly) {
+        nextItem = n;
+      }
+
+      x = nextIndex;
+    }
+
+    return nextItem;
   };
 
   const currentPlayer = getCurrentPlayer();
