@@ -4,10 +4,12 @@ import {
   MarkdownEntity
 } from '@core/types';
 import {
+  CenteredContainer,
   Container,
   Grid,
   GridRow,
   Item,
+  Spinner,
   Table
 } from '@designSystem/components';
 
@@ -17,19 +19,25 @@ import { ADVENTURES_PATH } from '../../../routes';
 import { Markdown } from '../../Markdown';
 import { useAdventure } from '../../../hooks';
 
+const adventureId = '68c8bd92-04ff-4359-9856-8d2d6b02b69b';
+
 export const AdventurePage = () => {
   const {
     data,
     isFetching,
     isLoading,
     isPending
-  } = useAdventure('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
+  } = useAdventure(adventureId);
 
   if (
     isFetching ||
     isLoading ||
     isPending
-  ) return null;
+  ) return (
+    <CenteredContainer>
+      <Spinner/>
+    </CenteredContainer>
+  );
 
   const {
     creatures,
@@ -159,7 +167,11 @@ export const AdventurePage = () => {
         </GridRow>
       </Grid>
     </>
-  ) : null;
+  ) : (
+    <p>
+      No adventure could be found for {adventureId}.
+    </p>
+  );
 
   return (
     <Container>

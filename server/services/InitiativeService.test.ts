@@ -1,10 +1,10 @@
-import {
-  Initiative
-} from '../sequelize/db';
-import {
-  InitiativeResponse
-} from '../responses';
+import { 
+  InitiativeNotFoundException,
+  MissingArgumentException
+} from '../exceptions';
 
+import { Initiative } from '../sequelize/db';
+import { InitiativeResponse } from '../responses';
 import { InitiativeService } from './InitiativeService';
 
 describe('InitiativeService', () => {
@@ -61,7 +61,13 @@ describe('InitiativeService', () => {
       
       expect(Initiative.create).toHaveBeenCalledTimes(0);
       expect(result).toEqual(null);
-    })
+    });
+
+    it('should throw when arguments are missing', () => {
+      expect(async () => {
+        await InitiativeService.bootstrapInitiativeByAdventureId('');
+      }).rejects.toThrow(MissingArgumentException);
+    });
   });
 
   describe('destroyInitiativeById', () => {
@@ -99,16 +105,22 @@ describe('InitiativeService', () => {
       expect(save).toHaveBeenCalledTimes(1);
     });
 
-    it('should not delete delete', async () => {
+    it('should throw', () => {
       jest.spyOn(Initiative, 'findOne').mockImplementation(() => {
         return new Promise((resolve) => {
           resolve(null);
         });
       });
 
-      const result = await InitiativeService.destroyInitiativeById('1');
+      expect(async () => {
+        await InitiativeService.destroyInitiativeById('1');
+      }).rejects.toThrow(InitiativeNotFoundException);
+    });
 
-      expect(result).toEqual(false);
+    it('should throw when arguments are missing', () => {
+      expect(async () => {
+        await InitiativeService.destroyInitiativeById('');
+      }).rejects.toThrow(MissingArgumentException);
     });
   });
 
@@ -142,16 +154,22 @@ describe('InitiativeService', () => {
       expect(result.initiativeOrderState.round).toEqual(1);
     });
 
-    it('should return null if none are found', async () => {
+    it('should throw if none are found', async () => {
       jest.spyOn(Initiative, 'findOne').mockImplementation(() => {
         return new Promise((resolve) => {
           resolve(null);
         });
       });
 
-      const result = await InitiativeService.getInitiativeByAdventureId('1') as null;
+      expect(async () => {
+        await InitiativeService.getInitiativeByAdventureId('1');
+      }).rejects.toThrow(InitiativeNotFoundException);
+    });
 
-      expect(result).toEqual(null);
+    it('should throw when arguments are missing', () => {
+      expect(async () => {
+        await InitiativeService.getInitiativeByAdventureId('');
+      }).rejects.toThrow(MissingArgumentException);
     });
   });
 
@@ -192,23 +210,26 @@ describe('InitiativeService', () => {
       expect(save).toHaveBeenCalledTimes(1);
     });
 
-    it('should not update when a record is not found', async () => {
-      const update = jest.fn();
-      const save = jest.fn();
-  
+    it('should throw when a record is not found', async () => {  
       jest.spyOn(Initiative, 'findOne').mockImplementation(() => {
         return new Promise((resolve) => {
           resolve(null);
         });
       });
 
-      const result = await InitiativeService.updateInitiativeById('1', {
-        initiativeOrderState: '{"currentId":"","items":[],"round":2}'
-      }) as null;
+      expect(async () => {
+        await InitiativeService.updateInitiativeById('1', {
+          initiativeOrderState: '{"currentId":"","items":[],"round":2}'
+        });
+      }).rejects.toThrow(InitiativeNotFoundException);
+    });
 
-      expect(result).toEqual(null);
-      expect(update).toHaveBeenCalledTimes(0);
-      expect(save).toHaveBeenCalledTimes(0);
+    it('should throw when arguments are missing', () => {
+      expect(async () => {
+        await InitiativeService.updateInitiativeById('', {
+          initiativeOrderState: '{"currentId":"","items":[],"round":2}'
+        });
+      }).rejects.toThrow(MissingArgumentException);
     });
   });
 });

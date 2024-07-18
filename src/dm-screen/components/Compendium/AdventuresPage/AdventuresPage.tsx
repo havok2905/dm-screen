@@ -1,5 +1,7 @@
 import {
+  CenteredContainer,
   Container,
+  Spinner,
   Table
 } from '@designSystem/components';
 
@@ -20,13 +22,16 @@ export const AdventuresPage = () => {
   const navigate = useNavigate();
 
   if (
-    !data ||
     isFetching ||
     isLoading ||
     isPending
-  ) return null;
+  ) return (
+    <CenteredContainer>
+      <Spinner/>
+    </CenteredContainer>
+  );
 
-  const adventures = data.adventures as Adventure[];
+  const adventures = data?.adventures ?? [] as Adventure[];
 
   const columns = [
     { name: 'Id' },
@@ -34,7 +39,7 @@ export const AdventuresPage = () => {
     { name: 'System'}
   ];
 
-  const rows = adventures.map(adventure => {
+  const rows = adventures.map((adventure: Adventure) => {
     const {
       id,
       name,

@@ -1,0 +1,7 @@
+.dm-screen-design-system-centered-container {
+  left: 50%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}

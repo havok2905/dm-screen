@@ -5,6 +5,11 @@ import {
   AdventureItem
 } from '../sequelize/db';
 import {
+  AdventureNotFoundException,
+  AdventuresNotFoundException,
+  MissingArgumentException
+} from '../exceptions';
+import {
   AdventureResponse,
   AdventuresResponse
 } from '../responses';
@@ -43,7 +48,7 @@ describe('AdventureService', () => {
         return new Promise((resolve) => {
           resolve(mockAdventures);
         });
-      })
+      });
   
       const result: AdventuresResponse = await AdventureService.getAdventures();
   
@@ -63,6 +68,18 @@ describe('AdventureService', () => {
       expect(result.adventures[2].name).toEqual(mockAdventures[2].dataValues.name);
       expect(result.adventures[2].notes).toEqual(mockAdventures[2].dataValues.notes);
       expect(result.adventures[2].system).toEqual(mockAdventures[2].dataValues.system);
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(Adventure, 'findAll').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve([]);
+        });
+      });
+
+      expect(async () => {
+        await AdventureService.getAdventures();
+      }).rejects.toThrow(AdventuresNotFoundException);
     });
   });
 
@@ -176,6 +193,24 @@ describe('AdventureService', () => {
       expect(result.items?.[0].metadata[0].name).toEqual('Rarity');
       expect(result.items?.[0].metadata[0].type).toEqual('string');
       expect(result.items?.[0].metadata[0].value).toEqual('Common');
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(Adventure, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await AdventureService.getAdventureById('1');
+      }).rejects.toThrow(AdventureNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await AdventureService.getAdventureById('');
+      }).rejects.toThrow(MissingArgumentException);
     });
   });
 });
