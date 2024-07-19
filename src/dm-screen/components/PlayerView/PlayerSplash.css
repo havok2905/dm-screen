@@ -1,0 +1,21 @@
+.dm-screen-design-system-splash {
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+}
+
+.dm-screen-design-system-splash-title {
+    text-align: center;
+    background: var(--black-100);
+    padding: 20px 10px;
+}
+
+.dm-screen-design-system-splash-description {
+    background: var(--black-100);
+    padding: 20px;
+    margin-left: 20px
+}

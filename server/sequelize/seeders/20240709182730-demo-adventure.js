@@ -12,6 +12,8 @@ module.exports = {
         system: 'D&D 5e (2014)',
         createdat: currentTime,
         updatedat: currentTime,
+        description: 'A 5e oneshot for games set around Waterdeep.',
+        splashImgSrc: 'splash-screens/dice.jpg',
         notes: `# The Embroidermancer
 
 ## Premise
