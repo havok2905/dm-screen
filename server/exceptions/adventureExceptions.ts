@@ -9,3 +9,9 @@ export class AdventuresNotFoundException extends Error {
     super(message ?? 'Adventures not found');
   }
 }
+
+export class AdventureRequestMalformedException extends Error {
+  constructor(message?: string) {
+    super(message ?? 'The Adventure request body is not valid');
+  }
+}

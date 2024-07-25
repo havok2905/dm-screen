@@ -13,21 +13,21 @@ import {
   Table
 } from '@designSystem/components';
 
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { ADVENTURES_PATH } from '../../../routes';
 import { Markdown } from '../../Markdown';
 import { useAdventure } from '../../../hooks';
 
-const adventureId = '68c8bd92-04ff-4359-9856-8d2d6b02b69b';
-
 export const AdventurePage = () => {
+  const { id: adventureId } = useParams();
+
   const {
     data,
     isFetching,
     isLoading,
     isPending
-  } = useAdventure(adventureId);
+  } = useAdventure(adventureId ?? '');
 
   if (
     isFetching ||
@@ -162,7 +162,7 @@ export const AdventurePage = () => {
             }
           </Item>
           <Item columns={6}>
-            <Markdown content={notes}/>
+            <Markdown content={notes ?? ''}/>
           </Item>
         </GridRow>
       </Grid>

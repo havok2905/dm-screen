@@ -4,20 +4,67 @@ import {
   Spinner,
   Table
 } from '@designSystem/components';
+import {
+  Link,
+  useNavigate
+} from "react-router-dom";
+import {
+  useCallback,
+  useState
+} from 'react';
 
 import { Adventure } from '@core/types';
-import { useNavigate } from "react-router-dom";
 
-import { ADVENTURE_PATH } from '../../../routes';
-import { useAdventures } from '../../../hooks';
+import {
+  ADVENTURE_PATH,
+  CREATE_ADVENTURE_PATH
+} from '../../../routes';
+import {
+  useAdventures,
+  useDestroyAdventure
+} from '../../../hooks';
+
+import {
+  ConfirmationModal
+} from '../../ConfirmationModal';
 
 export const AdventuresPage = () => {
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const [activeId, setActiveId] = useState<string>('');
+  
   const {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useAdventures();
+
+  const onSuccess = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+    refetch();
+  }, [
+    refetch
+  ]);
+
+  const {
+    mutate: destroyAdventure
+  } = useDestroyAdventure(onSuccess);
+
+  const onCancel = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, []);
+
+  const onOk = useCallback(() => {
+    destroyAdventure(activeId);
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, [
+    activeId,
+    destroyAdventure
+  ]);
 
   const navigate = useNavigate();
 
@@ -52,7 +99,14 @@ export const AdventuresPage = () => {
         {
           name: 'View',
           onClick: () => {
-            navigate(ADVENTURE_PATH)
+            navigate(ADVENTURE_PATH.replace(':id', id))
+          }
+        },
+        {
+          name: 'Destroy',
+          onClick: () => {
+            setIsConfirmModalOpen(true);
+            setActiveId(id);
           }
         }
       ]
@@ -60,21 +114,31 @@ export const AdventuresPage = () => {
   });
 
   return (
-    <Container>
-      <h1>Compendium</h1>
-      <h2>Adventures</h2>
-      {
-        adventures.length ? (
-          <Table
-            columns={columns}
-            rows={rows}
-          />
-        ) : (
-          <p>
-            No adventures were found.
-          </p>
-        )
-      }
-    </Container>
+    <>
+      <Container>
+        <h1>Compendium</h1>
+        <h2>Adventures</h2>
+        <Link to={CREATE_ADVENTURE_PATH}>
+          Create new adventure
+        </Link>
+        {
+          adventures.length ? (
+            <Table
+              columns={columns}
+              rows={rows}
+            />
+          ) : (
+            <p>
+              No adventures were found.
+            </p>
+          )
+        }
+      </Container>
+      <ConfirmationModal
+        isOpen={isConfirmModalOpen}
+        onCancel={onCancel}
+        onOk={onOk}
+      />
+    </>
   );
 };
