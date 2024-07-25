@@ -85,7 +85,7 @@ export const CreateAdventurePage = () => {
     control,
     handleSubmit
   } = useForm<CreateAdventureFormInputs>({
-    mode: 'onTouched'
+    mode: 'all'
   });
 
   const {

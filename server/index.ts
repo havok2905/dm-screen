@@ -8,8 +8,11 @@ import {
   AdventureService,
   InitiativeService
 } from './services';
+import {
+  CreateAdventureRequest,
+  UpdateAdventureRequest
+} from './requests';
 
-import { CreateAdventureRequest } from './requests';
 import { errorHandler } from './middleware';
 import { ServerConfig } from './config';
 
@@ -55,6 +58,30 @@ app.post('/adventures', async (request, response, next) => {
 
     response.json(responseJson);
   } catch(error) {
+    next(error);
+  }
+});
+
+app.put('/adventure/:id', async (request, response, next) => {
+  try {
+    const {
+      description,
+      name,
+      notes,
+      system
+    } = request.body;
+
+    const updateAdventureRequest = new UpdateAdventureRequest(
+      description,
+      name,
+      notes,
+      system
+    );
+
+    const responseJson = await AdventureService.updateAdventureById(request.params.id ?? '', updateAdventureRequest);
+
+    response.json(responseJson);
+  } catch (error) {
     next(error);
   }
 });

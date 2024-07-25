@@ -15,6 +15,7 @@ import {
 } from '../responses';
 
 import { AdventureService } from './AdventureService';
+import { UpdateAdventureRequest } from '../requests';
 
 describe('AdventureService', () => {
   describe('getAdventures', () => {
@@ -210,6 +211,77 @@ describe('AdventureService', () => {
     it('should throw for bad arguments', () => {
       expect(async () => {
         await AdventureService.getAdventureById('');
+      }).rejects.toThrow(MissingArgumentException);
+    });
+  });
+
+  describe('updateAdventureById', () => {
+    it('should update an adventure', async () => {
+      const mockAdventure = Adventure.build({
+        id: '1',
+        name: 'Foo Adventure',
+        notes: 'notes A',
+        system: 'D&D 5e'
+      });
+
+      jest.spyOn(Adventure, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockAdventure);
+        });
+      });
+
+      jest.spyOn(mockAdventure, 'update').mockImplementation((newData) => {
+        mockAdventure.setDataValue('description', newData.description);
+        mockAdventure.setDataValue('name', newData.name);
+        mockAdventure.setDataValue('notes', newData.notes);
+        mockAdventure.setDataValue('system', newData.system);
+
+        return new Promise<void>((resolve) => {
+          resolve();
+        });
+      });
+
+      const response = await AdventureService.updateAdventureById(
+        '1',
+        new UpdateAdventureRequest(
+          'Test Description',
+          'Test Name',
+          '# Test',
+          'D&D 2024'
+        )
+      );
+
+      expect(response.description).toEqual('Test Description');
+      expect(response.name).toEqual('Test Name');
+      expect(response.notes).toEqual('# Test');
+      expect(response.system).toEqual('D&D 2024');
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(Adventure, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await AdventureService.updateAdventureById('1', new UpdateAdventureRequest(
+          '',
+          '',
+          '',
+          ''
+        ));
+      }).rejects.toThrow(AdventureNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await AdventureService.updateAdventureById('', new UpdateAdventureRequest(
+          '',
+          '',
+          '',
+          ''
+        ));
       }).rejects.toThrow(MissingArgumentException);
     });
   });

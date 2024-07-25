@@ -31,6 +31,7 @@ export interface AdventureItemResponse {
 }
 
 export interface AdventureResponse {
+  description: string;
   id: string;
   name: string;
   notes: string;

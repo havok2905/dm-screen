@@ -4,5 +4,6 @@ export * from './useBootstrapInitiative';
 export * from './useCreateAdventure';
 export * from './useDestroyAdventure';
 export * from './useDestroyInitiative';
+export * from './useUpdateAdventure';
 export * from './useUpdateInitiative';
 export * from './useInitiative';

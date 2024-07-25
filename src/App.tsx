@@ -13,7 +13,8 @@ import {
   AdventurePage,
   AdventuresPage,
   CompendiumPage,
-  CreateAdventurePage
+  CreateAdventurePage,
+  EditAdventurePage
 } from './dm-screen/components/Compendium';
 
 import {
@@ -21,6 +22,7 @@ import {
   ADVENTURES_PATH,
   COMPENDIUM_PATH,
   CREATE_ADVENTURE_PATH,
+  EDIT_ADVENTURE_PATH,
   PLAYER_VIEW_PATH,
   ROOT_PATH
 } from './dm-screen/routes';
@@ -77,6 +79,14 @@ const router = createBrowserRouter([
     element: (
       <RouteErrorBoundary>
         <CreateAdventurePage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: EDIT_ADVENTURE_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <EditAdventurePage/>
       </RouteErrorBoundary>
     )
   }

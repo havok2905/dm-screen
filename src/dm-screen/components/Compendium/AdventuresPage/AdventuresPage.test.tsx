@@ -143,7 +143,7 @@ describe('CreaturesTable', () => {
       </QueryClientProvider>
     );
 
-    const destroyButton = wrapper.findAll('button')[1];
+    const destroyButton = wrapper.findAll('button')[2];
     
     destroyButton.trigger('onClick');
 
@@ -278,6 +278,57 @@ describe('CreaturesTable', () => {
     );
 
     const viewButton = wrapper.findAll('button')[0];
+    
+    viewButton.trigger('onClick');
+
+    expect(navigate).toHaveBeenCalledTimes(1);
+  });
+
+  it('should edit an adventure', async () => {
+    const queryClient = new QueryClient();
+
+    const navigate = jest.fn();
+    const refetch = jest.fn();
+
+    // @ts-expect-error This is a Jest mock
+    useNavigate.mockImplementation(() => {
+      return navigate;
+    });
+
+    // @ts-expect-error This is a Jest mock
+    useAdventures.mockImplementation(() => {
+      return {
+        data: {
+          adventures: [
+            {
+              id: '68c8bd92-04ff-4359-9856-8d2d6b02b69b',
+              name: 'The Embroidermancer',
+              system: 'D&D 5e (2014)'
+            }
+          ]
+        },
+        isFetching: false,
+        isLoading: false,
+        isPending: false,
+        isSuccess: true,
+        refetch
+      };
+    });
+
+    // @ts-expect-error This is a Jest mock
+    useDestroyAdventure.mockImplementation(() => {
+      return {
+        mutate: jest.fn()
+      };
+    });
+
+    const wrapper = mount(
+      <QueryClientProvider client={queryClient}>
+        <AdventuresPage />
+      </QueryClientProvider>
+    );
+
+    const viewButton = wrapper.findAll('button')[1];
     
     viewButton.trigger('onClick');
 
