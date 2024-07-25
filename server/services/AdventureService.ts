@@ -5,17 +5,62 @@ import {
   AdventureItem
 } from '../sequelize/db';
 import {
+  AdventureNotFoundException,
+  AdventuresNotFoundException,
+  MissingArgumentException
+} from '../exceptions';
+import {
   AdventureResponse,
   AdventuresResponse
 } from '../responses';
 
 import {
-  AdventureNotFoundException,
-  AdventuresNotFoundException,
-  MissingArgumentException
-} from '../exceptions';
+  CreateAdventureRequest
+} from '../requests/CreateAdventureRequest';
 
 export class AdventureService {
+  static async createAdventure(
+    adventureCreateRequest: CreateAdventureRequest
+  ): Promise<AdventureResponse> {
+    if (!adventureCreateRequest) {
+      throw new MissingArgumentException();
+    }
+
+    adventureCreateRequest.validate();
+
+    const adventure = Adventure.build({
+      description: adventureCreateRequest.description,
+      id: adventureCreateRequest.id,
+      name: adventureCreateRequest.name,
+      system: adventureCreateRequest.system
+    });
+
+    const savedAdventure = await adventure.save();
+
+    return this.mapAdventureResponseJson(savedAdventure);
+  }
+
+  static async destroyAdventureById(id: string): Promise<boolean> {
+    if (!id) {
+      throw new MissingArgumentException();
+    }
+
+    const adventure = await Adventure.findOne({
+      where: {
+        id
+      }
+    });
+
+    if (!adventure) {
+      throw new AdventureNotFoundException();
+    }
+
+    adventure?.destroy();
+    adventure?.save();
+  
+    return true;
+  }
+
   static async getAdventures(): Promise<AdventuresResponse> {
     const adventures = await Adventure.findAll();
 
@@ -65,6 +110,12 @@ export class AdventureService {
       adventureHandouts,
       adventureItems
     );
+  }
+
+  private static mapAdventureResponseJson (
+    adventure
+  ): AdventureResponse {
+    return adventure.dataValues;
   }
 
   private static mapAdventuresResponseJson(

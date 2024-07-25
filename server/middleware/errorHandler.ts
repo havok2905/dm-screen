@@ -6,6 +6,7 @@ import {
 
 import {
   AdventureNotFoundException,
+  AdventureRequestMalformedException,
   AdventuresNotFoundException,
   InitiativeNotFoundException,
   MissingArgumentException
@@ -18,7 +19,8 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   if (
-    error instanceof MissingArgumentException
+    error instanceof MissingArgumentException ||
+    error instanceof AdventureRequestMalformedException
   ) {
     response.status(400).send();  
   } else if (

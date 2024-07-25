@@ -9,6 +9,7 @@ import {
   InitiativeService
 } from './services';
 
+import { CreateAdventureRequest } from './requests';
 import { errorHandler } from './middleware';
 import { ServerConfig } from './config';
 
@@ -34,11 +35,44 @@ app.get('/adventures', async (_request, response, next) => {
   }
 });
 
+app.post('/adventures', async (request, response, next) => {
+  try {
+    const {
+      description,
+      id,
+      name,
+      system
+    } = request.body;
+
+    const createAdventureRequest = new CreateAdventureRequest(
+      description,
+      id,
+      name,
+      system
+    );
+
+    const responseJson = await AdventureService.createAdventure(createAdventureRequest);
+
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
 app.get('/adventure/:id', async (request, response, next) => {
   try {
     const responseJson = await AdventureService.getAdventureById(request.params.id ?? '');
     response.json(responseJson);
   } catch (error) {
+    next(error);
+  }
+});
+
+app.delete('/adventures/:id', async(request, response, next) => {
+  try {
+    const responseJson = await AdventureService.destroyAdventureById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
     next(error);
   }
 });
