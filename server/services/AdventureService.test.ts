@@ -6,6 +6,7 @@ import {
 } from '../sequelize/db';
 import {
   AdventureNotFoundException,
+  AdventureRequestMalformedException,
   AdventuresNotFoundException,
   MissingArgumentException
 } from '../exceptions';
@@ -13,16 +14,110 @@ import {
   AdventureResponse,
   AdventuresResponse
 } from '../responses';
+import { 
+  CreateAdventureRequest,
+  UpdateAdventureRequest
+} from '../requests';
 
 import { AdventureService } from './AdventureService';
-import { UpdateAdventureRequest } from '../requests';
 
 describe('AdventureService', () => {
-  describe('getAdventures', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
+  describe('createAdventure', () => {
+    it('should create an adventure', async () => {
+      jest.spyOn(Adventure, 'create').mockImplementation((obj) => {
+        return new Promise((resolve) => {
+          resolve({
+            dataValues: obj
+          });
+        });
+      });
+
+      const request = new CreateAdventureRequest(
+        'description',
+        '1',
+        'name',
+        'D&D'
+      );
+
+      const result = await AdventureService.createAdventure(request);
+
+      expect(result.description).toEqual('description');
+      expect(result.id).toEqual('1');
+      expect(result.name).toEqual('name');
+      expect(result.system).toEqual('D&D');
     });
+
+    it('should throw for missing arguments', () => {
+      expect(async () => {
+        await AdventureService.createAdventure(null);
+      }).rejects.toThrow(MissingArgumentException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await AdventureService.createAdventure(new CreateAdventureRequest(
+          '',
+          '',
+          '',
+          ''
+        ));
+      }).rejects.toThrow(AdventureRequestMalformedException);
+    });
+  });
+
+  describe('destroyAdventureById', () => {
+    it('should destroy an adventure', async () => {
+      const mockAdventure = Adventure.build({
+        id: '1',
+        name: 'Foo Adventure',
+        notes: 'notes A',
+        system: 'D&D 5e'
+      });
+
+      jest.spyOn(Adventure, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockAdventure);
+        });
+      });
+
+      jest.spyOn(mockAdventure, 'destroy').mockImplementation(jest.fn());
+      jest.spyOn(mockAdventure, 'save').mockImplementation(jest.fn());
+
+      const result = await AdventureService.destroyAdventureById('1');
+
+      expect(result).toEqual(true);
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(Adventure, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await AdventureService.destroyAdventureById('1');
+      }).rejects.toThrow(AdventureNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await AdventureService.destroyAdventureById('');
+      }).rejects.toThrow(MissingArgumentException);
+    });
+  });
   
+  describe('getAdventures', () => {  
     it('should fetch adventures and format it into an api response', async () => {
       const mockAdventures = [
         Adventure.build({
@@ -85,10 +180,6 @@ describe('AdventureService', () => {
   });
 
   describe('getAdventureById', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-  
     it('should fetch adventures and format it into an api response', async () => {
       const mockAdventure = Adventure.build({
         id: '1',

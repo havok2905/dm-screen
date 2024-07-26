@@ -28,7 +28,11 @@ export const MountInitiativeOrder = ({
     }
 
     setInitiativeOrder(initiativeOrder);
-  }, []);
+  }, 
+    // We don't care about deps here. This should only render once and is just a test utility
+    /* eslint-disable-next-line */
+    []
+  );
 
   return (
     <>
