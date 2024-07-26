@@ -32,23 +32,24 @@ import { Socket } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
+  CreaturesTable,
+  InitiativeOrderComponent,
+  InitiativeOrderContext,
+  ItemsTable,
+  ManagePlayersModal,
+  Markdown,
+  PlayersContext,
+  PlayersTable,
+  RulesSearch,
+  ToolbarFooter
+} from '../../components';
+import {
   useAdventure,
   useBootstrapInitiative,
   useDestroyInitiative,
   useInitiative,
   useUpdateInitiative
 } from '../../hooks';
-
-import { CreaturesTable } from '../CreaturesTable';
-import { InitiativeOrderComponent } from '../InitiativeOrderComponent';
-import { InitiativeOrderContext } from '../InitiativeOrderContext';
-import { ItemsTable } from '../ItemsTable';
-import { ManagePlayersModal } from '../ManagePlayersModal';
-import { Markdown } from '../Markdown';
-import { PlayersContext } from '../PlayersContext';
-import { PlayersTable } from '../PlayersTable';
-import { RulesSearch } from '../RulesSearch';
-import { ToolbarFooter } from '../ToolbarFooter';
 
 export const DmView = () => {
   const [creatureSearchTerm, setCreatureSearchTerm] = useState('');

@@ -25,7 +25,7 @@ import {
   useInitiative
 } from '../../hooks';
 
-import { InitiativeOrderComponent } from '../InitiativeOrderComponent';
+import { InitiativeOrderComponent } from '../../components';
 import { PlayerSplash } from './PlayerSplash';
 
 export const PlayerView = () => {
