@@ -28,16 +28,14 @@ export class AdventureService {
 
     adventureCreateRequest.validate();
 
-    const adventure = Adventure.build({
+    const adventure = await Adventure.create({
       description: adventureCreateRequest.description,
       id: adventureCreateRequest.id,
       name: adventureCreateRequest.name,
       system: adventureCreateRequest.system
     });
 
-    const savedAdventure = await adventure.save();
-
-    return this.mapAdventureResponseJson(savedAdventure);
+    return this.mapAdventureResponseJson(adventure);
   }
 
   static async destroyAdventureById(id: string): Promise<boolean> {

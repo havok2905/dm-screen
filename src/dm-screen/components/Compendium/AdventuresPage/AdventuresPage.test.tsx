@@ -20,8 +20,6 @@ jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn()
 }));
 
-// This needs to be imported for mock behavior in jest.
-/* eslint-disable-next-line */
 import { useAdventures, useDestroyAdventure } from '../../../hooks';
 jest.mock('../../../hooks', () => ({
   useAdventures: jest.fn(),

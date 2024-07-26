@@ -3,8 +3,14 @@ import {
   Input,
   Modal
 } from '@designSystem/components';
+import {
+  Controller,
+  SubmitHandler,
+  useForm,
+  useFormState
+} from "react-hook-form";
+
 import { useContext } from 'react';
-import { useForm, useFormState, Controller, SubmitHandler } from "react-hook-form";
 import { v4 as uuidv4 } from 'uuid';
 
 import { PlayersContext } from '../PlayersContext';
@@ -71,11 +77,8 @@ export const ManagePlayersModal = ({
             Player Name
           </label>
           <Controller 
-            name="playerName"
             control={control}
-            rules={{
-              required: true
-            }}
+            name="playerName"
             render={({ field }) => 
               <Input
                 {...field}
@@ -85,6 +88,9 @@ export const ManagePlayersModal = ({
                 passedRef={field.ref}
               />
             }
+            rules={{
+              required: true
+            }}
           />
         </fieldset>
         <fieldset>
@@ -92,11 +98,8 @@ export const ManagePlayersModal = ({
             Character Name
           </label>
           <Controller 
-            name="characterName"
             control={control}
-            rules={{
-              required: true
-            }}
+            name="characterName"
             render={({ field }) => 
               <Input
                 {...field}
@@ -106,6 +109,9 @@ export const ManagePlayersModal = ({
                 passedRef={field.ref}
               />
             }
+            rules={{
+              required: true
+            }}
           />
         </fieldset>
         <fieldset>
@@ -113,22 +119,22 @@ export const ManagePlayersModal = ({
             AC
           </label>
           <Controller 
-            name="characterAc"
             control={control}
-            rules={{
-              // placeholder AC, 0 - 100
-              pattern: /^(0|[1-9][0-9]?|100)$/
-            }}
+            name="characterAc"
             render={({ field }) => 
               <Input
                 {...field}
                 full
                 inputId="characterAc"
                 inputName="characterAc"
-                value={String(field.value)}
                 passedRef={field.ref}
+                value={String(field.value)}
               />
             }
+            rules={{
+              // placeholder AC, 0 - 100
+              pattern: /^(0|[1-9][0-9]?|100)$/
+            }}
           />
         </fieldset>
         <fieldset>

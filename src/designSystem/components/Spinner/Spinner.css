@@ -1,4 +1,4 @@
-
+/* stylelint-disable */
 .lds-roller,
 .lds-roller div,
 .lds-roller div::after {
@@ -109,3 +109,4 @@
     transform: rotate(360deg);
   }
 }
+/* stylelint-enable */

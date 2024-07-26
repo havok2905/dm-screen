@@ -3,7 +3,7 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 
-export const useUpdateInitiative = () => {
+export const useUpdateInitiative = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
   const result = useMutation({
@@ -25,6 +25,10 @@ export const useUpdateInitiative = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['initiativeData'] });
+
+      if (onSuccess) {
+        onSuccess();
+      }
     },
   });
 

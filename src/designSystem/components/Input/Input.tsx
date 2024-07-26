@@ -1,7 +1,8 @@
 import React, {
   ChangeEvent,
   FocusEvent,
-  KeyboardEvent
+  KeyboardEvent,
+  RefCallback
 } from 'react';
 
 import classNames from 'classnames';
@@ -19,7 +20,7 @@ export interface InputProps {
   onFocus?: (e: FocusEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
   onKeyUp?: (e: KeyboardEvent<HTMLInputElement>) => void;
-  passedRef?: any;
+  passedRef?: RefCallback<HTMLInputElement>;
   required?: boolean;
   value?: string;
 }

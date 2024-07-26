@@ -10,7 +10,8 @@ import {
 } from './services';
 import {
   CreateAdventureRequest,
-  UpdateAdventureRequest
+  UpdateAdventureRequest,
+  UpdateInitiativeRequest
 } from './requests';
 
 import { errorHandler } from './middleware';
@@ -116,7 +117,8 @@ app.get('/initiative/:adventureid', async(request, response, next) => {
 app.patch('/initiative/:id', async(request, response, next) => {
   try {
     const requestBody = request.body;
-    const responseJson = await InitiativeService.updateInitiativeById(request.params.id ?? '', requestBody);
+    const updateInitiativeRequest = new UpdateInitiativeRequest(requestBody.initiativeOrderState);
+    const responseJson = await InitiativeService.updateInitiativeById(request.params.id ?? '', updateInitiativeRequest);
     response.json(responseJson);
   } catch(error) {
     next(error);

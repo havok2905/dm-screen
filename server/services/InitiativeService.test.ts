@@ -6,13 +6,20 @@ import {
 import { Initiative } from '../sequelize/db';
 import { InitiativeResponse } from '../responses';
 import { InitiativeService } from './InitiativeService';
+import {UpdateInitiativeRequest} from '../requests';
 
 describe('InitiativeService', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
   describe('bootstrapInitiativeByAdventureId', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-  
     it('should create a new initiative record if one does not exist', async () => {  
       jest.spyOn(Initiative, 'findAll').mockImplementation(() => {
         return new Promise((resolve) => {
@@ -71,10 +78,6 @@ describe('InitiativeService', () => {
   });
 
   describe('destroyInitiativeById', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('should delete', async () => {
       const destroy = jest.fn();
       const save = jest.fn();
@@ -125,10 +128,6 @@ describe('InitiativeService', () => {
   });
 
   describe('getInitiativeByAdventureId', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('should fetch an initiative', async () => {
       jest.spyOn(Initiative, 'findOne').mockImplementation(() => {
         return new Promise((resolve) => {
@@ -174,10 +173,6 @@ describe('InitiativeService', () => {
   });
 
   describe('updateInitiativeById', () => {
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('should update', async () => {
       const update = jest.fn();
       const save = jest.fn();
@@ -201,9 +196,8 @@ describe('InitiativeService', () => {
         });
       });
 
-      const result = await InitiativeService.updateInitiativeById('1', {
-        initiativeOrderState: '{"currentId":"","items":[],"round":2}'
-      }) as InitiativeResponse;
+      const request = new UpdateInitiativeRequest('{"currentId":"","items":[],"round":2}');
+      const result = await InitiativeService.updateInitiativeById('1', request) as InitiativeResponse;
 
       expect(result.adventureid).toEqual('1');
       expect(update).toHaveBeenCalledTimes(1);
@@ -218,17 +212,15 @@ describe('InitiativeService', () => {
       });
 
       expect(async () => {
-        await InitiativeService.updateInitiativeById('1', {
-          initiativeOrderState: '{"currentId":"","items":[],"round":2}'
-        });
+        const request = new UpdateInitiativeRequest('{"currentId":"","items":[],"round":2}');
+        await InitiativeService.updateInitiativeById('1', request);
       }).rejects.toThrow(InitiativeNotFoundException);
     });
 
     it('should throw when arguments are missing', () => {
       expect(async () => {
-        await InitiativeService.updateInitiativeById('', {
-          initiativeOrderState: '{"currentId":"","items":[],"round":2}'
-        });
+        const request = new UpdateInitiativeRequest('{"currentId":"","items":[],"round":2}');
+        await InitiativeService.updateInitiativeById('', request);
       }).rejects.toThrow(MissingArgumentException);
     });
   });

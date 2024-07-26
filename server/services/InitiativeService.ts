@@ -7,6 +7,7 @@ import {
 
 import { Initiative } from '../sequelize/db';
 import { InitiativeResponse } from '../responses';
+import {UpdateInitiativeRequest} from '../requests';
 
 export class InitiativeService {
   static async bootstrapInitiativeByAdventureId(adventureid: string): Promise<InitiativeResponse | null> {
@@ -76,10 +77,12 @@ export class InitiativeService {
     return this.mapResponseJson(initiative);
   }
 
-  static async updateInitiativeById(id: string, updateRequest): Promise<InitiativeResponse | null> {
+  static async updateInitiativeById(id: string, updateRequest: UpdateInitiativeRequest): Promise<InitiativeResponse | null> {
     if (!id) {
       throw new MissingArgumentException();
     }
+
+    updateRequest.validate();
 
     const initiative = await Initiative.findOne({
       where: {
@@ -91,9 +94,7 @@ export class InitiativeService {
       throw new InitiativeNotFoundException();
     }
 
-    const { initiativeOrderState } = updateRequest ?? {};
-
-    initiative.update({ initiativeOrderState });
+    initiative.update({ initiativeOrderState: updateRequest.initiativeOrderState });
     initiative.save();
 
     return this.mapResponseJson(initiative);
