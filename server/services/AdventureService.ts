@@ -13,10 +13,10 @@ import {
   AdventureResponse,
   AdventuresResponse
 } from '../responses';
-
 import {
-  CreateAdventureRequest
-} from '../requests/CreateAdventureRequest';
+  CreateAdventureRequest,
+  UpdateAdventureRequest
+} from '../requests';
 
 export class AdventureService {
   static async createAdventure(
@@ -59,6 +59,31 @@ export class AdventureService {
     adventure?.save();
   
     return true;
+  }
+
+  static async updateAdventureById(id: string, updateAdventureRequest: UpdateAdventureRequest): Promise<AdventureResponse> {
+    if (!id || !updateAdventureRequest) {
+      throw new MissingArgumentException();
+    }
+
+    const adventure = await Adventure.findOne({
+      where: {
+        id: id
+      }
+    });
+
+    if (!adventure) {
+      throw new AdventureNotFoundException();
+    }
+
+    await adventure.update({
+      description: updateAdventureRequest.description,
+      name: updateAdventureRequest.name,
+      notes: updateAdventureRequest.notes,
+      system: updateAdventureRequest.system
+    });
+
+    return this.mapAdventureResponseJson(adventure);
   }
 
   static async getAdventures(): Promise<AdventuresResponse> {

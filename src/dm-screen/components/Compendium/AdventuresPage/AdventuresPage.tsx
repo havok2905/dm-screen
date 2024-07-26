@@ -17,7 +17,8 @@ import { Adventure } from '@core/types';
 
 import {
   ADVENTURE_PATH,
-  CREATE_ADVENTURE_PATH
+  CREATE_ADVENTURE_PATH,
+  EDIT_ADVENTURE_PATH
 } from '../../../routes';
 import {
   useAdventures,
@@ -100,6 +101,12 @@ export const AdventuresPage = () => {
           name: 'View',
           onClick: () => {
             navigate(ADVENTURE_PATH.replace(':id', id))
+          }
+        },
+        {
+          name: 'Edit',
+          onClick: () => {
+            navigate(EDIT_ADVENTURE_PATH.replace(':id', id))
           }
         },
         {
