@@ -16,7 +16,7 @@ import {
 import { Link, useParams } from 'react-router-dom';
 
 import { ADVENTURES_PATH } from '../../../routes';
-import { Markdown } from '../../Markdown';
+import { Markdown } from '../../../components';
 import { useAdventure } from '../../../hooks';
 
 export const AdventurePage = () => {

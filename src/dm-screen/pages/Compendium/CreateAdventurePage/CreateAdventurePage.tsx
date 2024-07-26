@@ -23,7 +23,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { ADVENTURES_PATH } from '../../../routes';
 import { useCreateAdventure } from '../../../hooks';
 
-
 interface CreateAdventureFormInputs {
   adventureDescription: string;
   adventureName: string;

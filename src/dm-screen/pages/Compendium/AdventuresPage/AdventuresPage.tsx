@@ -27,7 +27,7 @@ import {
 
 import {
   ConfirmationModal
-} from '../../ConfirmationModal';
+} from '../../../components';
 
 export const AdventuresPage = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);

@@ -33,7 +33,7 @@ import {
   useUpdateAdventure
 } from '../../../hooks';
 
-import { Markdown } from '../../Markdown';
+import { Markdown } from '../../../components';
 
 interface EditAdventureFormInputs {
   adventureDescription: string;

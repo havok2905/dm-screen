@@ -10,14 +10,6 @@ import {
 } from '@tanstack/react-query'
 
 import {
-  AdventurePage,
-  AdventuresPage,
-  CompendiumPage,
-  CreateAdventurePage,
-  EditAdventurePage
-} from './dm-screen/components/Compendium';
-
-import {
   ADVENTURE_PATH,
   ADVENTURES_PATH,
   COMPENDIUM_PATH,
@@ -26,11 +18,18 @@ import {
   PLAYER_VIEW_PATH,
   ROOT_PATH
 } from './dm-screen/routes';
+import {
+  AdventurePage,
+  AdventuresPage,
+  CompendiumPage,
+  CreateAdventurePage,
+  DmView,
+  EditAdventurePage,
+  PlayerView
+} from './dm-screen/pages';
 
-import { DmView } from './dm-screen/components/DmView';
 import { InitiativeOrderContextProvider } from './dm-screen/components/InitiativeOrderContext';
 import { PlayersContextProvider } from './dm-screen/components/PlayersContext';
-import { PlayerView } from './dm-screen/components/PlayerView';
 import { RouteErrorBoundary } from './dm-screen/components/RouteErrorBoundary';
 
 const router = createBrowserRouter([
