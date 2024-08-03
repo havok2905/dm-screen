@@ -9,7 +9,9 @@ module.exports = {
         type: Sequelize.TEXT
       },
       name: {
-        type: Sequelize.TEXT
+        allowNull: false,
+        type: Sequelize.TEXT,
+        unique: true
       },
       image: {
         type: Sequelize.TEXT

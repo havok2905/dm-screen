@@ -51,7 +51,7 @@ export class Dnd5eDataSeeder {
       };
     });
 
-    Creature.bulkCreate(markdownEntities);
+    Creature.bulkCreate(markdownEntities, { validate: true });
 
     console.log('End: populateDndMonsters');
   }
