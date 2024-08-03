@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile:server": "tsc --project tsconfig.server.json",
+    "data:populate-creatures": "node ./dist-server/server/cli/dataPopulation/index.js",
     "db:destroy": "rimraf db.development.sqlite",
     "db:migrate": "sequelize-cli db:migrate",
     "db:reset": "npm run db:destroy && npm run db:migrate && npm run db:seed",
