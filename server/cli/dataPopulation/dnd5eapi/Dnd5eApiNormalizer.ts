@@ -85,7 +85,7 @@ export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
         proficiencies: proficiencies?.map(p => {
           return this.getProficiency(p);
         }) ?? [],
-        proficiencyBonus: proficiency_bonus,
+        proficiencyBonus: proficiency_bonus ?? 0,
         reactions: reactions?.map((a) => {
           return this.getAction(a);
         }) ?? [],
