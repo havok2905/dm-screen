@@ -6,6 +6,7 @@
   "scripts": {
     "compile:server": "tsc --project tsconfig.server.json",
     "data:populate-creatures": "node ./dist-server/server/cli/dataPopulation/populateCreatures.js",
+    "data:populate-equipment-items": "node ./dist-server/server/cli/dataPopulation/populateEquipmentItems.js",
     "data:populate-magic-items": "node ./dist-server/server/cli/dataPopulation/populateMagicItems.js",
     "db:destroy": "rimraf db.development.sqlite",
     "db:migrate": "sequelize-cli db:migrate",

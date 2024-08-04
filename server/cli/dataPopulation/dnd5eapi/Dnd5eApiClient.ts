@@ -1,4 +1,6 @@
 import {
+  Equipment,
+  EquipmentItem,
   MagicItem,
   MagicItems,
   Monster,
@@ -6,6 +8,8 @@ import {
 } from './types';
 
 export interface IDnd5eApiClient {
+  getEquipment(): Promise<Equipment>;
+  getEquipmentItem(url: string): Promise<EquipmentItem>;
   getMagicItem(url: string): Promise<MagicItem>;
   getMagicItems(): Promise<MagicItems>;
   getMonster(url: string): Promise<Monster>;
@@ -17,6 +21,14 @@ export class Dnd5eApiClient implements IDnd5eApiClient {
 
   constructor() {
     this.base = 'https://www.dnd5eapi.co';
+  }
+
+  async getEquipment(): Promise<Equipment> {
+    return this.makeGetRequest(`${this.base}/api/equipment`);
+  }
+
+  async getEquipmentItem(url: string): Promise<EquipmentItem> {
+    return this.makeGetRequest(`${this.base}${url}`);
   }
 
   async getMagicItem(url: string): Promise<MagicItem> {

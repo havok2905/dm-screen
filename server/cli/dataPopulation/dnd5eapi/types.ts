@@ -5,6 +5,60 @@ export interface ApiReference {
   url?: string;
 }
 
+export interface EquipmentItemPartial extends ApiReference {}
+
+export interface ApiItemBase {
+  index?: string;
+  name?: string;
+}
+
+export interface Equipment {
+  count: number;
+  results: EquipmentItemPartial[];
+}
+
+export interface EquipmentItem extends ApiItemBase{ 
+  armor_category?: string;
+  armor_class?: EquipmentArmorClass;
+  capacity?: string;
+  category_range?: string;
+  contents?: Content[];
+  damage?: Damage;
+  desc?: string[];
+  equipment_category?: ApiReference;
+  gear_category?: ApiReference;
+  properties?: ApiReference[];
+  range?: Range;
+  speed?: VehicleSpeed;
+  str_minimum?: number;
+  stealth_disadvantage?: boolean;
+  throw_range?: Range;
+  two_handed_damage?: Damage;
+  vehicle_category?: string;
+  weapon_category?: string;
+  weapon_range?: string;
+}
+
+export interface EquipmentArmorClass {
+  base?: number;
+  dex_bonus?: false;
+}
+
+export interface VehicleSpeed {
+  quantity?: number;
+  unit?: string;
+}
+
+export interface Range {
+  long?: number;
+  normal?: number;
+}
+
+export interface Content {
+  item?: ApiReference;
+  quantity?: number;
+}
+
 export interface MagicItemPartial extends ApiReference {}
 
 export interface MagicItems {
@@ -12,15 +66,13 @@ export interface MagicItems {
   results: MagicItemPartial[];
 }
 
-export interface MagicItem {
+export interface MagicItem extends ApiItemBase {
   desc?: string[];
   equipment_category?: ApiReference;
-  index?: string;
   level?: number;
   rarity?: {
     name?: Rarity;
   };
-  name?: string;
   url?: string;
   variant?: boolean;
   variants?: ApiReference[];
@@ -176,7 +228,7 @@ export type MonsterSize =
 
 export interface MonsterPartial extends ApiReference { }
 
-export interface Monster {
+export interface Monster extends ApiItemBase {
   actions?: MonsterAction[];
   alignments?: MonsterAlignment;
   armor_class?: MonsterArmorClass[];
@@ -194,13 +246,11 @@ export interface Monster {
   hit_points_roll?: string;
   forms?: ApiReference[];
   image?: string;
-  index?: string;
   intelligence?: number;
   languages?: string;
   legendary_actions?: MonsterAction[];
   proficiencies?: MonsterProficiencyPartial[];
   proficiency_bonus: number;
-  name?: string;
   reactions: MonsterAction[];
   senses?: MonsterSenses;
   size?: MonsterSize;

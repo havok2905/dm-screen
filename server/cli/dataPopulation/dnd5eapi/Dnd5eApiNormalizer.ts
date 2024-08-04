@@ -3,6 +3,7 @@ import {
   Action,
   Alignment,
   CR,
+  EquipmentItem,
   MagicItem,
   Monster,
   Proficiency,
@@ -12,6 +13,8 @@ import {
   SuccessType
 } from '../types';
 import {
+  ApiItemBase,
+  EquipmentItem as ApiEquipmentItem,
   MagicItem as ApiMagicItem,
   Monster as ApiMonster,
   MonsterAction,
@@ -19,13 +22,112 @@ import {
 } from './types';
 
 export interface IDnd5dApiNormalizer {
+  normalizeEquipment(items: ApiEquipmentItem[]): EquipmentItem[];
   normalizeMagicItems(items: ApiMagicItem[]): MagicItem[];
   normalizeMonsters(monsters: ApiMonster[]): Monster[];
 }
 
 export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
+  normalizeEquipment(items: ApiEquipmentItem[]): EquipmentItem[] {
+    const deduped = this.renameDuplicatesFromList(items) as ApiEquipmentItem[];
+
+    return deduped.map(item => {
+      const {
+        armor_category,
+        armor_class,
+        capacity,
+        category_range,
+        contents,
+        damage,
+        desc,
+        equipment_category,
+        gear_category,
+        name,
+        properties,
+        range,
+        speed,
+        str_minimum,
+        stealth_disadvantage,
+        throw_range,
+        two_handed_damage,
+        vehicle_category,
+        weapon_category,
+        weapon_range
+      } = item;
+
+      const response: EquipmentItem = {
+        armorCategory: armor_category ?? '',
+        capacity: capacity ?? '',
+        categoryRange: category_range ?? '',
+        contents: contents ? contents.map(content => {
+          return {
+            item: content.item?.name ?? '',
+            quantity: content.quantity ?? 0
+          }
+        }) : [],
+        description: this.getDescription(desc ?? []),
+        equipmentCategory: equipment_category?.name ?? '',
+        gearCategory: gear_category?.name ?? '',
+        name: name ?? '',
+        properties: properties?.map(p => p?.name ?? '') ?? [],
+        range,
+        strMinimum: str_minimum ?? 0,
+        stealthDisadvantage: stealth_disadvantage ?? false,
+        throwRange: throw_range,
+        vehicleCategory: vehicle_category ?? '',
+        weaponCategory: weapon_category ?? '',
+        weaponRange: weapon_range ?? ''
+      };
+
+      if (armor_class) {
+        response.armorClass = {
+          base: armor_class.base ?? 0,
+          dexBonus: armor_class.dex_bonus ?? false
+        };
+      }
+
+      if (damage) {
+        const {
+          damage_dice,
+          damage_type
+        } = damage;
+
+        response.damage = {
+          damageDice: damage_dice ?? '',
+          damageType: damage_type?.name ?? ''
+        };
+      }
+
+      if (speed) {
+        const {
+          quantity,
+          unit
+        } = speed;
+
+        response.speed = {
+          quantity: quantity ?? 0,
+          unit: unit ?? ''
+        };
+      }
+
+      if (two_handed_damage) {
+        const {
+          damage_dice,
+          damage_type
+        } = two_handed_damage;
+
+        response.twoHandedDamage = {
+          damageDice: damage_dice ?? '',
+          damageType: damage_type?.name ?? ''
+        };
+      }
+
+      return response;
+    });
+  }
+
   normalizeMagicItems(items: ApiMagicItem[]): MagicItem[] {
-    const deduped = this.renameDuplicatesFromList(items);
+    const deduped = this.renameDuplicatesFromList(items) as ApiMagicItem[];
 
     return deduped.map(item => {
       const {
@@ -39,7 +141,7 @@ export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
 
       return {
         category: equipment_category?.name ?? '',
-        description: this.getMagicItemDescription(desc ?? []),
+        description: this.getDescription(desc ?? []),
         name: name ?? '',
         rarity: (rarity?.name?.toLocaleLowerCase() ?? '') as Rarity,
         variant: variant ?? false,
@@ -157,7 +259,7 @@ export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
    * In these cases we want to preserve the data but rename using the
    * index instead.
    */
-  private renameDuplicatesFromList(items: ApiMagicItem[]): ApiMagicItem[] {
+  private renameDuplicatesFromList(items: ApiItemBase[]): ApiItemBase[] {
     const found: string[] = [];
     const dupe: string[] = [];
     
@@ -190,7 +292,7 @@ export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
    * certain lines need spaces, while others don't, such as
    * with tables. 
    */
-  getMagicItemDescription(descriptionLines: string[]) {
+  getDescription(descriptionLines: string[]) {
     const linesWithSpaces: string[] = [];
 
     descriptionLines.forEach(line => {
