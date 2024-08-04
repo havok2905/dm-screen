@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import {
   Creature,
+  EquipmentItem as EquipmentItemModel,
   MagicItem as MagicItemModel
 } from '../../sequelize/db';
 import {
@@ -10,19 +11,22 @@ import {
   Dnd5dApiNormalizer
 } from '../dataPopulation/dnd5eapi';
 import {
+  EquipmentItem,
   IThirdPartyDndAdapter,
   MagicItem,
   Monster,
   SourceKinds
 } from './types';
 import {
+  EquipmentItemTemplate,
   MagicItemTemplate,
   MonsterTemplate
 } from './templates';
 
 // This should likely be moved up a level. There is a need to start sharing types between client and server
 import {
-  MarkdownEntity
+  MarkdownEntity,
+  MetaData
 } from '../../../src/core/types';
 
 export class Dnd5eDataSeeder {
@@ -34,6 +38,33 @@ export class Dnd5eDataSeeder {
     this.init();
   }
 
+  async populateEquipmentItems(): Promise<void> {
+    console.log('Starting: populateDndEquipmentItems. This may take a while');
+
+    const interval = setInterval(() => {
+      console.log('Fetching: populateDndEquipmentItems');
+    }, 1500);
+
+    const items = await this.adapter.getEquipmentItems();
+
+    clearInterval(interval);
+
+    const markdownEntities = items.map(item => {
+      const equipmentItemTemplate = new EquipmentItemTemplate(item);
+      const equipmentItemMarkdown = equipmentItemTemplate.render();
+      return this.getEquipmentItemMarkdownEntity(item, equipmentItemMarkdown);
+    }).map(item => {
+      return {
+        ...item,
+        metadata: JSON.stringify(item.metadata)
+      };
+    });
+
+    EquipmentItemModel.bulkCreate(markdownEntities, { validate: true });
+
+    console.log('End: populateDndEquipmentItems');
+  }
+
   async populateMagicItems(): Promise<void> {
     console.log('Starting: populateDndMagicItems. This may take a while');
 
@@ -43,25 +74,18 @@ export class Dnd5eDataSeeder {
 
     const magicItems = await this.adapter.getMagicItems();
 
-    console.log('Fetched and now clearing: populateDndMagicItems');
-
     clearInterval(interval);
 
-    console.log('cleared: populateDndMagicItems');
-    console.log('normalizing: populateDndMagicItems');
-
     const markdownEntities = magicItems.map(magicItem => {
-      const monsterTemplate = new MagicItemTemplate(magicItem);
-      const monsterMarkdown = monsterTemplate.render();
-      return this.getMagicItemMarkdownEntity(magicItem, monsterMarkdown);
+      const magicItemTemplate = new MagicItemTemplate(magicItem);
+      const magicItemMarkdown = magicItemTemplate.render();
+      return this.getMagicItemMarkdownEntity(magicItem, magicItemMarkdown);
     }).map(magicItem => {
       return {
         ...magicItem,
         metadata: JSON.stringify(magicItem.metadata)
       };
     });
-
-    console.log('normalized and creating: populateDndMagicItems');
 
     MagicItemModel.bulkCreate(markdownEntities, { validate: true });
 
@@ -93,6 +117,63 @@ export class Dnd5eDataSeeder {
     Creature.bulkCreate(markdownEntities, { validate: true });
 
     console.log('End: populateDndMonsters');
+  }
+
+  private getEquipmentItemMarkdownEntity(item: EquipmentItem, itemMarkdown: string): MarkdownEntity {
+    const metadata: MetaData[] = [
+      {
+        name: 'Equipment Category',
+        type: 'string',
+        value: item.equipmentCategory
+      }
+    ];
+
+    if (item.armorCategory) {
+      metadata.push({
+        name: 'Armor Category',
+        type: 'string',
+        value: item.armorCategory
+      });
+    }
+
+    if (item.gearCategory) {
+      metadata.push({
+        name: 'Gear Category',
+        type: 'string',
+        value: item.gearCategory
+      });
+    }
+
+    if (item.vehicleCategory) {
+      metadata.push({
+        name: 'Vehicle Category',
+        type: 'string',
+        value: item.vehicleCategory
+      });
+    }
+
+    if (item.weaponCategory) {
+      metadata.push({
+        name: 'Weapon Category',
+        type: 'string',
+        value: item.weaponCategory
+      });
+    }
+
+    if (item.weaponRange) {
+      metadata.push({
+        name: 'Weapon Range',
+        type: 'string',
+        value: item.weaponRange
+      });
+    }
+    
+    return {
+      content: itemMarkdown,
+      id: uuidv4(),
+      name: item.name,
+      metadata
+    };
   }
 
   private getMagicItemMarkdownEntity(magicItem: MagicItem, magicItemMarkdown: string): MarkdownEntity {

@@ -1,6 +1,7 @@
 export type SourceKinds = 'dnd5eapi';
 
 export interface IThirdPartyDndAdapter {
+  getEquipmentItems(): Promise<EquipmentItem[]>;
   getMagicItems(): Promise<MagicItem[]>;
   getMonsters(): Promise<Monster[]>;
 }
@@ -46,6 +47,49 @@ export interface MagicItem {
   rarity: Rarity;
   variant: boolean;
   variants: string[];
+}
+
+export interface EquipmentItem {
+  armorCategory: string;
+  armorClass?: EquipmentArmorClass;
+  capacity: string;
+  categoryRange: string;
+  contents: EquipmentContent[];
+  damage?: Damage;
+  description: string;
+  equipmentCategory: string;
+  gearCategory: string;
+  name: string;
+  properties: string[];
+  range?: EquipmentRange;
+  speed?: VehicleSpeed;
+  strMinimum: number;
+  stealthDisadvantage: boolean;
+  throwRange?: EquipmentRange;
+  twoHandedDamage?: Damage;
+  vehicleCategory: string;
+  weaponCategory: string;
+  weaponRange: string;
+}
+
+export interface EquipmentArmorClass {
+  base: number;
+  dexBonus: boolean;
+}
+
+export interface EquipmentContent {
+  item: string;
+  quantity: number;
+}
+
+export interface EquipmentRange {
+  long?: number;
+  normal?: number;
+}
+
+export interface VehicleSpeed {
+  quantity: number;
+  unit: string;
 }
 
 export interface Proficiency {
