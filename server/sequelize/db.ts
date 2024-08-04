@@ -10,6 +10,7 @@ import adventurehandout from './models/adventurehandout';
 import adventureitem from './models/adventureitem';
 import creature from './models/creature';
 import initiative from './models/initiative';
+import magicitem from './models/magicitem';
 
 import { ServerConfig } from '../config';
 
@@ -28,6 +29,7 @@ const AdventureHandout = adventurehandout(db);
 const AdventureItem = adventureitem(db);
 const Creature = creature(db);
 const Initiative = initiative(db);
+const MagicItem = magicitem(db);
 
 export {
   Adventure,
@@ -36,6 +38,7 @@ export {
   AdventureItem,
   Creature,
   db,
-  Initiative
+  Initiative,
+  MagicItem
 };
 

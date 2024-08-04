@@ -5,6 +5,36 @@ export interface ApiReference {
   url?: string;
 }
 
+export interface MagicItemPartial extends ApiReference {}
+
+export interface MagicItems {
+  count: number;
+  results: MagicItemPartial[];
+}
+
+export interface MagicItem {
+  desc?: string[];
+  equipment_category?: ApiReference;
+  index?: string;
+  level?: number;
+  rarity?: {
+    name?: Rarity;
+  };
+  name?: string;
+  url?: string;
+  variant?: boolean;
+  variants?: ApiReference[];
+}
+
+export type Rarity =
+  'Artifact' |
+  'Common' |
+  'Legendary' |
+  'Rare' |
+  'Uncommon' |
+  'Varies' |
+  'Very Rare';
+
 export interface MonsterArmorClass {
   type: string;
   value: number;

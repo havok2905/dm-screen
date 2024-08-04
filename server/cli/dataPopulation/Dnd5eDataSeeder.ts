@@ -1,19 +1,24 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import {
+  Creature,
+  MagicItem as MagicItemModel
+} from '../../sequelize/db';
+import {
   Dnd5eApiAdapter,
   Dnd5eApiClient,
   Dnd5dApiNormalizer
 } from '../dataPopulation/dnd5eapi';
 import {
   IThirdPartyDndAdapter,
+  MagicItem,
   Monster,
   SourceKinds
 } from './types';
-
-import { MonsterTemplate } from './templates';
-
-import { Creature } from '../../sequelize/db';
+import {
+  MagicItemTemplate,
+  MonsterTemplate
+} from './templates';
 
 // This should likely be moved up a level. There is a need to start sharing types between client and server
 import {
@@ -27,6 +32,40 @@ export class Dnd5eDataSeeder {
   constructor(source: SourceKinds) {
     this.source = source;
     this.init();
+  }
+
+  async populateMagicItems(): Promise<void> {
+    console.log('Starting: populateDndMagicItems. This may take a while');
+
+    const interval = setInterval(() => {
+      console.log('Fetching: populateDndMagicItems');
+    }, 1500);
+
+    const magicItems = await this.adapter.getMagicItems();
+
+    console.log('Fetched and now clearing: populateDndMagicItems');
+
+    clearInterval(interval);
+
+    console.log('cleared: populateDndMagicItems');
+    console.log('normalizing: populateDndMagicItems');
+
+    const markdownEntities = magicItems.map(magicItem => {
+      const monsterTemplate = new MagicItemTemplate(magicItem);
+      const monsterMarkdown = monsterTemplate.render();
+      return this.getMagicItemMarkdownEntity(magicItem, monsterMarkdown);
+    }).map(magicItem => {
+      return {
+        ...magicItem,
+        metadata: JSON.stringify(magicItem.metadata)
+      };
+    });
+
+    console.log('normalized and creating: populateDndMagicItems');
+
+    MagicItemModel.bulkCreate(markdownEntities, { validate: true });
+
+    console.log('End: populateDndMagicItems');
   }
 
   async populateMonsters(): Promise<void> {
@@ -43,7 +82,7 @@ export class Dnd5eDataSeeder {
     const markdownEntities = monsters.map(monster => {
       const monsterTemplate = new MonsterTemplate(monster);
       const monsterMarkdown = monsterTemplate.render();
-      return this.getMarkdownEntity(monster, monsterMarkdown);
+      return this.getMonsterMarkdownEntity(monster, monsterMarkdown);
     }).map(monster => {
       return {
         ...monster,
@@ -56,7 +95,27 @@ export class Dnd5eDataSeeder {
     console.log('End: populateDndMonsters');
   }
 
-  private getMarkdownEntity(monster: Monster, monsterMarkdown: string): MarkdownEntity {
+  private getMagicItemMarkdownEntity(magicItem: MagicItem, magicItemMarkdown: string): MarkdownEntity {
+    return {
+      content: magicItemMarkdown,
+      id: uuidv4(),
+      name: magicItem.name,
+      metadata: [
+        {
+          name: 'Category',
+          type: 'string',
+          value: magicItem.category
+        },
+        {
+          name: 'Rarity',
+          type: 'number',
+          value: magicItem.rarity
+        }
+      ]
+    };
+  }
+
+  private getMonsterMarkdownEntity(monster: Monster, monsterMarkdown: string): MarkdownEntity {
     return {
       content: monsterMarkdown,
       id: uuidv4(),
