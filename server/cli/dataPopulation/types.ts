@@ -1,6 +1,7 @@
 export type SourceKinds = 'dnd5eapi';
 
 export interface IThirdPartyDndAdapter {
+  getMagicItems(): Promise<MagicItem[]>;
   getMonsters(): Promise<Monster[]>;
 }
 
@@ -26,6 +27,25 @@ export interface DC {
   dcType: Ability;
   dcValue: number;
   successType: SuccessType;
+}
+
+export type Rarity =
+  'artifact' |
+  'common' |
+  'legendary' |
+  'rare' |
+  'uncommon' |
+  'varies' |
+  'very rare' |
+  '';
+
+export interface MagicItem {
+  category: string;
+  description: string;
+  name: string;
+  rarity: Rarity;
+  variant: boolean;
+  variants: string[];
 }
 
 export interface Proficiency {

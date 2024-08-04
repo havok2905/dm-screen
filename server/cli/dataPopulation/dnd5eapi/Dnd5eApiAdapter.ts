@@ -1,7 +1,15 @@
 import { IDnd5eApiClient } from './Dnd5eApiClient';
 import { IDnd5dApiNormalizer } from './Dnd5eApiNormalizer';
-import { IThirdPartyDndAdapter, Monster } from '../types';
-import { Monster as ApiMonster } from './types';
+
+import {
+  MagicItem,
+  IThirdPartyDndAdapter,
+  Monster
+} from '../types';
+import {
+  MagicItem as ApiItem,
+  Monster as ApiMonster
+} from './types';
 
 export class Dnd5eApiAdapter implements IThirdPartyDndAdapter {
   private dnd5eApiClient: IDnd5eApiClient;
@@ -13,6 +21,23 @@ export class Dnd5eApiAdapter implements IThirdPartyDndAdapter {
   ) {
     this.dnd5eApiClient = dnd5eApiClient;
     this.dnd5dApiNormalizer = dnd5dApiNormalizer;
+  }
+
+  async getMagicItems(): Promise<MagicItem[]> {
+    const itemsResponse = await this.dnd5eApiClient.getMagicItems();
+    const itemsResult = itemsResponse.results;
+
+    const items: ApiItem[] = [];
+
+    for(let x=0; x<itemsResult.length; x++) {
+      const itemsItem = itemsResult[x];
+      const itemResponse = await this.dnd5eApiClient.getMagicItem(itemsItem.url ?? '');
+      items.push(itemResponse);
+    }
+
+    const response = this.dnd5dApiNormalizer.normalizeMagicItems(items);
+
+    return response;
   }
 
   async getMonsters(): Promise<Monster[]> {
@@ -27,7 +52,7 @@ export class Dnd5eApiAdapter implements IThirdPartyDndAdapter {
       monsters.push(monsterResponse);
     }
 
-    const response = this.dnd5dApiNormalizer.normalize(monsters);
+    const response = this.dnd5dApiNormalizer.normalizeMonsters(monsters);
 
     return response;
   }

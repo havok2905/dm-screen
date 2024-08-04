@@ -3,24 +3,52 @@ import {
   Action,
   Alignment,
   CR,
+  MagicItem,
   Monster,
   Proficiency,
+  Rarity,
   Size,
   Skill,
   SuccessType
 } from '../types';
 import {
+  MagicItem as ApiMagicItem,
   Monster as ApiMonster,
   MonsterAction,
   MonsterProficiencyPartial
 } from './types';
 
 export interface IDnd5dApiNormalizer {
-  normalize(monsters: ApiMonster[]): Monster[];
+  normalizeMagicItems(items: ApiMagicItem[]): MagicItem[];
+  normalizeMonsters(monsters: ApiMonster[]): Monster[];
 }
 
 export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
-  normalize(monsters: ApiMonster[]): Monster[] {
+  normalizeMagicItems(items: ApiMagicItem[]): MagicItem[] {
+    const deduped = this.renameDuplicatesFromList(items);
+
+    return deduped.map(item => {
+      const {
+        desc,
+        equipment_category,
+        name,
+        rarity,
+        variant,
+        variants
+      } = item;
+
+      return {
+        category: equipment_category?.name ?? '',
+        description: this.getMagicItemDescription(desc ?? []),
+        name: name ?? '',
+        rarity: (rarity?.name?.toLocaleLowerCase() ?? '') as Rarity,
+        variant: variant ?? false,
+        variants: variants?.map(v => v.name ?? '') ?? []
+      };
+    });
+  }
+
+  normalizeMonsters(monsters: ApiMonster[]): Monster[] {
     return monsters.map(monster => {
       const {
         actions,
@@ -117,6 +145,69 @@ export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
         xp: xp ?? null
       }
     });
+  }
+
+  /**
+   * There are cases where some sources are distinctly different, yet
+   * still share a name. A good example is the dnd5eapi which has
+   * the same name for index potion-of-healing ( the description of 
+   * all potions of healing ) and potion-of-healing-common ( the
+   * standard potion of healing ).
+   * 
+   * In these cases we want to preserve the data but rename using the
+   * index instead.
+   */
+  private renameDuplicatesFromList(items: ApiMagicItem[]): ApiMagicItem[] {
+    const found: string[] = [];
+    const dupe: string[] = [];
+    
+    return items.map(item => {
+      const name = item?.name ?? '';
+      const index = item?.index ?? '';
+      let itemToReturn: ApiMagicItem;
+
+      if (found.includes(name) && !dupe.includes(name)) {
+        dupe.push(name);
+        itemToReturn = {
+          ...item,
+          name: index.replace('-', ' ').replace(/([A-Z])/g, ' $1').trim()
+        };
+      } else {
+        itemToReturn = item;
+      }
+
+      if (!found.includes(name)) {
+        found.push(name);
+      }
+
+      return itemToReturn;
+    })
+  }
+
+  /**
+   * The dnd5eapi gives us these descriptions as arrays of
+   * strings, with each line being a line of markdown. But,
+   * certain lines need spaces, while others don't, such as
+   * with tables. 
+   */
+  getMagicItemDescription(descriptionLines: string[]) {
+    const linesWithSpaces: string[] = [];
+
+    descriptionLines.forEach(line => {
+      linesWithSpaces.push(line);
+
+      const tableElementRegex = /^((\|[^|\r\n]*)+\|(\r?\n|\r)?)+/gm;
+      const notMatch = tableElementRegex.exec(line);
+
+      if (!notMatch) {
+        linesWithSpaces.push('\n');
+        linesWithSpaces.push('\n');
+      } else {
+        linesWithSpaces.push('\n');
+      }
+    });
+
+    return linesWithSpaces.join('');
   }
 
   private getAbilityFromSkill(skill: string): Ability {

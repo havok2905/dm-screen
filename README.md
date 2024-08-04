@@ -34,7 +34,8 @@
 | Command | Description |
 | ------- | ----------- |
 | compile:server | Runs a generic typescript compile on the server code |
-| data:populate-creatures | populates db with data fetched from 5e api | 
+| data:populate-creatures | populates db with creature data fetched from 5e api | 
+| data:populate-magic-items | populates db with magic items data fetched from 5e api | 
 | db:destroy | Removes the sqlite database from the project. |
 | db:migrate | Runs database migrations and generates a sqlite database in the root fo the project. |
 | db:reset | Destroys database, migrates, and seeds. |
