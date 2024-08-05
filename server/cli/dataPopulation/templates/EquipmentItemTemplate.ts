@@ -16,6 +16,16 @@ ${this.getGearCategory()}
 
 ${this.getArmorCategory()}
 
+${this.getWeaponType()}
+
+${this.getRange()}
+
+${this.getThrowRange()}
+
+${this.getDamage()}
+
+${this.getDamageTwoHanded()}
+
 ${this.getArmorClass()}
 
 ${this.getStealthDisadvantage()}
@@ -60,6 +70,16 @@ ${this.getContents()}
 ${itemsStr}`;
   }
 
+  private getDamage(): string {
+    if (!this.item.damage) return '';
+    return `**Damage** ${this.item.damage?.damageDice ?? ''} ${this.item.damage?.damageType ?? ''}`;
+  }
+
+  private getDamageTwoHanded(): string {
+    if (!this.item.twoHandedDamage) return '';
+    return `*Two Handed Damage** ${this.item.twoHandedDamage?.damageDice ?? ''} ${this.item.twoHandedDamage?.damageType ?? ''}`;
+  }
+
   private getDescription(): string {
     if (!this.item.description) return '';
     return `${this.item.description}`;
@@ -85,8 +105,24 @@ ${itemsStr}`;
 ${itemsStr}`;
   }
 
+  private getRange(): string {
+    if (!this.item.range) return '';
+    return `**Range** ${this.item.range?.normal ?? 0}`;
+  }
+
+  private getThrowRange(): string {
+    if (!this.item.throwRange) return '';
+    return `**Thrown Range** ${this.item.throwRange?.normal ?? 0}/${this.item.throwRange?.long ?? 0}`;
+  }
+
   private getStealthDisadvantage(): string {
     if (!this.item.stealthDisadvantage) return '';
     return `**Stealth** Disadvantage`;
+  }
+
+  private getWeaponType(): string {
+    if (!this.item.weaponRange) return '';
+    const categoryText = this.item.weaponCategory ? ` (${this.item.weaponCategory} weapon)` : '';
+    return `*${this.item.weaponRange} weapon${categoryText}*`;
   }
 }
