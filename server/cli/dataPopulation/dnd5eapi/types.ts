@@ -42,6 +42,7 @@ export interface EquipmentItem extends ApiItemBase{
 export interface EquipmentArmorClass {
   base?: number;
   dex_bonus?: false;
+  max_bonus?: number;
 }
 
 export interface VehicleSpeed {
