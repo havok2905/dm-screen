@@ -75,6 +75,7 @@ export interface EquipmentItem {
 export interface EquipmentArmorClass {
   base: number;
   dexBonus: boolean;
+  maxBonus: number;
 }
 
 export interface EquipmentContent {

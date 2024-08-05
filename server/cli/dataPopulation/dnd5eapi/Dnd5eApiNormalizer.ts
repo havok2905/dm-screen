@@ -13,8 +13,8 @@ import {
   SuccessType
 } from '../types';
 import {
-  ApiItemBase,
   EquipmentItem as ApiEquipmentItem,
+  ApiItemBase,
   MagicItem as ApiMagicItem,
   Monster as ApiMonster,
   MonsterAction,
@@ -82,7 +82,8 @@ export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
       if (armor_class) {
         response.armorClass = {
           base: armor_class.base ?? 0,
-          dexBonus: armor_class.dex_bonus ?? false
+          dexBonus: armor_class.dex_bonus ?? false,
+          maxBonus: armor_class.max_bonus ?? 0
         };
       }
 
