@@ -16,7 +16,11 @@ ${this.getGearCategory()}
 
 ${this.getArmorCategory()}
 
+${this.getVehicleCategory()}
+
 ${this.getWeaponType()}
+
+${this.getSpeed()}
 
 ${this.getRange()}
 
@@ -110,9 +114,9 @@ ${itemsStr}`;
     return `**Range** ${this.item.range?.normal ?? 0}`;
   }
 
-  private getThrowRange(): string {
-    if (!this.item.throwRange) return '';
-    return `**Thrown Range** ${this.item.throwRange?.normal ?? 0}/${this.item.throwRange?.long ?? 0}`;
+  private getSpeed(): string {
+    if(!this.item.speed) return '';
+    return `**Speed** ${this.item.speed.quantity} ${this.item.speed.unit}`;
   }
 
   private getStealthDisadvantage(): string {
@@ -120,9 +124,19 @@ ${itemsStr}`;
     return `**Stealth** Disadvantage`;
   }
 
+  private getThrowRange(): string {
+    if (!this.item.throwRange) return '';
+    return `**Thrown Range** ${this.item.throwRange?.normal ?? 0}/${this.item.throwRange?.long ?? 0}`;
+  }
+
   private getWeaponType(): string {
     if (!this.item.weaponRange) return '';
     const categoryText = this.item.weaponCategory ? ` (${this.item.weaponCategory} weapon)` : '';
     return `*${this.item.weaponRange} weapon${categoryText}*`;
+  }
+
+  private getVehicleCategory(): string {
+    if (!this.item.vehicleCategory) return '';
+    return `**Vehicle Category** ${this.item.vehicleCategory}`;
   }
 }
