@@ -12,8 +12,12 @@ import {
   Spinner,
   Table
 } from '@designSystem/components';
+import {
+  Link,
+  useParams
+} from 'react-router-dom';
 
-import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
 
 import { ADVENTURES_PATH } from '../../../routes';
 import { Markdown } from '../../../components';
@@ -21,6 +25,8 @@ import { useAdventure } from '../../../hooks';
 
 export const AdventurePage = () => {
   const { id: adventureId } = useParams();
+  const [currentCreaturesExpanded, setCurrentCreaturesExpanded] = useState<string[]>([]); 
+  const [currentItemsExpanded, setCurrentItemsExpanded] = useState<string[]>([]); 
 
   const {
     data,
@@ -54,17 +60,57 @@ export const AdventurePage = () => {
     { name: 'Name'}
   ];
 
+  const toggleItem = (
+    id: string,
+    isExpanded: boolean
+  ) => {
+    if (isExpanded) {
+      setCurrentItemsExpanded(currentItemsExpanded.filter((i) => {
+        return i !== id;
+      }));
+    } else {
+      setCurrentItemsExpanded([
+        ...currentItemsExpanded,
+        id
+      ]);
+    }
+  };
+
+  const toggleCreature = (
+    id: string,
+    isExpanded: boolean
+  ) => {
+    if (isExpanded) {
+      setCurrentCreaturesExpanded(currentCreaturesExpanded.filter((c) => {
+        return c !== id;
+      }));
+    } else {
+      setCurrentCreaturesExpanded([
+        ...currentCreaturesExpanded,
+        id
+      ]);
+    }
+  };
+
   const creatureRows = creatures?.map((creature: MarkdownEntity) => {
     const {
+      content,
       id,
+      image,
+      metadata,
       name
     } = creature;
+
+    const isExpanded = currentCreaturesExpanded.includes(id);
 
     return {
       data: [id, name],
       actions: [
         {
-          name: 'View'
+          name: isExpanded ? 'Collapse' : 'Expand',
+          onClick: () => {
+            toggleCreature(id, isExpanded);
+          }
         },
         {
           name: 'Edit'
@@ -72,7 +118,27 @@ export const AdventurePage = () => {
         {
           name: 'Remove'
         }
-      ]
+      ],
+      collapsibleRenderer: () => {
+        return (
+          <div>
+            {
+              metadata.map((m, index) => {
+                return (
+                  <p key={index}>
+                    {m.name}: {m.value}
+                  </p>
+                );
+              })
+            }
+            {
+              image ? <img alt={name} src={image}/> : null
+            }
+            <Markdown content={content} />
+          </div>
+        )
+      },
+      isExpanded
     };
   });
 
@@ -83,15 +149,23 @@ export const AdventurePage = () => {
 
   const itemRows = items?.map((item: MarkdownEntity) => {
     const {
+      content,
       id,
+      image,
+      metadata,
       name
     } = item;
+
+    const isExpanded = currentItemsExpanded.includes(id);
 
     return {
       data: [id, name],
       actions: [
         {
-          name: 'View'
+          name: isExpanded ? 'Collapse' : 'Expand',
+          onClick: () => {
+            toggleItem(id, isExpanded);
+          }
         },
         {
           name: 'Edit'
@@ -99,7 +173,27 @@ export const AdventurePage = () => {
         {
           name: 'Remove'
         }
-      ]
+      ],
+      collapsibleRenderer: () => {
+        return (
+          <div>
+            {
+              metadata.map((m, index) => {
+                return (
+                  <p key={index}>
+                    {m.name}: {m.value}
+                  </p>
+                );
+              })
+            }
+            {
+              image ? <img alt={name} src={image} style={{ maxWidth: '100%' }}/> : null
+            }
+            <Markdown content={content} />
+          </div>
+        )
+      },
+      isExpanded
     };
   });
 

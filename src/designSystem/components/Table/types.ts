@@ -1,7 +1,8 @@
 import {
   FocusEvent,
   KeyboardEvent,
-  MouseEvent
+  MouseEvent,
+  ReactNode
 } from 'react';
 
 export interface Column {
@@ -26,6 +27,8 @@ export interface RowAction {
 export interface Row {
   data: RowData;
   actions: RowAction[];
+  collapsibleRenderer?: () => ReactNode;
+  isExpanded?: boolean;
 }
 
 export type Rows = Row[];

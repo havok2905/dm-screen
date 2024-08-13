@@ -1,3 +1,5 @@
+import React from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Columns, Rows } from './types';
@@ -45,7 +47,15 @@ const rows: Rows = [
         onClick: () => {},
         name: 'View'
       }
-    ]
+    ],
+    isExpanded: true,
+    collapsibleRenderer: () => {
+      return (
+        <p>
+          Expanded content
+        </p>
+      );
+    }
   },
   {
     data: [
