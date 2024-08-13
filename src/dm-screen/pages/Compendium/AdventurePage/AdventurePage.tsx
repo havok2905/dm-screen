@@ -16,24 +16,80 @@ import {
   Link,
   useParams
 } from 'react-router-dom';
+import {
+  useCallback,
+  useState
+} from 'react';
 
-import { useState } from 'react';
+import {
+  ConfirmationModal,
+  Markdown
+} from '../../../components';
+import {
+  useAdventure,
+  useDestroyAdventureCreature,
+  useDestroyAdventureItem
+} from '../../../hooks';
 
 import { ADVENTURES_PATH } from '../../../routes';
-import { Markdown } from '../../../components';
-import { useAdventure } from '../../../hooks';
 
 export const AdventurePage = () => {
   const { id: adventureId } = useParams();
+  const [activeId, setActiveId] = useState<string>('');
   const [currentCreaturesExpanded, setCurrentCreaturesExpanded] = useState<string[]>([]); 
-  const [currentItemsExpanded, setCurrentItemsExpanded] = useState<string[]>([]); 
+  const [currentItemsExpanded, setCurrentItemsExpanded] = useState<string[]>([]);
+  const [isAdventureCreatureConfirmModalOpen, setIsAdventureCreatureConfirmModalOpen] = useState<boolean>(false);
+  const [isAdventureItemConfirmModalOpen, setIsAdventureItemConfirmModalOpen] = useState<boolean>(false);
 
   const {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useAdventure(adventureId ?? '');
+
+  const onSuccess = useCallback(() => {
+    refetch();
+  }, [
+    refetch
+  ]);
+
+  const {
+    mutate: destroyAdventureCreature
+  } = useDestroyAdventureCreature(onSuccess);
+
+  const {
+    mutate: destroyAdventureItem
+  } = useDestroyAdventureItem(onSuccess);
+
+  const onAdventureCreatureCancel = useCallback(() => {
+    setIsAdventureCreatureConfirmModalOpen(false);
+    setActiveId('');
+  }, []);
+
+  const onAdventureCreatureOk = useCallback(() => {
+    destroyAdventureCreature(activeId);
+    setIsAdventureCreatureConfirmModalOpen(false);
+    setActiveId('');
+  }, [
+    activeId,
+    destroyAdventureCreature
+  ]);
+
+  const onAdventureItemCancel = useCallback(() => {
+    setIsAdventureItemConfirmModalOpen(false);
+    setActiveId('');
+  }, []);
+
+  const onAdventureItemOk = useCallback(() => {
+    destroyAdventureItem(activeId);
+    setIsAdventureItemConfirmModalOpen(false);
+    setActiveId('');
+  }, [
+    activeId,
+    destroyAdventureItem
+  ]);
 
   if (
     isFetching ||
@@ -116,7 +172,11 @@ export const AdventurePage = () => {
           name: 'Edit'
         },
         {
-          name: 'Remove'
+          name: 'Remove',
+          onClick: () => {
+            setIsAdventureCreatureConfirmModalOpen(true);
+            setActiveId(id);
+          }
         }
       ],
       collapsibleRenderer: () => {
@@ -171,7 +231,11 @@ export const AdventurePage = () => {
           name: 'Edit'
         },
         {
-          name: 'Remove'
+          name: 'Remove',
+          onClick: () => {
+            setIsAdventureItemConfirmModalOpen(true);
+            setActiveId(id);
+          }
         }
       ],
       collapsibleRenderer: () => {
@@ -268,18 +332,32 @@ export const AdventurePage = () => {
   );
 
   return (
-    <Container>
-      <h1>
-        Compendium
-      </h1>
-      <p>
-        <Link to={ADVENTURES_PATH}>
-          Back to Adventures
-        </Link>
-      </p>
-      {
-        adventureContent
-      }
-    </Container>
+    <>
+      <Container>
+        <h1>
+          Compendium
+        </h1>
+        <p>
+          <Link to={ADVENTURES_PATH}>
+            Back to Adventures
+          </Link>
+        </p>
+        {
+          adventureContent
+        }
+      </Container>
+      <ConfirmationModal
+        isOpen={isAdventureCreatureConfirmModalOpen}
+        message="Are you sure you would like to destroy this creature and remove it from the adventure?"
+        onCancel={onAdventureCreatureCancel}
+        onOk={onAdventureCreatureOk}
+      />
+      <ConfirmationModal
+        isOpen={isAdventureItemConfirmModalOpen}
+        message="Are you sure you would like to destroy this item and remove it from the adventure?"
+        onCancel={onAdventureItemCancel}
+        onOk={onAdventureItemOk}
+      />
+    </>
   );
 };

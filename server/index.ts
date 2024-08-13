@@ -6,6 +6,8 @@ import { Server } from 'socket.io';
 
 import {
   AdventureService,
+  AdventureCreatureService,
+  AdventureItemService,
   InitiativeService
 } from './services';
 import {
@@ -99,6 +101,24 @@ app.get('/adventure/:id', async (request, response, next) => {
 app.delete('/adventures/:id', async(request, response, next) => {
   try {
     const responseJson = await AdventureService.destroyAdventureById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.delete('/adventureCreatures/:id', async(request, response, next) => {
+  try {
+    const responseJson = await AdventureCreatureService.destroyAdventureCreatureById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.delete('/adventureItems/:id', async(request, response, next) => {
+  try {
+    const responseJson = await AdventureItemService.destroyAdventureItemById(request.params.id ?? '');
     response.json(responseJson);
   } catch(error) {
     next(error);

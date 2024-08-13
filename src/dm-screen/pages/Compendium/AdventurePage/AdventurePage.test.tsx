@@ -20,9 +20,19 @@ jest.mock('react-router-dom', () => ({
   useParams: jest.fn().mockReturnValue({ id: '1' })
 }));
 
-import { useAdventure } from '../../../hooks';
+import {
+  useAdventure,
+  useDestroyAdventureCreature,
+  useDestroyAdventureItem
+} from '../../../hooks';
 jest.mock('../../../hooks', () => ({
-  useAdventure: jest.fn()
+  useAdventure: jest.fn(),
+  useDestroyAdventureCreature: jest.fn().mockReturnValue({
+    mutate: jest.fn()
+  }),
+  useDestroyAdventureItem: jest.fn().mockReturnValue({
+    mutate: jest.fn()
+  })
 }));
 
 const mockAdventure = {
@@ -280,5 +290,99 @@ describe('AdventurePage', () => {
     expect(wrapper).not.toContainReactText('Hello, item!');
     expect(wrapper).not.toContainReactText('Rarity: Common');
     expect(wrapper).not.toContainReactText('Cost: 2GP');
+  });
+
+  it('should delete a creature and refetch', () => {
+    const queryClient = new QueryClient();
+
+    const refetch = jest.fn();
+    const mutate = jest.fn(() => {
+      refetch();
+    });
+
+    // @ts-expect-error This is a Jest mock
+    useAdventure.mockImplementation(() => {
+      return {
+        ...mockAdventure,
+        refetch
+      };
+    });
+
+    // @ts-expect-error This is a Jest mock
+    useDestroyAdventureCreature.mockImplementation(() => {
+      return {
+        mutate
+      };
+    });
+
+    const wrapper = mount(
+      <QueryClientProvider client={queryClient}>
+        <AdventurePage />
+      </QueryClientProvider>
+    );
+    
+    const destroyCreatureButton = wrapper.findAll('table')[0]?.findAll('button')[2];
+
+    expect(destroyCreatureButton).toContainReactText('Remove');
+
+    destroyCreatureButton.trigger('onClick');
+
+    const modal = wrapper.findWhere<'div'>(
+      (node) => node.is('div') && node.prop('className') === 'dm-screen-design-system-modal',
+    );
+
+    const okButton = modal?.findAll('button')[0];
+
+    okButton?.trigger('onClick');
+
+    expect(mutate).toHaveBeenCalled();
+    expect(refetch).toHaveBeenCalled();
+  });
+
+  it('should delete an item and refetch', () => {
+    const queryClient = new QueryClient();
+
+    const refetch = jest.fn();
+    const mutate = jest.fn(() => {
+      refetch();
+    });
+
+    // @ts-expect-error This is a Jest mock
+    useAdventure.mockImplementation(() => {
+      return {
+        ...mockAdventure,
+        refetch
+      };
+    });
+
+    // @ts-expect-error This is a Jest mock
+    useDestroyAdventureItem.mockImplementation(() => {
+      return {
+        mutate
+      };
+    });
+
+    const wrapper = mount(
+      <QueryClientProvider client={queryClient}>
+        <AdventurePage />
+      </QueryClientProvider>
+    );
+    
+    const destroyItemButton = wrapper.findAll('table')[1]?.findAll('button')[2];
+
+    expect(destroyItemButton).toContainReactText('Remove');
+
+    destroyItemButton.trigger('onClick');
+
+    const modal = wrapper.findWhere<'div'>(
+      (node) => node.is('div') && node.prop('className') === 'dm-screen-design-system-modal',
+    );
+
+    const okButton = modal?.findAll('button')[0];
+
+    okButton?.trigger('onClick');
+
+    expect(mutate).toHaveBeenCalled();
+    expect(refetch).toHaveBeenCalled();
   });
 });
