@@ -23,6 +23,11 @@ import {
 } from 'react';
 
 import {
+  ADVENTURES_PATH,
+  EDIT_ADVENTURE_CREATURE_PATH,
+  EDIT_ADVENTURE_ITEM_PATH
+} from '../../../routes';
+import {
   ConfirmationModal,
   Markdown
 } from '../../../components';
@@ -31,8 +36,6 @@ import {
   useDestroyAdventureCreature,
   useDestroyAdventureItem
 } from '../../../hooks';
-
-import { ADVENTURES_PATH, EDIT_ADVENTURE_ITEM_PATH } from '../../../routes';
 
 export const AdventurePage = () => {
   const { id: adventureId } = useParams();
@@ -171,7 +174,10 @@ export const AdventurePage = () => {
           }
         },
         {
-          name: 'Edit'
+          name: 'Edit',
+          onClick: () => {
+            navigate(EDIT_ADVENTURE_CREATURE_PATH.replace(':id', id))
+          }
         },
         {
           name: 'Remove',

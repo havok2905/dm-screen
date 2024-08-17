@@ -12,6 +12,7 @@ import {
 } from './services';
 import {
   CreateAdventureRequest,
+  UpdateAdventureCreatureRequest,
   UpdateAdventureItemRequest,
   UpdateAdventureRequest,
   UpdateInitiativeRequest
@@ -108,11 +109,48 @@ app.delete('/adventures/:id', async(request, response, next) => {
   }
 });
 
+app.get('/adventureCreature/:id', async (request, response, next) => {
+  try {
+    const responseJson = await AdventureCreatureService.getAdventureCreatureById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.delete('/adventureCreatures/:id', async(request, response, next) => {
   try {
     const responseJson = await AdventureCreatureService.destroyAdventureCreatureById(request.params.id ?? '');
     response.json(responseJson);
   } catch(error) {
+    next(error);
+  }
+});
+
+app.put('/adventureCreature/:id', async (request, response, next) => {
+  try {
+    const {
+      adventureid,
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const updateAdventureCreatureRequest = new UpdateAdventureCreatureRequest(
+      adventureid,
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await AdventureCreatureService.updateAdventureCreatureById(request.params.id ?? '', updateAdventureCreatureRequest);
+
+    response.json(responseJson);
+  } catch (error) {
     next(error);
   }
 });

@@ -1,7 +1,7 @@
-import { AdventureItemRequestMalformedException } from '../exceptions';
+import { AdventureCreatureRequestMalformedException } from '../exceptions';
 import { Request } from './Request';
 
-export class UpdateAdventureItemRequest implements Request {
+export class UpdateAdventureCreatureRequest implements Request {
   public adventureid: string;
   public content: string;
   public id: string;
@@ -39,7 +39,7 @@ export class UpdateAdventureItemRequest implements Request {
       !this.id ||
       !this.name
     ) {
-      throw new AdventureItemRequestMalformedException();
+      throw new AdventureCreatureRequestMalformedException();
     }
   }
 }

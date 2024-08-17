@@ -14,6 +14,7 @@ import {
   ADVENTURES_PATH,
   COMPENDIUM_PATH,
   CREATE_ADVENTURE_PATH,
+  EDIT_ADVENTURE_CREATURE_PATH,
   EDIT_ADVENTURE_ITEM_PATH,
   EDIT_ADVENTURE_PATH,
   PLAYER_VIEW_PATH,
@@ -25,6 +26,7 @@ import {
   CompendiumPage,
   CreateAdventurePage,
   DmView,
+  EditAdventureCreaturePage,
   EditAdventureItemPage,
   EditAdventurePage,
   PlayerView
@@ -80,6 +82,14 @@ const router = createBrowserRouter([
     element: (
       <RouteErrorBoundary>
         <CreateAdventurePage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: EDIT_ADVENTURE_CREATURE_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <EditAdventureCreaturePage/>
       </RouteErrorBoundary>
     )
   },

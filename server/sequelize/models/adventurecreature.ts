@@ -18,6 +18,10 @@ export default (sequelize) => {
   }
 
   AdventureCreature.init({
+    id: {
+      type: DataTypes.TEXT,
+      primaryKey: true
+    },
     adventureid: DataTypes.TEXT,
     name: DataTypes.TEXT,
     image: DataTypes.TEXT,

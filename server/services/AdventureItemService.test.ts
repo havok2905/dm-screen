@@ -1,12 +1,12 @@
 import { AdventureItem } from '../sequelize/db';
 import { AdventureItemResponse } from '../responses';
 import { AdventureItemService } from './AdventureItemService';
+import { UpdateAdventureItemRequest } from '../requests';
 
 import {
   AdventureItemNotFoundException,
   MissingArgumentException
 } from '../exceptions';
-import {UpdateAdventureItemRequest} from '../requests';
 
 describe('AdventureItemService', () => {
   describe('destroyAdventureItemById', () => {

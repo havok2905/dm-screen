@@ -6,6 +6,7 @@ import {
 
 import {
   AdventureCreatureNotFoundException,
+  AdventureCreatureRequestMalformedException,
   AdventureItemNotFoundException,
   AdventureItemRequestMalformedException,
   AdventureNotFoundException,
@@ -24,7 +25,8 @@ export const errorHandler = (
   if (
     error instanceof MissingArgumentException ||
     error instanceof AdventureItemRequestMalformedException ||
-    error instanceof AdventureRequestMalformedException
+    error instanceof AdventureRequestMalformedException ||
+    error instanceof AdventureCreatureRequestMalformedException
   ) {
     response.status(400).send();  
   } else if (
