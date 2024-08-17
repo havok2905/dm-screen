@@ -1,4 +1,4 @@
-.dm-screen-design-system-input {
+.dm-screen-design-system-text-area {
   background-color: var(--black-100);
   box-sizing: border-box;
   box-shadow: inset 0 0 10px 0 var(--black);
@@ -8,18 +8,19 @@
   height: 38px;
   padding: var(--spacing-small);
   margin-bottom: 1.5rem;
+  min-height: 300px;
 }
 
-.dm-screen-design-system-input-error {
+.dm-screen-design-system-text-area-error {
   border: solid 1px var(--red-200);
   margin: 0;
 }
 
-.dm-screen-design-system-input-error-message {
+.dm-screen-design-system-text-area-error-message {
   color: var(--red-200);
   margin: 0;
 }
 
-.dm-screen-design-system-input-full {
+.dm-screen-design-system-text-area-full {
   width: 100%;
 }

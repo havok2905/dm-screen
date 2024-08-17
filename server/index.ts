@@ -5,13 +5,14 @@ import http from 'http';
 import { Server } from 'socket.io';
 
 import {
-  AdventureService,
   AdventureCreatureService,
   AdventureItemService,
+  AdventureService,
   InitiativeService
 } from './services';
 import {
   CreateAdventureRequest,
+  UpdateAdventureItemRequest,
   UpdateAdventureRequest,
   UpdateInitiativeRequest
 } from './requests';
@@ -116,11 +117,48 @@ app.delete('/adventureCreatures/:id', async(request, response, next) => {
   }
 });
 
+app.get('/adventureItem/:id', async (request, response, next) => {
+  try {
+    const responseJson = await AdventureItemService.getAdventureItemById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.delete('/adventureItems/:id', async(request, response, next) => {
   try {
     const responseJson = await AdventureItemService.destroyAdventureItemById(request.params.id ?? '');
     response.json(responseJson);
   } catch(error) {
+    next(error);
+  }
+});
+
+app.put('/adventureItem/:id', async (request, response, next) => {
+  try {
+    const {
+      adventureid,
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const updateAdventureItemRequest = new UpdateAdventureItemRequest(
+      adventureid,
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await AdventureItemService.updateAdventureItemById(request.params.id ?? '', updateAdventureItemRequest);
+
+    response.json(responseJson);
+  } catch (error) {
     next(error);
   }
 });

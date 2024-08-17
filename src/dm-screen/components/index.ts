@@ -1,5 +1,6 @@
 export * from './ConfirmationModal';
 export * from './CreaturesTable';
+export * from './EditItemForm';
 export * from './InitiativeCard';
 export * from './InitiativeItemModal';
 export * from './InitiativeOrderComponent';

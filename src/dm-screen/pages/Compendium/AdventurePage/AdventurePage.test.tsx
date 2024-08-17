@@ -14,9 +14,10 @@ import { AdventurePage } from './AdventurePage';
 
 // This needs to be imported for mock behavior in jest.
 /* eslint-disable-next-line */
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 jest.mock('react-router-dom', () => ({
   Link: MockReactRouterLink,
+  useNavigate: jest.fn(),
   useParams: jest.fn().mockReturnValue({ id: '1' })
 }));
 

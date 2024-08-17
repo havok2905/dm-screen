@@ -14,6 +14,7 @@ import {
 } from '@designSystem/components';
 import {
   Link,
+  useNavigate,
   useParams
 } from 'react-router-dom';
 import {
@@ -31,10 +32,11 @@ import {
   useDestroyAdventureItem
 } from '../../../hooks';
 
-import { ADVENTURES_PATH } from '../../../routes';
+import { ADVENTURES_PATH, EDIT_ADVENTURE_ITEM_PATH } from '../../../routes';
 
 export const AdventurePage = () => {
   const { id: adventureId } = useParams();
+  const navigate = useNavigate();
   const [activeId, setActiveId] = useState<string>('');
   const [currentCreaturesExpanded, setCurrentCreaturesExpanded] = useState<string[]>([]); 
   const [currentItemsExpanded, setCurrentItemsExpanded] = useState<string[]>([]);
@@ -228,7 +230,10 @@ export const AdventurePage = () => {
           }
         },
         {
-          name: 'Edit'
+          name: 'Edit',
+          onClick: () => {
+            navigate(EDIT_ADVENTURE_ITEM_PATH.replace(':id', id))
+          }
         },
         {
           name: 'Remove',

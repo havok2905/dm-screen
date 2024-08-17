@@ -5,9 +5,10 @@ import {
 } from 'express';
 
 import {
-  AdventureNotFoundException,
   AdventureCreatureNotFoundException,
   AdventureItemNotFoundException,
+  AdventureItemRequestMalformedException,
+  AdventureNotFoundException,
   AdventureRequestMalformedException,
   AdventuresNotFoundException,
   InitiativeNotFoundException,
@@ -22,6 +23,7 @@ export const errorHandler = (
 ) => {
   if (
     error instanceof MissingArgumentException ||
+    error instanceof AdventureItemRequestMalformedException ||
     error instanceof AdventureRequestMalformedException
   ) {
     response.status(400).send();  

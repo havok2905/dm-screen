@@ -3,3 +3,9 @@ export class AdventureItemNotFoundException extends Error {
     super(message ?? 'Adventure Item not found');
   }
 }
+
+export class AdventureItemRequestMalformedException extends Error {
+  constructor(message?: string) {
+    super(message ?? 'The AdventureItem request body is not valid');
+  }
+}
