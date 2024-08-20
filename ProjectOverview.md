@@ -44,14 +44,17 @@ Build a web-based application to quickly import third-party TTRPG content and cr
 | Third Party API Importer - Items | Complete |
 | Third Party API Importer - Magic Items | Complete |
 | DM View - Initiative Tracker UX Enhancements | In Progress |
-| Admin View - Adventures | In Progress |
+| Admin View - Adventures | Complete |
 
 ### On Deck
 
 | Milestone | State |
 | --------- | ----- |
+| e2e testing strategy | On Deck |
+| General UX polish | On Deck |
+| General Error state handling in UI | On Deck |
 | Resolve Structural Technical Debt | On Deck |
-| Third Party API Importer - Spells | On Deck |
+| CLI Third Party API Importer - Spells | On Deck |
 | Admin View - Creatures | On Deck |
 | Admin View - Items | On Deck |
 | Admin View - Spells | On Deck |
