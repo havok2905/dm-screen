@@ -12,6 +12,8 @@ import {
   AdventureNotFoundException,
   AdventureRequestMalformedException,
   AdventuresNotFoundException,
+  CreatureNotFoundException,
+  CreaturesNotFoundException,
   EquipmentItemNotFoundException,
   InitiativeNotFoundException,
   ItemsNotFoundException,
@@ -37,6 +39,8 @@ export const errorHandler = (
     error instanceof AdventuresNotFoundException ||
     error instanceof AdventureCreatureNotFoundException ||
     error instanceof AdventureItemNotFoundException ||
+    error instanceof CreatureNotFoundException ||
+    error instanceof CreaturesNotFoundException ||
     error instanceof EquipmentItemNotFoundException ||
     error instanceof InitiativeNotFoundException ||
     error instanceof ItemsNotFoundException ||

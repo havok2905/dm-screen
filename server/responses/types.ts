@@ -40,6 +40,8 @@ export type AdventuresResponse = {
   adventures: AdventureResponse[];
 }
 
+export interface CreatureResponse extends MarkdownEntityResponse { }
+
 export enum EntityType {
   CREATURE = "creature",
   PLAYER = "player"

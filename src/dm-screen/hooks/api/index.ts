@@ -1,3 +1,4 @@
+export * from './useAddCreature';
 export * from './useAddEquipmentItem';
 export * from './useAddMagicItem';
 export * from './useAdventure';
@@ -6,6 +7,7 @@ export * from './useAdventureItem';
 export * from './useAdventures';
 export * from './useBootstrapInitiative';
 export * from './useCreateAdventure';
+export * from './useCreatures';
 export * from './useDestroyAdventure';
 export * from './useDestroyAdventureCreature';
 export * from './useDestroyAdventureItem';

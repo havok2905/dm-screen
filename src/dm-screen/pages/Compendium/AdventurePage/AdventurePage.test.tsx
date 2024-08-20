@@ -22,15 +22,20 @@ jest.mock('react-router-dom', () => ({
 }));
 
 import {
+  useAddCreature,
   useAddEquipmentItem,
   useAddMagicItem,
   useAdventure,
+  useCreatures,
   useDestroyAdventureCreature,
   useDestroyAdventureItem,
   useEquipmentItems,
   useMagicItems
 } from '../../../hooks';
 jest.mock('../../../hooks', () => ({
+  useAddCreature: jest.fn().mockReturnValue({
+    mutate: jest.fn()
+  }),
   useAddEquipmentItem: jest.fn().mockReturnValue({
     mutate: jest.fn()
   }),
@@ -38,6 +43,7 @@ jest.mock('../../../hooks', () => ({
     mutate: jest.fn()
   }),
   useAdventure: jest.fn(),
+  useCreatures: jest.fn(),
   useDestroyAdventureCreature: jest.fn().mockReturnValue({
     mutate: jest.fn()
   }),
@@ -47,6 +53,14 @@ jest.mock('../../../hooks', () => ({
   useEquipmentItems: jest.fn(),
   useMagicItems: jest.fn(),
 }));
+
+const mockCreatures = {
+  data: [],
+  isFetching: false,
+  isLoading: false,
+  isPending: false,
+  isSuccess: true
+};
 
 const mockMagicItems = {
   data: [],
@@ -146,6 +160,11 @@ describe('AdventurePage', () => {
     // @ts-expect-error This is a Jest mock
     useAdventure.mockImplementation(() => {
       return mockAdventure;
+    });
+
+    // @ts-expect-error This is a Jest mock
+    useCreatures.mockImplementation(() => {
+      return mockCreatures;
     });
 
     // @ts-expect-error This is a Jest mock

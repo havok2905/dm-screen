@@ -3,12 +3,14 @@ import {
   AdventureCreature,
   AdventureHandout,
   AdventureItem,
+  Creature,
   EquipmentItem,
   MagicItem
 } from '../sequelize/db';
 import {
   AdventureNotFoundException,
   AdventuresNotFoundException,
+  CreatureNotFoundException,
   EquipmentItemNotFoundException,
   MissingArgumentException
 } from '../exceptions';
@@ -24,6 +26,71 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 export class AdventureService {
+  static async addCreatureToAdventure (
+    id: string,
+    creatureId: string
+  ): Promise<AdventureResponse> {
+    if (!id || !creatureId) {
+      throw new MissingArgumentException();
+    }
+
+    const adventure = await Adventure.findOne({
+      where: {
+        id
+      }
+    });
+
+    const creature = await Creature.findOne({
+      where: {
+        id: creatureId
+      }
+    });
+
+    if (!adventure) {
+      throw new AdventureNotFoundException();
+    }
+
+    if (!creature) {
+      throw new CreatureNotFoundException();
+    }
+
+    const adventureCreature = AdventureCreature.build({
+      id: uuidv4(),
+      adventureid: id,
+      content: creature.dataValues.content,
+      name: creature.dataValues.name,
+      image: creature.dataValues.image,
+      metadata: creature.dataValues.metadata
+    });
+
+    adventureCreature.save();
+
+    const adventureCreatures = await AdventureCreature.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureHandouts = await AdventureHandout.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureItems = await AdventureItem.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    return this.mapResponseJson(
+      adventure,
+      adventureCreatures,
+      adventureHandouts,
+      adventureItems
+    );
+  }
+
   static async addEquipmentItemToAdventure (
     id: string,
     equipmentItemId: string

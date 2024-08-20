@@ -37,9 +37,11 @@ import {
   Markdown
 } from '../../../components';
 import {
+  useAddCreature,
   useAddEquipmentItem,
   useAddMagicItem,
   useAdventure,
+  useCreatures,
   useDestroyAdventureCreature,
   useDestroyAdventureItem,
   useEquipmentItems,
@@ -57,6 +59,7 @@ export const AdventurePage = () => {
   const [tagSearchTerm, setTagSearchTerm] = useState<string>('');
   const [isAdventureCreatureConfirmModalOpen, setIsAdventureCreatureConfirmModalOpen] = useState<boolean>(false);
   const [isAdventureItemConfirmModalOpen, setIsAdventureItemConfirmModalOpen] = useState<boolean>(false);
+  const [isCreatureCompendiumModalOpen, setIsCreatureCompendiumModalOpen] = useState<boolean>(false);
   const [isItemCompendiumModalOpen, setIsItemCompendiumModalOpen] = useState<boolean>(false);
   const [isMagicItemCompendiumModalOpen, setIsMagicItemCompendiumModalOpen] = useState<boolean>(false);
 
@@ -67,6 +70,13 @@ export const AdventurePage = () => {
     isPending,
     refetch
   } = useAdventure(adventureId ?? '');
+
+  const {
+    data: creaturesData,
+    isFetching: creaturesIsFetching,
+    isLoading: creaturesIsLoading,
+    isPending: creaturesIsPending
+  } = useCreatures();
 
   const {
     data: itemsData,
@@ -97,7 +107,21 @@ export const AdventurePage = () => {
     setIsMagicItemCompendiumModalOpen(false);
   }, [
     refetch
-  ])
+  ]);
+
+  const onAddCreatureSuccess = useCallback(() => {
+    refetch();
+    setCurrentMarkdownItemsExpanded([]);
+    setNameSearchTerm('');
+    setTagSearchTerm('');
+    setIsCreatureCompendiumModalOpen(false);
+  }, [
+    refetch
+  ]);
+
+  const {
+    mutate: addCreature
+  } = useAddCreature(onAddCreatureSuccess);
 
   const {
     mutate: addEquipmentItem
@@ -152,7 +176,10 @@ export const AdventurePage = () => {
     itemsIsPending ||
     magicItemsIsFetching ||
     magicItemsIsLoading ||
-    magicItemsIsPending
+    magicItemsIsPending ||
+    creaturesIsFetching ||
+    creaturesIsLoading ||
+    creaturesIsPending
   ) return (
     <CenteredContainer>
       <Spinner/>
@@ -168,6 +195,8 @@ export const AdventurePage = () => {
     notes,
     system
   } = data ?? {} as Adventure;
+
+  const markdownCreatures = creaturesData as MarkdownEntity[];
 
   const markdownItems = itemsData as MarkdownEntity[];
 
@@ -363,6 +392,11 @@ export const AdventurePage = () => {
             <h3>
               Creatures
             </h3>
+            <Button
+              buttonText="Add creature from compendium"
+              onClick={() => {
+                setIsCreatureCompendiumModalOpen(true);
+              }} />
             <Table
               columns={creatureColumns}
               rows={creatureRows}
@@ -581,6 +615,14 @@ export const AdventurePage = () => {
         setIsMagicItemCompendiumModalOpen(false);
       }, (id, itemId) => {
         addMagicItem({ id, itemId });
+      })}
+      {getItemsModal(markdownCreatures, isCreatureCompendiumModalOpen, () => {
+        setNameSearchTerm('');
+        setTagSearchTerm('');
+        setCurrentMarkdownItemsExpanded([]);
+        setIsCreatureCompendiumModalOpen(false);
+      }, (id, creatureId) => {
+        addCreature({ id, creatureId });
       })}
       <ConfirmationModal
         isOpen={isAdventureCreatureConfirmModalOpen}

@@ -8,6 +8,7 @@ import {
   AdventureCreatureService,
   AdventureItemService,
   AdventureService,
+  CreatureService,
   InitiativeService,
   ItemService
 } from './services';
@@ -85,6 +86,19 @@ app.put('/adventure/:id', async (request, response, next) => {
     );
 
     const responseJson = await AdventureService.updateAdventureById(request.params.id ?? '', updateAdventureRequest);
+
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/adventure/:id/addCreature/:creatureId', async (request, response, next) => {
+  try {
+    const responseJson = await AdventureService.addCreatureToAdventure(
+      request.params.id ?? '',
+      request.params.creatureId ?? ''
+    );
 
     response.json(responseJson);
   } catch (error) {
@@ -260,6 +274,15 @@ app.post('/initiative/:adventureid', async(request, response, next) => {
 app.delete('/initiative/:id', async(request, response, next) => {
   try {
     const responseJson = await InitiativeService.destroyInitiativeById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.get('/creatures', async (_request, response, next) => {
+  try {
+    const responseJson = await CreatureService.getCreatures();
     response.json(responseJson);
   } catch(error) {
     next(error);
