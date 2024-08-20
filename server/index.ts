@@ -8,7 +8,8 @@ import {
   AdventureCreatureService,
   AdventureItemService,
   AdventureService,
-  InitiativeService
+  InitiativeService,
+  ItemService
 } from './services';
 import {
   CreateAdventureRequest,
@@ -84,6 +85,32 @@ app.put('/adventure/:id', async (request, response, next) => {
     );
 
     const responseJson = await AdventureService.updateAdventureById(request.params.id ?? '', updateAdventureRequest);
+
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/adventure/:id/addEquipmentItem/:itemId', async (request, response, next) => {
+  try {
+    const responseJson = await AdventureService.addEquipmentItemToAdventure(
+      request.params.id ?? '',
+      request.params.itemId ?? ''
+    );
+
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/adventure/:id/addMagicItem/:itemId', async (request, response, next) => {
+  try {
+    const responseJson = await AdventureService.addMagicItemToAdventure(
+      request.params.id ?? '',
+      request.params.itemId ?? ''
+    );
 
     response.json(responseJson);
   } catch (error) {
@@ -233,6 +260,24 @@ app.post('/initiative/:adventureid', async(request, response, next) => {
 app.delete('/initiative/:id', async(request, response, next) => {
   try {
     const responseJson = await InitiativeService.destroyInitiativeById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.get('/equipmentItems', async (_request, response, next) => {
+  try {
+    const responseJson = await ItemService.getEquipmentItems();
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.get('/magicItems', async (_request, response, next) => {
+  try {
+    const responseJson = await ItemService.getMagicItems();
     response.json(responseJson);
   } catch(error) {
     next(error);

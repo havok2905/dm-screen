@@ -2,11 +2,14 @@ import {
   Adventure,
   AdventureCreature,
   AdventureHandout,
-  AdventureItem
+  AdventureItem,
+  EquipmentItem,
+  MagicItem
 } from '../sequelize/db';
 import {
   AdventureNotFoundException,
   AdventuresNotFoundException,
+  EquipmentItemNotFoundException,
   MissingArgumentException
 } from '../exceptions';
 import {
@@ -18,7 +21,139 @@ import {
   UpdateAdventureRequest
 } from '../requests';
 
+import { v4 as uuidv4 } from 'uuid';
+
 export class AdventureService {
+  static async addEquipmentItemToAdventure (
+    id: string,
+    equipmentItemId: string
+  ): Promise<AdventureResponse> {
+    if (!id || !equipmentItemId) {
+      throw new MissingArgumentException();
+    }
+
+    const adventure = await Adventure.findOne({
+      where: {
+        id
+      }
+    });
+
+    const equipmentItem = await EquipmentItem.findOne({
+      where: {
+        id: equipmentItemId
+      }
+    });
+
+    if (!adventure) {
+      throw new AdventureNotFoundException();
+    }
+
+    if (!equipmentItem) {
+      throw new EquipmentItemNotFoundException();
+    }
+
+    const adventureItem = AdventureItem.build({
+      id: uuidv4(),
+      adventureid: id,
+      content: equipmentItem.dataValues.content,
+      name: equipmentItem.dataValues.name,
+      image: equipmentItem.dataValues.image,
+      metadata: equipmentItem.dataValues.metadata
+    });
+
+    adventureItem.save();
+
+    const adventureCreatures = await AdventureCreature.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureHandouts = await AdventureHandout.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureItems = await AdventureItem.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    return this.mapResponseJson(
+      adventure,
+      adventureCreatures,
+      adventureHandouts,
+      adventureItems
+    );
+  }
+
+  static async addMagicItemToAdventure (
+    id: string,
+    magicItemId: string
+  ): Promise<AdventureResponse> {
+    if (!id || !magicItemId) {
+      throw new MissingArgumentException();
+    }
+
+    const adventure = await Adventure.findOne({
+      where: {
+        id
+      }
+    });
+
+    const magicItem = await MagicItem.findOne({
+      where: {
+        id: magicItemId
+      }
+    });
+
+    if (!adventure) {
+      throw new AdventureNotFoundException();
+    }
+
+    if (!magicItem) {
+      throw new EquipmentItemNotFoundException();
+    }
+
+    const adventureItem = AdventureItem.build({
+      id: uuidv4(),
+      adventureid: id,
+      content: magicItem.dataValues.content,
+      name: magicItem.dataValues.name,
+      image: magicItem.dataValues.image,
+      metadata: magicItem.dataValues.metadata
+    });
+
+    adventureItem.save();
+
+    const adventureCreatures = await AdventureCreature.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureHandouts = await AdventureHandout.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureItems = await AdventureItem.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    return this.mapResponseJson(
+      adventure,
+      adventureCreatures,
+      adventureHandouts,
+      adventureItems
+    );
+  }
+
   static async createAdventure(
     adventureCreateRequest: CreateAdventureRequest
   ): Promise<AdventureResponse> {

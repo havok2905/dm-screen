@@ -12,8 +12,11 @@ import {
   AdventureNotFoundException,
   AdventureRequestMalformedException,
   AdventuresNotFoundException,
+  EquipmentItemNotFoundException,
   InitiativeNotFoundException,
-  MissingArgumentException
+  ItemsNotFoundException,
+  MagicItemNotFoundException,
+  MissingArgumentException,
 } from '../exceptions';
 
 export const errorHandler = (
@@ -34,7 +37,10 @@ export const errorHandler = (
     error instanceof AdventuresNotFoundException ||
     error instanceof AdventureCreatureNotFoundException ||
     error instanceof AdventureItemNotFoundException ||
-    error instanceof InitiativeNotFoundException
+    error instanceof EquipmentItemNotFoundException ||
+    error instanceof InitiativeNotFoundException ||
+    error instanceof ItemsNotFoundException ||
+    error instanceof MagicItemNotFoundException
   ) {
     response.status(404).send();
   }

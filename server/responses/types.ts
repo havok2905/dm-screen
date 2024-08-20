@@ -4,7 +4,7 @@ export interface MetadataResponse {
   value: string | number;
 }
 
-export interface AdventureCreatureResponse {
+export interface MarkdownEntityResponse {
   id: string;
   adventureid: string;
   name: string;
@@ -12,6 +12,8 @@ export interface AdventureCreatureResponse {
   content: string;
   metadata: MetadataResponse[];
 }
+
+export interface AdventureCreatureResponse extends MarkdownEntityResponse { }
 
 export interface AdventureHandoutResponse {
   id: string;
@@ -21,14 +23,7 @@ export interface AdventureHandoutResponse {
   url: string;
 }
 
-export interface AdventureItemResponse {
-  id: string;
-  adventureid: string;
-  name: string;
-  image: string;
-  content: string;
-  metadata: MetadataResponse[];
-}
+export interface AdventureItemResponse extends MarkdownEntityResponse { }
 
 export interface AdventureResponse {
   description: string;
@@ -78,3 +73,5 @@ export interface InitiativeResponse {
     round: number;
   };
 }
+
+export interface ItemResponse extends MarkdownEntityResponse { }

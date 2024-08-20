@@ -1,3 +1,5 @@
+export * from './useAddEquipmentItem';
+export * from './useAddMagicItem';
 export * from './useAdventure';
 export * from './useAdventureCreature';
 export * from './useAdventureItem';
@@ -8,6 +10,8 @@ export * from './useDestroyAdventure';
 export * from './useDestroyAdventureCreature';
 export * from './useDestroyAdventureItem';
 export * from './useDestroyInitiative';
+export * from './useEquipmentItems';
+export * from './useMagicItems';
 export * from './useUpdateAdventure';
 export * from './useUpdateAdventureCreature';
 export * from './useUpdateAdventureItem';
