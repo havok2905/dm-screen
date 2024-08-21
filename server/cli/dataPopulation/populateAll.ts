@@ -6,6 +6,7 @@ const populate = async () => {
   await seeder.populateEquipmentItems();
   await seeder.populateMagicItems();
   await seeder.populateMonsters();
+  await seeder.populateSpells();
 };
 
 populate();

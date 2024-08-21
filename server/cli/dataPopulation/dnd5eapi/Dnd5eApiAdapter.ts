@@ -1,16 +1,20 @@
 import { IDnd5eApiClient } from './Dnd5eApiClient';
+
 import { IDnd5dApiNormalizer } from './Dnd5eApiNormalizer';
 
 import {
   EquipmentItem,
-  MagicItem,
   IThirdPartyDndAdapter,
-  Monster
+  MagicItem,
+  Monster,
+  SpellItem
 } from '../types';
+
 import {
   EquipmentItem as ApiEquipmentItem,
   MagicItem as ApiItem,
-  Monster as ApiMonster
+  Monster as ApiMonster,
+  Spell as ApiSpell
 } from './types';
 
 export class Dnd5eApiAdapter implements IThirdPartyDndAdapter {
@@ -72,6 +76,23 @@ export class Dnd5eApiAdapter implements IThirdPartyDndAdapter {
     }
 
     const response = this.dnd5dApiNormalizer.normalizeMonsters(monsters);
+
+    return response;
+  }
+
+  async getSpells(): Promise<SpellItem[]> {
+    const spellsResponse = await this.dnd5eApiClient.getSpells();
+    const spellsResult = spellsResponse.results;
+
+    const spells: ApiSpell[] = [];
+
+    for(let x=0; x<spellsResult.length; x++) {
+      const spellsItem = spellsResult[x];
+      const spellResponse = await this.dnd5eApiClient.getSpell(spellsItem.url ?? '');
+      spells.push(spellResponse);
+    }
+
+    const response = this.dnd5dApiNormalizer.normalizeSpells(spells);
 
     return response;
   }

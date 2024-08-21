@@ -4,6 +4,7 @@ export interface IThirdPartyDndAdapter {
   getEquipmentItems(): Promise<EquipmentItem[]>;
   getMagicItems(): Promise<MagicItem[]>;
   getMonsters(): Promise<Monster[]>;
+  getSpells(): Promise<SpellItem[]>;
 }
 
 export interface AC {
@@ -119,6 +120,47 @@ export interface Spell {
   level: number;
   name: string;
   usage: Usage | null;
+}
+
+export interface SpellAreaOfEffect {
+  size: number;
+  type: 'sphere' | 'cone' | 'cylinder' | 'line' | 'cube' | '';
+}
+
+export interface SpellDamage {
+  damageType: string;
+  damageAtSlotLevel?: {
+    '1': string;
+    '2': string;
+    '3': string;
+    '4': string;
+    '5': string;
+    '6': string;
+    '7': string;
+    '8': string;
+    '9': string;
+  }
+}
+
+export interface SpellItem {
+  areaOfEffect?: SpellAreaOfEffect;
+  attackType: string;
+  castingTime: string;
+  classes: string[];
+  components: string[];
+  concentration: boolean;
+  damage?: SpellDamage;
+  dc?: DC;
+  description: string;
+  duration: string;
+  higherLevel: string;
+  level: number;
+  material: string;
+  name: string;
+  range: string;
+  ritual: boolean;
+  school: string;
+  subclasses: string[];
 }
 
 export interface Spellcasting {
