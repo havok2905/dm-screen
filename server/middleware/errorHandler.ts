@@ -19,6 +19,8 @@ import {
   ItemsNotFoundException,
   MagicItemNotFoundException,
   MissingArgumentException,
+  SpellNotFoundException,
+  SpellsNotFoundException
 } from '../exceptions';
 
 export const errorHandler = (
@@ -44,7 +46,9 @@ export const errorHandler = (
     error instanceof EquipmentItemNotFoundException ||
     error instanceof InitiativeNotFoundException ||
     error instanceof ItemsNotFoundException ||
-    error instanceof MagicItemNotFoundException
+    error instanceof MagicItemNotFoundException ||
+    error instanceof SpellNotFoundException ||
+    error instanceof SpellsNotFoundException
   ) {
     response.status(404).send();
   }

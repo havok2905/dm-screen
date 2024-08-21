@@ -10,7 +10,8 @@ import {
   AdventureService,
   CreatureService,
   InitiativeService,
-  ItemService
+  ItemService,
+  SpellService
 } from './services';
 import {
   CreateAdventureRequest,
@@ -289,6 +290,24 @@ app.get('/creatures', async (_request, response, next) => {
   }
 });
 
+app.get('/creature/:id', async (request, response, next) => {
+  try {
+    const responseJson = await CreatureService.getCreatureById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.get('/equipmentItem/:id', async (request, response, next) => {
+  try {
+    const responseJson = await ItemService.getEquipmentItemById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.get('/equipmentItems', async (_request, response, next) => {
   try {
     const responseJson = await ItemService.getEquipmentItems();
@@ -301,6 +320,33 @@ app.get('/equipmentItems', async (_request, response, next) => {
 app.get('/magicItems', async (_request, response, next) => {
   try {
     const responseJson = await ItemService.getMagicItems();
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.get('/magicItem/:id', async (request, response, next) => {
+  try {
+    const responseJson = await ItemService.getMagicItemById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get('/spells', async (_request, response, next) => {
+  try {
+    const responseJson = await SpellService.getSpells();
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.get('/spell/:id', async (request, response, next) => {
+  try {
+    const responseJson = await SpellService.getSpellById(request.params.id ?? '');
     response.json(responseJson);
   } catch(error) {
     next(error);

@@ -77,3 +77,5 @@ export interface InitiativeResponse {
 }
 
 export interface ItemResponse extends MarkdownEntityResponse { }
+
+export interface SpellResponse extends MarkdownEntityResponse { }

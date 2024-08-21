@@ -5,3 +5,4 @@ export * from './creatureExceptions';
 export * from './genericExceptions';
 export * from './initiativeExceptions';
 export * from './itemExceptions';
+export * from './spellExceptions';

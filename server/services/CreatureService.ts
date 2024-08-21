@@ -1,6 +1,11 @@
+import {
+  CreatureNotFoundException,
+  CreaturesNotFoundException,
+  MissingArgumentException
+} from '../exceptions';
+
 import { Creature } from '../sequelize/db';
 import { CreatureResponse } from '../responses';
-import { CreaturesNotFoundException } from '../exceptions';
 
 export class CreatureService {
   static async getCreatures(): Promise<CreatureResponse[]> {
@@ -11,6 +16,35 @@ export class CreatureService {
     }
 
     return this.mapResponseJson(creatures);
+  }
+
+  static async getCreatureById(id: string): Promise<CreatureResponse> {
+    if (!id) {
+      throw new MissingArgumentException();
+    }
+
+    const creature = await Creature.findOne({
+      where: {
+        id: id
+      }
+    });
+
+    if (!creature) {
+      throw new CreatureNotFoundException();
+    }
+
+    return this.mapCreatureResponseJson(
+      creature
+    );
+  }
+
+  private static mapCreatureResponseJson (
+    creature
+  ): CreatureResponse {
+    return {
+      ...creature.dataValues,
+      metadata: JSON.parse(creature.dataValues.metadata)
+    };
   }
 
   private static mapResponseJson (
