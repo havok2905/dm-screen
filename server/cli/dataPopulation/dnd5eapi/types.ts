@@ -171,6 +171,51 @@ export interface Spell {
   usage?: Usage;
 }
 
+export interface Spells {
+  count: number;
+  results: Spell[];
+}
+
+export interface SpellDamage {
+  damage_type?: ApiReference;
+  damage_at_slot_level?: {
+    '1'?: string;
+    '2'?: string;
+    '3'?: string;
+    '4'?: string;
+    '5'?: string;
+    '6'?: string;
+    '7'?: string;
+    '8'?: string;
+    '9'?: string;
+  }
+}
+
+export interface SpellAreaOfEffect {
+  size?: number;
+  type?: 'sphere' | 'cone' | 'cylinder' | 'line' | 'cube' | '';
+}
+
+export interface SpellItem extends ApiItemBase {
+  area_of_effect?: SpellAreaOfEffect;
+  attack_type?: string;
+  casting_time?: string;
+  classes?: ApiReference[];
+  components?: string[];
+  concentration?: boolean;
+  damage?: SpellDamage;
+  dc?: DC;
+  desc?: string[];
+  duration?: string;
+  higher_level?: string[];
+  level?: number;
+  material?: string;
+  range?: string;
+  ritual?: boolean;
+  school?: ApiReference;
+  subclasses?: ApiReference[];
+}
+
 export interface Spellcasting {
   ability?: ApiReference;
   components_required?: string[];

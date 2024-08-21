@@ -1,7 +1,7 @@
 export interface MetaData {
   name: string;
-  type: 'string' | 'number';
-  value: string | number;
+  type: 'string' | 'number' | 'boolean';
+  value: string | number | boolean;
 }
 
 export interface MarkdownEntity {

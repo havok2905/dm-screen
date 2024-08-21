@@ -45,7 +45,7 @@ Build a web-based application to quickly import third-party TTRPG content and cr
 | Third Party API Importer - Magic Items | Complete |
 | DM View - Initiative Tracker UX Enhancements | In Progress |
 | Admin View - Adventures | Complete |
-| CLI Third Party API Importer - Spells | In Progress |
+| CLI Third Party API Importer - Spells | Complete |
 
 ### On Deck
 

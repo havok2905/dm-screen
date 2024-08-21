@@ -4,7 +4,9 @@ import {
   MagicItem,
   MagicItems,
   Monster,
-  Monsters
+  Monsters,
+  SpellItem,
+  Spells,
 } from './types';
 
 export interface IDnd5eApiClient {
@@ -14,6 +16,8 @@ export interface IDnd5eApiClient {
   getMagicItems(): Promise<MagicItems>;
   getMonster(url: string): Promise<Monster>;
   getMonsters(): Promise<Monsters>;
+  getSpell(url: string): Promise<SpellItem>;
+  getSpells(): Promise<Spells>;
 }
 
 export class Dnd5eApiClient implements IDnd5eApiClient {
@@ -45,6 +49,14 @@ export class Dnd5eApiClient implements IDnd5eApiClient {
 
   async getMonsters(): Promise<Monsters> {
     return this.makeGetRequest(`${this.base}/api/monsters`);
+  }
+
+  async getSpell(url: string): Promise<SpellItem> {
+    return this.makeGetRequest(`${this.base}${url}`);
+  }
+
+  async getSpells(): Promise<Spells> {
+    return this.makeGetRequest(`${this.base}/api/spells`);
   }
 
   private async makeGetRequest(url: string) {

@@ -3,7 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   Creature,
   EquipmentItem as EquipmentItemModel,
-  MagicItem as MagicItemModel
+  MagicItem as MagicItemModel,
+  Spell as SpellModel
 } from '../../sequelize/db';
 import {
   Dnd5eApiAdapter,
@@ -15,12 +16,14 @@ import {
   IThirdPartyDndAdapter,
   MagicItem,
   Monster,
-  SourceKinds
+  SourceKinds,
+  SpellItem
 } from './types';
 import {
   EquipmentItemTemplate,
   MagicItemTemplate,
-  MonsterTemplate
+  MonsterTemplate,
+  SpellTemplate
 } from './templates';
 
 // This should likely be moved up a level. There is a need to start sharing types between client and server
@@ -117,6 +120,33 @@ export class Dnd5eDataSeeder {
     Creature.bulkCreate(markdownEntities, { validate: true });
 
     console.log('End: populateDndMonsters');
+  }
+
+  async populateSpells(): Promise<void> {
+    console.log('Starting: populateDndSpells. This may take a while');
+
+    const interval = setInterval(() => {
+      console.log('Fetching: populateDndSpells');
+    }, 1500);
+
+    const spells = await this.adapter.getSpells();
+
+    clearInterval(interval);
+
+    const markdownEntities = spells.map(spell => {
+      const spellTemplate = new SpellTemplate(spell);
+      const spellMarkdown = spellTemplate.render();
+      return this.getSpellMarkdownEntity(spell, spellMarkdown);
+    }).map(spell => {
+      return {
+        ...spell,
+        metadata: JSON.stringify(spell.metadata)
+      };
+    });
+
+    SpellModel.bulkCreate(markdownEntities, { validate: true });
+
+    console.log('End: populateDndSpells');
   }
 
   private getEquipmentItemMarkdownEntity(item: EquipmentItem, itemMarkdown: string): MarkdownEntity {
@@ -222,6 +252,36 @@ export class Dnd5eDataSeeder {
           type: 'string',
           value: monster.cr
         }
+      ]
+    };
+  }
+
+  private getSpellMarkdownEntity(spell: SpellItem, spellMarkdown: string): MarkdownEntity {
+    return {
+      content: spellMarkdown,
+      id: uuidv4(),
+      name: spell.name,
+      metadata: [
+        {
+          name: 'Concentration',
+          type: 'boolean',
+          value: spell.concentration
+        },
+        {
+          name: 'Level',
+          type: 'number',
+          value: spell.level
+        },
+        {
+          name: 'Ritual',
+          type: 'boolean',
+          value: spell.ritual
+        },
+        {
+          name: 'School',
+          type: 'string',
+          value: spell.school
+        },
       ]
     };
   }

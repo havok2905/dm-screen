@@ -10,6 +10,7 @@ import {
   Rarity,
   Size,
   Skill,
+  SpellItem,
   SuccessType
 } from '../types';
 import {
@@ -17,14 +18,16 @@ import {
   ApiItemBase,
   MagicItem as ApiMagicItem,
   Monster as ApiMonster,
+  SpellItem as ApiSpellItem,
   MonsterAction,
-  MonsterProficiencyPartial
+  MonsterProficiencyPartial,
 } from './types';
 
 export interface IDnd5dApiNormalizer {
   normalizeEquipment(items: ApiEquipmentItem[]): EquipmentItem[];
   normalizeMagicItems(items: ApiMagicItem[]): MagicItem[];
   normalizeMonsters(monsters: ApiMonster[]): Monster[];
+  normalizeSpells(spells: ApiSpellItem[]): SpellItem[];
 }
 
 export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
@@ -247,6 +250,83 @@ export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
         type: type ?? '',
         xp: xp ?? null
       }
+    });
+  }
+
+  normalizeSpells(spells: ApiSpellItem[]): SpellItem[] {
+    return spells.map(spell => {
+      const {
+        area_of_effect,
+        attack_type,
+        casting_time,
+        classes,
+        subclasses,
+        components,
+        concentration,
+        damage,
+        dc,
+        desc,
+        duration,
+        higher_level,
+        level,
+        material,
+        name,
+        range,
+        ritual,
+        school 
+      } = spell;
+
+      const spellItem: SpellItem = {
+        attackType: attack_type ?? '',
+        castingTime: casting_time ?? '',
+        classes: classes?.map(c => c.name ?? '') ?? [],
+        subclasses: subclasses?.map(c => c.name ?? '') ?? [],
+        components: components ?? [],
+        concentration: concentration ?? false,
+        description: this.getDescription(desc ?? []),
+        duration: duration ?? '',
+        higherLevel: this.getDescription(higher_level ?? []),
+        level: level ?? 0,
+        material: material ?? '',
+        name: name ?? '',
+        range: range ?? '',
+        ritual: ritual ?? false,
+        school: school?.name ?? '',
+      };
+
+      if (area_of_effect) {
+        spellItem.areaOfEffect = {
+          size: area_of_effect?.size ?? 0,
+          type: area_of_effect?.type ?? ''
+        };
+      }
+
+      if (damage) {
+        spellItem.damage = {
+          damageType: damage?.damage_type?.name ?? '',
+          damageAtSlotLevel: {
+            '1': damage?.damage_at_slot_level?.[1] ?? '',
+            '2': damage?.damage_at_slot_level?.[2] ?? '',
+            '3': damage?.damage_at_slot_level?.[3] ?? '',
+            '4': damage?.damage_at_slot_level?.[4] ?? '',
+            '5': damage?.damage_at_slot_level?.[5] ?? '',
+            '6': damage?.damage_at_slot_level?.[6] ?? '',
+            '7': damage?.damage_at_slot_level?.[7] ?? '',
+            '8': damage?.damage_at_slot_level?.[8] ?? '',
+            '9': damage?.damage_at_slot_level?.[9] ?? ''
+          }
+        };
+      }
+
+      if (dc) {
+        spellItem.dc = {
+          dcType: dc.dc_type?.name as Ability ?? '',
+          dcValue: dc.dc_value ?? 0,
+          successType: dc.success_type as SuccessType ?? ''
+        }
+      }
+
+      return spellItem;
     });
   }
 
