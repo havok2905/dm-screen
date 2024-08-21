@@ -302,7 +302,7 @@ export type CR =
 
 export interface Monster {
   actions: Action[];
-  alignments: Alignment;
+  alignment: Alignment;
   ac: AC;
   cr: CR;
   conditionImmunities: string[];

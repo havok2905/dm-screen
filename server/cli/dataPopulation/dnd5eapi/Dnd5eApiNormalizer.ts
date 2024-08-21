@@ -158,7 +158,7 @@ export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
     return monsters.map(monster => {
       const {
         actions,
-        alignments,
+        alignment,
         armor_class,
         challenge_rating,
         charisma,
@@ -194,7 +194,7 @@ export class Dnd5dApiNormalizer implements IDnd5dApiNormalizer {
         actions: actions?.map((a) => {
           return this.getAction(a);
         }) ?? [],
-        alignments: alignments as Alignment ?? '',
+        alignment: alignment as Alignment ?? '',
         ac: {
           type: armor_class?.[0]?.type ?? '',
           value: armor_class?.[0]?.value ?? 0

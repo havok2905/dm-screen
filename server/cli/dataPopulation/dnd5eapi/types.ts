@@ -276,7 +276,7 @@ export interface MonsterPartial extends ApiReference { }
 
 export interface Monster extends ApiItemBase {
   actions?: MonsterAction[];
-  alignments?: MonsterAlignment;
+  alignment?: MonsterAlignment;
   armor_class?: MonsterArmorClass[];
   challenge_rating?: number;
   charisma?: number;

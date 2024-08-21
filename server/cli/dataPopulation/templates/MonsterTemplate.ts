@@ -10,7 +10,7 @@ export class MonsterTemplate {
   render(): string {
 return `# ${this.monster.name}
 
-*${this.monster.size} ${this.monster.type}, ${this.monster.alignments}*
+*${this.monster.size} ${this.monster.type}, ${this.monster.alignment}*
 
 **Armor Class** ${this.monster.ac.value}${this.monster.ac.type ? ` ( ${this.monster.ac.type} )` : ''}
 
