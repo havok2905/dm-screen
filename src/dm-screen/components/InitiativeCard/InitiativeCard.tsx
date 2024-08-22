@@ -55,10 +55,16 @@ export const InitiativeCard = ({
     'initiative-card-removed': visibilityState === 'removed' || ( gmOnly && playerView )
   };
 
+  const internalOnDoubleClick = () => {
+    if (!playerView) {
+      onDoubleClick();
+    }
+  };
+
   return (
     <div
       className={classNames(classList)}
-      onDoubleClick={onDoubleClick}
+      onDoubleClick={internalOnDoubleClick}
       style={styles}>
       <div className="initiative-card-initiative-roll">
         <CircleBadgeForm
