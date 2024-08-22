@@ -2,6 +2,7 @@ import {
   CenteredContainer,
   Container,
   Spinner,
+  Tag
 } from '@designSystem/components';
 
 import { Link } from 'react-router-dom';
@@ -55,17 +56,19 @@ export const MarkdownEntityViewPage = ({
         <p>
           <strong>ID:</strong> {id}
         </p>
-        <ul>
+        <div style={{ marginBottom: '20px'}}>
           {
             metadata.map((item, index) => {
               return (
-                <li key={index}>
-                  {item.name}: {String(item.value)}
-                </li>
+                <Tag
+                  key={index}
+                  keyString={item.name}
+                  value={String(item.value)}
+                />
               );
             })
           }
-        </ul>
+        </div>
         {
           image ? (
             <img alt={name} src={image}/>

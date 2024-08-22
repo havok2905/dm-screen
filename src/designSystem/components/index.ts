@@ -14,5 +14,6 @@ export * from './Section';
 export * from './SideDrawer';
 export * from './Spinner';
 export * from './Table';
+export * from './Tag';
 export * from './TextArea';
 
