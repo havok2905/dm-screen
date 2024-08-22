@@ -8,7 +8,10 @@ import {
 import { Link } from 'react-router-dom';
 import { MarkdownEntity } from '@core/types';
 
-import { Markdown } from '../../../../components';
+import {
+  CompendiumNavbar,
+  Markdown
+} from '../../../../components';
 
 export interface MarkdownEntityViewPageProps {
   backLinkLabel: string;
@@ -41,10 +44,8 @@ export const MarkdownEntityViewPage = ({
 
   return (
     <>
+      <CompendiumNavbar />
       <Container>
-        <h1>
-          Compendium
-        </h1>
         <p>
           <Link to={backLinkPath}>
             {backLinkLabel}

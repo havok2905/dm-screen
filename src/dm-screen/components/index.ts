@@ -1,3 +1,4 @@
+export * from './CompendiumNavbar';
 export * from './ConfirmationModal';
 export * from './CreaturesTable';
 export * from './EditMarkdownEntityForm';

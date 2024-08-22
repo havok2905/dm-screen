@@ -33,6 +33,7 @@ import {
   EDIT_ADVENTURE_ITEM_PATH
 } from '../../../routes';
 import {
+  CompendiumNavbar,
   ConfirmationModal,
   Markdown
 } from '../../../components';
@@ -587,10 +588,8 @@ export const AdventurePage = () => {
 
   return (
     <>
+      <CompendiumNavbar/>
       <Container>
-        <h1>
-          Compendium
-        </h1>
         <p>
           <Link to={ADVENTURES_PATH}>
             Back to Adventures

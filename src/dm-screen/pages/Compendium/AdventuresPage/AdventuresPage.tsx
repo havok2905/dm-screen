@@ -21,13 +21,13 @@ import {
   EDIT_ADVENTURE_PATH
 } from '../../../routes';
 import {
+  CompendiumNavbar,
+  ConfirmationModal
+} from '../../../components';
+import {
   useAdventures,
   useDestroyAdventure
 } from '../../../hooks';
-
-import {
-  ConfirmationModal
-} from '../../../components';
 
 export const AdventuresPage = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
@@ -122,8 +122,8 @@ export const AdventuresPage = () => {
 
   return (
     <>
+      <CompendiumNavbar/>
       <Container>
-        <h1>Compendium</h1>
         <h2>Adventures</h2>
         <Link to={CREATE_ADVENTURE_PATH}>
           Create new adventure

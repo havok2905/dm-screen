@@ -12,6 +12,10 @@ import {
 import { useCallback } from 'react';
 
 import {
+  CompendiumNavbar,
+  EditMarkdownEntityForm
+} from '../../../components';
+import {
   MAGIC_ITEM_PATH,
   MAGIC_ITEMS_PATH
 } from '../../../routes';
@@ -19,8 +23,6 @@ import {
   useMagicItem,
   useUpdateMagicItem
 } from '../../../hooks';
-
-import { EditMarkdownEntityForm } from '../../../components';
 
 export const EditMagicItemPage = () => {
   const { id: magicItemId } = useParams();
@@ -61,24 +63,26 @@ export const EditMagicItemPage = () => {
   } = data ?? {};
 
   return (
-    <Container>
-      <h1>Compendium</h1>
-      <h2>Edit Magic Item</h2>
-      <p>
-        <strong>Id:</strong> {id}
-      </p>
-      <p>
-        <Link to={MAGIC_ITEMS_PATH}>
-          Back to Magic Items
-        </Link>
-      </p>
-      <EditMarkdownEntityForm
-        item={data}
-        saveButtonText="Save magic item"
-        updateFunction={updateMagicItem}
-        updateIsError={updateMagicItemIsError}
-        updateIsErrorText="There was a problem updating this magic item"
-      />
-    </Container>
+    <>
+      <CompendiumNavbar/>
+      <Container>
+        <h2>Edit Magic Item</h2>
+        <p>
+          <strong>Id:</strong> {id}
+        </p>
+        <p>
+          <Link to={MAGIC_ITEMS_PATH}>
+            Back to Magic Items
+          </Link>
+        </p>
+        <EditMarkdownEntityForm
+          item={data}
+          saveButtonText="Save magic item"
+          updateFunction={updateMagicItem}
+          updateIsError={updateMagicItemIsError}
+          updateIsErrorText="There was a problem updating this magic item"
+        />
+      </Container>
+    </>
   );
 };

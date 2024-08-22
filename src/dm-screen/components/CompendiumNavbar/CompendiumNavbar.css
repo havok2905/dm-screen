@@ -1,0 +1,22 @@
+.compendium-navbar {
+  align-items: center;
+  background-color: var(--black-100);
+  display: flex;
+  height: 60px;
+  justify-content: space-between;
+  padding: 0 var(--spacing-standard);
+}
+
+.compendium-navbar h1 {
+  font-size: var(--h4-font-size);
+  margin: 0;
+}
+
+.compendium-navbar ul {
+  margin: 0;
+}
+
+.compendium-navbar ul li {
+  display: inline;
+  margin-left: var(--spacing-standard);
+}

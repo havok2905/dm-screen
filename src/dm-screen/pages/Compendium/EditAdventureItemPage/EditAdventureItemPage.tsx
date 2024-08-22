@@ -12,12 +12,15 @@ import {
 import { useCallback } from 'react';
 
 import {
+  CompendiumNavbar,
+  EditMarkdownEntityForm
+} from '../../../components';
+import {
   useAdventureItem,
   useUpdateAdventureItem
 } from '../../../hooks';
 
 import { ADVENTURE_PATH } from '../../../routes';
-import { EditMarkdownEntityForm } from '../../../components';
 
 export const EditAdventureItemPage = () => {
   const { id: adventureItemId } = useParams();
@@ -59,24 +62,26 @@ export const EditAdventureItemPage = () => {
   } = data ?? {};
 
   return (
-    <Container>
-      <h1>Compendium</h1>
-      <h2>Edit Adventure Item</h2>
-      <p>
-        <strong>Id:</strong> {id}
-      </p>
-      <p>
-        <Link to={ADVENTURE_PATH.replace(':id', adventureid)}>
-          Back to Adventure
-        </Link>
-      </p>
-      <EditMarkdownEntityForm
-        item={data}
-        saveButtonText="Save adventure item"
-        updateFunction={updateAdventureItem}
-        updateIsError={updateAdventureItemIsError}
-        updateIsErrorText="There was a problem updating this Adventure Item"
-      />
-    </Container>
+    <>
+      <CompendiumNavbar/>
+      <Container>
+        <h2>Edit Adventure Item</h2>
+        <p>
+          <strong>Id:</strong> {id}
+        </p>
+        <p>
+          <Link to={ADVENTURE_PATH.replace(':id', adventureid)}>
+            Back to Adventure
+          </Link>
+        </p>
+        <EditMarkdownEntityForm
+          item={data}
+          saveButtonText="Save adventure item"
+          updateFunction={updateAdventureItem}
+          updateIsError={updateAdventureItemIsError}
+          updateIsErrorText="There was a problem updating this Adventure Item"
+        />
+      </Container>
+    </>
   );
 };

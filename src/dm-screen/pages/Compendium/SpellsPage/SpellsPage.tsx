@@ -13,6 +13,10 @@ import { MarkdownEntity } from '@core/types';
 import { useNavigate } from 'react-router-dom';
 
 import {
+  CompendiumNavbar,
+  ConfirmationModal
+} from '../../../components';
+import {
   EDIT_SPELL_PATH,
   SPELL_PATH
 } from '../../../routes';
@@ -20,8 +24,6 @@ import {
   useDestroySpell,
   useSpells
 } from '../../../hooks';
-
-import { ConfirmationModal } from '../../../components';
 
 export const SpellsPage = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
@@ -114,8 +116,8 @@ export const SpellsPage = () => {
 
   return (
     <>
+      <CompendiumNavbar/>
       <Container>
-        <h1>Compendium</h1>
         <h2>Spells</h2>
         {
           spells.length ? (

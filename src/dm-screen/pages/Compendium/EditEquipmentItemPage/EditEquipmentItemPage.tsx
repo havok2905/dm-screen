@@ -12,6 +12,10 @@ import {
 import { useCallback } from 'react';
 
 import {
+  CompendiumNavbar,
+  EditMarkdownEntityForm
+} from '../../../components';
+import {
   EQUIPMENT_ITEM_PATH,
   EQUIPMENT_ITEMS_PATH
 } from '../../../routes';
@@ -19,8 +23,6 @@ import {
   useEquipmentItem,
   useUpdateEquipmentItem
 } from '../../../hooks';
-
-import { EditMarkdownEntityForm } from '../../../components';
 
 export const EditEquipmentItemPage = () => {
   const { id: equipmentItemId } = useParams();
@@ -61,24 +63,26 @@ export const EditEquipmentItemPage = () => {
   } = data ?? {};
 
   return (
-    <Container>
-      <h1>Compendium</h1>
-      <h2>Edit Equipment Item</h2>
-      <p>
-        <strong>Id:</strong> {id}
-      </p>
-      <p>
-        <Link to={EQUIPMENT_ITEMS_PATH}>
-          Back to Equipment Items
-        </Link>
-      </p>
-      <EditMarkdownEntityForm
-        item={data}
-        saveButtonText="Save equipment item"
-        updateFunction={updateEquipmentItem}
-        updateIsError={updateEquipmentItemIsError}
-        updateIsErrorText="There was a problem updating this equipment item"
-      />
-    </Container>
+    <>
+      <CompendiumNavbar/>
+      <Container>
+        <h2>Edit Equipment Item</h2>
+        <p>
+          <strong>Id:</strong> {id}
+        </p>
+        <p>
+          <Link to={EQUIPMENT_ITEMS_PATH}>
+            Back to Equipment Items
+          </Link>
+        </p>
+        <EditMarkdownEntityForm
+          item={data}
+          saveButtonText="Save equipment item"
+          updateFunction={updateEquipmentItem}
+          updateIsError={updateEquipmentItemIsError}
+          updateIsErrorText="There was a problem updating this equipment item"
+        />
+      </Container>
+    </>
   );
 };

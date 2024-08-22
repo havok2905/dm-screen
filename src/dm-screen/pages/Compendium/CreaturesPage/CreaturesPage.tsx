@@ -13,6 +13,10 @@ import { MarkdownEntity } from '@core/types';
 import { useNavigate } from 'react-router-dom';
 
 import {
+  CompendiumNavbar,
+  ConfirmationModal
+} from '../../../components';
+import {
   CREATURE_PATH,
   EDIT_CREATURE_PATH
 } from '../../../routes';
@@ -20,9 +24,6 @@ import {
   useCreatures,
   useDestroyCreature
 } from '../../../hooks';
-
-import { ConfirmationModal } from '../../../components';
-
 
 export const CreaturesPage = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
@@ -115,8 +116,8 @@ export const CreaturesPage = () => {
 
   return (
     <>
+      <CompendiumNavbar/>
       <Container>
-        <h1>Compendium</h1>
         <h2>Creatures</h2>
         {
           creatures.length ? (

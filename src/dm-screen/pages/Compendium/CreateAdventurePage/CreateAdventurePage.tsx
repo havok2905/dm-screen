@@ -21,6 +21,7 @@ import { useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ADVENTURES_PATH } from '../../../routes';
+import { CompendiumNavbar } from '../../../components';
 import { useCreateAdventure } from '../../../hooks';
 
 interface CreateAdventureFormInputs {
@@ -121,67 +122,69 @@ export const CreateAdventurePage = () => {
   };
 
   return(
-    <Container>
-      <h1>Compendium</h1>
-      <h2>Create New Adventure</h2>
-      <p>
-        <Link to={ADVENTURES_PATH}>
-          Back to Adventures
-        </Link>
-      </p>
-      <Grid>
-        <GridRow>
-          <Item columns={6}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {
-                createAdventureFormModel.map((fieldModel, index) => {
-                  const error: string = errors[fieldModel.id as InputId]?.message ?? '';
+    <>
+      <CompendiumNavbar/>
+      <Container>
+        <h2>Create New Adventure</h2>
+        <p>
+          <Link to={ADVENTURES_PATH}>
+            Back to Adventures
+          </Link>
+        </p>
+        <Grid>
+          <GridRow>
+            <Item columns={6}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                {
+                  createAdventureFormModel.map((fieldModel, index) => {
+                    const error: string = errors[fieldModel.id as InputId]?.message ?? '';
 
-                  return (
-                    <fieldset key={index}>
-                      <Controller
-                        control={control}
-                        name={fieldModel.id as InputId}
-                        render={({ field }) => {
-                          return (
-                            <Input
-                              error={error}
-                              full
-                              inputId={fieldModel.id}
-                              inputName={fieldModel.id}
-                              label={fieldModel.label}
-                              required
-                              {...field}
-                            />
-                          );
-                        }}
-                        rules={fieldModel.rules}
-                      />
-                    </fieldset>
-                  )
-                })
-              }
-              {
-                createAdventureIsError ? (
-                  <p>
-                    There was a problem creating this adventure
-                  </p>
-                ) : null
-              }
-              <Button
-                buttonText="Save adventure"
-                disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSubmit(onSubmit);
-                  }
-                }}
-              />
-            </form>
-          </Item>
-        </GridRow>
-      </Grid>
-    </Container>
+                    return (
+                      <fieldset key={index}>
+                        <Controller
+                          control={control}
+                          name={fieldModel.id as InputId}
+                          render={({ field }) => {
+                            return (
+                              <Input
+                                error={error}
+                                full
+                                inputId={fieldModel.id}
+                                inputName={fieldModel.id}
+                                label={fieldModel.label}
+                                required
+                                {...field}
+                              />
+                            );
+                          }}
+                          rules={fieldModel.rules}
+                        />
+                      </fieldset>
+                    )
+                  })
+                }
+                {
+                  createAdventureIsError ? (
+                    <p>
+                      There was a problem creating this adventure
+                    </p>
+                  ) : null
+                }
+                <Button
+                  buttonText="Save adventure"
+                  disabled={!isValid}
+                  onClick={handleSubmit(onSubmit)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSubmit(onSubmit);
+                    }
+                  }}
+                />
+              </form>
+            </Item>
+          </GridRow>
+        </Grid>
+      </Container>
+    </>
   );
 };

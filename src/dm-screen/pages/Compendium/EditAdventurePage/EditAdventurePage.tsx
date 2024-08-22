@@ -29,11 +29,13 @@ import {
   ADVENTURES_PATH
 } from '../../../routes';
 import {
+  CompendiumNavbar,
+  Markdown
+} from '../../../components';
+import {
   useAdventure,
   useUpdateAdventure
 } from '../../../hooks';
-
-import { Markdown } from '../../../components';
 
 interface EditAdventureFormInputs {
   adventureDescription: string;
@@ -205,146 +207,148 @@ export const EditAdventurePage = () => {
   const { id } = data ?? {};
 
   return (
-    <Container>
-      <h1>Compendium</h1>
-      <h2>Edit Adventure</h2>
-      <p>
-        <strong>Id:</strong> {id}
-      </p>
-      <p>
-        <Link to={ADVENTURES_PATH}>
-          Back to Adventures
-        </Link>
-      </p>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid>
-          <GridRow>
-            <Item columns={6}> 
-              {
-                [
-                  editAdventureFormModel[0],
-                  editAdventureFormModel[1],
-                  editAdventureFormModel[2],
-                ].map((fieldModel, index) => {
-                  const error: string = errors[fieldModel.id as InputId]?.message ?? '';
-
-                  return (
-                    <fieldset key={index}>
-                      <Controller
-                        control={control}
-                        name={fieldModel.id as InputId}
-                        render={({ field }) => {
-                          if (fieldModel.type === 'text') {
-                            return (
-                              <Input
-                                error={error}
-                                full
-                                inputId={fieldModel.id}
-                                inputName={fieldModel.id}
-                                label={fieldModel.label}
-                                required
-                                {...field}
-                              />
-                            );
-                          }
-                          
-                          if (fieldModel.type === 'textarea') {
-                            return (
-                              <textarea
-                                id={fieldModel.id}
-                                {...field}
-                              />
-                            );
-                          }
-                          
-                          return <></>;
-                        }}
-                        rules={fieldModel.rules}
-                      />
-                    </fieldset>
-                  )
-                })
-              }
-            </Item>
-          </GridRow>
-          <GridRow>
-            <Item columns={6}>
-              <fieldset>
-                <Controller
-                  control={control}
-                  name={editAdventureFormModel[3].id as InputId}
-                  render={({ field }) => {
-                    const fieldModel = editAdventureFormModel[3];
+    <>
+      <CompendiumNavbar/>
+      <Container>
+        <h2>Edit Adventure</h2>
+        <p>
+          <strong>Id:</strong> {id}
+        </p>
+        <p>
+          <Link to={ADVENTURES_PATH}>
+            Back to Adventures
+          </Link>
+        </p>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Grid>
+            <GridRow>
+              <Item columns={6}> 
+                {
+                  [
+                    editAdventureFormModel[0],
+                    editAdventureFormModel[1],
+                    editAdventureFormModel[2],
+                  ].map((fieldModel, index) => {
                     const error: string = errors[fieldModel.id as InputId]?.message ?? '';
 
-                    if (fieldModel.type === 'text') {
-                      return (
-                        <Input
-                          error={error}
-                          full
-                          inputId={fieldModel.id}
-                          inputName={fieldModel.id}
-                          label={fieldModel.label}
-                          required
-                          {...field}
+                    return (
+                      <fieldset key={index}>
+                        <Controller
+                          control={control}
+                          name={fieldModel.id as InputId}
+                          render={({ field }) => {
+                            if (fieldModel.type === 'text') {
+                              return (
+                                <Input
+                                  error={error}
+                                  full
+                                  inputId={fieldModel.id}
+                                  inputName={fieldModel.id}
+                                  label={fieldModel.label}
+                                  required
+                                  {...field}
+                                />
+                              );
+                            }
+                            
+                            if (fieldModel.type === 'textarea') {
+                              return (
+                                <textarea
+                                  id={fieldModel.id}
+                                  {...field}
+                                />
+                              );
+                            }
+                            
+                            return <></>;
+                          }}
+                          rules={fieldModel.rules}
                         />
-                      );
-                    }
-                    
-                    if (fieldModel.type === 'textarea') {
-                      return (
-                        <>
-                          <label>
-                            {fieldModel.label}
-                          </label>
-                          <textarea
-                            id={fieldModel.id}
+                      </fieldset>
+                    )
+                  })
+                }
+              </Item>
+            </GridRow>
+            <GridRow>
+              <Item columns={6}>
+                <fieldset>
+                  <Controller
+                    control={control}
+                    name={editAdventureFormModel[3].id as InputId}
+                    render={({ field }) => {
+                      const fieldModel = editAdventureFormModel[3];
+                      const error: string = errors[fieldModel.id as InputId]?.message ?? '';
+
+                      if (fieldModel.type === 'text') {
+                        return (
+                          <Input
+                            error={error}
+                            full
+                            inputId={fieldModel.id}
+                            inputName={fieldModel.id}
+                            label={fieldModel.label}
+                            required
                             {...field}
                           />
-                          {
-                            error ? (
-                              <p>
-                                {error}
-                              </p>
-                            ) : null
-                          }
-                        </>
-                      );
+                        );
+                      }
+                      
+                      if (fieldModel.type === 'textarea') {
+                        return (
+                          <>
+                            <label>
+                              {fieldModel.label}
+                            </label>
+                            <textarea
+                              id={fieldModel.id}
+                              {...field}
+                            />
+                            {
+                              error ? (
+                                <p>
+                                  {error}
+                                </p>
+                              ) : null
+                            }
+                          </>
+                        );
+                      }
+                      
+                      return <></>;
+                    }}
+                    rules={editAdventureFormModel[3].rules}
+                  />
+                </fieldset>
+              </Item>
+              <Item columns={6}>
+                <Markdown content={watchNotes ?? ''}/>
+              </Item>
+            </GridRow>
+            <GridRow>
+              <Item columns={12}>
+                {
+                  updateAdventureIsError ? (
+                    <p>
+                      There was a problem updating this adventure
+                    </p>
+                  ) : null
+                }
+                <Button
+                  buttonText="Save adventure"
+                  disabled={!isValid}
+                  onClick={handleSubmit(onSubmit)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSubmit(onSubmit);
                     }
-                    
-                    return <></>;
                   }}
-                  rules={editAdventureFormModel[3].rules}
                 />
-              </fieldset>
-            </Item>
-            <Item columns={6}>
-              <Markdown content={watchNotes ?? ''}/>
-            </Item>
-          </GridRow>
-          <GridRow>
-            <Item columns={12}>
-              {
-                updateAdventureIsError ? (
-                  <p>
-                    There was a problem updating this adventure
-                  </p>
-                ) : null
-              }
-              <Button
-                buttonText="Save adventure"
-                disabled={!isValid}
-                onClick={handleSubmit(onSubmit)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSubmit(onSubmit);
-                  }
-                }}
-              />
-            </Item>
-          </GridRow>
-        </Grid>
-      </form>
-    </Container>
+              </Item>
+            </GridRow>
+          </Grid>
+        </form>
+      </Container>
+    </>
   );
 };

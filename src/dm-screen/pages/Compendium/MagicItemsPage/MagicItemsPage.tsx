@@ -13,12 +13,17 @@ import { MarkdownEntity } from '@core/types';
 import { useNavigate } from 'react-router-dom';
 
 import {
+  CompendiumNavbar,
+  ConfirmationModal
+} from '../../../components';
+import {
+  EDIT_MAGIC_ITEM_PATH,
+  MAGIC_ITEM_PATH
+} from '../../../routes';
+import {
   useDestroyMagicItem,
   useMagicItems
 } from '../../../hooks';
-
-import { ConfirmationModal } from '../../../components';
-import { EDIT_MAGIC_ITEM_PATH, MAGIC_ITEM_PATH } from '../../../routes';
 
 export const MagicItemsPage = () => {  
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
@@ -111,8 +116,8 @@ export const MagicItemsPage = () => {
 
   return (
     <>
+      <CompendiumNavbar/>
       <Container>
-        <h1>Compendium</h1>
         <h2>Magic Items</h2>
         {
           items.length ? (

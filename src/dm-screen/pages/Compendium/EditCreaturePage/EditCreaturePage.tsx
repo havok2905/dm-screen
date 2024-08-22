@@ -12,6 +12,10 @@ import {
 import { useCallback } from 'react';
 
 import {
+  CompendiumNavbar,
+  EditMarkdownEntityForm
+} from '../../../components';
+import {
   CREATURE_PATH,
   CREATURES_PATH
 } from '../../../routes';
@@ -19,8 +23,6 @@ import {
   useCreature,
   useUpdateCreature
 } from '../../../hooks';
-
-import { EditMarkdownEntityForm } from '../../../components';
 
 export const EditCreaturePage = () => {
   const { id: creatureId } = useParams();
@@ -61,24 +63,26 @@ export const EditCreaturePage = () => {
   } = data ?? {};
 
   return (
-    <Container>
-      <h1>Compendium</h1>
-      <h2>Edit Creature</h2>
-      <p>
-        <strong>Id:</strong> {id}
-      </p>
-      <p>
-        <Link to={CREATURES_PATH}>
-          Back to Creatures
-        </Link>
-      </p>
-      <EditMarkdownEntityForm
-        item={data}
-        saveButtonText="Save creature"
-        updateFunction={updateCreature}
-        updateIsError={updateCreatureIsError}
-        updateIsErrorText="There was a problem updating this creature"
-      />
-    </Container>
+    <>
+      <CompendiumNavbar/>
+      <Container>
+        <h2>Edit Creature</h2>
+        <p>
+          <strong>Id:</strong> {id}
+        </p>
+        <p>
+          <Link to={CREATURES_PATH}>
+            Back to Creatures
+          </Link>
+        </p>
+        <EditMarkdownEntityForm
+          item={data}
+          saveButtonText="Save creature"
+          updateFunction={updateCreature}
+          updateIsError={updateCreatureIsError}
+          updateIsErrorText="There was a problem updating this creature"
+        />
+      </Container>
+    </>
   );
 };

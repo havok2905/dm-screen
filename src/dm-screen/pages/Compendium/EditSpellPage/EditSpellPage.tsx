@@ -12,6 +12,10 @@ import {
 import { useCallback } from 'react';
 
 import {
+  CompendiumNavbar,
+  EditMarkdownEntityForm
+} from '../../../components';
+import {
   SPELL_PATH,
   SPELLS_PATH
 } from '../../../routes';
@@ -19,8 +23,6 @@ import {
   useSpell,
   useUpdateSpell
 } from '../../../hooks';
-
-import { EditMarkdownEntityForm } from '../../../components';
 
 export const EditSpellPage = () => {
   const { id: spellId } = useParams();
@@ -61,24 +63,26 @@ export const EditSpellPage = () => {
   } = data ?? {};
 
   return (
-    <Container>
-      <h1>Compendium</h1>
-      <h2>Edit Spell</h2>
-      <p>
-        <strong>Id:</strong> {id}
-      </p>
-      <p>
-        <Link to={SPELLS_PATH}>
-          Back to Spells
-        </Link>
-      </p>
-      <EditMarkdownEntityForm
-        item={data}
-        saveButtonText="Save spell"
-        updateFunction={updateSpell}
-        updateIsError={updateSpellIsError}
-        updateIsErrorText="There was a problem updating this spell"
-      />
-    </Container>
+    <>
+      <CompendiumNavbar/>
+      <Container>
+        <h2>Edit Spell</h2>
+        <p>
+          <strong>Id:</strong> {id}
+        </p>
+        <p>
+          <Link to={SPELLS_PATH}>
+            Back to Spells
+          </Link>
+        </p>
+        <EditMarkdownEntityForm
+          item={data}
+          saveButtonText="Save spell"
+          updateFunction={updateSpell}
+          updateIsError={updateSpellIsError}
+          updateIsErrorText="There was a problem updating this spell"
+        />
+      </Container>
+    </>
   );
 };
