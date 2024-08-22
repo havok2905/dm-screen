@@ -7,6 +7,7 @@ import {
 import { Spell } from '../sequelize/db';
 import { SpellResponse } from '../responses';
 import { SpellService } from './SpellService';
+import { UpdateSpellRequest } from '../requests';
 
 describe('SpellService', () => {
   afterEach(() => {
@@ -17,6 +18,47 @@ describe('SpellService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.restoreAllMocks();
+  });
+
+  describe('destroySpellById', () => {
+    it('should destroy a spell', async () => {
+      const mockSpell = Spell.build({
+        id: '1',
+        name: 'Foo',
+        content: 'content A',
+      });
+
+      jest.spyOn(Spell, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockSpell);
+        });
+      });
+
+      jest.spyOn(mockSpell, 'destroy').mockImplementation(jest.fn());
+      jest.spyOn(mockSpell, 'save').mockImplementation(jest.fn());
+
+      const result = await SpellService.destroySpellById('1');
+
+      expect(result).toEqual(true);
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(Spell, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await SpellService.destroySpellById('1');
+      }).rejects.toThrow(SpellNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await SpellService.destroySpellById('');
+      }).rejects.toThrow(MissingArgumentException);
+    });
   });
   
   describe('getSpells', () => {
@@ -115,6 +157,82 @@ describe('SpellService', () => {
     it('should throw for bad arguments', () => {
       expect(async () => {
         await SpellService.getSpellById('');
+      }).rejects.toThrow(MissingArgumentException);
+    });
+  });
+
+  describe('updateSpellById', () => {
+    it('should update a spell', async () => {
+      const mockSpell = Spell.build({
+        content: '# Hello',
+        id: '1',
+        image: '/',
+        metadata: [],
+        name: 'Foo Adventure',
+      });
+
+      jest.spyOn(Spell, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockSpell);
+        });
+      });
+
+      jest.spyOn(mockSpell, 'update').mockImplementation((newData) => {
+        mockSpell.setDataValue('content', newData.content);
+        mockSpell.setDataValue('image', newData.image);
+        mockSpell.setDataValue('metadata', newData.metadata);
+        mockSpell.setDataValue('name', newData.name);
+
+        return new Promise<void>((resolve) => {
+          resolve();
+        });
+      });
+
+      const response = await SpellService.updateSpellById(
+        '1',
+        new UpdateSpellRequest(
+          '# Test',
+          '1',
+          '/test.png',
+          [],
+          'Test Name'
+        )
+      );
+
+      expect(response.content).toEqual('# Test');
+      expect(response.id).toEqual('1');
+      expect(response.image).toEqual('/test.png');
+      expect(response.metadata).toEqual([]);
+      expect(response.name).toEqual('Test Name');
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(Spell, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await SpellService.updateSpellById('1', new UpdateSpellRequest(
+          '# Hello',
+          '1',
+          '/',
+          [],
+          'Name'
+        ));
+      }).rejects.toThrow(SpellNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await SpellService.updateSpellById('', new UpdateSpellRequest(
+          '# Hello',
+          '',
+          '/',
+          [],
+          ''
+        ));
       }).rejects.toThrow(MissingArgumentException);
     });
   });

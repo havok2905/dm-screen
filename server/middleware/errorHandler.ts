@@ -13,14 +13,18 @@ import {
   AdventureRequestMalformedException,
   AdventuresNotFoundException,
   CreatureNotFoundException,
+  CreatureRequestMalformedException,
   CreaturesNotFoundException,
   EquipmentItemNotFoundException,
+  EquipmentItemRequestMalformedException,
   InitiativeNotFoundException,
   ItemsNotFoundException,
   MagicItemNotFoundException,
+  MagicItemRequestMalformedException,
   MissingArgumentException,
   SpellNotFoundException,
-  SpellsNotFoundException
+  SpellRequestMalformedException,
+  SpellsNotFoundException,
 } from '../exceptions';
 
 export const errorHandler = (
@@ -33,7 +37,11 @@ export const errorHandler = (
     error instanceof MissingArgumentException ||
     error instanceof AdventureItemRequestMalformedException ||
     error instanceof AdventureRequestMalformedException ||
-    error instanceof AdventureCreatureRequestMalformedException
+    error instanceof AdventureCreatureRequestMalformedException ||
+    error instanceof CreatureRequestMalformedException ||
+    error instanceof EquipmentItemRequestMalformedException ||
+    error instanceof MagicItemRequestMalformedException ||
+    error instanceof SpellRequestMalformedException
   ) {
     response.status(400).send();  
   } else if (

@@ -4,20 +4,59 @@ import {
   Spinner,
   Table
 } from '@designSystem/components';
+import {
+  useCallback,
+  useState
+} from 'react';
 
 import { MarkdownEntity } from '@core/types';
 import { useNavigate } from 'react-router-dom';
 
-import { MAGIC_ITEM_PATH } from '../../../routes';
-import { useMagicItems } from '../../../hooks';
+import {
+  useDestroyMagicItem,
+  useMagicItems
+} from '../../../hooks';
+
+import { ConfirmationModal } from '../../../components';
+import { EDIT_MAGIC_ITEM_PATH, MAGIC_ITEM_PATH } from '../../../routes';
 
 export const MagicItemsPage = () => {  
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const [activeId, setActiveId] = useState<string>('');
+
   const {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useMagicItems();
+
+  const onSuccess = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+    refetch();
+  }, [
+    refetch
+  ]);
+
+  const {
+    mutate: destroyMagicItem
+  } = useDestroyMagicItem(onSuccess);
+
+  const onCancel = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, []);
+
+  const onOk = useCallback(() => {
+    destroyMagicItem(activeId);
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, [
+    activeId,
+    destroyMagicItem
+  ]);
 
   const navigate = useNavigate();
 
@@ -56,13 +95,14 @@ export const MagicItemsPage = () => {
         {
           name: 'Edit',
           onClick: () => {
-            // TODO
+            navigate(EDIT_MAGIC_ITEM_PATH.replace(':id', id))
           }
         },
         {
           name: 'Destroy',
           onClick: () => {
-            // TODO
+            setIsConfirmModalOpen(true);
+            setActiveId(id);
           }
         }
       ]
@@ -87,6 +127,11 @@ export const MagicItemsPage = () => {
           )
         }
       </Container>
+      <ConfirmationModal
+        isOpen={isConfirmModalOpen}
+        onCancel={onCancel}
+        onOk={onOk}
+      />
     </>
   );
 };

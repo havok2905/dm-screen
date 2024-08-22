@@ -4,20 +4,59 @@ import {
   Spinner,
   Table
 } from '@designSystem/components';
+import {
+  useCallback,
+  useState
+} from 'react';
 
 import { MarkdownEntity } from '@core/types';
 import { useNavigate } from 'react-router-dom';
 
-import { EQUIPMENT_ITEM_PATH } from '../../../routes';
-import { useEquipmentItems } from '../../../hooks';
+import {
+  useDestroyEquipmentItem,
+  useEquipmentItems
+} from '../../../hooks';
+
+import { ConfirmationModal } from '../../../components';
+import { EDIT_EQUIPMENT_ITEM_PATH, EQUIPMENT_ITEM_PATH } from '../../../routes';
 
 export const EquipmentItemsPage = () => {  
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const [activeId, setActiveId] = useState<string>('');
+
   const {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useEquipmentItems();
+
+  const onSuccess = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+    refetch();
+  }, [
+    refetch
+  ]);
+
+  const {
+    mutate: destroyEquipmentItem
+  } = useDestroyEquipmentItem(onSuccess);
+
+  const onCancel = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, []);
+
+  const onOk = useCallback(() => {
+    destroyEquipmentItem(activeId);
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, [
+    activeId,
+    destroyEquipmentItem
+  ]);
 
   const navigate = useNavigate();
 
@@ -56,13 +95,14 @@ export const EquipmentItemsPage = () => {
         {
           name: 'Edit',
           onClick: () => {
-            // TODO
+            navigate(EDIT_EQUIPMENT_ITEM_PATH.replace(':id', id))
           }
         },
         {
           name: 'Destroy',
           onClick: () => {
-            // TODO
+            setIsConfirmModalOpen(true);
+            setActiveId(id);
           }
         }
       ]
@@ -87,6 +127,11 @@ export const EquipmentItemsPage = () => {
           )
         }
       </Container>
+      <ConfirmationModal
+        isOpen={isConfirmModalOpen}
+        onCancel={onCancel}
+        onOk={onOk}
+      />
     </>
   );
 };

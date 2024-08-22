@@ -3,3 +3,7 @@ export * from './UpdateAdventureRequest';
 export * from './UpdateInitiativeRequest';
 export * from './UpdateAdventureCreatureRequest';
 export * from './UpdateAdventureItemRequest';
+export * from './UpdateCreatureRequest';
+export * from './UpdateEquipmentItemRequest';
+export * from './UpdateMagicItemRequest';
+export * from './UpdateSpellRequest';

@@ -12,36 +12,39 @@ import {
 import { useCallback } from 'react';
 
 import {
-  useAdventureItem,
-  useUpdateAdventureItem
+  MAGIC_ITEM_PATH,
+  MAGIC_ITEMS_PATH
+} from '../../../routes';
+import {
+  useMagicItem,
+  useUpdateMagicItem
 } from '../../../hooks';
 
-import { ADVENTURE_PATH } from '../../../routes';
 import { EditMarkdownEntityForm } from '../../../components';
 
-export const EditAdventureItemPage = () => {
-  const { id: adventureItemId } = useParams();
+export const EditMagicItemPage = () => {
+  const { id: magicItemId } = useParams();
 
   const {
     data,
     isFetching,
     isLoading,
     isPending
-  } = useAdventureItem(adventureItemId ?? '');
+  } = useMagicItem(magicItemId ?? '');
 
   const navigate = useNavigate();
 
   const onSuccess = useCallback(() => {
-    navigate(ADVENTURE_PATH.replace(':id', data?.adventureid ?? ''));
+    navigate(MAGIC_ITEM_PATH.replace(':id', data?.id ?? ''));
   }, [
     data,
     navigate
   ]);
 
   const {
-    mutate: updateAdventureItem,
-    isError: updateAdventureItemIsError
-  } = useUpdateAdventureItem(onSuccess);
+    mutate: updateMagicItem,
+    isError: updateMagicItemIsError
+  } = useUpdateMagicItem(onSuccess);
 
   if (
     isFetching ||
@@ -54,28 +57,27 @@ export const EditAdventureItemPage = () => {
   );
 
   const {
-    adventureid,
     id
   } = data ?? {};
 
   return (
     <Container>
       <h1>Compendium</h1>
-      <h2>Edit Adventure Item</h2>
+      <h2>Edit Magic Item</h2>
       <p>
         <strong>Id:</strong> {id}
       </p>
       <p>
-        <Link to={ADVENTURE_PATH.replace(':id', adventureid)}>
-          Back to Adventure
+        <Link to={MAGIC_ITEMS_PATH}>
+          Back to Magic Items
         </Link>
       </p>
       <EditMarkdownEntityForm
         item={data}
-        saveButtonText="Save adventure item"
-        updateFunction={updateAdventureItem}
-        updateIsError={updateAdventureItemIsError}
-        updateIsErrorText="There was a problem updating this Adventure Item"
+        saveButtonText="Save magic item"
+        updateFunction={updateMagicItem}
+        updateIsError={updateMagicItemIsError}
+        updateIsErrorText="There was a problem updating this magic item"
       />
     </Container>
   );

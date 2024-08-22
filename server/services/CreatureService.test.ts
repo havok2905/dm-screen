@@ -7,6 +7,7 @@ import {
 import { Creature } from '../sequelize/db';
 import { CreatureResponse } from '../responses';
 import { CreatureService } from './CreatureService';
+import { UpdateCreatureRequest } from '../requests';
 
 describe('CreatureService', () => {
   afterEach(() => {
@@ -17,6 +18,47 @@ describe('CreatureService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.restoreAllMocks();
+  });
+
+  describe('destroyCreatureById', () => {
+    it('should destroy a creature', async () => {
+      const mockCreature = Creature.build({
+        id: '1',
+        name: 'Foo',
+        content: 'content A',
+      });
+
+      jest.spyOn(Creature, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockCreature);
+        });
+      });
+
+      jest.spyOn(mockCreature, 'destroy').mockImplementation(jest.fn());
+      jest.spyOn(mockCreature, 'save').mockImplementation(jest.fn());
+
+      const result = await CreatureService.destroyCreatureById('1');
+
+      expect(result).toEqual(true);
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(Creature, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await CreatureService.destroyCreatureById('1');
+      }).rejects.toThrow(CreatureNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await CreatureService.destroyCreatureById('');
+      }).rejects.toThrow(MissingArgumentException);
+    });
   });
   
   describe('getEquipmentItems', () => {
@@ -144,6 +186,82 @@ describe('CreatureService', () => {
     it('should throw for bad arguments', () => {
       expect(async () => {
         await CreatureService.getCreatureById('');
+      }).rejects.toThrow(MissingArgumentException);
+    });
+  });
+
+  describe('updateCreatureById', () => {
+    it('should update a creature', async () => {
+      const mockCreature = Creature.build({
+        content: '# Hello',
+        id: '1',
+        image: '/',
+        metadata: [],
+        name: 'Foo Adventure',
+      });
+
+      jest.spyOn(Creature, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockCreature);
+        });
+      });
+
+      jest.spyOn(mockCreature, 'update').mockImplementation((newData) => {
+        mockCreature.setDataValue('content', newData.content);
+        mockCreature.setDataValue('image', newData.image);
+        mockCreature.setDataValue('metadata', newData.metadata);
+        mockCreature.setDataValue('name', newData.name);
+
+        return new Promise<void>((resolve) => {
+          resolve();
+        });
+      });
+
+      const response = await CreatureService.updateCreatureById(
+        '1',
+        new UpdateCreatureRequest(
+          '# Test',
+          '1',
+          '/test.png',
+          [],
+          'Test Name'
+        )
+      );
+
+      expect(response.content).toEqual('# Test');
+      expect(response.id).toEqual('1');
+      expect(response.image).toEqual('/test.png');
+      expect(response.metadata).toEqual([]);
+      expect(response.name).toEqual('Test Name');
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(Creature, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await CreatureService.updateCreatureById('1', new UpdateCreatureRequest(
+          '# Hello',
+          '1',
+          '/',
+          [],
+          'Name'
+        ));
+      }).rejects.toThrow(CreatureNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await CreatureService.updateCreatureById('', new UpdateCreatureRequest(
+          '# Hello',
+          '',
+          '/',
+          [],
+          ''
+        ));
       }).rejects.toThrow(MissingArgumentException);
     });
   });

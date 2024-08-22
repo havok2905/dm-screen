@@ -18,7 +18,11 @@ import {
   UpdateAdventureCreatureRequest,
   UpdateAdventureItemRequest,
   UpdateAdventureRequest,
-  UpdateInitiativeRequest
+  UpdateCreatureRequest,
+  UpdateEquipmentItemRequest,
+  UpdateInitiativeRequest,
+  UpdateMagicItemRequest,
+  UpdateSpellRequest
 } from './requests';
 
 import { errorHandler } from './middleware';
@@ -290,9 +294,53 @@ app.get('/creatures', async (_request, response, next) => {
   }
 });
 
+app.delete('/creature/:id', async(request, response, next) => {
+  try {
+    const responseJson = await CreatureService.destroyCreatureById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
 app.get('/creature/:id', async (request, response, next) => {
   try {
     const responseJson = await CreatureService.getCreatureById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.put('/creature/:id', async (request, response, next) => {
+  try {
+    const {
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const updateCreatureRequest = new UpdateCreatureRequest(
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await CreatureService.updateCreatureById(request.params.id ?? '', updateCreatureRequest);
+
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete('/equipmentItem/:id', async(request, response, next) => {
+  try {
+    const responseJson = await ItemService.destroyEquipmentItemById(request.params.id ?? '');
     response.json(responseJson);
   } catch(error) {
     next(error);
@@ -317,6 +365,41 @@ app.get('/equipmentItems', async (_request, response, next) => {
   }
 });
 
+app.put('/equipmentItem/:id', async (request, response, next) => {
+  try {
+    const {
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const updateEquipmentItemRequest = new UpdateEquipmentItemRequest(
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await ItemService.updateEquipmentItemById(request.params.id ?? '', updateEquipmentItemRequest);
+
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete('/magicItem/:id', async(request, response, next) => {
+  try {
+    const responseJson = await ItemService.destroyMagicItemById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
 app.get('/magicItems', async (_request, response, next) => {
   try {
     const responseJson = await ItemService.getMagicItems();
@@ -335,6 +418,41 @@ app.get('/magicItem/:id', async (request, response, next) => {
   }
 });
 
+app.put('/magicItem/:id', async (request, response, next) => {
+  try {
+    const {
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const updateMagicItemRequest = new UpdateMagicItemRequest(
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await ItemService.updateMagicItemById(request.params.id ?? '', updateMagicItemRequest);
+
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete('/spell/:id', async(request, response, next) => {
+  try {
+    const responseJson = await SpellService.destroySpellById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
 app.get('/spells', async (_request, response, next) => {
   try {
     const responseJson = await SpellService.getSpells();
@@ -349,6 +467,32 @@ app.get('/spell/:id', async (request, response, next) => {
     const responseJson = await SpellService.getSpellById(request.params.id ?? '');
     response.json(responseJson);
   } catch(error) {
+    next(error);
+  }
+});
+
+app.put('/spell/:id', async (request, response, next) => {
+  try {
+    const {
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const updateSpellRequest = new UpdateSpellRequest(
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await SpellService.updateSpellById(request.params.id ?? '', updateSpellRequest);
+
+    response.json(responseJson);
+  } catch (error) {
     next(error);
   }
 });

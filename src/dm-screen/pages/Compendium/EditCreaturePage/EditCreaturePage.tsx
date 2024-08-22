@@ -12,36 +12,39 @@ import {
 import { useCallback } from 'react';
 
 import {
-  useAdventureItem,
-  useUpdateAdventureItem
+  CREATURE_PATH,
+  CREATURES_PATH
+} from '../../../routes';
+import {
+  useCreature,
+  useUpdateCreature
 } from '../../../hooks';
 
-import { ADVENTURE_PATH } from '../../../routes';
 import { EditMarkdownEntityForm } from '../../../components';
 
-export const EditAdventureItemPage = () => {
-  const { id: adventureItemId } = useParams();
+export const EditCreaturePage = () => {
+  const { id: creatureId } = useParams();
 
   const {
     data,
     isFetching,
     isLoading,
     isPending
-  } = useAdventureItem(adventureItemId ?? '');
+  } = useCreature(creatureId ?? '');
 
   const navigate = useNavigate();
 
   const onSuccess = useCallback(() => {
-    navigate(ADVENTURE_PATH.replace(':id', data?.adventureid ?? ''));
+    navigate(CREATURE_PATH.replace(':id', data?.id ?? ''));
   }, [
     data,
     navigate
   ]);
 
   const {
-    mutate: updateAdventureItem,
-    isError: updateAdventureItemIsError
-  } = useUpdateAdventureItem(onSuccess);
+    mutate: updateCreature,
+    isError: updateCreatureIsError
+  } = useUpdateCreature(onSuccess);
 
   if (
     isFetching ||
@@ -54,28 +57,27 @@ export const EditAdventureItemPage = () => {
   );
 
   const {
-    adventureid,
     id
   } = data ?? {};
 
   return (
     <Container>
       <h1>Compendium</h1>
-      <h2>Edit Adventure Item</h2>
+      <h2>Edit Creature</h2>
       <p>
         <strong>Id:</strong> {id}
       </p>
       <p>
-        <Link to={ADVENTURE_PATH.replace(':id', adventureid)}>
-          Back to Adventure
+        <Link to={CREATURES_PATH}>
+          Back to Creatures
         </Link>
       </p>
       <EditMarkdownEntityForm
         item={data}
-        saveButtonText="Save adventure item"
-        updateFunction={updateAdventureItem}
-        updateIsError={updateAdventureItemIsError}
-        updateIsErrorText="There was a problem updating this Adventure Item"
+        saveButtonText="Save creature"
+        updateFunction={updateCreature}
+        updateIsError={updateCreatureIsError}
+        updateIsErrorText="There was a problem updating this creature"
       />
     </Container>
   );

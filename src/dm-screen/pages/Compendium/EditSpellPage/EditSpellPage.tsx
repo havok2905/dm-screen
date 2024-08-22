@@ -12,36 +12,39 @@ import {
 import { useCallback } from 'react';
 
 import {
-  useAdventureItem,
-  useUpdateAdventureItem
+  SPELL_PATH,
+  SPELLS_PATH
+} from '../../../routes';
+import {
+  useSpell,
+  useUpdateSpell
 } from '../../../hooks';
 
-import { ADVENTURE_PATH } from '../../../routes';
 import { EditMarkdownEntityForm } from '../../../components';
 
-export const EditAdventureItemPage = () => {
-  const { id: adventureItemId } = useParams();
+export const EditSpellPage = () => {
+  const { id: spellId } = useParams();
 
   const {
     data,
     isFetching,
     isLoading,
     isPending
-  } = useAdventureItem(adventureItemId ?? '');
+  } = useSpell(spellId ?? '');
 
   const navigate = useNavigate();
 
   const onSuccess = useCallback(() => {
-    navigate(ADVENTURE_PATH.replace(':id', data?.adventureid ?? ''));
+    navigate(SPELL_PATH.replace(':id', data?.id ?? ''));
   }, [
     data,
     navigate
   ]);
 
   const {
-    mutate: updateAdventureItem,
-    isError: updateAdventureItemIsError
-  } = useUpdateAdventureItem(onSuccess);
+    mutate: updateSpell,
+    isError: updateSpellIsError
+  } = useUpdateSpell(onSuccess);
 
   if (
     isFetching ||
@@ -54,28 +57,27 @@ export const EditAdventureItemPage = () => {
   );
 
   const {
-    adventureid,
     id
   } = data ?? {};
 
   return (
     <Container>
       <h1>Compendium</h1>
-      <h2>Edit Adventure Item</h2>
+      <h2>Edit Spell</h2>
       <p>
         <strong>Id:</strong> {id}
       </p>
       <p>
-        <Link to={ADVENTURE_PATH.replace(':id', adventureid)}>
-          Back to Adventure
+        <Link to={SPELLS_PATH}>
+          Back to Spells
         </Link>
       </p>
       <EditMarkdownEntityForm
         item={data}
-        saveButtonText="Save adventure item"
-        updateFunction={updateAdventureItem}
-        updateIsError={updateAdventureItemIsError}
-        updateIsErrorText="There was a problem updating this Adventure Item"
+        saveButtonText="Save spell"
+        updateFunction={updateSpell}
+        updateIsError={updateSpellIsError}
+        updateIsErrorText="There was a problem updating this spell"
       />
     </Container>
   );

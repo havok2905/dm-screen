@@ -4,20 +4,62 @@ import {
   Spinner,
   Table
 } from '@designSystem/components';
+import {
+  useCallback,
+  useState
+} from 'react';
 
 import { MarkdownEntity } from '@core/types';
 import { useNavigate } from 'react-router-dom';
 
-import { SPELL_PATH } from '../../../routes';
-import { useSpells } from '../../../hooks';
+import {
+  EDIT_SPELL_PATH,
+  SPELL_PATH
+} from '../../../routes';
+import {
+  useDestroySpell,
+  useSpells
+} from '../../../hooks';
 
-export const SpellsPage = () => {  
+import { ConfirmationModal } from '../../../components';
+
+export const SpellsPage = () => {
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const [activeId, setActiveId] = useState<string>('');
+
   const {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useSpells();
+
+  const onSuccess = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+    refetch();
+  }, [
+    refetch
+  ]);
+
+  const {
+    mutate: destroySpell
+  } = useDestroySpell(onSuccess);
+
+  const onCancel = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, []);
+
+  const onOk = useCallback(() => {
+    destroySpell(activeId);
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, [
+    activeId,
+    destroySpell
+  ]);
 
   const navigate = useNavigate();
 
@@ -56,13 +98,14 @@ export const SpellsPage = () => {
         {
           name: 'Edit',
           onClick: () => {
-            // TODO
+            navigate(EDIT_SPELL_PATH.replace(':id', id));
           }
         },
         {
           name: 'Destroy',
           onClick: () => {
-            // TODO
+            setIsConfirmModalOpen(true);
+            setActiveId(id);
           }
         }
       ]
@@ -87,6 +130,11 @@ export const SpellsPage = () => {
           )
         }
       </Container>
+      <ConfirmationModal
+        isOpen={isConfirmModalOpen}
+        onCancel={onCancel}
+        onOk={onOk}
+      />
     </>
   );
 };

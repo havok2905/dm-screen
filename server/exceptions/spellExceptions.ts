@@ -9,3 +9,9 @@ export class SpellsNotFoundException extends Error {
     super(message ?? 'Spells not found');
   }
 }
+
+export class SpellRequestMalformedException extends Error {
+  constructor(message?: string) {
+    super(message ?? 'The Spell request body is not valid');
+  }
+}

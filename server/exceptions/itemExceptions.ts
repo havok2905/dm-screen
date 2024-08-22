@@ -10,8 +10,20 @@ export class EquipmentItemNotFoundException extends Error {
   }
 }
 
+export class EquipmentItemRequestMalformedException extends Error {
+  constructor(message?: string) {
+    super(message ?? 'The EquipmentItem request body is not valid');
+  }
+}
+
 export class MagicItemNotFoundException extends Error {
   constructor(message?: string) {
     super(message ?? 'Magic item not found');
+  }
+}
+
+export class MagicItemRequestMalformedException extends Error {
+  constructor(message?: string) {
+    super(message ?? 'The Magic Item request body is not valid');
   }
 }

@@ -9,3 +9,9 @@ export class CreaturesNotFoundException extends Error {
     super(message ?? 'Creatures not found');
   }
 }
+
+export class CreatureRequestMalformedException extends Error {
+  constructor(message?: string) {
+    super(message ?? 'The Creature request body is not valid');
+  }
+}

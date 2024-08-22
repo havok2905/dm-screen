@@ -4,20 +4,63 @@ import {
   Spinner,
   Table
 } from '@designSystem/components';
+import {
+  useCallback,
+  useState
+} from 'react';
 
 import { MarkdownEntity } from '@core/types';
 import { useNavigate } from 'react-router-dom';
 
-import { CREATURE_PATH } from '../../../routes';
-import { useCreatures } from '../../../hooks';
+import {
+  CREATURE_PATH,
+  EDIT_CREATURE_PATH
+} from '../../../routes';
+import {
+  useCreatures,
+  useDestroyCreature
+} from '../../../hooks';
 
-export const CreaturesPage = () => {  
+import { ConfirmationModal } from '../../../components';
+
+
+export const CreaturesPage = () => {
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const [activeId, setActiveId] = useState<string>('');
+
   const {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useCreatures();
+
+  const onSuccess = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+    refetch();
+  }, [
+    refetch
+  ]);
+
+  const {
+    mutate: destroyCreature
+  } = useDestroyCreature(onSuccess);
+
+  const onCancel = useCallback(() => {
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, []);
+
+  const onOk = useCallback(() => {
+    destroyCreature(activeId);
+    setIsConfirmModalOpen(false);
+    setActiveId('');
+  }, [
+    activeId,
+    destroyCreature
+  ]);
 
   const navigate = useNavigate();
 
@@ -56,13 +99,14 @@ export const CreaturesPage = () => {
         {
           name: 'Edit',
           onClick: () => {
-            // TODO
+            navigate(EDIT_CREATURE_PATH.replace(':id', id));
           }
         },
         {
           name: 'Destroy',
           onClick: () => {
-            // TODO
+            setIsConfirmModalOpen(true);
+            setActiveId(id);
           }
         }
       ]
@@ -87,6 +131,11 @@ export const CreaturesPage = () => {
           )
         }
       </Container>
+      <ConfirmationModal
+        isOpen={isConfirmModalOpen}
+        onCancel={onCancel}
+        onOk={onOk}
+      />
     </>
   );
 };

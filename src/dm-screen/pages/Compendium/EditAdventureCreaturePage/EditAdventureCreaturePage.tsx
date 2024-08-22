@@ -17,7 +17,7 @@ import {
 } from '../../../hooks';
 
 import { ADVENTURE_PATH } from '../../../routes';
-import { EditCreatureForm } from '../../../components/EditCreatureForm';
+import { EditMarkdownEntityForm } from '../../../components';
 
 export const EditAdventureCreaturePage = () => {
   const { id: adventureCreatureId } = useParams();
@@ -70,10 +70,12 @@ export const EditAdventureCreaturePage = () => {
           Back to Adventure
         </Link>
       </p>
-      <EditCreatureForm
-        adventureCreature={data}
-        updateAdventureCreature={updateAdventureCreature}
-        updateAdventureCreatureIsError={updateAdventureCreatureIsError}
+      <EditMarkdownEntityForm
+        item={data}
+        saveButtonText="Save adventure creature"
+        updateFunction={updateAdventureCreature}
+        updateIsError={updateAdventureCreatureIsError}
+        updateIsErrorText="There was a problem updating this adventure creature"
       />
     </Container>
   );

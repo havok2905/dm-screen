@@ -12,16 +12,19 @@ import {
   useForm,
   useFormState
 } from "react-hook-form";
+import {
+  MarkdownEntity,
+  MetaData
+} from '@core/types';
 
-import { MetaData } from '@core/types';
 import { useEffect } from 'react';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { Markdown } from '../Markdown';
 
 enum InputId {
-  ADVENTURE_ITEM_CONTENT = 'adventureItemContent',
-  ADVENTURE_ITEM_NAME = 'adventureItemName',
+  CONTENT = 'content',
+  NAME = 'name',
 }
 
 enum InputType {
@@ -29,14 +32,14 @@ enum InputType {
   TEXTAREA = 'textarea'
 }
 
-export interface EditAdventureItemFormInputs {
-  adventureItemName: string;
-  adventureItemContent: string;
+export interface EditMarkdownEntityFormInputs {
+  name: string;
+  content: string;
 }
 
-const editAdventureItemFormModel = [
+const formModel = [
   {
-    id: InputId.ADVENTURE_ITEM_NAME,
+    id: InputId.NAME,
     label: 'Name',
     rules: {
       minLength: {
@@ -51,7 +54,7 @@ const editAdventureItemFormModel = [
     type: InputType.TEXT
   },
   {
-    id: InputId.ADVENTURE_ITEM_CONTENT,
+    id: InputId.CONTENT,
     label: 'Content',
     rules: {
       required: {
@@ -63,31 +66,35 @@ const editAdventureItemFormModel = [
   }
 ];
 
-export interface EditItemFormProps {
-  adventureItem: any;
-  updateAdventureItem: UseMutateFunction<any, Error, {
-    adventureid: string;
+export interface EditMarkdownEntityFormProps {
+  item: MarkdownEntity;
+  saveButtonText: string;
+  updateFunction: UseMutateFunction<unknown, Error, {
+    adventureid?: string;
     content: string;
     id: string;
     image: string;
     metadata: MetaData;
     name: string;
   }>;
-  updateAdventureItemIsError?: boolean;
+  updateIsError?: boolean;
+  updateIsErrorText: string;
 }
 
-export const EditItemForm = ({
-  adventureItem,
-  updateAdventureItem,
-  updateAdventureItemIsError
-}: EditItemFormProps) => {
+export const EditMarkdownEntityForm = ({
+  item,
+  saveButtonText,
+  updateFunction,
+  updateIsError,
+  updateIsErrorText
+}: EditMarkdownEntityFormProps) => {
   const {
     control,
     handleSubmit,
     setValue,
     trigger,
     watch
-  } = useForm<EditAdventureItemFormInputs>({
+  } = useForm<EditMarkdownEntityFormInputs>({
     mode: 'all'
   });
 
@@ -96,37 +103,44 @@ export const EditItemForm = ({
     isValid
   } = useFormState({ control });
 
-  const watchContent = watch('adventureItemContent', '');
+  const watchContent = watch('content', '');
 
-  const onSubmit: SubmitHandler<EditAdventureItemFormInputs> = data => {
+  const onSubmit: SubmitHandler<EditMarkdownEntityFormInputs> = data => {
     const {
-      adventureItemName,
-      adventureItemContent,
+      name,
+      content,
     } = data;
 
     const payload = {
-      adventureid: adventureItem.adventureid,
-      content: adventureItemContent,
-      id: adventureItem.id,
-      image: adventureItem.image,
-      metadata: adventureItem.metadata,
-      name: adventureItemName,
+      content,
+      id: item.id,
+      image: item.image,
+      metadata: item.metadata,
+      name
     };
 
-    updateAdventureItem(payload);
+    /**
+     * This should allow for handling of both markdown entities
+     * attached to an adventure and compendium level items.
+     */
+    if (item.adventureid) {
+      payload.adventureid = item.adventureid
+    }
+
+    updateFunction(payload);
   };
 
   useEffect(() => {
     const {
       name = '',
       content = '',
-    } = adventureItem ?? {};
+    } = item ?? {};
 
-    setValue(InputId.ADVENTURE_ITEM_NAME, name);
-    setValue(InputId.ADVENTURE_ITEM_CONTENT, content);
+    setValue(InputId.NAME, name);
+    setValue(InputId.CONTENT, content);
     trigger();
   }, [
-    adventureItem,
+    item,
     setValue,
     trigger
   ]);
@@ -138,8 +152,8 @@ export const EditItemForm = ({
           <form onSubmit={handleSubmit(onSubmit)}>
             {
               [
-                editAdventureItemFormModel[0],
-                editAdventureItemFormModel[1]
+                formModel[0],
+                formModel[1]
               ].map((fieldModel, index) => {
                 const error: string = errors[fieldModel.id as InputId]?.message ?? '';
 
@@ -187,14 +201,14 @@ export const EditItemForm = ({
               })
             }
             {
-              updateAdventureItemIsError ? (
+              updateIsError ? (
                 <p>
-                  There was a problem updating this adventure item
+                  {updateIsErrorText}
                 </p>
               ) : null
             }
             <Button
-              buttonText="Save adventure item"
+              buttonText={saveButtonText}
               disabled={!isValid}
               onClick={handleSubmit(onSubmit)}
               onKeyDown={(e) => {

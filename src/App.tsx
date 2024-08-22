@@ -19,6 +19,10 @@ import {
   EDIT_ADVENTURE_CREATURE_PATH,
   EDIT_ADVENTURE_ITEM_PATH,
   EDIT_ADVENTURE_PATH,
+  EDIT_CREATURE_PATH,
+  EDIT_EQUIPMENT_ITEM_PATH,
+  EDIT_MAGIC_ITEM_PATH,
+  EDIT_SPELL_PATH,
   EQUIPMENT_ITEM_PATH,
   EQUIPMENT_ITEMS_PATH,
   MAGIC_ITEM_PATH,
@@ -39,6 +43,10 @@ import {
   EditAdventureCreaturePage,
   EditAdventureItemPage,
   EditAdventurePage,
+  EditCreaturePage,
+  EditEquipmentItemPage,
+  EditMagicItemPage,
+  EditSpellPage,
   EquipmentItemPage,
   EquipmentItemsPage,
   MagicItemPage,
@@ -138,6 +146,38 @@ const router = createBrowserRouter([
     element: (
       <RouteErrorBoundary>
         <EditAdventurePage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: EDIT_CREATURE_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <EditCreaturePage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: EDIT_EQUIPMENT_ITEM_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <EditEquipmentItemPage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: EDIT_MAGIC_ITEM_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <EditMagicItemPage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: EDIT_SPELL_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <EditSpellPage/>
       </RouteErrorBoundary>
     )
   },

@@ -12,36 +12,39 @@ import {
 import { useCallback } from 'react';
 
 import {
-  useAdventureItem,
-  useUpdateAdventureItem
+  EQUIPMENT_ITEM_PATH,
+  EQUIPMENT_ITEMS_PATH
+} from '../../../routes';
+import {
+  useEquipmentItem,
+  useUpdateEquipmentItem
 } from '../../../hooks';
 
-import { ADVENTURE_PATH } from '../../../routes';
 import { EditMarkdownEntityForm } from '../../../components';
 
-export const EditAdventureItemPage = () => {
-  const { id: adventureItemId } = useParams();
+export const EditEquipmentItemPage = () => {
+  const { id: equipmentItemId } = useParams();
 
   const {
     data,
     isFetching,
     isLoading,
     isPending
-  } = useAdventureItem(adventureItemId ?? '');
+  } = useEquipmentItem(equipmentItemId ?? '');
 
   const navigate = useNavigate();
 
   const onSuccess = useCallback(() => {
-    navigate(ADVENTURE_PATH.replace(':id', data?.adventureid ?? ''));
+    navigate(EQUIPMENT_ITEM_PATH.replace(':id', data?.id ?? ''));
   }, [
     data,
     navigate
   ]);
 
   const {
-    mutate: updateAdventureItem,
-    isError: updateAdventureItemIsError
-  } = useUpdateAdventureItem(onSuccess);
+    mutate: updateEquipmentItem,
+    isError: updateEquipmentItemIsError
+  } = useUpdateEquipmentItem(onSuccess);
 
   if (
     isFetching ||
@@ -54,28 +57,27 @@ export const EditAdventureItemPage = () => {
   );
 
   const {
-    adventureid,
     id
   } = data ?? {};
 
   return (
     <Container>
       <h1>Compendium</h1>
-      <h2>Edit Adventure Item</h2>
+      <h2>Edit Equipment Item</h2>
       <p>
         <strong>Id:</strong> {id}
       </p>
       <p>
-        <Link to={ADVENTURE_PATH.replace(':id', adventureid)}>
-          Back to Adventure
+        <Link to={EQUIPMENT_ITEMS_PATH}>
+          Back to Equipment Items
         </Link>
       </p>
       <EditMarkdownEntityForm
         item={data}
-        saveButtonText="Save adventure item"
-        updateFunction={updateAdventureItem}
-        updateIsError={updateAdventureItemIsError}
-        updateIsErrorText="There was a problem updating this Adventure Item"
+        saveButtonText="Save equipment item"
+        updateFunction={updateEquipmentItem}
+        updateIsError={updateEquipmentItemIsError}
+        updateIsErrorText="There was a problem updating this equipment item"
       />
     </Container>
   );

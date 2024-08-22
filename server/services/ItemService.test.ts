@@ -1,7 +1,21 @@
-import { EquipmentItem, MagicItem } from '../sequelize/db';
+
+import {
+  EquipmentItem,
+  MagicItem
+} from '../sequelize/db';
+import {
+  EquipmentItemNotFoundException,
+  ItemsNotFoundException,
+  MagicItemNotFoundException,
+  MissingArgumentException
+} from '../exceptions';
+import {
+  UpdateEquipmentItemRequest,
+  UpdateMagicItemRequest
+} from '../requests';
+
 import { ItemResponse } from '../responses';
 import { ItemService } from './ItemService';
-import { ItemsNotFoundException } from '../exceptions';
 
 describe('ItemService', () => {
   afterEach(() => {
@@ -12,6 +26,88 @@ describe('ItemService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.restoreAllMocks();
+  });
+
+  describe('destroyEquipmentItemById', () => {
+    it('should destroy an equipment item', async () => {
+      const mockItem = EquipmentItem.build({
+        id: '1',
+        name: 'Foo',
+        content: 'content A',
+      });
+
+      jest.spyOn(EquipmentItem, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockItem);
+        });
+      });
+
+      jest.spyOn(mockItem, 'destroy').mockImplementation(jest.fn());
+      jest.spyOn(mockItem, 'save').mockImplementation(jest.fn());
+
+      const result = await ItemService.destroyEquipmentItemById('1');
+
+      expect(result).toEqual(true);
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(EquipmentItem, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await ItemService.destroyEquipmentItemById('1');
+      }).rejects.toThrow(EquipmentItemNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await ItemService.destroyEquipmentItemById('');
+      }).rejects.toThrow(MissingArgumentException);
+    });
+  });
+
+  describe('destroyMagicItemById', () => {
+    it('should destroy an magic item', async () => {
+      const mockItem = MagicItem.build({
+        id: '1',
+        name: 'Foo',
+        content: 'content A',
+      });
+
+      jest.spyOn(MagicItem, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockItem);
+        });
+      });
+
+      jest.spyOn(mockItem, 'destroy').mockImplementation(jest.fn());
+      jest.spyOn(mockItem, 'save').mockImplementation(jest.fn());
+
+      const result = await ItemService.destroyMagicItemById('1');
+
+      expect(result).toEqual(true);
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(MagicItem, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await ItemService.destroyMagicItemById('1');
+      }).rejects.toThrow(MagicItemNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await ItemService.destroyMagicItemById('');
+      }).rejects.toThrow(MissingArgumentException);
+    });
   });
   
   describe('getEquipmentItems', () => {
@@ -183,6 +279,158 @@ describe('ItemService', () => {
       expect(async () => {
         await ItemService.getMagicItems();
       }).rejects.toThrow(ItemsNotFoundException);
+    });
+  });
+
+  describe('updateEquipmentItemById', () => {
+    it('should update an item', async () => {
+      const mockItem = EquipmentItem.build({
+        content: '# Hello',
+        id: '1',
+        image: '/',
+        metadata: [],
+        name: 'Foo Adventure',
+      });
+
+      jest.spyOn(EquipmentItem, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockItem);
+        });
+      });
+
+      jest.spyOn(mockItem, 'update').mockImplementation((newData) => {
+        mockItem.setDataValue('content', newData.content);
+        mockItem.setDataValue('image', newData.image);
+        mockItem.setDataValue('metadata', newData.metadata);
+        mockItem.setDataValue('name', newData.name);
+
+        return new Promise<void>((resolve) => {
+          resolve();
+        });
+      });
+
+      const response = await ItemService.updateEquipmentItemById(
+        '1',
+        new UpdateEquipmentItemRequest(
+          '# Test',
+          '1',
+          '/test.png',
+          [],
+          'Test Name'
+        )
+      );
+
+      expect(response.content).toEqual('# Test');
+      expect(response.id).toEqual('1');
+      expect(response.image).toEqual('/test.png');
+      expect(response.metadata).toEqual([]);
+      expect(response.name).toEqual('Test Name');
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(EquipmentItem, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await ItemService.updateEquipmentItemById('1', new UpdateEquipmentItemRequest(
+          '# Hello',
+          '1',
+          '/',
+          [],
+          'Name'
+        ));
+      }).rejects.toThrow(EquipmentItemNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await ItemService.updateEquipmentItemById('', new UpdateEquipmentItemRequest(
+          '# Hello',
+          '',
+          '/',
+          [],
+          ''
+        ));
+      }).rejects.toThrow(MissingArgumentException);
+    });
+  });
+
+  describe('updateMagicItemById', () => {
+    it('should update an item', async () => {
+      const mockItem = MagicItem.build({
+        content: '# Hello',
+        id: '1',
+        image: '/',
+        metadata: [],
+        name: 'Foo Adventure',
+      });
+
+      jest.spyOn(MagicItem, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockItem);
+        });
+      });
+
+      jest.spyOn(mockItem, 'update').mockImplementation((newData) => {
+        mockItem.setDataValue('content', newData.content);
+        mockItem.setDataValue('image', newData.image);
+        mockItem.setDataValue('metadata', newData.metadata);
+        mockItem.setDataValue('name', newData.name);
+
+        return new Promise<void>((resolve) => {
+          resolve();
+        });
+      });
+
+      const response = await ItemService.updateMagicItemById(
+        '1',
+        new UpdateMagicItemRequest(
+          '# Test',
+          '1',
+          '/test.png',
+          [],
+          'Test Name'
+        )
+      );
+
+      expect(response.content).toEqual('# Test');
+      expect(response.id).toEqual('1');
+      expect(response.image).toEqual('/test.png');
+      expect(response.metadata).toEqual([]);
+      expect(response.name).toEqual('Test Name');
+    });
+
+    it('should throw when none are found', () => {
+      jest.spyOn(MagicItem, 'findOne').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(null);
+        });
+      });
+
+      expect(async () => {
+        await ItemService.updateMagicItemById('1', new UpdateMagicItemRequest(
+          '# Hello',
+          '1',
+          '/',
+          [],
+          'Name'
+        ));
+      }).rejects.toThrow(MagicItemNotFoundException);
+    });
+
+    it('should throw for bad arguments', () => {
+      expect(async () => {
+        await ItemService.updateMagicItemById('', new UpdateMagicItemRequest(
+          '# Hello',
+          '',
+          '/',
+          [],
+          ''
+        ));
+      }).rejects.toThrow(MissingArgumentException);
     });
   });
 });
