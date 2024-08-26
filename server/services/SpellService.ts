@@ -31,7 +31,14 @@ export class SpellService {
   }
 
   static async getSpells(): Promise<SpellResponse[]> {
-    const spells = await Spell.findAll();
+    const spells = await Spell.findAll({
+      order: [
+        [
+          'name',
+          'ASC'
+        ]
+      ]
+    });
 
     if (!spells.length) {
       throw new SpellsNotFoundException();    

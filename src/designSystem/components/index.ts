@@ -9,6 +9,7 @@ export * from './IconButton';
 export * from './Icons';
 export * from './Input';
 export * from './LinkButton';
+export * from './LoadingBar';
 export * from './Modal';
 export * from './Section';
 export * from './SideDrawer';
@@ -16,4 +17,3 @@ export * from './Spinner';
 export * from './Table';
 export * from './Tag';
 export * from './TextArea';
-

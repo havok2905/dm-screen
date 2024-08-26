@@ -68,19 +68,37 @@ export class AdventureService {
     const adventureCreatures = await AdventureCreature.findAll({
       where: {
         adventureid: id
-      }
+      },
+      order: [
+        [
+          'name',
+          'ASC'
+        ]
+      ]
     });
   
     const adventureHandouts = await AdventureHandout.findAll({
       where: {
         adventureid: id
-      }
+      },
+      order: [
+        [
+          'name',
+          'ASC'
+        ]
+      ]
     });
   
     const adventureItems = await AdventureItem.findAll({
       where: {
         adventureid: id
-      }
+      },
+      order: [
+        [
+          'name',
+          'ASC'
+        ]
+      ]
     });
   
     return this.mapResponseJson(

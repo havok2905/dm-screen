@@ -26,4 +26,6 @@ export const EDIT_SPELL_PATH = '/compendium/spell/:id/edit';
 export const SPELL_PATH = '/compendium/spell/:id';
 export const SPELLS_PATH = '/compendium/spells';
 
+export const IMPORTS_PATH = '/compendium/imports';
+
 export const PLAYER_VIEW_PATH = '/player-view';

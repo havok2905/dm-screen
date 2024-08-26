@@ -1,0 +1,47 @@
+@keyframes slide {
+  from {
+    background-position-x: 0;
+  }
+
+  to {
+    background-position-x: calc(1px * sqrt(2 * pow(80, 2)));
+  }
+}
+
+.loading-bar-container {
+  display: inline-block;
+}
+
+.loading-bar-container .loading-bar.loading-bar-is-loading {
+  animation: slide 4s linear infinite;
+  opacity: 1;
+  will-change: background-position;
+}
+
+.loading-bar-container .loading-bar.loading-bar-is-success {
+  animation: none;
+  background-color: #7ae19c;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    #2f874d 20px,
+    #2f874d 40px
+  );
+  opacity: 1;
+}
+
+.loading-bar-container .loading-bar {
+  background-color: #2f2f2f;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    #515151 20px,
+    #515151 40px
+  );
+  border-radius: 20px;
+  min-height: 20px;
+  opacity: 0.3;
+  width: calc(calc(1px * sqrt(2 * pow(40, 2))) * 4);
+}

@@ -25,6 +25,7 @@ import {
   EDIT_SPELL_PATH,
   EQUIPMENT_ITEM_PATH,
   EQUIPMENT_ITEMS_PATH,
+  IMPORTS_PATH,
   MAGIC_ITEM_PATH,
   MAGIC_ITEMS_PATH,
   PLAYER_VIEW_PATH,
@@ -49,6 +50,7 @@ import {
   EditSpellPage,
   EquipmentItemPage,
   EquipmentItemsPage,
+  ImportsPage,
   MagicItemPage,
   MagicItemsPage,
   PlayerView,
@@ -194,6 +196,14 @@ const router = createBrowserRouter([
     element: (
       <RouteErrorBoundary>
         <EquipmentItemsPage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: IMPORTS_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <ImportsPage/>
       </RouteErrorBoundary>
     )
   },

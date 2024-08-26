@@ -9,6 +9,7 @@ import {
   AdventureItemService,
   AdventureService,
   CreatureService,
+  ImportService,
   InitiativeService,
   ItemService,
   SpellService
@@ -33,6 +34,14 @@ dotenv.config();
 const app = express();
 const config = new ServerConfig();
 const port = config.getServerPort();
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  }
+});
 
 app.use(cors());
 app.use(express.json());
@@ -497,15 +506,16 @@ app.put('/spell/:id', async (request, response, next) => {
   }
 });
 
-app.use(errorHandler);
-
-const server = http.createServer(app);
-
-const io = new Server(server, {
-  cors: {
-    origin: '*',
+app.post('/import/dnd5eapi', async (_request, response, next) => {
+  try {
+    const responseJson = await ImportService.initiate5eApiImport(io);
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
   }
 });
+
+app.use(errorHandler);
 
 io.on('connection', (socket) => {
   console.log('a user connected');

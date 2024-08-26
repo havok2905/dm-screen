@@ -5,6 +5,7 @@ import {
   ADVENTURES_PATH,
   CREATURES_PATH,
   EQUIPMENT_ITEMS_PATH,
+  IMPORTS_PATH,
   MAGIC_ITEMS_PATH,
   SPELLS_PATH
 } from '../../../routes';
@@ -40,6 +41,11 @@ export const CompendiumPage = () => {
           <li>
             <Link to={SPELLS_PATH}>
               Spells
+            </Link>
+          </li>
+          <li>
+            <Link to={IMPORTS_PATH}>
+              Imports
             </Link>
           </li>
         </ul>

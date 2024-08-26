@@ -13,6 +13,7 @@ export * from './EditMagicItemPage';
 export * from './EditSpellPage';
 export * from './EquipmentItemPage';
 export * from './EquipmentItemsPage';
+export * from './ImportsPage';
 export * from './MagicItemPage';
 export * from './MagicItemsPage';
 export * from './SpellPage';

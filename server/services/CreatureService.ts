@@ -31,7 +31,14 @@ export class CreatureService {
   }
 
   static async getCreatures(): Promise<CreatureResponse[]> {
-    const creatures = await Creature.findAll();
+    const creatures = await Creature.findAll({
+      order: [
+        [
+          'name',
+          'ASC'
+        ]
+      ]
+    });
 
     if (!creatures.length) {
       throw new CreaturesNotFoundException();    

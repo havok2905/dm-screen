@@ -59,7 +59,14 @@ export class ItemService {
   }
 
   static async getEquipmentItems(): Promise<ItemResponse[]> {
-    const equipmentItems = await EquipmentItem.findAll();
+    const equipmentItems = await EquipmentItem.findAll({
+      order: [
+        [
+          'name',
+          'ASC'
+        ]
+      ]
+    });
 
     if (!equipmentItems.length) {
       throw new ItemsNotFoundException();    
@@ -69,7 +76,14 @@ export class ItemService {
   }
 
   static async getMagicItems(): Promise<ItemResponse[]> {
-    const magicItems = await MagicItem.findAll();
+    const magicItems = await MagicItem.findAll({
+      order: [
+        [
+          'name',
+          'ASC'
+        ]
+      ]
+    });
 
     if (!magicItems.length) {
       throw new ItemsNotFoundException();    

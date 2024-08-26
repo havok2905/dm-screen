@@ -19,6 +19,7 @@ export * from './useDestroySpell';
 export * from './useDestroyInitiative';
 export * from './useEquipmentItem';
 export * from './useEquipmentItems';
+export * from './useImportDnd5eApi';
 export * from './useInitiative';
 export * from './useMagicItem';
 export * from './useMagicItems';

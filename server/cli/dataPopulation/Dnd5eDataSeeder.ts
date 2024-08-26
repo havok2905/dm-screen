@@ -63,7 +63,13 @@ export class Dnd5eDataSeeder {
       };
     });
 
-    EquipmentItemModel.bulkCreate(markdownEntities, { validate: true });
+    for(let x=0; x<markdownEntities.length; x++) {
+      try {
+        await EquipmentItemModel.create(markdownEntities[x]);
+      } catch (e) {
+        console.error(e);
+      }
+    }
 
     console.log('End: populateDndEquipmentItems');
   }
@@ -90,7 +96,13 @@ export class Dnd5eDataSeeder {
       };
     });
 
-    MagicItemModel.bulkCreate(markdownEntities, { validate: true });
+    for(let x=0; x<markdownEntities.length; x++) {
+      try {
+        await MagicItemModel.create(markdownEntities[x]);
+      } catch (e) {
+        console.error(e);
+      }
+    }
 
     console.log('End: populateDndMagicItems');
   }
@@ -117,7 +129,13 @@ export class Dnd5eDataSeeder {
       };
     });
 
-    Creature.bulkCreate(markdownEntities, { validate: true });
+    for(let x=0; x<markdownEntities.length; x++) {
+      try {
+        await Creature.create(markdownEntities[x]);
+      } catch (e) {
+        console.error(e);
+      }
+    }
 
     console.log('End: populateDndMonsters');
   }
@@ -144,7 +162,13 @@ export class Dnd5eDataSeeder {
       };
     });
 
-    SpellModel.bulkCreate(markdownEntities, { validate: true });
+    for(let x=0; x<markdownEntities.length; x++) {
+      try {
+        await SpellModel.create(markdownEntities[x]);
+      } catch (e) {
+        console.error(e);
+      }
+    }
 
     console.log('End: populateDndSpells');
   }
