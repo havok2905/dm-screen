@@ -5,18 +5,22 @@ import {
   Table
 } from '@designSystem/components';
 import {
+  Link,
+  useNavigate
+} from 'react-router-dom';
+import {
   useCallback,
   useState
 } from 'react';
 
 import { MarkdownEntity } from '@core/types';
-import { useNavigate } from 'react-router-dom';
 
 import {
   CompendiumNavbar,
   ConfirmationModal
 } from '../../../components';
 import {
+  CREATE_CREATURE_PATH,
   CREATURE_PATH,
   EDIT_CREATURE_PATH
 } from '../../../routes';
@@ -119,6 +123,9 @@ export const CreaturesPage = () => {
       <CompendiumNavbar/>
       <Container>
         <h2>Creatures</h2>
+        <Link to={CREATE_CREATURE_PATH}>
+          Create new creature
+        </Link>
         {
           creatures.length ? (
             <Table
