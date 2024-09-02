@@ -18,7 +18,10 @@ export const TableRowActions = ({
   rowData
 }: TableRowActionsProps) => {
   return (
-    <td className="dm-screen-design-system-table-cell dm-screen-design-system-table-cell-actions">
+    <td
+      className="dm-screen-design-system-table-cell dm-screen-design-system-table-cell-actions"
+      data-test-id="dm-screen-design-system-table-cell"
+    >
       {
         actions.map((action, index) => {
           const {

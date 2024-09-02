@@ -92,6 +92,7 @@ export const Input = React.forwardRef(({
       />
       <input
         className={classNames(classList)}
+        data-test-id="dm-screen-design-system-input"
         id={inputId}
         name={inputName}
         onBlur={handleOnBlur}

@@ -85,6 +85,7 @@ export const LinkButton = ({
   return (
     <button
       className={classNames(classList)}
+      data-test-id="dm-screen-design-system-link-button"
       disabled={disabled}
       onBlur={handleOnBlur}
       onClick={handleOnClick}

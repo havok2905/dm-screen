@@ -39,7 +39,7 @@ export const ItemsTable = ({
 
   if (!filtered.length) {
     return (
-      <div>
+      <div data-test-id="no-items-found-text">
         No items found for "{searchTerm}"
       </div>
     );

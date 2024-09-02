@@ -49,11 +49,15 @@ export const Modal = ({
 
   const modal = (
     <>
-      <div className={classNames(classList)}>
+      <div
+        className={classNames(classList)}
+        data-test-id="dm-screen-design-system-modal"
+      >
         {children}
       </div>
       <div
         className="dm-screen-design-system-modal-backdrop"
+        data-test-id="dm-screen-design-system-modal-backdrop"
         onClick={handleBackgroundClick}
       />
     </>

@@ -64,6 +64,7 @@ export const InitiativeCard = ({
   return (
     <div
       className={classNames(classList)}
+      data-test-id="initiative-card"
       onDoubleClick={internalOnDoubleClick}
       style={styles}>
       <div className="initiative-card-initiative-roll">

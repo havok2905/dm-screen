@@ -14,7 +14,10 @@ export const Table = ({
   rows
 }: TableProps) => {
   return (
-    <table className="dm-screen-design-system-table">
+    <table
+      className="dm-screen-design-system-table"
+      data-test-id="dm-screen-design-system-table"
+    >
       <thead>
         <TableHeader columns={columns} />
       </thead>

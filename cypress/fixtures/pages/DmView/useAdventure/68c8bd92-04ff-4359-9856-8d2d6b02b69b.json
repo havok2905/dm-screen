@@ -1,0 +1,139 @@
+{
+  "id": "68c8bd92-04ff-4359-9856-8d2d6b02b69b",
+  "name": "The Embroidermancer",
+  "system": "D&D 5e (2014)",
+  "notes": "# The Embroidermancer\n\n## Premise\n\nThe players arrive at an old woman's house on the outskirts of Waterdeep. The party has been hired by the local guard to pay a visit to the owner of the house, with the goal of investigating reports of disappearances in the area. Upon entering the premises, the players are transformed into yarn versions of themselves and shrunk down to the size of dolls, now at the mercy of an evil knitting mage. The players must make their way through The Embroidermancer's lair to find a way to restore themselves to their normal size and escape.\n\n## The Embroidermancer\n\nThe Embroidermancer is a longtime resident of the Waterdavian region, having now lived there for hundreds of years. Few have visited her cottage, but those who have found themselves at the mercy of the wicked mage. For generations, she has turned visitors into toys for her pets, turning all who dare enter into dolls of yarn. These incidents were, however, quite rare. Now, Waterdeep's borders have expanded into her forest, bringing with them solicitors, tax collectors, and more to her front doors and to their doom. At first, the occurrences were regarded as just urban legend, but that has begun to change.\n\n## The Yarn Spell\n\nUpon entering the cottage, the players will be turned into walking dolls of yarn. This will reduce the player's sizes to tiny and grant them a weakness to fire damage. The affected players cannot deal damage to The Embroidermancer in this state. All spells and attacks are rendered useless against her. This can only be reversed through the use of a Greater Restoration spell.\n\n## The Cottage\n\n![emboridermancer-map](/emboridermancer-map.png)\n\n### A: The Porch\n\n> A large double set of wooden doors are flanked by a sprawling mahogany porch. Etched on the doors are snaking stems topped with crowns of six leaves, stretching out from two bundles of thick roots. Two large door knockers made of brass hang at eye level. A number of goats and sheep can be seen grazing in the yard out front.\n\nA nature check of DC 15 reveals this is madder, a natural dye in yarn making.\n\nThe door is locked and may be picked by a DC 13 sleight of hand check with thieves tools. The door has 10 HP and an AC of 10. Knocking on the door, or causing it damage, will only serve to alert The Embroidermancer's kitten of the players' presence.\n\n### B: The Living Room\n\n> Upon stepping through the front door, the room, illuminated by the warm glow of the fireplace, begins to enlarge. The tall bookcases on the far right side tower above you and the chairs and tables become as if monolithic buildings. Looking down at your hands, they appear to now be made of yarn. The living room of this humble cottage is now a vast field before you, seemingly empty of people. Yet, echoing through the halls, you hear the high pitched cackling of an old woman.\n\nA vat of red dye is bubbling near the fire, just beginning to cool. It emits a sweet and earthy smell, only touched with the slight stench of rot. Drinking the dye is extremely dangerous. Make any player that consumes it make a DC 15 CON saving throw. On failure, the player takes 1d6 poison damage.\n\nHave the players roll a perception check against the Playful Kitten's stealth. Upon success, they will hear the quiet meows of the kitten waking up on a pillow in the far corner of the room. Or, if the players knocked before entering the cottage, the kitten will have hidden under the table. If gone unnoticed, the kitten will get a surprise round on the players as it tries to roughly play with them. The kitten will attempt to chase and stalk the players throughout the cottage.\n\nThere is a Rug of Smothering underneath the table and chairs. If stepped on by the players, it will attempt to grapple them. The rug will only be hostile while stepped on.\n\nIn the Chest:\n\n- 10 Balls of Yarn\n- 4 Double Sided Knitting Needles\n- 1 Dagger\n- 2 Wool Hats\n- 22 GP\n- 15 SP\n- 85 CP\n\n### C: The Bedroom\n\n> Hovering over the bed in a throne of intertwined knitting needles and yarn is a decrepit old woman, ancient, and cast in shadow. Upon seeing you enter her bedroom, she breaks out in uncontrollable laughter, never ceasing her lightning fast knitting.\n\nPlayers Are Yarn Dolls: The woman will give you no help or advice, instead relishing in your confusion and thanking you for keeping her new kitten well entertained. If the players linger, she will absentmindedly begin to cast cantrips at the players, toying with them.\n\nPlayers Are No Longer Yarn Dolls: The woman will immediately become hostile and attack on sight, now overtaken with an uncontrollable fury.\n\nIn the Chest:\n\n- 5 Balls of Yarn\n- 2 Sets of Robes\n\n### D: The Study\n\n> The study before you reeks of litter and fish with deep shadows cutting between the rows of barrels and crates along the back wall. Next to the crates is a wood desk, littered with papers and scrolls. As you step foot inside, four spectral hands snake up from the floorboards below. They slither along the floors, each slipping inside of a crudely made sock puppet; A wizard with a patchy hat, an ape, and a red tiefling with a dangling tail of yarn.\n\n3 Spectral Sock Puppets will attempt to force you out of the study and will instantly be hostile towards the players. They will not, however, leave the study. They are magically bound to the room.\n\nOn the Desk:\n\n- 1 Scroll of Greater Restoration\n\nIn the Crates and Barrels:\n\n- 50lbs of Kitty Litter\n0 20lbs of Kitten Food\n- 30lbs of Yarn\n- Various Assorted Spell Components\n\nIn the Floor Storage Door:\n\n- 20 Bottles of Red Wine\n- 485 GP\n- 312 SP\n- 1045 CP\n- 12 Human Skeletons\n- 12 Crates of Yarn\n",
+  "description": "A 5e oneshot for games set around Waterdeep.",
+  "splashImgSrc": "splash-screens/dice.jpg",
+  "createdAt": null,
+  "updatedAt": null,
+  "creatures": [
+    {
+      "id": "dcc17f12-c9ce-4529-994d-dd705e5e5fab",
+      "adventureid": "68c8bd92-04ff-4359-9856-8d2d6b02b69b",
+      "name": "Playful Kitten",
+      "image": "/token-playful-kitten.png",
+      "content": "# Playful Kitten\n\n*Tiny Beast, Chaotic Neutral*\n\n**Armor Class** 15\n\n**Hit Points** 25\n\n**Speed** 40ft, climb 30ft.\n\n| STR | DEX | CON | INT | WIS | CHA |\n| --- | --- | --- | --- | --- | --- |\n|  3  | 16  | 8   | 8   | 10  | 16  |\n| -4  | +3  | -1  | -1  | +0  | +3  |\n\n**Skills Perception** +2, Stealth +7\n\n**Senses** Darkvision 120ft.\n\n**Languages** --\n\n**Challenge** 1/2\n\n**Proficiency Bonus** +2\n\n---\n\n**Keen Smell.** The playful kitten has advantage on Wisdom (Perception) checks that rely on smell.\n\n## Actions\n\n**Multitattack.** The playful kitten makes two claw attacks.\n\n**Claw.** *Melee Weapon Attack:* +5 to hit, reach 5ft., one target. Hit: (1d4+3) slashing damage. \n    ",
+      "metadata": [
+        {
+          "name": "Type",
+          "type": "string",
+          "value": "Beast"
+        },
+        {
+          "name": "AC",
+          "type": "number",
+          "value": 15
+        },
+        {
+          "name": "HP",
+          "type": "number",
+          "value": 25
+        },
+        {
+          "name": "CR",
+          "type": "string",
+          "value": "1/2"
+        }
+      ],
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": "1c230cd3-eab1-40ea-9ac4-32e39b108e6a",
+      "adventureid": "68c8bd92-04ff-4359-9856-8d2d6b02b69b",
+      "name": "Spectral Sock Puppet",
+      "image": "/token-sock-puppet.png",
+      "content": "# Spectral Sock Puppet\n\n*Small Undead, Chaotic Evil*\n\n**Armor Class** 13\n\n**Hit Points** 40\n\n**Speed** 0ft, Fly (Hover) 40ft.\n\n| STR | DEX | CON | INT | WIS | CHA |\n| --- | --- | --- | --- | --- | --- |\n| 14  | 16  | 11  | 1   | 10  | 10  |\n| +2  | +3  | +1  | -5  | +0  | +0  |\n\n**Condition Immunities** charmed, exhaustion, frightened, grappled, paralyzed, petrified, poisoned, prone, restrained\n\n**Damage Immunities** cold, lightning, necrotic, poison\n\n**Damage Resistances** acid, thunder; bludgeoning, piercing, and slashing from non magical attacks\n\n**Damage Vulnerabilities** fire\n\n**Senses** Blindsight 120ft.\n\n**Languages** --\n\n**Challenge** 1\n\n**Proficiency Bonus** +2\n\n---\n\n**Static Shock.** When the sock puppet is targeted by a grapple action or executes a grapple action, both the sock puppet and the opposing creature take on a static charge. When an uncharged creature comes within 10ft of a charged creature, that creature takes 1d4+1 lightning damage and the charged creature is no longer charged. \n\n## Actions\n\n**Multitattack.** The Spectral Sock Puppet makes two Puppet Thumb Punches.\n\n**Puppet Thumb Punch.** *Melee Weapon Attack:* +4 to hit, reach 5ft., one target. Hit: (1d6+2) bludgeoning damage.\n\n**Puppet Horror Show.** The Spectral Sock Puppet strikes a horrifying pose. Each non-undead creature within 60ft. of the Spectral Sock Puppet that can see it must succeed on a DC 13 Wisdom saving throw or be frightened for 1 minute. A frightened target can repeat the saving throw at the end of each of its turns, ending the frightened condition on itself on a success. If a target's saving throw is successful or the effect ends for it, the target is immune to this Spectral Sock Puppet's Puppet Horror Show for the next 24 hours. \n",
+      "metadata": [
+        {
+          "name": "Type",
+          "type": "string",
+          "value": "Undead"
+        },
+        {
+          "name": "AC",
+          "type": "number",
+          "value": 13
+        },
+        {
+          "name": "HP",
+          "type": "number",
+          "value": 40
+        },
+        {
+          "name": "CR",
+          "type": "string",
+          "value": "1"
+        }
+      ],
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id": "fb0d4fdf-be16-4866-a876-d501efbb2f57",
+      "adventureid": "68c8bd92-04ff-4359-9856-8d2d6b02b69b",
+      "name": "The Embroidermncer",
+      "image": "/token-the-embroidermancer.png",
+      "content": "# The Embroidermancer\n\n*Medium Humanoid, Chaotic Evil*\n\n**Armor Class** 12\n\n**Hit Points** 60\n\n**Speed** 20ft., fly 30ft. She can hover with her yarn needle throne.\n\n| STR | DEX | CON | INT | WIS | CHA |\n| --- | --- | --- | --- | --- | --- |\n| 8   | 10  | 8   | 18  | 15  | 15  |\n| -1  | +0  | -1  | +4  | +2  | +2  |\n\n**Saving Throws** INT +7, WIS +5\n\n**Skills** Arcana +7, History +7\n\n**Languages** Common, Elvish, Infernal, Undercommon\n\n**Condition Immunities** Frightened\n\n**Challenge** 5\n\n**Proficiency Bonus** +3\n\n---\n\n**Floating Throne.** The Embroidermancer sits upon a throne of yarn and needles, granting The Embroidermancer 30ft. of flying.\n\n**Yarn Spells.** All spells are flavored to be yarn and knitting themed.\n\n**Spellcasting.** This creature is an 8th-level spellcaster. Their spellcasting ability is Intelligence (spell save DC 15; +7 to hit with spell attacks). they have the following spells prepared:\n\n- Cantrips (at will): mage hand, mending, shocking grasp, thorn whip\n- 1st Level (4 slots): catapult, color spray, entangle, mage armor\n- 2nd Level (3 slots): cloud of daggers, enlarge/reduce, rope trick\n- 3rd Level (3 slots): lightning bolt, spirit guardians, tidal wave\n- 4th Level (2 slots): black tentacles, polymorph\n\n## Actions\n\n**Multiattack.** The Embroidermancer makes two needle attacks.\n\n**Needle.** *Ranged Weapon Attack:* +3 to hit, range 60/120 ft., one target. Hit: (1d4) piercing damage.\n\n## Lair Actions\n\nOn initiative 20, The Embroidermancer takes a lair action to cause one of the following effects; The Embroidermancer can't use the same effect two rounds in a row.\n\n- **Needle Attack.** The Embroidermancer makes a Needle attack.\n- **Puppeteer Dead.** The animate dead spell targets buried corpses underneath the house with long strands of yarn that emit from thin air.\n- **Yarn Web.** If the Tidal Wave spell has been used, this lair action is automatically chosen. The web spell is used on a point where the tidal wave spell landed.\n",
+      "metadata": [
+        {
+          "name": "Type",
+          "type": "string",
+          "value": "Humanoid"
+        },
+        {
+          "name": "AC",
+          "type": "number",
+          "value": 12
+        },
+        {
+          "name": "HP",
+          "type": "number",
+          "value": 60
+        },
+        {
+          "name": "CR",
+          "type": "string",
+          "value": "5"
+        }
+      ],
+      "createdAt": null,
+      "updatedAt": null
+    }
+  ],
+  "handouts": [
+    {
+      "id": "60f80ded-b9ce-4804-b81a-f796f0961717",
+      "adventureid": "68c8bd92-04ff-4359-9856-8d2d6b02b69b",
+      "name": "Embroidermancer Lair Map",
+      "description": "Map of the embroidermancer's lair",
+      "url": "/emboridermancer-map.png",
+      "createdAt": null,
+      "updatedAt": null
+    }
+  ],
+  "items": [
+    {
+      "id": "8c1d96db-2b9b-457d-ba59-7d7132ded9bd",
+      "adventureid": "68c8bd92-04ff-4359-9856-8d2d6b02b69b",
+      "name": "Dagger",
+      "image": "/dagger.png",
+      "content": "# Dagger\n      \n*Melee Weapon (Simple, Dagger)*\n\n**Category:** Items\n\n**Damage:** 1d4\n\n**Damage Type:** Piercing\n\n**Properties:** Finesse, Light, Range, Thrown\n\n**Range:** 20/60\n\n**Weight:** 1",
+      "metadata": [
+        {
+          "name": "Rarity",
+          "type": "string",
+          "value": "Common"
+        },
+        {
+          "name": "Cost",
+          "type": "string",
+          "value": "2GP"
+        }
+      ],
+      "createdAt": null,
+      "updatedAt": null
+    }
+  ]
+}

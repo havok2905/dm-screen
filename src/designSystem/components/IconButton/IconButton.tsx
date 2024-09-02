@@ -91,6 +91,7 @@ export const IconButton = forwardRef(({
   return (
     <button
       className="dm-screen-design-system-icon-button"
+      data-test-id="dm-screen-design-system-icon-button"
       onBlur={handleOnBlur}
       onClick={handleOnClick}
       onFocus={handleOnFocus}

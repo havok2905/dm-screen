@@ -197,16 +197,20 @@ export const InitiativeOrderComponent = ({
           <div>
             <p>
               {
-                initiativeOrderState ? (
-                  <>
-                    Round: { initiativeOrderState?.round }
-                  </>
-                ) : (
-                  <>
-                    Out of initiative
-                  </>
-                )
-              }
+                <span data-test-id="initiative-order-state-round">
+                  {
+                    initiativeOrderState ? (
+                      <>
+                        Round: { initiativeOrderState?.round }
+                      </>
+                    ) : (
+                      <>
+                        Out of initiative
+                      </>
+                    )
+                  }
+                </span>
+              } 
             </p>
           </div>
           {

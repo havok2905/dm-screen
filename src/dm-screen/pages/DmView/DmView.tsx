@@ -89,6 +89,11 @@ export const DmView = () => {
       // @ts-expect-error socket.io type setup isn't the most well documented and needs to be solved later. 
       socketRef.current = io('http://localhost:3000');
     }
+
+    return () => {
+      socketRef.current?.disconnect();
+      socketRef.current = null;
+    };
   }, []);
 
   useEffect(() => {
@@ -297,6 +302,7 @@ export const DmView = () => {
                     adventure.handouts.map(handout => (
                       <img 
                         alt={handout.description}
+                        data-test-id={`adventure-handout-${handout.name}`}
                         key={handout.id}
                         onClick={() => {
                           handleShowHandout(handout);
