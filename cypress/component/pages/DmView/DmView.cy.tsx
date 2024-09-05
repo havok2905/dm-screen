@@ -1,19 +1,14 @@
-import {
-  TEST_API_BASE,
-  TEST_SOCKET_SERVER_BASE
-} from '../../../support/constants';
+import { TEST_API_BASE } from '../../../support/constants';
 
 import { ApplicationBootstrapper } from '../../../support/ApplicationBootstrapper';
 import { DmView } from '../../../../src/dm-screen/pages';
+import {SocketClient} from '@core/socket';
 
 const TEST_ADVENTURE_ID = '68c8bd92-04ff-4359-9856-8d2d6b02b69b';
+const TEST_INITIATIVE_ID = '213ab6dc-aa75-486f-b991-4df439bc8d59';
 
 describe('DmView.cy.tsx', () => {
   beforeEach(() => {
-    cy.intercept('GET', `${TEST_SOCKET_SERVER_BASE}/*`, {
-      statusCode: 201
-    });
-
     cy.intercept('GET', `${TEST_API_BASE}/adventure/${TEST_ADVENTURE_ID}`, {
       statusCode: 200,
       fixture: `pages/DmView/useAdventure/${TEST_ADVENTURE_ID}`
@@ -23,6 +18,26 @@ describe('DmView.cy.tsx', () => {
       statusCode: 200,
       fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}`
     });
+
+    cy.intercept('DELETE', `${TEST_API_BASE}/initiative/${TEST_INITIATIVE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useDestroyInitiative/${TEST_INITIATIVE_ID}`
+    });
+
+    cy.intercept('PATCH', `${TEST_API_BASE}/initiative/${TEST_INITIATIVE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useUpdateInitiative/${TEST_INITIATIVE_ID}`
+    });
+
+    cy.intercept('POST', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useBootstrapInitiative/${TEST_ADVENTURE_ID}`
+    });
+
+    cy.stub(SocketClient.prototype, 'disconnect');
+    cy.stub(SocketClient.prototype, 'init');
+
+    cy.spy(SocketClient.prototype, 'emit').as('emit');
 
     cy.mount(
       <ApplicationBootstrapper>
@@ -295,8 +310,424 @@ describe('DmView.cy.tsx', () => {
       .should('contain', '15');
   });
 
-  xit('should clear initiative, start new combat, populate it with creatures and players, and progress through rounds', () => {
+  it('should clear initiative, start new combat, populate it with creatures and players, and sort', () => {
+    // UI test to end combat state
 
+    cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}-empty`
+    });
+  
+    cy
+      .getLinkButton()
+      .eq(0)
+      .should('contain', 'End Combat')
+      .trigger('click');
+    
+    cy
+      .getLinkButton()
+      .eq(0)
+      .should('contain', 'Bootstrap Combat');
+
+    cy
+      .getInitiativeCard()
+      .should('have.length', 0);
+
+    cy
+      .getButton()
+      .eq(0)
+      .should('contain', 'Prev')
+      .should('be.disabled');
+
+    cy
+      .getButton()
+      .eq(1)
+      .should('contain', 'Next')
+      .should('be.disabled');
+
+    cy
+      .getButton()
+      .eq(2)
+      .should('contain', 'Sort')
+      .should('be.disabled');
+
+    cy
+      .get('[data-test-id="initiative-order-state-round"]')
+      .should('contain', 'Out of initiative');
+
+    // UI test to begin new combat state
+
+    cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}-new`
+    });
+
+    cy
+      .getLinkButton()
+      .eq(0)
+      .trigger('click');
+
+    cy
+      .getLinkButton()
+      .eq(0)
+      .should('contain', 'End Combat');
+
+    cy
+      .getInitiativeCard()
+      .should('have.length', 0);
+
+    cy
+      .getButton()
+      .eq(0)
+      .should('contain', 'Prev')
+      .should('be.disabled');
+
+    cy
+      .getButton()
+      .eq(1)
+      .should('contain', 'Next')
+      .should('be.disabled');
+
+    cy
+      .getButton()
+      .eq(2)
+      .should('contain', 'Sort')
+      .should('be.disabled');
+
+    cy
+      .get('[data-test-id="initiative-order-state-round"]')
+      .should('contain', 'Round: 1');
+
+    // UI test to populate new combat state with players
+
+    cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}-added-player`
+    });
+
+    cy
+      .getButton()
+      .eq(4)
+      .should('contain', 'Manage players')
+      .trigger('click');
+
+    cy
+      .getModal()
+      .find('button')
+      .eq(0)
+      .should('contain', 'Add Player')
+      .should('be.disabled');
+
+    cy
+      .getModal()
+      .find('input')
+      .eq(0)
+      .type('Player');
+
+    cy
+      .getModal()
+      .find('input')
+      .eq(1)
+      .type('Character');
+
+    cy
+      .getModal()
+      .find('input')
+      .eq(2)
+      .clear()
+      .type('15');
+
+    cy
+      .getModal()
+      .find('button')
+      .eq(0)
+      .should('contain', 'Add Player')
+      .should('be.enabled')
+      .trigger('click');
+
+    cy
+      .getModal()
+      .should('not.exist');
+
+    cy
+      .getButton()
+      .eq(3)
+      .should('contain', 'Add all to combat')
+      .should('be.enabled')
+      .trigger('click');
+
+    cy
+      .getInitiativeCard()
+      .should('have.length', 1);
+
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .should('contain', 'Player')
+      .invoke('attr', 'class')
+      .should('not.contain', 'initiative-card-active')
+      .should('not.contain', 'initiative-card-hidden')
+      .should('not.contain', 'initiative-card-removed');
+    
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .find('input')
+      .eq(0)
+      .invoke('attr', 'value')
+      .should('contain', '0');
+
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .find('input')
+      .eq(1)
+      .invoke('attr', 'value')
+      .should('contain', '15');
+
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .find('input')
+      .eq(2)
+      .invoke('attr', 'value')
+      .should('contain', '0');
+
+    cy
+      .getButton()
+      .eq(0)
+      .should('contain', 'Prev')
+      .should('be.enabled');
+
+    cy
+      .getButton()
+      .eq(1)
+      .should('contain', 'Next')
+      .should('be.enabled');
+
+    cy
+      .getButton()
+      .eq(2)
+      .should('contain', 'Sort')
+      .should('be.enabled');
+
+    cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}-added-creature`
+    });
+
+    cy
+      .getTableCell(1, 0, 5)
+      .find('button')
+      .eq(2)
+      .should('contain', 'Add')
+      .trigger('click');
+
+    cy
+      .getInitiativeCard()
+      .should('have.length', 2);
+
+    cy
+      .getInitiativeCard()
+      .eq(1)
+      .should('contain', 'Playful Kitten')
+      .invoke('attr', 'class')
+      .should('not.contain', 'initiative-card-active')
+      .should('not.contain', 'initiative-card-hidden')
+      .should('not.contain', 'initiative-card-removed');
+
+    cy
+      .getInitiativeCard()
+      .eq(1)
+      .find('input')
+      .eq(0)
+      .invoke('attr', 'value')
+      .should('contain', '0');
+
+    cy
+      .getInitiativeCard()
+      .eq(1)
+      .find('input')
+      .eq(1)
+      .invoke('attr', 'value')
+      .should('contain', '15');
+
+    cy
+      .getInitiativeCard()
+      .eq(1)
+      .find('input')
+      .eq(2)
+      .invoke('attr', 'value')
+      .should('contain', '25');
+    
+    // UI test to traverse new combat state
+
+    cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}-sorted`
+    });
+
+    cy
+      .getButton()
+      .eq(2)
+      .should('contain', 'Sort')
+      .should('be.enabled')
+      .trigger('click');
+
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .should('contain', 'Playful Kitten')
+      .invoke('attr', 'class')
+      .should('contain', 'initiative-card-active')
+      .should('not.contain', 'initiative-card-hidden')
+      .should('not.contain', 'initiative-card-removed');
+
+    cy
+      .getInitiativeCard()
+      .eq(1)
+      .should('contain', 'Player')
+      .invoke('attr', 'class')
+      .should('not.contain', 'initiative-card-active')
+      .should('not.contain', 'initiative-card-hidden')
+      .should('not.contain', 'initiative-card-removed');
+  });
+
+  it('it should toggle an item to and from hidden', () => {
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .should('contain', 'Playful Kitten')
+      .trigger('dblclick');
+
+    cy
+      .getModal()
+      .eq(0)
+      .find('button')
+      .eq(2)
+      .should('be.disabled')
+      .should('contain', 'Reveal');
+
+    cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}-hide`
+    });
+
+    cy
+      .getModal()
+      .eq(0)
+      .find('button')
+      .eq(1)
+      .should('be.enabled')
+      .should('contain', 'Hide')
+      .trigger('click');
+
+    cy
+      .getModal()
+      .eq(0)
+      .find('button')
+      .eq(1)
+      .should('be.disabled')
+      .should('contain', 'Hide');
+
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .should('contain', 'Playful Kitten')
+      .invoke('attr', 'class')
+      .should('not.contain', 'initiative-card-active')
+      .should('contain', 'initiative-card-hidden')
+      .should('not.contain', 'initiative-card-removed');
+
+    cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}`
+    });
+
+    cy
+      .getModal()
+      .eq(0)
+      .find('button')
+      .eq(2)
+      .should('be.enabled')
+      .should('contain', 'Reveal')
+      .trigger('click', { force: true });
+
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .should('contain', 'Playful Kitten')
+      .invoke('attr', 'class')
+      .should('not.contain', 'initiative-card-active')
+      .should('not.contain', 'initiative-card-hidden')
+      .should('not.contain', 'initiative-card-removed');
+  });
+
+  it('it should remove an item', () => {
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .should('contain', 'Playful Kitten')
+      .trigger('dblclick');
+
+    cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}-remove`
+    });
+
+    cy
+      .getModal()
+      .eq(0)
+      .find('button')
+      .eq(0)
+      .should('be.enabled')
+      .should('contain', 'Remove')
+      .trigger('click');
+
+    cy
+      .getInitiativeCard()
+      .eq(0)
+      .should('contain', 'Playful Kitten')
+      .invoke('attr', 'class')
+      .should('not.contain', 'initiative-card-active')
+      .should('not.contain', 'initiative-card-hidden')
+      .should('contain', 'initiative-card-removed');
+  });
+
+  it('should show a creature', () => {
+    cy
+      .getTableCell(0, 0, 5)
+      .find('button')
+      .eq(1)
+      .should('contain', 'Show')
+      .trigger('click');
+
+    cy
+      .get('@emit')
+      .should('have.been.calledWith', 'handout:dispatch-show');
+  });
+
+  it('should show an item', () => {
+    cy
+      .getTableCell(1, 0, 3)
+      .find('button')
+      .eq(1)
+      .should('contain', 'Show')
+      .trigger('click');
+
+    cy
+      .get('@emit')
+      .should('have.been.calledWith', 'handout:dispatch-show');
+  });
+
+  it('should show a handout', () => {
+    cy
+      .get('[data-test-id="adventure-handout-Embroidermancer Lair Map"]')
+      .trigger('click');
+
+    cy
+      .get('@emit')
+      .should('have.been.calledWith', 'handout:dispatch-show');
   });
 
   it('should open a creature', () => {
@@ -337,18 +768,6 @@ describe('DmView.cy.tsx', () => {
     cy
       .getModal()
       .should('not.exist');
-  });
-
-  xit('should show a creature', () => {
-
-  });
-
-  xit('should show a handout', () => {
-
-  });
-
-  xit('should show an item', () => {
-
   });
 
   it('should show open a player\'s initiative card', () => {

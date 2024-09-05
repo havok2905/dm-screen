@@ -27,8 +27,6 @@ import {
 } from 'react';
 
 import { InitiativeOrder } from '@core/InitiativeOrder';
-import { io } from 'socket.io-client';
-import { Socket } from 'socket.io';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -51,6 +49,10 @@ import {
   useUpdateInitiative
 } from '../../hooks';
 
+import {
+  SocketClient
+} from '../../../core/socket';
+
 export const DmView = () => {
   const [creatureSearchTerm, setCreatureSearchTerm] = useState('');
   const [itemSearchTerm, setItemSearchTerm] = useState('');
@@ -58,7 +60,7 @@ export const DmView = () => {
   const [isNotesDrawerOpen, setIsNotesDrawerOpen] = useState(false);
   const [isManagePlayersModalOpen, setIsManagePlayersModalOpen] = useState(false);
 
-  const socketRef = useRef<Socket | null>(null);
+  const socketRef = useRef<SocketClient | null>(null);
 
   const {
     data,
@@ -86,8 +88,9 @@ export const DmView = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      // @ts-expect-error socket.io type setup isn't the most well documented and needs to be solved later. 
-      socketRef.current = io('http://localhost:3000');
+      const socketClient = new SocketClient('http://localhost:3000');
+      socketClient.init();
+      socketRef.current = socketClient;
     }
 
     return () => {
