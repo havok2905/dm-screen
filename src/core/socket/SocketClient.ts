@@ -18,7 +18,7 @@ export class SocketClient {
   }
 
   public emit(key: string, data?: unknown) {
-    if (typeof data !== 'undefined') {
+    if (typeof data === 'undefined') {
       this.socketInstance?.emit(key);
     } else {
       this.socketInstance?.emit(key, data);
