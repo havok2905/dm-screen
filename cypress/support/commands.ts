@@ -80,6 +80,10 @@ const getTable = (index: number) => {
   return cy.get('[data-test-id="dm-screen-design-system-table"]').eq(index);
 };
 
+const getTag = () => {
+  return cy.get('[data-test-id="dm-screen-design-system-tag"]');
+}
+
 const getTableRow = (
   tableIndex: number,
   rowIndex: number
@@ -128,6 +132,7 @@ declare namespace Cypress {
     getTableCell(tableIndex: number, rowIndex: number, cellIndex: number): ChainableElement
     getTableHeader(tableIndex: number, cellIndex: number): ChainableElement
     getTableRow(tableIndex: number, rowIndex: number): ChainableElement
+    getTag(): ChainableElement
     getToolbarFooter(): ChainableElement
   }
 }
@@ -146,4 +151,5 @@ Cypress.Commands.add('getTable', getTable);
 Cypress.Commands.add('getTableCell', getTableCell);
 Cypress.Commands.add('getTableHeader', getTableHeader);
 Cypress.Commands.add('getTableRow', getTableRow);
+Cypress.Commands.add('getTag', getTag);
 Cypress.Commands.add('getToolbarFooter', getToolbarFooter);
