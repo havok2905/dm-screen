@@ -21,7 +21,10 @@ export const TableCell = ({
   }
   
   return (
-    <td className="dm-screen-design-system-table-cell">
+    <td
+      className="dm-screen-design-system-table-cell"
+      data-test-id="dm-screen-design-system-table-cell"
+    >
       {getStringValue()}
     </td>
   );

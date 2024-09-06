@@ -49,7 +49,7 @@ export const CreaturesTable = ({
 
   if (!filtered.length) {
     return (
-      <div>
+      <div data-test-id="no-creatures-found-text">
         No creatures found for "{searchTerm}"
       </div>
     );

@@ -65,7 +65,10 @@ export const SideDrawer = ({
   const sideDrawer = (
     <>
       <div className={classNames(classList)}>
-        <div className="dm-screen-design-system-side-drawer-header">
+        <div
+          className="dm-screen-design-system-side-drawer-header"
+          data-test-id="dm-screen-design-system-side-drawer-header"
+        >
           <IconButton
             icon="close"
             onClick={handleOnCloseClick}
@@ -76,9 +79,9 @@ export const SideDrawer = ({
         </div>
         {
           isOpen ? (
-            <>
+            <div data-test-id="dm-screen-design-system-side-drawer-content">
               {children}
-            </>
+            </div>
           ) : null
         }
       </div>

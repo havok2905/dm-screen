@@ -11,7 +11,10 @@ export const TableRow = ({
 }: TableRowProps) => {
   return (
     <>
-      <tr className="dm-screen-design-system-table-row">
+      <tr
+        className="dm-screen-design-system-table-row"
+        data-test-id="dm-screen-design-system-table-row"
+      >
           {
             row.data.map((value, index) => <TableCell key={index} value={value}/>)
           }

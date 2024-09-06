@@ -14,6 +14,7 @@ export const TableHeader = ({
           return (
             <th
               className="dm-screen-design-system-table-header"
+              data-test-id="dm-screen-design-system-table-header"
               key={index}
               scope="col">
               {col.name}

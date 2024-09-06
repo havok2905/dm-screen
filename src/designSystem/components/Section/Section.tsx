@@ -28,7 +28,9 @@ export const Section = ({
   const hasHeader = !!sectionActions || !!sectionTitle;
 
   return (
-    <div className="dm-screen-design-system-section">
+    <div
+      className="dm-screen-design-system-section"
+      data-test-id="dm-screen-design-system-section">
       {
         hasHeader ? (
           <div className="dm-screen-design-system-section-header">

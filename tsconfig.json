@@ -33,12 +33,16 @@
     }
   },
   "include": [
+    "cypress",
     "src",
-    "jestHelpers"  
+    "jestHelpers"
   ],
   "exclude": [
     "**/*.stories.tsx",
     "**/*.stories.ts"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "types": [
+    "cypress",
+  ]
 }

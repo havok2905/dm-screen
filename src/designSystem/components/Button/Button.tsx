@@ -119,6 +119,7 @@ export const Button = ({
     return (
       <a
         className={classNames(classList)}
+        data-test-id="dm-screen-design-system-button"
         onBlur={handleOnBlur}
         onClick={handleOnClick}
         onFocus={handleOnFocus}
@@ -136,6 +137,7 @@ export const Button = ({
   return (
     <button
       className="dm-screen-design-system-button"
+      data-test-id="dm-screen-design-system-button"
       disabled={disabled}
       onBlur={handleOnBlur}
       onClick={handleOnClick}

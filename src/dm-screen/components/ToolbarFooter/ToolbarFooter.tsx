@@ -47,7 +47,10 @@ export const ToolbarFooter = ({
   };
   
   return (
-    <div className="toolbar-footer">
+    <div
+      className="toolbar-footer"
+      data-test-id="toolbar-footer"
+    >
       <div>
         <Input
           inputId="console"
@@ -55,7 +58,10 @@ export const ToolbarFooter = ({
           onChange={handleOnChange}
           onKeyDown={handleOnKeyDown}
           value={searchTerm}/>
-        <span className="toolbar-footer-rolled-value">
+        <span
+          className="toolbar-footer-rolled-value"
+          data-test-id="toolbar-footer-rolled-value"
+        >
           {rolledValue}
         </span>
       </div>

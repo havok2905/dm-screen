@@ -8,7 +8,9 @@ export const PlayersTable = () => {
 
   if (!players.length) {
     return (
-      <p>There are no players set for this adventure.</p>
+      <p data-test-id="players-missing-text">
+        There are no players set for this adventure.
+      </p>
     )
   }
 

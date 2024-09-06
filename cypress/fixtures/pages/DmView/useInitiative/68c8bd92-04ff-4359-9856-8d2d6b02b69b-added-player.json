@@ -1,0 +1,23 @@
+{
+  "id": "213ab6dc-aa75-486f-b991-4df439bc8d59",
+  "adventureid": "68c8bd92-04ff-4359-9856-8d2d6b02b69b",
+  "initiativeOrderState": {
+    "currentId": "",
+    "items": [
+      {
+        "entityId": "",
+        "entityType": "player",
+        "id": "fef4d6b5-14d2-44bc-a790-2f95a21943ed",
+        "imageSrc": "",
+        "name": "Player",
+        "resourceA": 15,
+        "resourceB": 0,
+        "sortValue": 10,
+        "visibilityState": "on"
+      }
+    ],
+    "round": 1
+  },
+  "createdAt": null,
+  "updatedAt": null
+}

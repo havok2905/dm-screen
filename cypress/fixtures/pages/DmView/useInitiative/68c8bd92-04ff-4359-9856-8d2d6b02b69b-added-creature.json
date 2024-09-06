@@ -1,0 +1,34 @@
+{
+  "id": "213ab6dc-aa75-486f-b991-4df439bc8d59",
+  "adventureid": "68c8bd92-04ff-4359-9856-8d2d6b02b69b",
+  "initiativeOrderState": {
+    "currentId": "",
+    "items": [
+      {
+        "entityId": "",
+        "entityType": "player",
+        "id": "fef4d6b5-14d2-44bc-a790-2f95a21943ed",
+        "imageSrc": "",
+        "name": "Player",
+        "resourceA": 15,
+        "resourceB": 0,
+        "sortValue": 10,
+        "visibilityState": "on"
+      },
+      {
+        "entityId": "dcc17f12-c9ce-4529-994d-dd705e5e5fab",
+        "entityType": "creature",
+        "id": "fef4d6b5-14d2-44bc-a790-2f95a21943ef",
+        "imageSrc": "/token-playful-kitten.png",
+        "name": "Playful Kitten",
+        "resourceA": 15,
+        "resourceB": 25,
+        "sortValue": 20,
+        "visibilityState": "on"
+      }
+    ],
+    "round": 1
+  },
+  "createdAt": null,
+  "updatedAt": null
+}
