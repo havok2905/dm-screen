@@ -51,10 +51,10 @@ export const MarkdownEntityViewPage = ({
             {backLinkLabel}
           </Link>
         </p>
-        <h2>
+        <h2 data-test-id="markdown-entity-view-page-name">
           {name}
         </h2>
-        <p>
+        <p data-test-id="markdown-entity-view-page-id">
           <strong>ID:</strong> {id}
         </p>
         <div style={{ marginBottom: '20px'}}>

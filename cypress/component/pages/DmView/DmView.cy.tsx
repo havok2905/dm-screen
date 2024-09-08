@@ -11,7 +11,7 @@ describe('DmView.cy.tsx', () => {
   beforeEach(() => {
     cy.intercept('GET', `${TEST_API_BASE}/adventure/${TEST_ADVENTURE_ID}`, {
       statusCode: 200,
-      fixture: `pages/DmView/useAdventure/${TEST_ADVENTURE_ID}`
+      fixture: `pages/useAdventure/${TEST_ADVENTURE_ID}`
     });
 
     cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
