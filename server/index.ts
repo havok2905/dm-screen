@@ -16,6 +16,7 @@ import {
 } from './services';
 import {
   CreateAdventureRequest,
+  CreateCreatureRequest,
   UpdateAdventureCreatureRequest,
   UpdateAdventureItemRequest,
   UpdateAdventureRequest,
@@ -315,6 +316,31 @@ app.delete('/creature/:id', async(request, response, next) => {
 app.get('/creature/:id', async (request, response, next) => {
   try {
     const responseJson = await CreatureService.getCreatureById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.post('/creatures', async (request, response, next) => {
+  try {
+    const {
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const createCreatureRequest = new CreateCreatureRequest(
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await CreatureService.createCreature(createCreatureRequest);
     response.json(responseJson);
   } catch(error) {
     next(error);

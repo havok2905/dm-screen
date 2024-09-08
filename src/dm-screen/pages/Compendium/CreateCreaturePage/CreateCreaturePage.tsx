@@ -1,5 +1,10 @@
+import { MetaDataType } from '@core/types';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { CREATURES_PATH } from '../../../routes';
 import { MarkdownEntityCreatePage } from '../components/MarkdownEntityCreatePage';
+import { useCreateCreature } from '../../../hooks';
 
 const template = `# Creature name
 
@@ -73,15 +78,50 @@ Can take 3 Legendary Actions, choosing from the options below. Only one legendar
 **Wing Attack (Costs 2 Actions).** The dragon beats its wings. Each creature within 10 ft. of the dragon must succeed on a DC 22 Dexterity saving throw or take 15 (2d6 + 8) bludgeoning damage and be knocked prone. The dragon can then fly up to half its flying speed.
 `;
 
+const initialMetaData = [
+  {
+    name: 'AC',
+    type: 'number' as MetaDataType,
+    value: 0
+  },
+  {
+    name: 'CR',
+    type: 'string' as MetaDataType,
+    value: '0'
+  },
+  {
+    name: 'HP',
+    type: 'number' as MetaDataType,
+    value: 0
+  },
+  {
+    name: 'Type',
+    type: 'string' as MetaDataType,
+    value: 'Beast'
+  }
+];
+
 export const CreateCreaturePage = () => {
+  const navigate = useNavigate();
+
+  const onSuccess = useCallback(() => {
+    navigate(CREATURES_PATH);
+  }, [
+    navigate
+  ]);
+
+  const { mutate } = useCreateCreature(onSuccess);
+
   return(
       <MarkdownEntityCreatePage
         backToLinkPath={CREATURES_PATH}
         backToLinkString="Back to creatures"
         createIsError={false}
         createIsErrorText="There was an error saving this creature"
+        initialMetaData={initialMetaData}
         saveButtonText="Save creature"
         template={template}
-        titleString="Create New Creature" />
+        titleString="Create New Creature"
+        updateFunction={mutate} />
   );
 };

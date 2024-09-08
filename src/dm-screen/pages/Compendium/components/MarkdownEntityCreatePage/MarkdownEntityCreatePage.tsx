@@ -26,9 +26,8 @@ import {
 
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { Link } from 'react-router-dom';
+import { UseMutateFunction } from '@tanstack/react-query';
 import { v4 as uuidv4 } from 'uuid';
-
-// import { UseMutateFunction } from '@tanstack/react-query';
 
 import {
   CompendiumNavbar,
@@ -44,17 +43,18 @@ export interface MarkdownEntityCreatePageProps {
   backToLinkString: string;
   createIsError: boolean;
   createIsErrorText: string;
+  initialMetaData: MetaData[];
   saveButtonText: string;
   template: string;
   titleString: string;
-  /*updateFunction: UseMutateFunction<unknown, Error, {
+  updateFunction: UseMutateFunction<unknown, Error, {
     adventureid?: string;
     content: string;
     id: string;
     image: string;
-    metadata: MetaData;
+    metadata: MetaData[];
     name: string;
-  }>;*/
+  }>;
 }
 
 export interface CreateMarkdownEntityFormInputs {
@@ -67,35 +67,18 @@ export const MarkdownEntityCreatePage = ({
   backToLinkString,
   createIsError,
   createIsErrorText,
+  initialMetaData,
   saveButtonText,
   template,
   titleString,
-  //updateFunction
+  updateFunction
 }: MarkdownEntityCreatePageProps) => {  
   const monacoInstance = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const monacoElement = useRef(null);
-  const [metaDataModel, setMetaDataModel] = useState<MetaData[]>([
-    {
-      name: 'AC',
-      type: 'number',
-      value: 0
-    },
-    {
-      name: 'CR',
-      type: 'string',
-      value: '0'
-    },
-    {
-      name: 'HP',
-      type: 'number',
-      value: 0
-    },
-    {
-      name: 'Type',
-      type: 'string',
-      value: 'Beast'
-    }
-  ]);
+
+  const [metaDataModel, setMetaDataModel] = useState<MetaData[]>(
+    initialMetaData
+  );
 
   const {
     control,
@@ -127,7 +110,7 @@ export const MarkdownEntityCreatePage = ({
       name
     };
 
-    console.log({ payload });
+    updateFunction(payload);
   }
 
   /**

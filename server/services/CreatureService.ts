@@ -1,4 +1,8 @@
 import {
+  CreateCreatureRequest,
+  UpdateCreatureRequest
+} from '../requests';
+import {
   CreatureNotFoundException,
   CreaturesNotFoundException,
   MissingArgumentException
@@ -6,9 +10,29 @@ import {
 
 import { Creature } from '../sequelize/db';
 import { CreatureResponse } from '../responses';
-import { UpdateCreatureRequest } from '../requests';
+
 
 export class CreatureService {
+  static async createCreature(
+    createCreatureRequest: CreateCreatureRequest
+  ): Promise<CreatureResponse> {
+    if (!createCreatureRequest) {
+      throw new MissingArgumentException();
+    }
+
+    createCreatureRequest.validate();
+
+    const creature = await Creature.create({
+      content: createCreatureRequest.content,
+      id: createCreatureRequest.id,
+      image: createCreatureRequest.image,
+      metadata: JSON.stringify(createCreatureRequest.metadata),
+      name: createCreatureRequest.name
+    });
+
+    return this.mapCreatureResponseJson(creature);
+  }
+
   static async destroyCreatureById(id: string): Promise<boolean> {
     if (!id) {
       throw new MissingArgumentException();
