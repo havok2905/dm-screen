@@ -8,27 +8,25 @@ import {
   Label
 } from '@designSystem/components';
 import {
-  ChangeEventHandler,
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-  useState
-} from 'react';
-import {
   Controller,
   SubmitHandler,
   useForm, 
   useFormState
 } from 'react-hook-form';
 import {
-  MetaData,
-  MetaDataType,
-  MetaDataValue
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
+
+import {
+  MetaData
 } from '@core/types';
 
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 // import { UseMutateFunction } from '@tanstack/react-query';
 
@@ -36,6 +34,10 @@ import {
   CompendiumNavbar,
   Markdown
 } from '../../../../components';
+
+import {
+  MetaDataForm
+} from '../../../../components/MetaDataForm';
 
 export interface MarkdownEntityCreatePageProps {
   backToLinkPath: string;
@@ -59,298 +61,6 @@ export interface CreateMarkdownEntityFormInputs {
   name: string;
   content: string;
 }
-
-enum ReducerActionType {
-  UPDATE_NAME = 'update-name',
-  UPDATE_TYPE = 'update-type',
-  UPDATE_VALUE = 'update-value'
-}
-
-interface ReducerUpdateNameAction {
-  payload: {
-    metaDataName: string;
-  };
-  type: ReducerActionType.UPDATE_NAME;
-}
-
-interface ReducerUpdateTypeAction {
-  payload: {
-    metaDataType: MetaDataType;
-  };
-  type: ReducerActionType.UPDATE_TYPE;
-}
-
-interface ReducerUpdateValueAction {
-  payload: {
-    metaDataValue: MetaDataValue;
-  };
-  type: ReducerActionType.UPDATE_VALUE;
-}
-
-type ReducerAction = ReducerUpdateNameAction | ReducerUpdateTypeAction | ReducerUpdateValueAction;
-
-interface ReducerState {
-  metaDataName: string;
-  metaDataType: MetaDataType,
-  metaDataValue: MetaDataValue;
-}
-
-const reducer = (state: ReducerState, action: ReducerAction) => {
-  if (action.type === ReducerActionType.UPDATE_NAME) {
-    const metaDataName = action.payload.metaDataName;
-
-    return {
-      ...state,
-      metaDataName
-    };
-  }
-
-  if (action.type === ReducerActionType.UPDATE_TYPE) {
-    const metaDataType = action.payload.metaDataType;
-    let metaDataValue: MetaDataValue;
-
-    if (metaDataType === 'boolean') {
-      metaDataValue = false;
-    }
-
-    if (metaDataType === 'number') {
-      metaDataValue = 0;
-    }
-
-    if (metaDataType === 'string') {
-      metaDataValue = '';
-    }
-
-    return {
-      ...state,
-      metaDataType,
-      metaDataValue: metaDataValue!
-    };
-  }
-
-  if (action.type === ReducerActionType.UPDATE_VALUE) {
-    const metaDataValue = action.payload.metaDataValue;
-
-    return {
-      ...state,
-      metaDataValue
-    };
-  }
-
-  throw Error('Unknown action.');
-}
-
-interface MetaDataFieldProps {
-  initialName: string;
-  initialType: MetaDataType;
-  initialValue: MetaDataValue;
-  onChange: (m: MetaData) => void;
-}
-
-const MetaDataField = ({
-  initialName,
-  initialType,
-  initialValue,
-  onChange
-}: MetaDataFieldProps) => {
-  const [state, dispatch] = useReducer(reducer, {
-    metaDataName: initialName,
-    metaDataType: initialType,
-    metaDataValue: initialValue
-  });
-
-  const {
-    metaDataName,
-    metaDataType,
-    metaDataValue
-  } = state;
-
-  const handleMetaDataNameChange: ChangeEventHandler<HTMLInputElement>= useCallback((event) => {
-    dispatch({
-      type: ReducerActionType.UPDATE_NAME,
-      payload: {
-        metaDataName: event.target.value
-      }
-    });
-  }, []);
-
-  const handleMetaDataTypeChange: ChangeEventHandler<HTMLSelectElement> = useCallback((event) => {
-    dispatch({
-      type: ReducerActionType.UPDATE_TYPE,
-      payload: {
-        metaDataType: event.target.value as MetaDataType
-      }
-    });
-  }, []);
-
-  const handleMetaDataValueChange: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
-    const type = event.target.type;
-    let value: MetaDataValue;
-
-    switch(type) {
-      case 'checkbox':
-        value = event.target.checked;
-        break;
-      case 'number':
-        value = Number(event.target.value);
-        break;
-      case 'text':
-        value = event.target.value;
-        break;
-      default:
-        break;
-    }
-
-    dispatch({
-      type: ReducerActionType.UPDATE_VALUE,
-      payload: {
-        metaDataValue: value!
-      }
-    });
-  }, []);
-
-  const internalOnChange = useCallback(() => {
-    const metadata: MetaData = {
-      name: metaDataName,
-      type: metaDataType,
-      value: metaDataValue
-    };
-
-    onChange(metadata);
-  }, [
-    metaDataName,
-    metaDataType,
-    metaDataValue,
-    onChange
-  ]);
-
-  useEffect(() => {
-    internalOnChange();
-  }, [
-    internalOnChange
-  ]);
-
-  const getValueField = () => {
-    if (metaDataType === 'boolean') {
-      return (
-        <input
-          checked={metaDataValue as boolean}
-          onChange={handleMetaDataValueChange}
-          type="checkbox"/>
-      );
-    }
-
-    if (metaDataType === 'number') {
-      return (
-        <input  
-          onChange={handleMetaDataValueChange}
-          type="number"
-          value={metaDataValue as number}/>
-      );
-    }
-
-    if (metaDataType === 'string') {
-      return (
-        <input
-          onChange={handleMetaDataValueChange}
-          type="text"
-          value={metaDataValue as string}/>
-      );
-    }
-  };
-
-  return (
-    <div>
-      <input
-        onChange={handleMetaDataNameChange}
-        type="text"
-        value={metaDataName}/>
-      <select
-        onChange={handleMetaDataTypeChange}
-        value={metaDataType}>
-        <option value="boolean">
-          Boolean
-        </option>
-        <option value="number">
-          Number
-        </option>
-        <option value="string">
-          String
-        </option>
-      </select>
-      {getValueField()}
-    </div>
-  )
-};
-
-interface MetaDataCollectionFormProps {
-  metaDataModel: MetaData[];
-  onChange: (m: MetaData[]) => void;
-  onRemove: (m: MetaData[]) => void;
-}
-
-const MetaDataCollectionForm = ({
-  metaDataModel,
-  onChange,
-  onRemove
-}: MetaDataCollectionFormProps) => {
-  const internalOnChange = useCallback((index: number, metaData: MetaData) => {
-    if (
-      metaData.name !== metaDataModel[index].name ||
-      metaData.type !== metaDataModel[index].type ||
-      metaData.value !== metaDataModel[index].value
-    ) {
-      const newMetaDataModel = [
-        ...metaDataModel
-      ];
-
-      newMetaDataModel[index] = metaData;
-
-      onChange(newMetaDataModel);
-    }
-  }, [
-    metaDataModel,
-    onChange
-  ]);
-
-  const internalOnRemove = useCallback((index: number) => {
-    const newMetaDataModel = [
-      ...metaDataModel
-    ];
-    
-    newMetaDataModel.splice(index, 1);
-
-    onRemove(newMetaDataModel);
-  }, [
-    metaDataModel,
-    onRemove
-  ]);
-
-  return (
-    <>
-      {
-        metaDataModel.map((item, index) => {
-          return (
-            <div key={item.name}>
-              <MetaDataField
-                initialName={item.name}
-                initialType={item.type}
-                initialValue={item.value}
-                onChange={(metaData) => {
-                  internalOnChange(index, metaData);
-                }}/>
-                <button onClick={() => {
-                  internalOnRemove(index);
-                }}>
-                  Remove
-                </button>
-            </div>
-          );
-        })
-      }
-    </>
-  );
-};
 
 export const MarkdownEntityCreatePage = ({
   backToLinkPath,
@@ -403,8 +113,21 @@ export const MarkdownEntityCreatePage = ({
 
   const watchContent = watch('content', '');
 
-  const onSubmit: SubmitHandler<CreateMarkdownEntityFormInputs> = (data: unknown) => {
-    console.log({ data });
+  const onSubmit: SubmitHandler<CreateMarkdownEntityFormInputs> = data => {
+    const {
+      content,
+      name
+    } = data;
+
+    const payload = {
+      content,
+      id: uuidv4(),
+      image: '',
+      metadata: metaDataModel,
+      name
+    };
+
+    console.log({ payload });
   }
 
   /**
@@ -448,7 +171,6 @@ export const MarkdownEntityCreatePage = ({
   ]);
 
   const onChange = useCallback((m: MetaData[]) => {
-    console.log({ m });
     setMetaDataModel(m);
   }, []);
 
@@ -504,10 +226,9 @@ export const MarkdownEntityCreatePage = ({
                     inputId="metadata"
                     label="MetaData"
                   />
-                  <MetaDataCollectionForm
-                    metaDataModel={metaDataModel}
+                  <MetaDataForm
+                    initialMetaData={metaDataModel}
                     onChange={onChange}
-                    onRemove={onChange}
                   />
                 </fieldset>
                 <fieldset>
