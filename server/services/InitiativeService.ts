@@ -7,7 +7,7 @@ import {
 
 import { Initiative } from '../sequelize/db';
 import { InitiativeResponse } from '../responses';
-import {UpdateInitiativeRequest} from '../requests';
+import { UpdateInitiativeRequest } from '../requests';
 
 export class InitiativeService {
   static async bootstrapInitiativeByAdventureId(adventureid: string): Promise<InitiativeResponse | null> {
@@ -69,9 +69,9 @@ export class InitiativeService {
         adventureid
       }
     });
-  
+
     if (!initiative) {
-      throw new InitiativeNotFoundException();
+      return null;
     }
   
     return this.mapResponseJson(initiative);

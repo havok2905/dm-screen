@@ -153,18 +153,6 @@ describe('InitiativeService', () => {
       expect(result.initiativeOrderState.round).toEqual(1);
     });
 
-    it('should throw if none are found', async () => {
-      jest.spyOn(Initiative, 'findOne').mockImplementation(() => {
-        return new Promise((resolve) => {
-          resolve(null);
-        });
-      });
-
-      expect(async () => {
-        await InitiativeService.getInitiativeByAdventureId('1');
-      }).rejects.toThrow(InitiativeNotFoundException);
-    });
-
     it('should throw when arguments are missing', () => {
       expect(async () => {
         await InitiativeService.getInitiativeByAdventureId('');
