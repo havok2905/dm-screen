@@ -1,7 +1,11 @@
+export type MetaDataType = 'string' | 'number' | 'boolean';
+
+export type MetaDataValue = string | number | boolean;
+
 export interface MetaData {
   name: string;
-  type: 'string' | 'number' | 'boolean';
-  value: string | number | boolean;
+  type: MetaDataType;
+  value: MetaDataValue
 }
 
 export interface MarkdownEntity {

@@ -8,6 +8,7 @@ export * from './Grid';
 export * from './IconButton';
 export * from './Icons';
 export * from './Input';
+export * from './Label';
 export * from './LinkButton';
 export * from './LoadingBar';
 export * from './Modal';

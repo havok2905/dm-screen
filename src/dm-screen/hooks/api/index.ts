@@ -7,6 +7,7 @@ export * from './useAdventureItem';
 export * from './useAdventures';
 export * from './useBootstrapInitiative';
 export * from './useCreateAdventure';
+export * from './useCreateCreature';
 export * from './useCreature';
 export * from './useCreatures';
 export * from './useDestroyAdventure';

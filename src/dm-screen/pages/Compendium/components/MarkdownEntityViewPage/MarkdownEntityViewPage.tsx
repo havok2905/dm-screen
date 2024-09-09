@@ -46,7 +46,7 @@ export const MarkdownEntityViewPage = ({
     <>
       <CompendiumNavbar />
       <Container>
-        <p>
+        <p data-test-id="markdown-entity-view-page-back-to-link">
           <Link to={backLinkPath}>
             {backLinkLabel}
           </Link>

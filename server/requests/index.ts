@@ -1,4 +1,5 @@
 export * from './CreateAdventureRequest';
+export * from './CreateCreatureRequest';
 export * from './UpdateAdventureRequest';
 export * from './UpdateInitiativeRequest';
 export * from './UpdateAdventureCreatureRequest';

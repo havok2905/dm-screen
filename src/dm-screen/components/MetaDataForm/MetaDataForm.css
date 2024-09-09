@@ -1,0 +1,29 @@
+.metadata-form {
+  margin-bottom: var(--spacing-standard);
+}
+
+.metadata-form input,
+.metadata-form select {
+  margin-bottom: 0;
+  margin-right: var(--spacing-standard);
+}
+
+.metadata-form svg {
+  color: var(--white);
+}
+
+.metadata-form .metadata-field {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.metadata-form .metadata-field:not(:last-of-type) {
+  border-bottom: solid 1px var(--grey-100);
+  margin-bottom: var(--spacing-standard);
+  padding-bottom: var(--spacing-standard);
+}
+
+.metadata-form .metadata-fields {
+  margin-bottom: var(--spacing-standard);
+}

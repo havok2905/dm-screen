@@ -10,6 +10,7 @@ export const EDIT_ADVENTURE_PATH = '/compendium/adventure/:id/edit';
 export const EDIT_ADVENTURE_CREATURE_PATH = '/compendium/adventurecreature/:id/edit';
 export const EDIT_ADVENTURE_ITEM_PATH = '/compendium/adventureitem/:id/edit';
 
+export const CREATE_CREATURE_PATH = '/compendium/creature/create';
 export const EDIT_CREATURE_PATH = '/compendium/creature/:id/edit';
 export const CREATURE_PATH = '/compendium/creature/:id';
 export const CREATURES_PATH = '/compendium/creatures';
