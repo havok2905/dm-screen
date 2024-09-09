@@ -52,6 +52,10 @@ const getInput = () => {
   return cy.get('[data-test-id="dm-screen-design-system-input"]');
 };
 
+const getInputError = () => {
+  return cy.get('[data-test-id="dm-screen-design-system-input-error-message"]');
+};
+
 const getLinkButton = () => {
   return cy.get('[data-test-id="dm-screen-design-system-link-button"]');
 };
@@ -122,6 +126,7 @@ declare namespace Cypress {
     getIconButton(): ChainableElement
     getInitiativeCard(): ChainableElement
     getInput(): ChainableElement
+    getInputError(): ChainableElement
     getLinkButton(): ChainableElement
     getModal(): ChainableElement
     getModalBackdrop(): ChainableElement
@@ -141,6 +146,7 @@ Cypress.Commands.add('getButton', getButton);
 Cypress.Commands.add('getIconButton', getIconButton);
 Cypress.Commands.add('getInitiativeCard', getInitiativeCard);
 Cypress.Commands.add('getInput', getInput);
+Cypress.Commands.add('getInputError', getInputError);
 Cypress.Commands.add('getLinkButton', getLinkButton);
 Cypress.Commands.add('getModal', getModal);
 Cypress.Commands.add('getModalBackdrop', getModalBackdrop);

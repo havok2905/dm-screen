@@ -16,18 +16,22 @@ export const CreateCreaturePage = () => {
     navigate
   ]);
 
-  const { mutate } = useCreateCreature(onSuccess);
+  const {
+    isError,
+    mutate
+  } = useCreateCreature(onSuccess);
 
   return(
       <MarkdownEntityCreatePage
         backToLinkPath={CREATURES_PATH}
         backToLinkString="Back to creatures"
-        createIsError={false}
+        createIsError={isError}
         createIsErrorText="There was an error saving this creature"
         initialMetaData={CREATURE_METADATA}
         saveButtonText="Save creature"
         template={CREATURE_TEMPLATE}
         titleString="Create New Creature"
-        updateFunction={mutate} />
+        updateFunction={mutate}
+      />
   );
 };

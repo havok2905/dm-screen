@@ -111,6 +111,7 @@ export const Input = React.forwardRef(({
         error ? (
           <p
             className="dm-screen-design-system-input-error-message"
+            data-test-id="dm-screen-design-system-input-error-message"
             role="alert">
             {error}
           </p>

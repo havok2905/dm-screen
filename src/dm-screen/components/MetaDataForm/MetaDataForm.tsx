@@ -230,6 +230,7 @@ export const MetaDataForm = ({
             return (
               <div
                 className="metadata-field"
+                data-test-id="metadata-field"
                 key={index}
               >
                 <MetaDataField

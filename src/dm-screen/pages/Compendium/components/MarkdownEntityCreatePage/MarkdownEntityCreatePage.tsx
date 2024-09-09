@@ -161,10 +161,10 @@ export const MarkdownEntityCreatePage = ({
     <>
       <CompendiumNavbar/>
       <Container>
-        <h2>
+        <h2 data-test-id="markdown-entity-create-page-name">
           {titleString}
         </h2>
-        <p>
+        <p data-test-id="markdown-entity-create-page-back-to-link">
           <Link to={backToLinkPath}>
             {backToLinkString}
           </Link>
@@ -230,7 +230,7 @@ export const MarkdownEntityCreatePage = ({
                 </fieldset>
                 {
                   createIsError ? (
-                    <p>
+                    <p data-test-id="markdown-entity-create-page-error">
                       {createIsErrorText}
                     </p>
                   ) : null
