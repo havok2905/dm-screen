@@ -12,6 +12,9 @@ import {
 
 import { MetaDataField } from './MetaDataField';
 
+import './MetaDataForm.css';
+import {IconButton, LinkButton} from '@designSystem/components';
+
 enum ReducerActionType {
   ADD = 'add',
   REMOVE = 'remove',
@@ -220,43 +223,44 @@ export const MetaDataForm = ({
   }, []);
 
   return (
-    <>
-      {
-        metaData.map((item, index) => {
-          return (
-            <div key={index}>
-              <MetaDataField
-                name={item.name}
-                onNameChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  handleMetaDataNameChange(e, index);
-                }}
-                onTypeChange={(e: ChangeEvent<HTMLSelectElement>) => {
-                  handleMetaDataTypeChange(e, index);
-                }}
-                onValueChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  handleMetaDataValueChange(e, index);
-                }}
-                type={item.type}
-                value={item.value}
-              />
-                <button
+    <div className="metadata-form">
+      <div className="metadata-fields">
+        {
+          metaData.map((item, index) => {
+            return (
+              <div
+                className="metadata-field"
+                key={index}
+              >
+                <MetaDataField
+                  name={item.name}
+                  onNameChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    handleMetaDataNameChange(e, index);
+                  }}
+                  onTypeChange={(e: ChangeEvent<HTMLSelectElement>) => {
+                    handleMetaDataTypeChange(e, index);
+                  }}
+                  onValueChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    handleMetaDataValueChange(e, index);
+                  }}
+                  type={item.type}
+                  value={item.value}
+                />
+                <IconButton
+                  icon="close"
                   onClick={() => {
                     handleMetaDataRemove(index);
                   }}
-                  type="button"
-                >
-                  Remove
-                </button>
-            </div>
-          );
-        })
-      }
-      <button
-        onClick={handleMetaDataAdd}
-        type="button"
-      >
-        Add
-      </button>
-    </>
+                />
+              </div>
+            );
+          })
+        }
+      </div>
+      <LinkButton
+        buttonText="Add new metadata"
+        color="green"
+        onClick={handleMetaDataAdd}/>
+    </div>
   );
 };

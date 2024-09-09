@@ -3,7 +3,8 @@ import {
   MetaDataValue
 } from '@core/types';
 
-import {ChangeEvent} from 'react';
+import { ChangeEvent } from 'react';
+import { Input } from '@designSystem/components';
 
 export interface MetaDataFieldProps {
   name: string;
@@ -34,7 +35,9 @@ export const MetaDataField = ({
 
     if (type === 'number') {
       return (
-        <input  
+        <Input
+          inputId=""
+          inputName=''
           onChange={onValueChange}
           type="number"
           value={value as number}/>
@@ -43,7 +46,9 @@ export const MetaDataField = ({
 
     if (type === 'string') {
       return (
-        <input
+        <Input
+          inputId=""
+          inputName=''
           onChange={onValueChange}
           type="text"
           value={value as string}/>
@@ -53,10 +58,6 @@ export const MetaDataField = ({
 
   return (
     <span>
-      <input
-        onChange={onNameChange}
-        type="text"
-        value={name}/>
       <select
         onChange={onTypeChange}
         value={type}>
@@ -70,6 +71,12 @@ export const MetaDataField = ({
           String
         </option>
       </select>
+      <Input
+        inputId=""
+        inputName=''
+        onChange={onNameChange}
+        type="text"
+        value={name}/>
       {getValueField()}
     </span>
   )

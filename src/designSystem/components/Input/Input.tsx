@@ -24,7 +24,8 @@ export interface InputProps {
   onKeyUp?: (e: KeyboardEvent<HTMLInputElement>) => void;
   passedRef?: RefCallback<HTMLInputElement>;
   required?: boolean;
-  value?: string;
+  type?: 'text' | 'number';
+  value?: string | number;
 }
 
 // TODO: Something to hush the react warning in the console :(
@@ -43,6 +44,7 @@ export const Input = React.forwardRef(({
   onKeyDown,
   onKeyUp,
   required,
+  type = 'text',
   value,
   passedRef,
 }: InputProps) => {
@@ -102,7 +104,7 @@ export const Input = React.forwardRef(({
         onKeyUp={handleOnKeyUp}
         ref={passedRef}
         required={required}
-        type="text"
+        type={type}
         value={value}
       />
       {
