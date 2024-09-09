@@ -50,20 +50,20 @@ Build a web-based application to quickly import third-party TTRPG content and cr
 | Admin View - Items | Complete |
 | Admin View - Spells | Complete |
 | Admin View - Third Party API Importer | Complete |
+| Adding creatures - with templates | Complete |
+| e2e testing strategy | Complete |
+| Resolve Structural Technical Debt | In Progress |
+| Adding equipment items - with templates | In Progress |
+| Adding magic items - with templates | In Progress |
+| Adding spells - with templates | In Progress |
 
 ### On Deck
 
 | Milestone | State |
 | --------- | ----- |
-| Adding creatures - with templates | On Deck |
-| Adding equipment items - with templates | On Deck |
-| Adding magic items - with templates | On Deck |
-| Adding spells - with templates | On Deck |
 | Hover over spells to display | On Deck |
-| e2e testing strategy | On Deck |
 | General UX polish | On Deck |
 | General Error state handling in UI | On Deck |
-| Resolve Structural Technical Debt | On Deck |
 
 ## Design Considerations
 
