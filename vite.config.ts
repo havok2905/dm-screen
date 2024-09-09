@@ -10,6 +10,8 @@ export default defineConfig({
       "@core": path.resolve(__dirname, "./src/core"),
       "@designSystem": path.resolve(__dirname, "./src/designSystem"),
       "@jestHelpers": path.resolve(__dirname, "./jestHelpers"),
+      "@rules": path.resolve(__dirname, "./rules"),
+      "@templates": path.resolve(__dirname, "./templates")
     }
   }
 })

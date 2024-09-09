@@ -47,7 +47,9 @@
       "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js",
       "^@core/(.*)$": "<rootDir>/src/core/$1",
       "^@designSystem/(.*)$": "<rootDir>/src/designSystem/$1",
-      "^@jestHelpers/(.*)$": "<rootDir>/jestHelpers/$1"
+      "^@jestHelpers/(.*)$": "<rootDir>/jestHelpers/$1",
+      "^@rules/(.*)$": "<rootDir>/rules/$1",
+      "^@templates/(.*)$": "<rootDir>/templates/$1"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/setup-jest.js"

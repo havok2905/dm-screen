@@ -29,7 +29,13 @@
       ],
       "@jestHelpers/*": [
         "./jestHelpers/*"
-     ]
+      ],
+      "@rules/*": [
+        "./rules/*"
+      ],
+      "@templates/*": [
+        "./templates/*"
+      ],
     }
   },
   "include": [
