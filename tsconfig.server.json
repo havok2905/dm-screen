@@ -13,4 +13,9 @@
     "noFallthroughCasesInSwitch": true,
   },
   "lib": ["es2015"],
+  "exclude": [
+    "./cypress",
+    "./jestHelpers",
+    "./src"
+  ]
 }

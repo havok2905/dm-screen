@@ -26,6 +26,8 @@ import {
   useState
 } from 'react';
 
+import { SocketClient } from '@core/socket';
+
 import { InitiativeOrder } from '@core/InitiativeOrder';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -48,10 +50,6 @@ import {
   useInitiative,
   useUpdateInitiative
 } from '../../hooks';
-
-import {
-  SocketClient
-} from '../../../core/socket';
 
 export const DmView = () => {
   const [creatureSearchTerm, setCreatureSearchTerm] = useState('');

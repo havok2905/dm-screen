@@ -1,5 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 
+// This should likely be moved up a level. There is a need to start sharing types between client and server
+import {
+  MarkdownEntity,
+  MetaData
+} from '@core/types';
+
 import {
   Creature,
   EquipmentItem as EquipmentItemModel,
@@ -25,12 +31,6 @@ import {
   MonsterTemplate,
   SpellTemplate
 } from './templates';
-
-// This should likely be moved up a level. There is a need to start sharing types between client and server
-import {
-  MarkdownEntity,
-  MetaData
-} from '../../../src/core/types';
 
 export class Dnd5eDataSeeder {
   private adapter: IThirdPartyDndAdapter;

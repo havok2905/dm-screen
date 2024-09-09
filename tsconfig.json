@@ -22,7 +22,7 @@
 
     "paths": {
       "@core/*": [
-        "./src/core/*"
+        "./core/*"
       ],
       "@designSystem/*": [
          "./src/designSystem/*"

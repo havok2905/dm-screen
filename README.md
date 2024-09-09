@@ -128,7 +128,7 @@ export default {
 
 Initiative state is not something we can store in a TypeScript literal. As such, we can't simply store it in a useState variable. There may also be cases in the future of wanting to reuse initiative order logic outside of the context of react ( encounter simulations on the server end for example ).
 
-`src/core/InitiativeOrder` captures this logic and returns its current state with `getState`.
+`core/InitiativeOrder` captures this logic and returns its current state with `getState`.
 
 Running initiative state change outside of react also leaves out potential issues with batch state changes not working properly. React is good about batching state change, but not perfect. For example, you may need to deal with the following:
 

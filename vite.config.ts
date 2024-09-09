@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@core": path.resolve(__dirname, "./src/core"),
+      "@core": path.resolve(__dirname, "./core"),
       "@designSystem": path.resolve(__dirname, "./src/designSystem"),
       "@jestHelpers": path.resolve(__dirname, "./jestHelpers"),
       "@rules": path.resolve(__dirname, "./rules"),

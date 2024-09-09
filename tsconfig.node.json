@@ -8,6 +8,9 @@
     "strict": true,
 
     "paths": {
+      "@core/*": [
+        "./core/*"
+      ],
       "@designSystem/*": [
         "./src/designSystem/*"
       ],
