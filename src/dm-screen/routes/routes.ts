@@ -23,6 +23,7 @@ export const EDIT_MAGIC_ITEM_PATH = '/compendium/magicItem/:id/edit';
 export const MAGIC_ITEM_PATH = '/compendium/magicItem/:id';
 export const MAGIC_ITEMS_PATH = '/compendium/magicItems';
 
+export const CREATE_SPELL_PATH = '/compendium/spell/create';
 export const EDIT_SPELL_PATH = '/compendium/spell/:id/edit';
 export const SPELL_PATH = '/compendium/spell/:id';
 export const SPELLS_PATH = '/compendium/spells';

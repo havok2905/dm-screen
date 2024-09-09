@@ -5,18 +5,22 @@ import {
   Table
 } from '@designSystem/components';
 import {
+  Link,
+  useNavigate
+} from 'react-router-dom';
+import {
   useCallback,
   useState
 } from 'react';
 
 import { MarkdownEntity } from '@core/types';
-import { useNavigate } from 'react-router-dom';
 
 import {
   CompendiumNavbar,
   ConfirmationModal
 } from '../../../components';
 import {
+  CREATE_SPELL_PATH,
   EDIT_SPELL_PATH,
   SPELL_PATH
 } from '../../../routes';
@@ -119,6 +123,9 @@ export const SpellsPage = () => {
       <CompendiumNavbar/>
       <Container>
         <h2>Spells</h2>
+        <Link to={CREATE_SPELL_PATH}>
+          Create new spell
+        </Link>
         {
           spells.length ? (
             <Table

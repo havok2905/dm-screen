@@ -3,6 +3,7 @@ export * from './AdventuresPage';
 export * from './CompendiumPage';
 export * from './CreateAdventurePage';
 export * from './CreateCreaturePage';
+export * from './CreateSpellPage';
 export * from './CreaturePage';
 export * from './CreaturesPage';
 export * from './EditAdventureCreaturePage';

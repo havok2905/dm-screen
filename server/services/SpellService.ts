@@ -1,4 +1,8 @@
 import {
+  CreateSpellRequest,
+  UpdateSpellRequest
+} from '../requests';
+import {
   MissingArgumentException,
   SpellNotFoundException,
   SpellsNotFoundException
@@ -6,9 +10,28 @@ import {
 
 import { Spell } from '../sequelize/db';
 import { SpellResponse } from '../responses';
-import { UpdateSpellRequest } from '../requests';
 
 export class SpellService {
+  static async createSpell(
+    createSpellRequest: CreateSpellRequest
+  ): Promise<SpellResponse> {
+    if (!createSpellRequest) {
+      throw new MissingArgumentException();
+    }
+
+    createSpellRequest.validate();
+
+    const spell = await Spell.create({
+      content: createSpellRequest.content,
+      id: createSpellRequest.id,
+      image: createSpellRequest.image,
+      metadata: JSON.stringify(createSpellRequest.metadata),
+      name: createSpellRequest.name
+    });
+
+    return this.mapSpellResponseJson(spell);
+  }
+
   static async destroySpellById(id: string): Promise<boolean> {
     if (!id) {
       throw new MissingArgumentException();

@@ -1,5 +1,6 @@
 export * from './CreateAdventureRequest';
 export * from './CreateCreatureRequest';
+export * from './CreateSpellRequest';
 export * from './UpdateAdventureRequest';
 export * from './UpdateInitiativeRequest';
 export * from './UpdateAdventureCreatureRequest';

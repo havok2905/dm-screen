@@ -17,6 +17,7 @@ import {
 import {
   CreateAdventureRequest,
   CreateCreatureRequest,
+  CreateSpellRequest,
   UpdateAdventureCreatureRequest,
   UpdateAdventureItemRequest,
   UpdateAdventureRequest,
@@ -502,6 +503,32 @@ app.get('/spell/:id', async (request, response, next) => {
     const responseJson = await SpellService.getSpellById(request.params.id ?? '');
     response.json(responseJson);
   } catch(error) {
+    next(error);
+  }
+});
+
+app.post('/spells', async (request, response, next) => {
+  try {
+    const {
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const createSpellRequest = new CreateSpellRequest(
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await SpellService.createSpell(createSpellRequest);
+
+    response.json(responseJson);
+  } catch (error) {
     next(error);
   }
 });
