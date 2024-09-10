@@ -19,7 +19,7 @@ import {
   RESTRAINED,
   STUNNED,
   UNCONSCIOUS
-} from '../../rules/conditions';
+} from '@rules/conditions';
 
 import './RulesSearch.css';
 
