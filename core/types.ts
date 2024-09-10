@@ -9,6 +9,7 @@ export interface MetaData {
 }
 
 export interface MarkdownEntity {
+  adventureid?: string;
   content: string;
   id: string;
   image?: string;

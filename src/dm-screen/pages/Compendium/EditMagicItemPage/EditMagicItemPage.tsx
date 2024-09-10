@@ -12,10 +12,6 @@ import {
 import { useCallback } from 'react';
 
 import {
-  CompendiumNavbar,
-  EditMarkdownEntityForm
-} from '../../../components';
-import {
   MAGIC_ITEM_PATH,
   MAGIC_ITEMS_PATH
 } from '../../../routes';
@@ -23,6 +19,9 @@ import {
   useMagicItem,
   useUpdateMagicItem
 } from '../../../hooks';
+
+import { CompendiumNavbar } from '../../../components';
+import { MarkdownEntityEditPage } from '../components/MarkdownEntityEditPage';
 
 export const EditMagicItemPage = () => {
   const { id: magicItemId } = useParams();
@@ -75,7 +74,7 @@ export const EditMagicItemPage = () => {
             Back to Magic Items
           </Link>
         </p>
-        <EditMarkdownEntityForm
+        <MarkdownEntityEditPage
           item={data}
           saveButtonText="Save magic item"
           updateFunction={updateMagicItem}

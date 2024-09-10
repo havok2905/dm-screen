@@ -12,10 +12,6 @@ import {
 import { useCallback } from 'react';
 
 import {
-  CompendiumNavbar,
-  EditMarkdownEntityForm
-} from '../../../components';
-import {
   SPELL_PATH,
   SPELLS_PATH
 } from '../../../routes';
@@ -23,6 +19,9 @@ import {
   useSpell,
   useUpdateSpell
 } from '../../../hooks';
+
+import { CompendiumNavbar } from '../../../components';
+import { MarkdownEntityEditPage } from '../components/MarkdownEntityEditPage';
 
 export const EditSpellPage = () => {
   const { id: spellId } = useParams();
@@ -75,7 +74,7 @@ export const EditSpellPage = () => {
             Back to Spells
           </Link>
         </p>
-        <EditMarkdownEntityForm
+        <MarkdownEntityEditPage
           item={data}
           saveButtonText="Save spell"
           updateFunction={updateSpell}

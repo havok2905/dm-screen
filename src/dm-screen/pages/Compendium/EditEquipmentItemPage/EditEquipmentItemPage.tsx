@@ -12,10 +12,6 @@ import {
 import { useCallback } from 'react';
 
 import {
-  CompendiumNavbar,
-  EditMarkdownEntityForm
-} from '../../../components';
-import {
   EQUIPMENT_ITEM_PATH,
   EQUIPMENT_ITEMS_PATH
 } from '../../../routes';
@@ -23,6 +19,9 @@ import {
   useEquipmentItem,
   useUpdateEquipmentItem
 } from '../../../hooks';
+
+import { CompendiumNavbar } from '../../../components';
+import { MarkdownEntityEditPage } from '../components/MarkdownEntityEditPage';
 
 export const EditEquipmentItemPage = () => {
   const { id: equipmentItemId } = useParams();
@@ -75,7 +74,7 @@ export const EditEquipmentItemPage = () => {
             Back to Equipment Items
           </Link>
         </p>
-        <EditMarkdownEntityForm
+        <MarkdownEntityEditPage
           item={data}
           saveButtonText="Save equipment item"
           updateFunction={updateEquipmentItem}

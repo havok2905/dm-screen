@@ -12,10 +12,6 @@ import {
 import { useCallback } from 'react';
 
 import {
-  CompendiumNavbar,
-  EditMarkdownEntityForm
-} from '../../../components';
-import {
   CREATURE_PATH,
   CREATURES_PATH
 } from '../../../routes';
@@ -23,6 +19,9 @@ import {
   useCreature,
   useUpdateCreature
 } from '../../../hooks';
+
+import { CompendiumNavbar } from '../../../components';
+import { MarkdownEntityEditPage } from '../components/MarkdownEntityEditPage';
 
 export const EditCreaturePage = () => {
   const { id: creatureId } = useParams();
@@ -75,7 +74,7 @@ export const EditCreaturePage = () => {
             Back to Creatures
           </Link>
         </p>
-        <EditMarkdownEntityForm
+        <MarkdownEntityEditPage
           item={data}
           saveButtonText="Save creature"
           updateFunction={updateCreature}

@@ -12,13 +12,12 @@ import {
 import { useCallback } from 'react';
 
 import {
-  CompendiumNavbar,
-  EditMarkdownEntityForm
-} from '../../../components';
-import {
   useAdventureItem,
   useUpdateAdventureItem
 } from '../../../hooks';
+
+import { CompendiumNavbar } from '../../../components';
+import { MarkdownEntityEditPage } from '../components/MarkdownEntityEditPage';
 
 import { ADVENTURE_PATH } from '../../../routes';
 
@@ -74,7 +73,7 @@ export const EditAdventureItemPage = () => {
             Back to Adventure
           </Link>
         </p>
-        <EditMarkdownEntityForm
+        <MarkdownEntityEditPage
           item={data}
           saveButtonText="Save adventure item"
           updateFunction={updateAdventureItem}

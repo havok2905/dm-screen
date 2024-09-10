@@ -41,7 +41,6 @@ import {
   useAdventure,
   useUpdateAdventure
 } from '../../../hooks';
-import {MetaData} from '@core/types';
 
 interface EditAdventureFormInputs {
   adventureDescription: string;
