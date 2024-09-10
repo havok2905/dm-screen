@@ -246,7 +246,7 @@ export const MarkdownEntityEditPage = ({
             </fieldset>
             {
               updateIsError ? (
-                <p>
+                <p data-test-id="markdown-entity-edit-page-error">
                   {updateIsErrorText}
                 </p>
               ) : null
