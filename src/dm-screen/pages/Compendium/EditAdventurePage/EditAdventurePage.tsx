@@ -41,6 +41,7 @@ import {
   useAdventure,
   useUpdateAdventure
 } from '../../../hooks';
+import {MetaData} from '@core/types';
 
 interface EditAdventureFormInputs {
   adventureDescription: string;
@@ -169,7 +170,7 @@ export const EditAdventurePage = () => {
 
       monacoInstance.current = editor;
 
-      setValue(InputId.ADVENTURE_NOTES, data.value ?? '');
+      setValue(InputId.ADVENTURE_NOTES, data.notes ?? '');
     }
 
     return () => {

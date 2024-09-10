@@ -5,6 +5,10 @@ import {
   useReducer
 } from 'react';
 import {
+  IconButton,
+  LinkButton
+} from '@designSystem/components';
+import {
   MetaData,
   MetaDataType,
   MetaDataValue
@@ -13,10 +17,10 @@ import {
 import { MetaDataField } from './MetaDataField';
 
 import './MetaDataForm.css';
-import {IconButton, LinkButton} from '@designSystem/components';
 
 enum ReducerActionType {
   ADD = 'add',
+  SET_ALL = 'set-all',
   REMOVE = 'remove',
   UPDATE_NAME = 'update-name',
   UPDATE_TYPE = 'update-type',
@@ -32,6 +36,13 @@ interface ReducerRemoveAction {
     index: number;
   };
   type: ReducerActionType.REMOVE;
+}
+
+interface ReducerSetAllAction {
+  payload: {
+    metaData: MetaData[];
+  };
+  type: ReducerActionType.SET_ALL;
 }
 
 interface ReducerUpdateNameAction {
@@ -60,6 +71,7 @@ interface ReducerUpdateValueAction {
 
 type ReducerAction =
   ReducerAddAction |
+  ReducerSetAllAction |
   ReducerRemoveAction |
   ReducerUpdateNameAction |
   ReducerUpdateTypeAction | 
@@ -81,6 +93,12 @@ const reducer = (state: ReducerState, action: ReducerAction) => {
     ];
 
     return { metaData };
+  }
+
+  if (action.type === ReducerActionType.SET_ALL) {
+    return {
+      metaData: JSON.parse(JSON.stringify(action.payload.metaData))
+    };
   }
 
   if (action.type === ReducerActionType.UPDATE_NAME) {
@@ -151,13 +169,26 @@ export const MetaDataForm = ({
 
   const {
     metaData
-  } = state;
+  } = state as ReducerState;
 
   useEffect(() => {
     onChange(metaData);
   }, [
     metaData,
     onChange
+  ]);
+
+  useEffect(() => {
+    if (initialMetaData) {
+      dispatch({
+        type: ReducerActionType.SET_ALL,
+        payload: {
+          metaData: initialMetaData
+        }
+      });
+    }
+  }, [
+    initialMetaData
   ]);
 
   const handleMetaDataNameChange = useCallback((event: ChangeEvent<HTMLInputElement>, index: number) => {

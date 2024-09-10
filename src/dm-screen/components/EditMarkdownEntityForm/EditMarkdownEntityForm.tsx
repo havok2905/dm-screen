@@ -4,7 +4,7 @@ import {
   GridRow,
   Input,
   Item,
-  TextArea
+  Label
 } from '@designSystem/components';
 import {
   Controller,
@@ -16,11 +16,18 @@ import {
   MarkdownEntity,
   MetaData
 } from '@core/types';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 
-import { useEffect } from 'react';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { UseMutateFunction } from '@tanstack/react-query';
 
 import { Markdown } from '../Markdown';
+import { MetaDataForm } from '../MetaDataForm';
 
 enum InputId {
   CONTENT = 'content',
@@ -28,8 +35,7 @@ enum InputId {
 }
 
 enum InputType {
-  TEXT = 'text',
-  TEXTAREA = 'textarea'
+  TEXT = 'text'
 }
 
 export interface EditMarkdownEntityFormInputs {
@@ -52,17 +58,6 @@ const formModel = [
       }
     },
     type: InputType.TEXT
-  },
-  {
-    id: InputId.CONTENT,
-    label: 'Content',
-    rules: {
-      required: {
-        value: true, 
-        message: 'Adventure content are required'
-      }
-    },
-    type: InputType.TEXTAREA
   }
 ];
 
@@ -88,6 +83,10 @@ export const EditMarkdownEntityForm = ({
   updateIsError,
   updateIsErrorText
 }: EditMarkdownEntityFormProps) => {
+  const monacoInstance = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+  const [monacoElement, setMonacoElement] = useState<HTMLDivElement | null>(null);
+  const [metaDataModel, setMetaDataModel] = useState<MetaData[]>([]);
+
   const {
     control,
     handleSubmit,
@@ -105,6 +104,48 @@ export const EditMarkdownEntityForm = ({
 
   const watchContent = watch('content', '');
 
+  /**
+   * When we have an element to inject an editor into, create a
+   * new instance of monaco editor and pass the element along to
+   * it to inject itself into.
+   * 
+   * The editor doesn't fire an onchange event when it renders,
+   * so, if we don't have content already set to the form, we want
+   * to bootstrap the form value with the template value on render
+   * to match what is initially passed to monaco.
+   */
+  useEffect(() => {
+    if (
+      !monacoInstance.current &&
+      monacoElement &&
+      item
+    ) {
+      const editor = monaco.editor.create(monacoElement, {
+        value: item?.content || '',
+        language: 'markdown',
+        theme: 'vs-dark'
+      });
+
+      editor.getModel()?.onDidChangeContent(() => {
+        const value = editor.getValue();
+        setValue(InputId.CONTENT, value);
+      });
+
+      monacoInstance.current = editor;
+
+      setValue(InputId.CONTENT, item.content ?? '');
+    }
+
+    return () => {
+      monacoInstance.current?.dispose();
+      monacoInstance.current = null;
+    };
+  }, [
+    item,
+    monacoElement,
+    setValue
+  ]);
+
   const onSubmit: SubmitHandler<EditMarkdownEntityFormInputs> = data => {
     const {
       name,
@@ -115,7 +156,7 @@ export const EditMarkdownEntityForm = ({
       content,
       id: item.id,
       image: item.image,
-      metadata: item.metadata,
+      metadata: metaDataModel,
       name
     };
 
@@ -130,12 +171,18 @@ export const EditMarkdownEntityForm = ({
     updateFunction(payload);
   };
 
+  const onChange = useCallback((m: MetaData[]) => {
+    setMetaDataModel(m);
+  }, []);
+
   useEffect(() => {
     const {
       name = '',
       content = '',
+      metadata
     } = item ?? {};
 
+    setMetaDataModel(metadata);
     setValue(InputId.NAME, name);
     setValue(InputId.CONTENT, content);
     trigger();
@@ -145,61 +192,58 @@ export const EditMarkdownEntityForm = ({
     trigger
   ]);
 
+  const fieldModel = formModel[0];
+
+  const error: string = errors[fieldModel.id as InputId]?.message ?? '';
+
   return (
     <Grid>
       <GridRow>
         <Item columns={6}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {
-              [
-                formModel[0],
-                formModel[1]
-              ].map((fieldModel, index) => {
-                const error: string = errors[fieldModel.id as InputId]?.message ?? '';
-
-                return (
-                  <fieldset key={index}>
-                    <Controller
-                      control={control}
-                      name={fieldModel.id as InputId}
-                      render={({ field }) => {
-                        if (fieldModel.type === 'text') {
-                          return (
-                            <Input
-                              error={error}
-                              full
-                              inputId={fieldModel.id}
-                              inputName={fieldModel.id}
-                              label={fieldModel.label}
-                              required
-                              {...field}
-                            />
-                          );
-                        }
-                        
-                        if (fieldModel.type === 'textarea') {
-                          return (
-                            <div>
-                              <TextArea
-                                error={error}
-                                full
-                                inputId={fieldModel.id}
-                                inputName={fieldModel.id}
-                                label={fieldModel.label}
-                                {...field}
-                              />
-                            </div>
-                          );
-                        }
-                        
-                        return <></>;
-                      }}
-                      rules={fieldModel.rules}
+            <fieldset>
+              <Controller
+                control={control}
+                name={fieldModel.id as InputId}
+                render={({ field }) => {
+                  return (
+                    <Input
+                      error={error}
+                      full
+                      inputId={fieldModel.id}
+                      inputName={fieldModel.id}
+                      label={fieldModel.label}
+                      required
+                      {...field}
                     />
-                  </fieldset>
-                )
-              })
-            }
+                  );
+                }}
+                rules={fieldModel.rules}
+              />
+            </fieldset>
+            <fieldset>
+              <Label
+                inputId="metadata"
+                label="MetaData"
+              />
+              <MetaDataForm
+                initialMetaData={item?.metadata ?? []}
+                onChange={onChange}
+              />
+            </fieldset>
+            <fieldset>
+              <Label
+                inputId="notes"
+                label="Notes"
+              />
+              <div
+                ref={el => setMonacoElement(el) }
+                style={{
+                  height: '500px',
+                  width: '100%'
+                }}>
+              </div>
+            </fieldset>
             {
               updateIsError ? (
                 <p>
