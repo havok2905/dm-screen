@@ -6,6 +6,7 @@ import {
   GridRow,
   Input,
   Item,
+  Label,
   Spinner
 } from '@designSystem/components';
 import {
@@ -21,8 +22,12 @@ import {
 } from 'react-router-dom';
 import {
   useCallback,
-  useEffect
+  useEffect,
+  useRef,
+  useState
 } from 'react';
+
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 import {
   ADVENTURE_PATH,
@@ -45,8 +50,7 @@ interface EditAdventureFormInputs {
 }
 
 enum InputType {
-  TEXT = 'text',
-  TEXTAREA = 'textarea'
+  TEXT = 'text'
 }
 
 enum InputId {
@@ -101,22 +105,14 @@ const editAdventureFormModel = [
       }
     },
     type: InputType.TEXT
-  },
-  {
-    id: InputId.ADVENTURE_NOTES,
-    label: 'Notes',
-    rules: {
-      required: {
-        value: true, 
-        message: 'Adventure notes are required'
-      }
-    },
-    type: InputType.TEXTAREA
   }
 ];
 
 export const EditAdventurePage = () => {
   const { id: adventureId } = useParams();
+
+  const monacoInstance = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+  const [monacoElement, setMonacoElement] = useState<HTMLDivElement | null>(null);
 
   const {
     control,
@@ -143,6 +139,50 @@ export const EditAdventurePage = () => {
   } = useAdventure(adventureId ?? '');
 
   const navigate = useNavigate();
+
+  /**
+   * When we have an element to inject an editor into, create a
+   * new instance of monaco editor and pass the element along to
+   * it to inject itself into.
+   * 
+   * The editor doesn't fire an onchange event when it renders,
+   * so, if we don't have content already set to the form, we want
+   * to bootstrap the form value with the template value on render
+   * to match what is initially passed to monaco.
+   */
+  useEffect(() => {
+    console.log('hi', monacoElement);
+
+    if (
+      !monacoInstance.current &&
+      monacoElement &&
+      data
+    ) {
+      const editor = monaco.editor.create(monacoElement, {
+        value: data?.notes || '',
+        language: 'markdown',
+        theme: 'vs-dark'
+      });
+
+      editor.getModel()?.onDidChangeContent(() => {
+        const value = editor.getValue();
+        setValue(InputId.ADVENTURE_NOTES, value);
+      });
+
+      monacoInstance.current = editor;
+
+      setValue(InputId.ADVENTURE_NOTES, data.value ?? '');
+    }
+
+    return () => {
+      monacoInstance.current?.dispose();
+      monacoInstance.current = null;
+    };
+  }, [
+    data,
+    monacoElement,
+    setValue
+  ]);
 
   const onSuccess = useCallback(() => {
     navigate(ADVENTURE_PATH.replace(':id', adventureId ?? ''));
@@ -273,52 +313,17 @@ export const EditAdventurePage = () => {
             <GridRow>
               <Item columns={6}>
                 <fieldset>
-                  <Controller
-                    control={control}
-                    name={editAdventureFormModel[3].id as InputId}
-                    render={({ field }) => {
-                      const fieldModel = editAdventureFormModel[3];
-                      const error: string = errors[fieldModel.id as InputId]?.message ?? '';
-
-                      if (fieldModel.type === 'text') {
-                        return (
-                          <Input
-                            error={error}
-                            full
-                            inputId={fieldModel.id}
-                            inputName={fieldModel.id}
-                            label={fieldModel.label}
-                            required
-                            {...field}
-                          />
-                        );
-                      }
-                      
-                      if (fieldModel.type === 'textarea') {
-                        return (
-                          <>
-                            <label>
-                              {fieldModel.label}
-                            </label>
-                            <textarea
-                              id={fieldModel.id}
-                              {...field}
-                            />
-                            {
-                              error ? (
-                                <p>
-                                  {error}
-                                </p>
-                              ) : null
-                            }
-                          </>
-                        );
-                      }
-                      
-                      return <></>;
-                    }}
-                    rules={editAdventureFormModel[3].rules}
+                  <Label
+                    inputId="notes"
+                    label="Notes"
                   />
+                  <div
+                    ref={el => setMonacoElement(el) }
+                    style={{
+                      height: '500px',
+                      width: '100%'
+                    }}>
+                  </div>
                 </fieldset>
               </Item>
               <Item columns={6}>
