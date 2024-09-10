@@ -151,8 +151,6 @@ export const EditAdventurePage = () => {
    * to match what is initially passed to monaco.
    */
   useEffect(() => {
-    console.log('hi', monacoElement);
-
     if (
       !monacoInstance.current &&
       monacoElement &&
