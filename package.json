@@ -31,8 +31,8 @@
   "jest": {
     "collectCoverage": true,
     "collectCoverageFrom": [
+      "core/**/*.{tsx,ts}",
       "server/**/*.{tsx,ts}",
-      "src/**/*.{tsx,ts}",
       "!**/node_modules/**",
       "!**/vite-env.ts",
       "!**/vite-env.d.ts",
@@ -55,6 +55,7 @@
       "<rootDir>/setup-jest.js"
     ],
     "testMatch": [
+      "**/core/**/*.test.ts",
       "**/server/**/*.test.ts",
       "**/src/**/*.test.ts",
       "**/src/**/*.test.tsx"
