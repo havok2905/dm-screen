@@ -15,10 +15,12 @@ export const EDIT_CREATURE_PATH = '/compendium/creature/:id/edit';
 export const CREATURE_PATH = '/compendium/creature/:id';
 export const CREATURES_PATH = '/compendium/creatures';
 
+export const CREATE_EQUIPMENT_ITEM_PATH = '/compendium/equipmentItem/create';
 export const EDIT_EQUIPMENT_ITEM_PATH = '/compendium/equipmentItem/:id/edit';
 export const EQUIPMENT_ITEM_PATH = '/compendium/equipmentItem/:id';
 export const EQUIPMENT_ITEMS_PATH = '/compendium/equipmentItems';
 
+export const CREATE_MAGIC_ITEM_PATH = '/compendium/magicItem/create';
 export const EDIT_MAGIC_ITEM_PATH = '/compendium/magicItem/:id/edit';
 export const MAGIC_ITEM_PATH = '/compendium/magicItem/:id';
 export const MAGIC_ITEMS_PATH = '/compendium/magicItems';

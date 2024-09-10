@@ -8,6 +8,8 @@ export * from './useAdventures';
 export * from './useBootstrapInitiative';
 export * from './useCreateAdventure';
 export * from './useCreateCreature';
+export * from './useCreateEquipmentItem';
+export * from './useCreateMagicItem';
 export * from './useCreateSpell';
 export * from './useCreature';
 export * from './useCreatures';

@@ -17,6 +17,8 @@ import {
 import {
   CreateAdventureRequest,
   CreateCreatureRequest,
+  CreateEquipmentItemRequest,
+  CreateMagicItemRequest,
   CreateSpellRequest,
   UpdateAdventureCreatureRequest,
   UpdateAdventureItemRequest,
@@ -401,6 +403,32 @@ app.get('/equipmentItems', async (_request, response, next) => {
   }
 });
 
+app.post('/equipmentItems', async (request, response, next) => {
+  try {
+    const {
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const createEquipmentItemRequest = new CreateEquipmentItemRequest(
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await ItemService.createEquipmentItem(createEquipmentItemRequest);
+
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.put('/equipmentItem/:id', async (request, response, next) => {
   try {
     const {
@@ -448,6 +476,32 @@ app.get('/magicItems', async (_request, response, next) => {
 app.get('/magicItem/:id', async (request, response, next) => {
   try {
     const responseJson = await ItemService.getMagicItemById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/magicItems', async (request, response, next) => {
+  try {
+    const {
+      content,
+      id,
+      image,
+      metadata,
+      name
+    } = request.body;
+
+    const createMagicItemRequest = new CreateMagicItemRequest(
+      content,
+      id,
+      image,
+      metadata,
+      name
+    );
+
+    const responseJson = await ItemService.createMagicItem(createMagicItemRequest);
+
     response.json(responseJson);
   } catch (error) {
     next(error);

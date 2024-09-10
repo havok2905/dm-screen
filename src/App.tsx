@@ -15,6 +15,8 @@ import {
   COMPENDIUM_PATH,
   CREATE_ADVENTURE_PATH,
   CREATE_CREATURE_PATH,
+  CREATE_EQUIPMENT_ITEM_PATH,
+  CREATE_MAGIC_ITEM_PATH,
   CREATE_SPELL_PATH,
   CREATURE_PATH,
   CREATURES_PATH,
@@ -41,6 +43,8 @@ import {
   CompendiumPage,
   CreateAdventurePage,
   CreateCreaturePage,
+  CreateEquipmentItemPage,
+  CreateMagicItemPage,
   CreateSpellPage,
   CreaturePage,
   CreaturesPage,
@@ -120,6 +124,22 @@ const router = createBrowserRouter([
     element: (
       <RouteErrorBoundary>
         <CreateCreaturePage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: CREATE_EQUIPMENT_ITEM_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <CreateEquipmentItemPage/>
+      </RouteErrorBoundary>
+    )
+  },
+  {
+    path: CREATE_MAGIC_ITEM_PATH,
+    element: (
+      <RouteErrorBoundary>
+        <CreateMagicItemPage/>
       </RouteErrorBoundary>
     )
   },

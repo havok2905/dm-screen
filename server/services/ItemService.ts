@@ -1,4 +1,10 @@
 import {
+  CreateEquipmentItemRequest,
+  CreateMagicItemRequest,
+  UpdateEquipmentItemRequest,
+  UpdateMagicItemRequest
+} from '../requests';
+import {
   EquipmentItem,
   MagicItem
 } from '../sequelize/db';
@@ -8,14 +14,50 @@ import {
   MagicItemNotFoundException,
   MissingArgumentException
 } from '../exceptions';
-import {
-  UpdateEquipmentItemRequest,
-  UpdateMagicItemRequest
-} from '../requests';
 
 import { ItemResponse } from '../responses';
 
 export class ItemService {
+  static async createEquipmentItem(
+    createEquipmentItemRequest: CreateEquipmentItemRequest
+  ): Promise<ItemResponse> {
+    if (!createEquipmentItemRequest) {
+      throw new MissingArgumentException();
+    }
+
+    createEquipmentItemRequest.validate();
+
+    const equipmentItem = await EquipmentItem.create({
+      content: createEquipmentItemRequest.content,
+      id: createEquipmentItemRequest.id,
+      image: createEquipmentItemRequest.image,
+      metadata: JSON.stringify(createEquipmentItemRequest.metadata),
+      name: createEquipmentItemRequest.name
+    });
+
+    return this.mapItemResponseJson(equipmentItem);
+  }
+
+  static async createMagicItem(
+    createMagicItemRequest: CreateMagicItemRequest
+  ): Promise<ItemResponse> {
+    if (!createMagicItemRequest) {
+      throw new MissingArgumentException();
+    }
+
+    createMagicItemRequest.validate();
+
+    const magicItem = await MagicItem.create({
+      content: createMagicItemRequest.content,
+      id: createMagicItemRequest.id,
+      image: createMagicItemRequest.image,
+      metadata: JSON.stringify(createMagicItemRequest.metadata),
+      name: createMagicItemRequest.name
+    });
+
+    return this.mapItemResponseJson(magicItem);
+  }
+
   static async destroyEquipmentItemById(id: string): Promise<boolean> {
     if (!id) {
       throw new MissingArgumentException();

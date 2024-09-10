@@ -1,5 +1,7 @@
 export * from './CreateAdventureRequest';
 export * from './CreateCreatureRequest';
+export * from './CreateEquipmentItemRequest';
+export * from './CreateMagicItemRequest';
 export * from './CreateSpellRequest';
 export * from './UpdateAdventureRequest';
 export * from './UpdateInitiativeRequest';

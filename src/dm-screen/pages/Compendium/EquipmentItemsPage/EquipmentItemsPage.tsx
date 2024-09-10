@@ -5,18 +5,22 @@ import {
   Table
 } from '@designSystem/components';
 import {
+  Link,
+  useNavigate
+} from 'react-router-dom';
+import {
   useCallback,
   useState
 } from 'react';
 
 import { MarkdownEntity } from '@core/types';
-import { useNavigate } from 'react-router-dom';
 
 import {
   CompendiumNavbar,
   ConfirmationModal
 } from '../../../components';
 import {
+  CREATE_EQUIPMENT_ITEM_PATH,
   EDIT_EQUIPMENT_ITEM_PATH,
   EQUIPMENT_ITEM_PATH
 } from '../../../routes';
@@ -119,6 +123,9 @@ export const EquipmentItemsPage = () => {
       <CompendiumNavbar/>
       <Container>
         <h2>Equipment Items</h2>
+        <Link to={CREATE_EQUIPMENT_ITEM_PATH}>
+          Create new equipment item
+        </Link>
         {
           items.length ? (
             <Table

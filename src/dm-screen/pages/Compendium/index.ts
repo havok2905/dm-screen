@@ -3,6 +3,8 @@ export * from './AdventuresPage';
 export * from './CompendiumPage';
 export * from './CreateAdventurePage';
 export * from './CreateCreaturePage';
+export * from './CreateEquipmentItemPage';
+export * from './CreateMagicItemPage';
 export * from './CreateSpellPage';
 export * from './CreaturePage';
 export * from './CreaturesPage';

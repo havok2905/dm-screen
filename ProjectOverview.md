@@ -52,10 +52,10 @@ Build a web-based application to quickly import third-party TTRPG content and cr
 | Admin View - Third Party API Importer | Complete |
 | Adding creatures - with templates | Complete |
 | e2e testing strategy | Complete |
+| Adding equipment items - with templates | Complete |
+| Adding magic items - with templates | Complete |
+| Adding spells - with templates | Complete |
 | Resolve Structural Technical Debt | In Progress |
-| Adding equipment items - with templates | In Progress |
-| Adding magic items - with templates | In Progress |
-| Adding spells - with templates | In Progress |
 
 ### On Deck
 
