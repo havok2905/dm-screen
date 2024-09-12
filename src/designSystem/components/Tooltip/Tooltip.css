@@ -1,0 +1,89 @@
+
+.dm-screen-design-system-tooltip {
+  box-shadow: var(--base-shadow);
+  position: fixed;
+  max-width: 200px;
+  z-index: var(--z-index-tooltip);
+}
+
+.dm-screen-design-system-tooltip-content {
+  background-color: var(--green-50);
+  border: solid 2px var(--green-100);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-small);
+}
+
+.dm-screen-design-system-tooltip-content * {
+  margin: 0;
+}
+
+.dm-screen-design-system-tooltip-arrow {
+  height: 0;
+  position: absolute;
+  width: 0; 
+}
+
+.dm-screen-design-system-tooltip-arrow-down {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--green-100);
+  bottom: -8px;
+  left: calc(50% - 8px);
+}
+
+.dm-screen-design-system-tooltip-arrow-down-left {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--green-100);
+  left: 8px;
+  bottom: -8px;
+}
+
+.dm-screen-design-system-tooltip-arrow-down-right {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--green-100);
+  right: 8px;
+  bottom: -8px;
+}
+
+.dm-screen-design-system-tooltip-arrow-left {
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid var(--green-100);
+  border-top: 8px solid transparent;
+  left: -8px;
+  top: calc(50% - 8px);
+}
+
+.dm-screen-design-system-tooltip-arrow-right {
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid var(--green-100);
+  border-top: 8px solid transparent;
+  right: -8px;
+  top: calc(50% - 8px);
+}
+
+.dm-screen-design-system-tooltip-arrow-up {
+  border-bottom: 8px solid var(--green-100);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  left: calc(50% - 8px);
+  top: -8px;
+}
+
+.dm-screen-design-system-tooltip-arrow-up-left {
+  border-bottom: 8px solid var(--green-100);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  left: 8px;
+  top: -8px;
+}
+
+.dm-screen-design-system-tooltip-arrow-up-right {
+  border-bottom: 8px solid var(--green-100);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  right: 8px;
+  top: -8px;
+}
+

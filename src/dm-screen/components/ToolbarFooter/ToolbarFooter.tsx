@@ -10,7 +10,8 @@ import { Handout } from '@core/types';
 import {
   IconButton,
   Input,
-  LinkButton
+  LinkButton,
+  Tooltip
 } from '@designSystem/components';
 
 import './ToolbarFooter.css';
@@ -65,25 +66,37 @@ export const ToolbarFooter = ({
           {rolledValue}
         </span>
       </div>
-      <div>
+      <div className="toolbar-footer-controls">
         <LinkButton
           buttonText="Clear Handouts"
           color="red"
           onClick={() => {
             handleShowHandout(null);
           }}/>
-        <IconButton
-          icon="book"
-          onClick={() => {
-            setIsNotesDrawerOpen(true);
-          }}
-        />
-        <IconButton
-          icon="menu"
-          onClick={() => {
-            setIsSideDrawerOpen(true);
-          }}
-        />
+        <span className="toolbar-footer-control">
+          <Tooltip
+            content="Adventure"
+            orientation="top-left">
+            <IconButton
+              icon="book"
+              onClick={() => {
+                setIsNotesDrawerOpen(true);
+              }}
+            />
+          </Tooltip>
+        </span>
+        <span className="toolbar-footer-control">
+          <Tooltip
+            content="Rules Search"
+            orientation="top-left">
+            <IconButton
+              icon="menu"
+              onClick={() => {
+                setIsSideDrawerOpen(true);
+              }}
+            />
+          </Tooltip>
+        </span>
       </div>
     </div>
   );
