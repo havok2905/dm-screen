@@ -5,8 +5,12 @@
   width: 100%;
 }
 
-.toolbar-footer button {
-  margin-left: var(--spacing-small);
+.toolbar-footer-controls .toolbar-footer-control {
+  margin-left: var(--spacing-standard);
+}
+
+.toolbar-footer input {
+  margin-bottom: 0;
 }
 
 .toolbar-footer-rolled-value {

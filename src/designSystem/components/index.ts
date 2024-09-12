@@ -18,3 +18,4 @@ export * from './Spinner';
 export * from './Table';
 export * from './Tag';
 export * from './TextArea';
+export * from './Tooltip';
