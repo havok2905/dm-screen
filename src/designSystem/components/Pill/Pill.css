@@ -5,12 +5,10 @@
     font-family: var(--base-font-family);
     font-size: var(--sub-font-size);
     font-weight: var(--font-weight-regular);
-    background: var(--white);
-    border-radius: var(--border-radius);
-}
-
-.dm-screen-design-system-pill:hover {
     background: var(--light-grey);
+    border-radius: var(--border-radius);
+    color: var(--black);
+    padding: 5px 8px;
 }
 
 .dm-screen-design-system-pill-closeButton {

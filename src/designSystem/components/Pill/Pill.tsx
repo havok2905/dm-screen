@@ -1,24 +1,16 @@
 import { MouseEvent } from "react";
-import { CloseIcon } from "../Icons";
+import { IconButton } from '@designSystem/components';
+  
 
 import "./Pill.css";
 
 export interface PillProps {
     closeFunc?: (e: MouseEvent) => void;
-    clickFunc?: (e: MouseEvent) => void;
     text: string;
     customStyles?: any;
 }
 
-export const Pill = ({clickFunc, closeFunc, text, customStyles}: PillProps) => {
-
-    const handleClick = (e: MouseEvent) => {
-        e.preventDefault();
-        
-        if (clickFunc) {
-            clickFunc(e);
-        }
-    }
+export const Pill = ({closeFunc, text, customStyles}: PillProps) => {
 
     const handleClose = (e: MouseEvent) => {
         e.preventDefault();
@@ -30,5 +22,5 @@ export const Pill = ({clickFunc, closeFunc, text, customStyles}: PillProps) => {
         }
     }
 
-    return(<button className="dm-screen-design-system-pill" onClick={handleClick} style={customStyles ? customStyles : undefined}>{text} <span className="dm-screen-design-system-pill-closeButton" onClick={handleClose}><CloseIcon /></span></button>);
+    return(<span className="dm-screen-design-system-pill" style={customStyles ? customStyles : undefined}>{text} <span className="dm-screen-design-system-pill-closeButton" onClick={handleClose}><IconButton icon="close" onClick={handleClose} /></span></span>);
 }
