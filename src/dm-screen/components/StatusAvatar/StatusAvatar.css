@@ -5,8 +5,10 @@
   border-radius: 50%;
   cursor: pointer;
   display: flex;
-  font-size: 18px;
-  height: 40px;
+  font-size: 14px;
+  height: 24px;
   justify-content: center;
-  width: 40px;
+  min-height: 24px;
+  min-width: 24px;
+  width: 24px;
 }

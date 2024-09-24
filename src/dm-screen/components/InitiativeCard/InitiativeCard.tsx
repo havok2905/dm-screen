@@ -1,7 +1,10 @@
 import { CircleBadgeForm } from '@designSystem/components';
 import classNames from 'classnames';
+import { StatusEffects } from '@rules/enums';
 import { useCallback } from 'react';
 import { VisibilityState } from '@core/types';
+
+import { StatusAvatarCollection } from '../StatusAvatar/StatusAvatarCollection';
 
 import './InitiativeCard.css';
 
@@ -18,6 +21,7 @@ export interface InitiativeCardProps {
   resourceA: number;
   resourceB: number;
   sortValue: number;
+  statuses: StatusEffects[];
   visibilityState: VisibilityState;
 }
 
@@ -34,6 +38,7 @@ export const InitiativeCard = ({
   resourceA,
   resourceB,
   sortValue,
+  statuses,
   visibilityState
 }: InitiativeCardProps) => {
   const isNum = useCallback((value: string): boolean => {
@@ -67,7 +72,14 @@ export const InitiativeCard = ({
       data-test-id="initiative-card"
       onDoubleClick={internalOnDoubleClick}
       style={styles}>
-      <div className="initiative-card-initiative-roll">
+      {
+        statuses.length ? (
+          <div className="initiative-card-statuses">
+            <StatusAvatarCollection statuses={statuses}/>
+          </div>
+        ) : null
+      }
+      <div className="initiative-card-resource-bubbles">
         <CircleBadgeForm
           color="orange"
           onChange={(value) => {
@@ -76,18 +88,6 @@ export const InitiativeCard = ({
           onValidate={isNum}
           value={String(sortValue)}
         />
-      </div>
-      <div className="initiative-card-ac">
-        <CircleBadgeForm
-          color="blue"
-          onChange={(value) => {
-            onResourceAChange(Number(value) ?? 0);
-          }}
-          onValidate={isNum}
-          value={String(resourceA)}
-        />
-      </div>
-      <div className="initiative-card-hp">
         <CircleBadgeForm
           color="green"
           onChange={(value) => {
@@ -95,6 +95,14 @@ export const InitiativeCard = ({
           }}
           onValidate={isNum}
           value={String(resourceB)}
+        />
+        <CircleBadgeForm
+          color="blue"
+          onChange={(value) => {
+            onResourceAChange(Number(value) ?? 0);
+          }}
+          onValidate={isNum}
+          value={String(resourceA)}
         />
       </div>
       <p className="initiative-card-character-name">

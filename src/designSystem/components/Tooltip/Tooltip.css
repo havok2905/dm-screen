@@ -7,13 +7,14 @@
 }
 
 .dm-screen-design-system-tooltip-content {
-  background-color: var(--green-50);
-  border: solid 2px var(--green-100);
+  background-color: var(--black-50);
+  border: solid 2px var(--black-300);
   border-radius: var(--border-radius);
-  padding: var(--spacing-small);
+  padding: 6px;
 }
 
 .dm-screen-design-system-tooltip-content * {
+  font-size: var(--sub-font-size);
   margin: 0;
 }
 
@@ -23,67 +24,138 @@
   width: 0; 
 }
 
+.dm-screen-design-system-tooltip-arrow-small {
+  height: 0;
+  position: absolute;
+  width: 0; 
+  z-index: 1;
+}
+
 .dm-screen-design-system-tooltip-arrow-down {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid var(--green-100);
+  border-top: 8px solid var(--black-300);
   bottom: -8px;
   left: calc(50% - 8px);
+}
+
+.dm-screen-design-system-tooltip-arrow-small-down {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--black-50);
+  bottom: -4px;
+  left: calc(50% - 6px);
 }
 
 .dm-screen-design-system-tooltip-arrow-down-left {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid var(--green-100);
-  left: 8px;
+  border-top: 8px solid var(--black-300);
   bottom: -8px;
+  left: 8px;
+}
+
+.dm-screen-design-system-tooltip-arrow-small-down-left {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--black-50);
+  bottom: -4px;
+  left: 10px;
 }
 
 .dm-screen-design-system-tooltip-arrow-down-right {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid var(--green-100);
-  right: 8px;
+  border-top: 8px solid var(--black-300);
   bottom: -8px;
+  right: 8px;
+}
+
+.dm-screen-design-system-tooltip-arrow-small-down-right {
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--black-50);
+  bottom: -4px;
+  right: 10px;
 }
 
 .dm-screen-design-system-tooltip-arrow-left {
   border-bottom: 8px solid transparent;
-  border-right: 8px solid var(--green-100);
+  border-right: 8px solid var(--black-300);
   border-top: 8px solid transparent;
   left: -8px;
   top: calc(50% - 8px);
 }
 
+.dm-screen-design-system-tooltip-arrow-small-left {
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid var(--black-50);;
+  border-top: 6px solid transparent;
+  left: -4px;
+  top: calc(50% - 6px);
+}
+
 .dm-screen-design-system-tooltip-arrow-right {
   border-bottom: 8px solid transparent;
-  border-left: 8px solid var(--green-100);
+  border-left: 8px solid var(--black-300);
   border-top: 8px solid transparent;
   right: -8px;
   top: calc(50% - 8px);
 }
 
+.dm-screen-design-system-tooltip-arrow-small-right {
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid var(--black-50);;
+  border-top: 6px solid transparent;
+  right: -4px;
+  top: calc(50% - 6px);
+}
+
 .dm-screen-design-system-tooltip-arrow-up {
-  border-bottom: 8px solid var(--green-100);
+  border-bottom: 8px solid var(--black-300);
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   left: calc(50% - 8px);
   top: -8px;
 }
 
+.dm-screen-design-system-tooltip-arrow-small-up {
+  border-bottom: 8px solid var(--black-50);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  left: calc(50% - 8px);
+  top: -4px;
+}
+
 .dm-screen-design-system-tooltip-arrow-up-left {
-  border-bottom: 8px solid var(--green-100);
+  border-bottom: 8px solid var(--black-300);
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   left: 8px;
   top: -8px;
 }
 
+.dm-screen-design-system-tooltip-arrow-small-up-left {
+  border-bottom: 8px solid var(--black-50);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  left: 8px;
+  top: -4px;
+}
+
 .dm-screen-design-system-tooltip-arrow-up-right {
-  border-bottom: 8px solid var(--green-100);
+  border-bottom: 8px solid var(--black-300);
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   right: 8px;
   top: -8px;
+}
+
+.dm-screen-design-system-tooltip-arrow-small-up-right {
+  border-bottom: 8px solid var(--black-50);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  right: 8px;
+  top: -4px;
 }
 
