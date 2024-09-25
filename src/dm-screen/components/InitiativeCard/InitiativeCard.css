@@ -17,7 +17,7 @@
 }
 
 .initiative-card-resource-bubbles {
-  bottom: 30px;
+  bottom: 34px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -57,7 +57,10 @@
   line-height: 1;
   margin: 0;
   padding: 8px;
+  overflow: hidden;
   position: absolute;
   text-align: center;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
   width: 100%;
 }
