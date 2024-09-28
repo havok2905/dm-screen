@@ -5,8 +5,8 @@
   box-shadow: var(--base-shadow);
   cursor: pointer;
   display: flex;
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
 }
 
 .dm-screen-design-system-circle-badge-form input {
@@ -14,7 +14,7 @@
   border: none;
   color: var(--white);
   font-family: var(--base-font-family);
-  font-size: var(--sub-font-size);
+  font-size: 10px;
   font-weight: var(--font-weight-regular);
   outline: none;
   text-align: center;

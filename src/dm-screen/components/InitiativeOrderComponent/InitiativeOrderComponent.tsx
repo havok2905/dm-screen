@@ -176,6 +176,7 @@ export const InitiativeOrderComponent = ({
                   resourceA={item.resourceA}
                   resourceB={item.resourceB}
                   sortValue={item.sortValue}
+                  statuses={[]}
                   visibilityState={item.visibilityState}
                 />
               );

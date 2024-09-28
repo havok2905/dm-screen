@@ -1,22 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { InitiativeCard } from './InitiativeCard';
+import { StatusAvatarCollection } from './StatusAvatarCollection';
 import { StatusEffects } from '../../../../rules/enums';
 
 const meta = {
-  title: 'dm-screen/InitiativeCard',
-  component: InitiativeCard,
+  title: 'Dm-Screen/StatusAvatarCollection',
+  component: StatusAvatarCollection,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
   argTypes: {
 
-  },
-  args: {
-
   }
-} satisfies Meta<typeof InitiativeCard>;
+} satisfies Meta<typeof StatusAvatarCollection>;
 
 export default meta;
 
@@ -24,15 +21,17 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    name: 'John Doe',
-    resourceA: 15,
-    resourceB: 374,
-    sortValue: 20,
     statuses: [
       StatusEffects.BLINDED,
       StatusEffects.CHARMED,
       StatusEffects.DEAFENED,
-      StatusEffects.EXHAUSTION
+      StatusEffects.EXHAUSTION,
+      StatusEffects.FRIGHTENED,
+      StatusEffects.FRIGHTENED,
+      StatusEffects.FRIGHTENED,
+      StatusEffects.FRIGHTENED,
+      StatusEffects.FRIGHTENED,
+      StatusEffects.FRIGHTENED
     ]
   }
 };

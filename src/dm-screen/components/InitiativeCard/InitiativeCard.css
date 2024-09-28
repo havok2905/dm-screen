@@ -16,6 +16,21 @@
   width: 120px;
 }
 
+.initiative-card-resource-bubbles {
+  bottom: 34px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+  position: absolute;
+  width: 100%;
+}
+
+.initiative-card-statuses {
+  position: relative;
+  top: 4px;
+}
+
 .initiative-card-gm-only {
   border: solid 4px var(--blue-50);
   opacity: 0.4;
@@ -32,12 +47,6 @@
   visibility: hidden;
 }
 
-.initiative-card-ac {
-  bottom: 38px;
-  left: 8px;
-  position: absolute;
-}
-
 .initiative-card-character-name {
   background-color: rgba(0, 0, 0, 0.5);
   bottom: 0;
@@ -48,19 +57,10 @@
   line-height: 1;
   margin: 0;
   padding: 8px;
+  overflow: hidden;
   position: absolute;
   text-align: center;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
   width: 100%;
-}
-
-.initiative-card-hp {
-  bottom: 38px;
-  position: absolute;
-  right: 8px;
-}
-
-.initiative-card-initiative-roll {
-  position: absolute;
-  right: 8px;
-  top: 8px;
 }

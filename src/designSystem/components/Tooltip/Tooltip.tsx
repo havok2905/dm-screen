@@ -2,6 +2,7 @@ import {
   ReactNode,
   useCallback,
   useMemo,
+  useEffect,
   useRef,
   useState
 } from 'react';
@@ -50,6 +51,18 @@ export const TooltipContent = ({
     'dm-screen-design-system-tooltip-arrow-up-left': orientation === 'bottom-right',
     'dm-screen-design-system-tooltip-arrow-up-right': orientation === 'bottom-left'
   };
+
+  const smallArrowClassList = {
+    'dm-screen-design-system-tooltip-arrow-small': true,
+    'dm-screen-design-system-tooltip-arrow-small-down': orientation === 'top',
+    'dm-screen-design-system-tooltip-arrow-small-down-left': orientation === 'top-right',
+    'dm-screen-design-system-tooltip-arrow-small-down-right': orientation === 'top-left',
+    'dm-screen-design-system-tooltip-arrow-small-left': orientation === 'right',
+    'dm-screen-design-system-tooltip-arrow-small-right': orientation === 'left',
+    'dm-screen-design-system-tooltip-arrow-small-up': orientation === 'bottom',
+    'dm-screen-design-system-tooltip-arrow-small-up-left': orientation === 'bottom-right',
+    'dm-screen-design-system-tooltip-arrow-small-up-right': orientation === 'bottom-left'
+  }
 
   const tooltipPosition = useMemo(() => {
     if (!controlRect || !tooltipEl) {
@@ -144,6 +157,7 @@ export const TooltipContent = ({
       ref={(el) => setTooltipEl(el)}
       style={tooltipPosition}
     >
+      <div className={classNames(smallArrowClassList)}></div>
       <div className={classNames(arrowClassList)}></div>
       <div
         className="dm-screen-design-system-tooltip-content">
@@ -161,21 +175,46 @@ export const Tooltip = ({
   orientation,
 }: TooltipProps) => {
   const controlRef = useRef<HTMLDivElement | null>(null);
+  const timeoutRef = useRef<any>(null);
   const [controlRect, setControlRect] = useState<DOMRect | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const internalOnMouseEnter = useCallback(() => {
     if (controlRef.current) {
       const rect = controlRef.current.getBoundingClientRect();
-      setControlRect(rect);
-      setIsOpen(true);
+
+      /**
+       * This forces a commit to hover by the user instead of
+       * firing the tooltip as they idly move their mouse
+       * across the screen. The delay is short enough to not
+       * be too noticeable.
+       */
+      timeoutRef.current = setTimeout(() => {
+        setControlRect(rect);
+        setIsOpen(true);
+      }, 300);
     }
   }, []);
 
   const internalOnMouseLeave = useCallback(() => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
     setControlRect(null);
     setIsOpen(false);
   }, []);
+
+  useEffect(() => {
+    /**
+     * Force a cleanup of timeouts as the component tears
+     * down. We don't want async code executing after the
+     * component unmounts.
+     */
+    return () => {
+      clearTimeout(timeoutRef.current);
+    };
+  }, [])
 
   return (
     <>

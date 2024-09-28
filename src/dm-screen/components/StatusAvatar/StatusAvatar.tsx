@@ -3,8 +3,8 @@ import { StatusEffects } from '@rules/enums';
 import { Tooltip } from '@designSystem/components';
 
 export interface StatusAvatarProps {
-  status: StatusEffects,
-  zIndex: number,
+  status: StatusEffects;
+  zIndex: number;
 }
 
 export const StatusAvatar = ({

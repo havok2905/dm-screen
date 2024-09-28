@@ -1,0 +1,15 @@
+.status-avatar-collection {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.status-avatar-collection .status-avatar:not(:last-of-type) {
+  margin-left: calc(-1 *var(--spacing-small));
+}
+
+.status-avatar-collection.status-avatar-collection-crowded .status-avatar:not(:last-of-type) {
+  margin-left: -18px;
+}
