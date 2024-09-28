@@ -6,13 +6,13 @@ describe('AddAdventureHandoutRequest', () => {
     it('should construct', () => {
       const subject = new AddAdventureHandoutRequest(
         '1',
-        'description',
         'name',
+        'description',
         '/'
       );
 
       expect(subject.description).toEqual('description');
-      expect(subject.id).toEqual('1');
+      expect(subject.adventureid).toEqual('1');
       expect(subject.name).toEqual('name');
       expect(subject.url).toEqual('/');
     });
@@ -23,8 +23,8 @@ describe('AddAdventureHandoutRequest', () => {
       expect(() => {
         const subject = new AddAdventureHandoutRequest(
           '1',
-          'description',
           'name',
+          'description',
           '/'
         );
   
