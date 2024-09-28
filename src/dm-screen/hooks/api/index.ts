@@ -1,5 +1,6 @@
 export * from './useAddCreature';
 export * from './useAddEquipmentItem';
+export * from './useAddHandout';
 export * from './useAddMagicItem';
 export * from './useAdventure';
 export * from './useAdventureCreature';

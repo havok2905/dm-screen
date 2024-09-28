@@ -32,6 +32,11 @@ coverage
 
 report.json
 
+uploads/*.gif
+uploads/*.png
+uploads/*.jpg
+uploads/*.jpeg
+
 db.sqlite
 db.development.sqlite
 db.production.sqlite
