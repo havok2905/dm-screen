@@ -151,6 +151,7 @@ export const AdventurePage = () => {
   } = useDestroyAdventureItem(onSuccess);
 
   const {
+    isError: addHandoutIsError,
     mutate: addHandout
   } = useAddHandout(onAddHandoutSuccess);
 
@@ -620,6 +621,7 @@ export const AdventurePage = () => {
         <HandoutForm
           adventureId={id}
           updateFunction={addHandout}
+          uploadIsError={addHandoutIsError}
         />
       </Modal>
     )

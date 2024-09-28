@@ -17,6 +17,7 @@ export interface HandoutFormProps {
     id: string;
     formData: FormData;
   }>;
+  uploadIsError: boolean;
 }
 
 type HandoutFormInputs = {
@@ -27,7 +28,8 @@ type HandoutFormInputs = {
 
 export const HandoutForm = ({
   adventureId,
-  updateFunction
+  updateFunction,
+  uploadIsError
 }: HandoutFormProps) => {
   const {
     control,
@@ -191,6 +193,13 @@ export const HandoutForm = ({
           ) : null
         }
       </div>
+      {
+        uploadIsError ? (
+          <p>
+            There was a problem uploading this handout
+          </p>
+        ) : null
+      }
       <fieldset>
         <Button
           buttonText="Upload adventure handout"
