@@ -51,6 +51,8 @@ import {
   useMagicItems
 } from '../../../hooks';
 
+import './AdventurePage.css';
+
 export const AdventurePage = () => {
   const { id: adventureId } = useParams();
   const navigate = useNavigate();
@@ -420,16 +422,18 @@ export const AdventurePage = () => {
             <h3>
               Items
             </h3>
-            <Button
-              buttonText="Add equipment from compendium"
-              onClick={() => {
-                setIsItemCompendiumModalOpen(true);
-              }} />
-            <Button
-              buttonText="Add magic item from compendium"
-              onClick={() => {
-                setIsMagicItemCompendiumModalOpen(true);
-              }} />
+            <div className="adventure-page-buttons">
+              <Button
+                buttonText="Add equipment from compendium"
+                onClick={() => {
+                  setIsItemCompendiumModalOpen(true);
+                }} />
+              <Button
+                buttonText="Add magic item from compendium"
+                onClick={() => {
+                  setIsMagicItemCompendiumModalOpen(true);
+                }} />
+            </div>
             <Table
               columns={itemColumns}
               rows={itemRows}
@@ -437,12 +441,14 @@ export const AdventurePage = () => {
             <h3>
               Handouts
             </h3>
-            <Button
-              buttonText="Add handout"
-              onClick={() => {
-                setIsHandoutModalOpen(true);
-              }}
-            />
+            <fieldset>
+              <Button
+                buttonText="Add handout"
+                onClick={() => {
+                  setIsHandoutModalOpen(true);
+                }}
+              />
+            </fieldset>
             {
               handouts.map((handout: Handout) => {
                 const {
@@ -456,8 +462,12 @@ export const AdventurePage = () => {
                     <h4>
                       {name}
                     </h4>
+                    <p>
+                      {description}
+                    </p>
                     <img 
                       alt={description}
+                      className="adventure-page-handout-image"
                       key={id}
                       src={url}
                       style={{

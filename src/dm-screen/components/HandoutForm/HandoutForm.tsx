@@ -35,6 +35,7 @@ export const HandoutForm = ({
     control,
     handleSubmit,
     setValue,
+    trigger,
     watch
   } = useForm<HandoutFormInputs>({
     mode: 'all'
@@ -146,23 +147,27 @@ export const HandoutForm = ({
                 <Label
                   error={error}
                   inputId="image"
-                  label="image"
+                  label="Image"
                   required
                 />
-                <input
-                  accept="image/png, image/jpeg"
-                  name="image"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setValue('image', file);
-                    } else {
-                      setValue('image', null);
-                    }
-                  }}
-                  id="image"
-                  type="file"
-                />
+                <div>
+                  <input
+                    accept="image/png, image/jpeg"
+                    name="image"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setValue('image', file);
+                        trigger();
+
+                      } else {
+                        setValue('image', null);
+                      }
+                    }}
+                    id="image"
+                    type="file"
+                  />
+                </div>
                 {
                   error ? (
                     <p
