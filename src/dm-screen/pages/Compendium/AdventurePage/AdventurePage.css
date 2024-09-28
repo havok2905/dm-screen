@@ -1,0 +1,7 @@
+.adventure-page-buttons button {
+  margin-right: var(--spacing-small);
+}
+
+.adventure-page-handout-image {
+  margin-bottom: var(--spacing-standard);
+}

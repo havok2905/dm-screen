@@ -7,6 +7,7 @@ import {
 import {
   AdventureCreatureNotFoundException,
   AdventureCreatureRequestMalformedException,
+  AdventureHandoutRequestMalformedException,
   AdventureItemNotFoundException,
   AdventureItemRequestMalformedException,
   AdventureNotFoundException,
@@ -36,6 +37,7 @@ export const errorHandler = (
   if (
     error instanceof MissingArgumentException ||
     error instanceof AdventureItemRequestMalformedException ||
+    error instanceof AdventureHandoutRequestMalformedException ||
     error instanceof AdventureRequestMalformedException ||
     error instanceof AdventureCreatureRequestMalformedException ||
     error instanceof CreatureRequestMalformedException ||

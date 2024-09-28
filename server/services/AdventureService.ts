@@ -19,6 +19,7 @@ import {
   AdventuresResponse
 } from '../responses';
 import {
+  AddAdventureHandoutRequest,
   CreateAdventureRequest,
   UpdateAdventureRequest
 } from '../requests';
@@ -147,6 +148,64 @@ export class AdventureService {
     });
 
     adventureItem.save();
+
+    const adventureCreatures = await AdventureCreature.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureHandouts = await AdventureHandout.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureItems = await AdventureItem.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    return this.mapResponseJson(
+      adventure,
+      adventureCreatures,
+      adventureHandouts,
+      adventureItems
+    );
+  }
+
+  static async addHandoutToAdventure (
+    addAdventureHandoutRequest: AddAdventureHandoutRequest
+  ): Promise<AdventureResponse> {
+
+    if (!addAdventureHandoutRequest) {
+      throw new MissingArgumentException();
+    }
+
+    addAdventureHandoutRequest.validate();
+
+    const id = addAdventureHandoutRequest.adventureid;
+
+    const adventure = await Adventure.findOne({
+      where: {
+        id
+      }
+    });
+
+    if (!adventure) {
+      throw new AdventureNotFoundException();
+    }
+
+    const adventureHandout = AdventureHandout.build({
+      id: uuidv4(),
+      adventureid: id,
+      description: addAdventureHandoutRequest.description,
+      name: addAdventureHandoutRequest.name,
+      url: addAdventureHandoutRequest.url
+    });
+
+    adventureHandout.save();
 
     const adventureCreatures = await AdventureCreature.findAll({
       where: {

@@ -35,11 +35,13 @@ import {
 import {
   CompendiumNavbar,
   ConfirmationModal,
+  HandoutForm,
   Markdown
 } from '../../../components';
 import {
   useAddCreature,
   useAddEquipmentItem,
+  useAddHandout,
   useAddMagicItem,
   useAdventure,
   useCreatures,
@@ -48,6 +50,8 @@ import {
   useEquipmentItems,
   useMagicItems
 } from '../../../hooks';
+
+import './AdventurePage.css';
 
 export const AdventurePage = () => {
   const { id: adventureId } = useParams();
@@ -61,6 +65,7 @@ export const AdventurePage = () => {
   const [isAdventureCreatureConfirmModalOpen, setIsAdventureCreatureConfirmModalOpen] = useState<boolean>(false);
   const [isAdventureItemConfirmModalOpen, setIsAdventureItemConfirmModalOpen] = useState<boolean>(false);
   const [isCreatureCompendiumModalOpen, setIsCreatureCompendiumModalOpen] = useState<boolean>(false);
+  const [isHandoutModalOpen, setIsHandoutModalOpen] = useState<boolean>(false);
   const [isItemCompendiumModalOpen, setIsItemCompendiumModalOpen] = useState<boolean>(false);
   const [isMagicItemCompendiumModalOpen, setIsMagicItemCompendiumModalOpen] = useState<boolean>(false);
 
@@ -120,6 +125,13 @@ export const AdventurePage = () => {
     refetch
   ]);
 
+  const onAddHandoutSuccess = useCallback(() => {
+    refetch();
+    setIsHandoutModalOpen(false);
+  }, [
+    refetch
+  ]);
+
   const {
     mutate: addCreature
   } = useAddCreature(onAddCreatureSuccess);
@@ -139,6 +151,11 @@ export const AdventurePage = () => {
   const {
     mutate: destroyAdventureItem
   } = useDestroyAdventureItem(onSuccess);
+
+  const {
+    isError: addHandoutIsError,
+    mutate: addHandout
+  } = useAddHandout(onAddHandoutSuccess);
 
   const onAdventureCreatureCancel = useCallback(() => {
     setIsAdventureCreatureConfirmModalOpen(false);
@@ -405,16 +422,18 @@ export const AdventurePage = () => {
             <h3>
               Items
             </h3>
-            <Button
-              buttonText="Add equipment from compendium"
-              onClick={() => {
-                setIsItemCompendiumModalOpen(true);
-              }} />
-            <Button
-              buttonText="Add magic item from compendium"
-              onClick={() => {
-                setIsMagicItemCompendiumModalOpen(true);
-              }} />
+            <div className="adventure-page-buttons">
+              <Button
+                buttonText="Add equipment from compendium"
+                onClick={() => {
+                  setIsItemCompendiumModalOpen(true);
+                }} />
+              <Button
+                buttonText="Add magic item from compendium"
+                onClick={() => {
+                  setIsMagicItemCompendiumModalOpen(true);
+                }} />
+            </div>
             <Table
               columns={itemColumns}
               rows={itemRows}
@@ -422,6 +441,14 @@ export const AdventurePage = () => {
             <h3>
               Handouts
             </h3>
+            <fieldset>
+              <Button
+                buttonText="Add handout"
+                onClick={() => {
+                  setIsHandoutModalOpen(true);
+                }}
+              />
+            </fieldset>
             {
               handouts.map((handout: Handout) => {
                 const {
@@ -435,8 +462,12 @@ export const AdventurePage = () => {
                     <h4>
                       {name}
                     </h4>
+                    <p>
+                      {description}
+                    </p>
                     <img 
                       alt={description}
+                      className="adventure-page-handout-image"
                       key={id}
                       src={url}
                       style={{
@@ -586,6 +617,26 @@ export const AdventurePage = () => {
     </Modal>
   );
 
+  const getHandoutsModal = (
+    isOpen: boolean,
+    onClose: () => void
+  ): ReactNode => {
+    return (
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        portalElement={document.body}
+      >
+        <h2>Upload Handout</h2>
+        <HandoutForm
+          adventureId={id}
+          updateFunction={addHandout}
+          uploadIsError={addHandoutIsError}
+        />
+      </Modal>
+    )
+  };
+
   return (
     <>
       <CompendiumNavbar/>
@@ -599,6 +650,9 @@ export const AdventurePage = () => {
           adventureContent
         }
       </Container>
+      {getHandoutsModal(isHandoutModalOpen, () => {
+        setIsHandoutModalOpen(false);
+      })}
       {getItemsModal(markdownItems, isItemCompendiumModalOpen, () => {
         setNameSearchTerm('');
         setTagSearchTerm('');

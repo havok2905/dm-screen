@@ -1,3 +1,4 @@
+export * from './AddAdventureHandoutRequest';
 export * from './CreateAdventureRequest';
 export * from './CreateCreatureRequest';
 export * from './CreateEquipmentItemRequest';

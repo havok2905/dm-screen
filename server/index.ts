@@ -2,6 +2,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import http from 'http';
+import multer from 'multer';
+import path from 'path';
 import { Server } from 'socket.io';
 
 import {
@@ -15,6 +17,7 @@ import {
   SpellService
 } from './services';
 import {
+  AddAdventureHandoutRequest,
   CreateAdventureRequest,
   CreateCreatureRequest,
   CreateEquipmentItemRequest,
@@ -39,6 +42,36 @@ const app = express();
 const config = new ServerConfig();
 const port = config.getServerPort();
 
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, callback) => {
+      callback(null, 'uploads');
+    },
+    filename: (req, file, callback) => {
+      callback(null, `image-${Date.now()}.${file.originalname}`);
+    }
+  }),
+  limits: {
+    fileSize: 1024 * 1024 * 24 // Limit file size to 24mb
+  },
+  fileFilter: (req, file, callback) => {
+    const allowedMimes = [
+      'image/jpg',
+      'image/jpeg',
+      'image/png',
+      'image/gif'
+    ];
+
+    if (allowedMimes.includes(file.mimetype)) {
+      callback(null, true);
+    } else {
+      callback(
+        new Error('Invalid file type. Only JPEG, PNG, and GIF are allowed.')
+      );
+    }
+  }
+});
+
 const server = http.createServer(app);
 
 const io = new Server(server, {
@@ -48,6 +81,7 @@ const io = new Server(server, {
 });
 
 app.use(cors());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
 
 app.get('/', (_req, res) => {
@@ -133,6 +167,44 @@ app.post('/adventure/:id/addEquipmentItem/:itemId', async (request, response, ne
 
     response.json(responseJson);
   } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/adventure/:id/addHandout', upload.single('image'), async (request, response, next) => {
+  try {
+    const {
+      id
+    } = request.params;
+
+    const {
+      description,
+      name
+    } = request.body;
+
+    const file = request.file;
+    const url = `/uploads/${file.filename}`;
+
+    console.log({
+      description,
+      file,
+      id,
+      name,
+      url
+    });
+
+    const addAdventureHandoutRequest = new AddAdventureHandoutRequest(
+      id,
+      name,
+      description,
+      url
+    );
+
+    const responseJson = await AdventureService.addHandoutToAdventure(addAdventureHandoutRequest);
+    
+    response.json(responseJson);
+  } catch(error) {
+    console.log(error);
     next(error);
   }
 });

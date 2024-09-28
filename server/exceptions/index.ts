@@ -1,4 +1,5 @@
 export * from './adventureExceptions';
+export * from './adventureHandoutExceptions';
 export * from './adventureCreatureExceptions';
 export * from './adventureItemExceptions';
 export * from './creatureExceptions';
