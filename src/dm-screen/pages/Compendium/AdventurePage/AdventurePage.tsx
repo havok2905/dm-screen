@@ -35,6 +35,7 @@ import {
 import {
   CompendiumNavbar,
   ConfirmationModal,
+  HandoutForm,
   Markdown
 } from '../../../components';
 import {
@@ -65,10 +66,6 @@ export const AdventurePage = () => {
   const [isHandoutModalOpen, setIsHandoutModalOpen] = useState<boolean>(false);
   const [isItemCompendiumModalOpen, setIsItemCompendiumModalOpen] = useState<boolean>(false);
   const [isMagicItemCompendiumModalOpen, setIsMagicItemCompendiumModalOpen] = useState<boolean>(false);
-
-  const [handoutDescription, setHandoutDescription] = useState<string>('');
-  const [handoutFile, setHandoutFile] = useState<File | null>(null);
-  const [handoutName, setHandoutName] = useState<string>('');
 
   const {
     data,
@@ -129,9 +126,6 @@ export const AdventurePage = () => {
   const onAddHandoutSuccess = useCallback(() => {
     refetch();
     setIsHandoutModalOpen(false);
-    setHandoutDescription('');
-    setHandoutFile(null);
-    setHandoutName('');
   }, [
     refetch
   ]);
@@ -618,70 +612,14 @@ export const AdventurePage = () => {
   ): ReactNode => {
     return (
       <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      portalElement={document.body}>
+        isOpen={isOpen}
+        onClose={onClose}
+        portalElement={document.body}
+      >
         <h2>Upload Handout</h2>
-        <div>
-          <Input
-            full
-            inputId="handout-id"
-            inputName="handout-name"
-            label="Name"
-            onChange={(e) => {
-              setHandoutName(e.target.value ?? '');
-            }}
-          />
-          <Input
-            full
-            inputId="handout-description"
-            inputName="handout-description"
-            label="Description"
-            onChange={(e) => {
-              setHandoutDescription(e.target.value ?? '');
-            }}
-          />
-          <input
-            accept="image/png, image/jpeg"
-            name="adventure-handout-upload"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) {
-                setHandoutFile(file);
-              } else {
-                setHandoutFile(null);
-              }
-            }}
-            id="adventure-handout-upload"
-            type="file"
-          />
-        </div>
-        <div>
-          {
-            handoutFile ? (
-              <img
-                src={URL.createObjectURL(handoutFile)}
-                width="100%"/>
-            ) : null
-          }
-        </div>
-        <Button
-          buttonText="Upload"
-          onClick={() => {
-            if (handoutFile) {
-              const formData = new FormData();
-
-              formData.append('adventureId', adventureId ?? '');
-              formData.append('description', handoutDescription ?? '');
-              formData.append('image', handoutFile);
-              formData.append('name', handoutName ?? '');
-
-              addHandout({
-                id,
-                formData
-              });
-            }
-          }}
+        <HandoutForm
+          adventureId={id}
+          updateFunction={addHandout}
         />
       </Modal>
     )
@@ -702,9 +640,6 @@ export const AdventurePage = () => {
       </Container>
       {getHandoutsModal(isHandoutModalOpen, () => {
         setIsHandoutModalOpen(false);
-        setHandoutDescription('');
-        setHandoutFile(null);
-        setHandoutName('');
       })}
       {getItemsModal(markdownItems, isItemCompendiumModalOpen, () => {
         setNameSearchTerm('');
