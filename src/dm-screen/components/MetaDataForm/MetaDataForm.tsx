@@ -178,19 +178,6 @@ export const MetaDataForm = ({
     onChange
   ]);
 
-  useEffect(() => {
-    if (initialMetaData) {
-      dispatch({
-        type: ReducerActionType.SET_ALL,
-        payload: {
-          metaData: initialMetaData
-        }
-      });
-    }
-  }, [
-    initialMetaData
-  ]);
-
   const handleMetaDataNameChange = useCallback((event: ChangeEvent<HTMLInputElement>, index: number) => {
     dispatch({
       type: ReducerActionType.UPDATE_NAME,

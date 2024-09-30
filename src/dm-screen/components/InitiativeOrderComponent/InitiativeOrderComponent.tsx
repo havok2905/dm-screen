@@ -82,7 +82,7 @@ export const InitiativeOrderComponent = ({
   const onResourceBChange = (item: InitiativeItem, value: number) => {
     const initiativeOrder = getInitiativeOrder();
     if (initiativeOrder) {
-      initiativeOrder.setResourceA(item.id, value);
+      initiativeOrder.setResourceB(item.id, value);
       handleUpdateInitiativeOrderInternal();
     }
   };
