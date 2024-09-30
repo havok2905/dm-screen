@@ -475,7 +475,7 @@ describe('DmView.cy.tsx', () => {
       .find('input')
       .eq(0)
       .invoke('attr', 'value')
-      .should('contain', '0');
+      .should('contain', '10');
 
     cy
       .getInitiativeCard()
@@ -483,7 +483,7 @@ describe('DmView.cy.tsx', () => {
       .find('input')
       .eq(1)
       .invoke('attr', 'value')
-      .should('contain', '15');
+      .should('contain', '0');
 
     cy
       .getInitiativeCard()
@@ -491,7 +491,7 @@ describe('DmView.cy.tsx', () => {
       .find('input')
       .eq(2)
       .invoke('attr', 'value')
-      .should('contain', '0');
+      .should('contain', '15');
 
     cy
       .getButton()
@@ -542,7 +542,7 @@ describe('DmView.cy.tsx', () => {
       .find('input')
       .eq(0)
       .invoke('attr', 'value')
-      .should('contain', '0');
+      .should('contain', '20');
 
     cy
       .getInitiativeCard()
@@ -550,7 +550,7 @@ describe('DmView.cy.tsx', () => {
       .find('input')
       .eq(1)
       .invoke('attr', 'value')
-      .should('contain', '15');
+      .should('contain', '25');
 
     cy
       .getInitiativeCard()
@@ -558,7 +558,7 @@ describe('DmView.cy.tsx', () => {
       .find('input')
       .eq(2)
       .invoke('attr', 'value')
-      .should('contain', '25');
+      .should('contain', '15');
     
     // UI test to traverse new combat state
 

@@ -35,7 +35,6 @@
 
 | Command | Description |
 | ------- | ----------- |
-| compile:server | Runs a generic typescript compile on the server code |
 | data:populate-all | populates db with all records from 5e api | 
 | data:populate-creatures | populates db with creature data fetched from 5e api | 
 | data:populate-equipment-items | populates db with equipment items data fetched from 5e api | 

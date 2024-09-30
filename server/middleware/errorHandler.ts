@@ -30,7 +30,7 @@ import {
 
 export const errorHandler = (
   error: Error,
-  request: Request,
+  _request: Request,
   response: Response,
   next: NextFunction
 ) => {

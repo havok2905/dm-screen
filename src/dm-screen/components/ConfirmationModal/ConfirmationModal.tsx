@@ -3,6 +3,8 @@ import {
   Modal
 } from '@designSystem/components';
 
+import './ConfirmationModal.css';
+
 interface ConfirmationModalProp {
   isOpen: boolean;
   message?: string;
@@ -34,28 +36,30 @@ export const ConfirmationModal = ({
           </p>
         )
       }
-      <Button
-        buttonText="Yes"
-        onClick={() => {
-          onOk();
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+      <div className="confirmation-modal-buttons">
+        <Button
+          buttonText="Yes"
+          onClick={() => {
             onOk();
-          }
-        }}
-      />
-      <Button
-        buttonText="Cancel"
-        onClick={() => {
-          onCancel();
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              onOk();
+            }
+          }}
+        />
+        <Button
+          buttonText="Cancel"
+          onClick={() => {
             onCancel();
-          }
-        }}
-      />
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              onCancel();
+            }
+          }}
+        />
+      </div>
     </Modal>
   );
 };
