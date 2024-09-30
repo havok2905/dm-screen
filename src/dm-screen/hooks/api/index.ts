@@ -16,6 +16,7 @@ export * from './useCreature';
 export * from './useCreatures';
 export * from './useDestroyAdventure';
 export * from './useDestroyAdventureCreature';
+export * from './useDestroyAdventureHandout';
 export * from './useDestroyAdventureItem';
 export * from './useDestroyCreature';
 export * from './useDestroyEquipmentItem';

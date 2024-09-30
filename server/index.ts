@@ -8,6 +8,7 @@ import { Server } from 'socket.io';
 
 import {
   AdventureCreatureService,
+  AdventureHandoutService,
   AdventureItemService,
   AdventureService,
   CreatureService,
@@ -44,17 +45,17 @@ const port = config.getServerPort();
 
 const upload = multer({
   storage: multer.diskStorage({
-    destination: (req, file, callback) => {
+    destination: (_req, _file, callback) => {
       callback(null, 'uploads');
     },
-    filename: (req, file, callback) => {
+    filename: (_req, file, callback) => {
       callback(null, `image-${Date.now()}.${file.originalname}`);
     }
   }),
   limits: {
     fileSize: 1024 * 1024 * 24 // Limit file size to 24mb
   },
-  fileFilter: (req, file, callback) => {
+  fileFilter: (_req, file, callback) => {
     const allowedMimes = [
       'image/jpg',
       'image/jpeg',
@@ -79,6 +80,8 @@ const io = new Server(server, {
     origin: '*',
   }
 });
+
+console.log(path.join(__dirname, 'uploads'));
 
 app.use(cors());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -183,7 +186,7 @@ app.post('/adventure/:id/addHandout', upload.single('image'), async (request, re
     } = request.body;
 
     const file = request.file;
-    const url = `/uploads/${file.filename}`;
+    const url = `/uploads/${file?.filename ?? ''}`;
 
     console.log({
       description,
@@ -282,6 +285,15 @@ app.put('/adventureCreature/:id', async (request, response, next) => {
 
     response.json(responseJson);
   } catch (error) {
+    next(error);
+  }
+});
+
+app.delete('/adventureHandouts/:id', async(request, response, next) => {
+  try {
+    const responseJson = await AdventureHandoutService.destroyAdventureHandoutById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
     next(error);
   }
 });

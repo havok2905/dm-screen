@@ -46,6 +46,7 @@ import {
   useAdventure,
   useCreatures,
   useDestroyAdventureCreature,
+  useDestroyAdventureHandout,
   useDestroyAdventureItem,
   useEquipmentItems,
   useMagicItems
@@ -63,6 +64,7 @@ export const AdventurePage = () => {
   const [nameSearchTerm, setNameSearchTerm] = useState<string>('');
   const [tagSearchTerm, setTagSearchTerm] = useState<string>('');
   const [isAdventureCreatureConfirmModalOpen, setIsAdventureCreatureConfirmModalOpen] = useState<boolean>(false);
+  const [isAdventureHandoutConfirmModalOpen, setIsAdventureHandoutConfirmModalOpen] = useState<boolean>(false);
   const [isAdventureItemConfirmModalOpen, setIsAdventureItemConfirmModalOpen] = useState<boolean>(false);
   const [isCreatureCompendiumModalOpen, setIsCreatureCompendiumModalOpen] = useState<boolean>(false);
   const [isHandoutModalOpen, setIsHandoutModalOpen] = useState<boolean>(false);
@@ -149,6 +151,10 @@ export const AdventurePage = () => {
   } = useDestroyAdventureCreature(onSuccess);
 
   const {
+    mutate: destroyAdventureHandout
+  } = useDestroyAdventureHandout(onSuccess);
+
+  const {
     mutate: destroyAdventureItem
   } = useDestroyAdventureItem(onSuccess);
 
@@ -169,6 +175,20 @@ export const AdventurePage = () => {
   }, [
     activeId,
     destroyAdventureCreature
+  ]);
+
+  const onAdventureHandoutCancel = useCallback(() => {
+    setIsAdventureHandoutConfirmModalOpen(false);
+    setActiveId('');
+  }, []);
+
+  const onAdventureHandoutOk = useCallback(() => {
+    destroyAdventureHandout(activeId);
+    setIsAdventureHandoutConfirmModalOpen(false);
+    setActiveId('');
+  }, [
+    activeId,
+    destroyAdventureHandout
   ]);
 
   const onAdventureItemCancel = useCallback(() => {
@@ -465,6 +485,16 @@ export const AdventurePage = () => {
                     <p>
                       {description}
                     </p>
+                    <fieldset>
+                      <LinkButton
+                        buttonText="Remove handout"
+                        color="red"
+                        onClick={() => {
+                          setIsAdventureHandoutConfirmModalOpen(true);
+                          setActiveId(id);
+                        }}
+                      />
+                    </fieldset>
                     <img 
                       alt={description}
                       className="adventure-page-handout-image"
@@ -688,6 +718,12 @@ export const AdventurePage = () => {
         message="Are you sure you would like to destroy this item and remove it from the adventure?"
         onCancel={onAdventureItemCancel}
         onOk={onAdventureItemOk}
+      />
+      <ConfirmationModal
+        isOpen={isAdventureHandoutConfirmModalOpen}
+        message="Are you sure you would like to destroy this handout and remove it from the adventure?"
+        onCancel={onAdventureHandoutCancel}
+        onOk={onAdventureHandoutOk}
       />
     </>
   );

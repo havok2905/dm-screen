@@ -34,37 +34,6 @@ Build a web-based application to quickly import third-party TTRPG content and cr
 - Mobile web views
 - Web Hosting - this will be a self hosted solution
 
-## Milestones
-
-| Milestone | State |
-| --------- | ----- |
-| Player View MVP | Complete |
-| Dungeon Master View MVP | Complete |
-| Third Party API Importer - Creatures | Complete |
-| Third Party API Importer - Items | Complete |
-| Third Party API Importer - Magic Items | Complete |
-| DM View - Initiative Tracker UX Enhancements | In Progress |
-| Admin View - Adventures | Complete |
-| CLI Third Party API Importer - Spells | Complete |
-| Admin View - Creatures | Complete |
-| Admin View - Items | Complete |
-| Admin View - Spells | Complete |
-| Admin View - Third Party API Importer | Complete |
-| Adding creatures - with templates | Complete |
-| e2e testing strategy | Complete |
-| Adding equipment items - with templates | Complete |
-| Adding magic items - with templates | Complete |
-| Adding spells - with templates | Complete |
-| Resolve Structural Technical Debt | In Progress |
-
-### On Deck
-
-| Milestone | State |
-| --------- | ----- |
-| Hover over spells to display | On Deck |
-| General UX polish | On Deck |
-| General Error state handling in UI | On Deck |
-
 ## Design Considerations
 
 **Open Source:** This will always remain a free and open source solution.
