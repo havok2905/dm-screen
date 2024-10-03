@@ -167,7 +167,7 @@ export const DmView = () => {
       const {
         ac,
         id,
-        name
+        characterName
       } = player;
 
       return {
@@ -175,7 +175,7 @@ export const DmView = () => {
         entityType: EntityType.PLAYER,
         gmOnly: false,
         id: uuidv4(),
-        name,
+        name: characterName,
         resourceA: ac,
         resourceB: 0,
         sortValue: 0,
