@@ -1,0 +1,53 @@
+.dm-screen-design-system-dropdown {
+  background-color: var(--black-50);
+  display: table;
+  list-style: none;
+  margin: 0;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.dm-screen-design-system-dropdown-wrapper {
+  border: solid 2px var(--black-300);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  box-shadow: var(--base-shadow);
+  overflow-y: scroll;
+}
+
+.dm-screen-design-system-dropdown-row {
+  background-color: var(--black-50);
+  cursor: pointer;
+  display: table-row;
+  line-height: 1;
+}
+
+.dm-screen-design-system-dropdown-row.dm-screen-design-system-dropdown-row-active {
+  background-color: var(--black-100);
+}
+
+.dm-screen-design-system-dropdown-row.dm-screen-design-system-dropdown-row-selected {
+  color: var(--green-50);
+}
+
+.dm-screen-design-system-dropdown-cell {
+  display: table-cell;
+  padding: var(--spacing-small);
+  user-select: none;
+}
+
+.dm-screen-design-system-dropdown-cell-checkbox {
+  width: 20px;
+}
+
+.dm-screen-design-system-dropdown-cell-checkbox-hidden {
+  opacity: 0;
+}
+
+.dm-screen-design-system-dropdown-row:not(:last-of-type) .dm-screen-design-system-dropdown-cell {
+  border-bottom: solid 2px var(--black-300);
+}
+
+.dm-screen-design-system-dropdown-row:not(:first-of-type):hover .dm-screen-design-system-dropdown-cell {
+  background-color: var(--black-100);
+}

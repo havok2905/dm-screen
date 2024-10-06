@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   BookIcon,
+  CheckIcon,
   CloseIcon,
   MenuIcon
 } from './Icons';
@@ -9,6 +10,9 @@ import {
 const IconsComponent = () => {
   return (
     <>
+      <div>
+        <CheckIcon/>
+      </div>
       <div>
         <CloseIcon/>
       </div>

@@ -2,6 +2,7 @@ export * from './Button';
 export * from './CenteredContainer';
 export * from './CircleBadgeForm';
 export * from './Container';
+export * from './Dropdown';
 export * from './ErrorDisplay';
 export * from './Footer';
 export * from './Grid';
