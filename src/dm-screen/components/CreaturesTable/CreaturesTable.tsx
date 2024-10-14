@@ -2,6 +2,7 @@ import {
   EntityType,
   Handout,
   MarkdownEntity,
+  MetaData,
   VisibilityState
 } from '@core/types';
 import {
@@ -10,6 +11,7 @@ import {
 } from '@designSystem/components';
 import {
   useContext,
+  useMemo,
   useState
 } from 'react';
 
@@ -36,6 +38,32 @@ export const CreaturesTable = ({
 
   const { getInitiativeOrder } = useContext(InitiativeOrderContext);
 
+  const columns = useMemo(() => {
+    const columns: string[] = [];
+
+    creatures.forEach((creature) => {
+      const { metadata } = creature;
+
+      metadata.forEach((data) => {
+        if (!columns.includes(data.name)) {
+          columns.push(data.name);
+        }
+      });
+    });
+
+    columns.sort((a, b) => {
+      if (a > b) return 1;
+      if (a < b) return -1;
+      return 0;
+    });
+
+    return columns.map(column => {
+      return { name: column };
+    });
+  }, [
+    creatures
+  ]);
+
   const handleClose = () => {
     setCurrentCreature(null);
     setIsOpen(false);
@@ -61,19 +89,35 @@ export const CreaturesTable = ({
         columns={
           [
             { name: 'Creature' },
-            ...creatures[0].metadata.map((item) => {
-              return { name: item.name };
-            })
+            ...columns
           ]
         }
         rows={
           filtered.map((creature) => {
             const { id, metadata } = creature;
 
+            const rowData: MetaData[] = [];
+
+            columns.forEach((column) => {
+              const metaDataItem = metadata.find((m) => {
+                return m.name === column.name;
+              });
+
+              if (metaDataItem) {
+                rowData.push(metaDataItem);
+              } else {
+                rowData.push({
+                  name: '',
+                  type: 'string',
+                  value: ''
+                });
+              }
+            });
+
             return {
               data: [
                 creature.name,
-                ...metadata.map((item) => item.value)
+                ...rowData.map((item) => item.value)
               ],
               actions: [
                 {
