@@ -14,6 +14,7 @@ export interface InitiativeOrderInterface {
   remove(id: string): void;
   reset(): void;
   reveal(id: string): void;
+  setConditions(id: string, conditions: string);
   setCurrentId(id: string): void;
   setItems(items: InitiativeItem[]): void;
   setResourceA(id: string, value: number): void;
@@ -158,6 +159,18 @@ export class InitiativeOrder implements InitiativeOrderInterface {
 
     this.items = newItems;
   };
+
+  setConditions(id: string, conditions: string) {
+    const newItems = this.items.map((item) => {
+      if (item.id === id) {
+        item.conditions = conditions;
+      }
+
+      return item;
+    });
+
+    this.items = newItems;
+  }
 
   setCurrentId(id: string) {
     this.currentId = id;

@@ -55,6 +55,7 @@ export enum VisibilityState {
 }
 
 export interface InitiativeItem {
+  conditions?: string;
   entityId: string;
   entityType: EntityType;
   gmOnly: boolean;

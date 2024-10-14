@@ -13,6 +13,10 @@
   user-select: none;
 }
 
+.dm-screen-design-system-button + .dm-screen-design-system-button {
+  margin-left: 8px;
+}
+
 .dm-screen-design-system-button:hover {
   background-color: var(--black-100);
 }

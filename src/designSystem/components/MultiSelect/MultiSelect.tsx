@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 
 import { CheckIcon } from '../Icons';
+import { Pill } from '../Pill';
 
 import './MultiSelect.css';
 
 export interface MultiSelectDataItem {
-  displayValues: string[];
+  displayValue: string;
   value: string;
 }
 
@@ -31,17 +32,9 @@ export const MultiSelectItem = ({
           <CheckIcon/>
         </div>
       </span>
-      {
-        dataItem.displayValues.map((displayValue, index) => {
-          return (
-            <span
-              className="dm-screen-design-system-multiselect-cell"
-              key={index}>
-              {displayValue}
-            </span>
-          )
-        })
-      }
+      <span className="dm-screen-design-system-multiselect-cell">
+        {dataItem.displayValue}
+      </span>
     </>
   );
 };
@@ -53,6 +46,7 @@ export interface MultiSelectProps {
   maxHeight?: number;
   onChange?: (values: string, el: HTMLInputElement) => void;
   onSelect?: (value: string, dataMultiSelectItem: MultiSelectDataItem, el: HTMLInputElement) => void;
+  width?: string;
 }
 
 export const MultiSelect = ({
@@ -60,19 +54,65 @@ export const MultiSelect = ({
   initialSelected = [],
   inputId,
   maxHeight,
-  onSelect
+  onSelect,
+  width = '400px'
 }: MultiSelectProps) => {
   const multiselectRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const mockInputRef = useRef<HTMLInputElement | null>(null);
+  const pillInputRef = useRef<HTMLDivElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
   const [selected, setSelected] = useState<string[]>(initialSelected);
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const closeField = useCallback(() => {
+    setActive(null);
+    setIsOpen(false);
+    pillInputRef.current?.focus();
+  }, []);
+
+  const focusFirstItem = useCallback(() => {
+    if(multiselectRef.current && active === null) {
+      const items = multiselectRef.current.getElementsByTagName('li');
+      if (items.length > 1) {
+        setActive(0);
+        items[1].focus();
+      }
+    }
+  }, [
+    active
+  ]);
+
+  const navigateDown = useCallback(() => {
+    if (active === dataItems.length - 1) {
+      setActive(0);
+    } else {
+      setActive(active! + 1);
+    }
+  }, [
+    active,
+    dataItems
+  ]);
+
+  const navigateUp = useCallback(() => {
+    if (active === 0) {
+      setActive(dataItems.length - 1);
+    } else {
+      setActive(active! - 1);
+    }
+  }, [
+    active,
+    dataItems
+  ]);
 
   /**
    * We want to clean up selected state only when we have a new
    * batch of items. This is a prime example of exhaustive deps
    * being an incorrect rule.
+   * 
+   * Selected as an exhaustive dependency here would proc
+   * an infinite loop that we don't want, as the result of
+   * newSelected would always be a new instance of an Array
+   * object.
    */
   useEffect(() => {
     const dataItemValues = dataItems.map((item) => item.value);
@@ -88,59 +128,22 @@ export const MultiSelect = ({
     dataItems
   ]);
 
+  /**
+   * Register events on the multiselect field
+   * and tear them down on teardown of the component.
+   */
   useEffect(() => {
     const current = multiselectRef.current;
 
     const onKeyDown = (e) => {
       e.preventDefault();
-  
-      /**
-       * Cycle active state when we reach the bottom.
-       */
-      if (e.key === 'ArrowDown') {
-        if (active === dataItems.length - 1) {
-          setActive(0);
-        } else {
-          setActive(active! + 1);
-        }
-      }
-
-      /**
-       * Cycle active state when we reach the top.
-       */
-      if (e.key === 'ArrowUp') {
-        if (active === 0) {
-          setActive(dataItems.length - 1);
-        } else {
-          setActive(active! - 1);
-        }
-      }
-
-      /**
-       * When we tab, we are closing the multiselect and
-       * refocusing on the parent input, to allow the
-       * user to keep tabbing through the form.
-       */
-      if (e.key === 'Tab') {
-        setActive(null); // Reset the active state, since we are closing the form.
-        setIsOpen(false);
-        inputRef.current?.focus();
-      }
+      if (e.key === 'ArrowDown') navigateDown();
+      if (e.key === 'ArrowUp') navigateUp();
+      if (e.key === 'Tab') closeField();
     };
 
     if (current && isOpen) {
-      /**
-       * If we haven't set focus yet, force focus on the first item in
-       * the list and set the first item to active.
-       */
-      if(current && active === null) {
-        const items = current.getElementsByTagName('li');
-        if (items.length > 1) {
-          setActive(0);
-          items[1].focus();
-        }
-      }
-
+      focusFirstItem();
       current.addEventListener('keydown', onKeyDown);
     }
 
@@ -150,12 +153,20 @@ export const MultiSelect = ({
       }
     }
   }, [
-    active,
-    dataItems,
+    closeField,
+    focusFirstItem,
     isOpen,
-    setActive
+    navigateDown,
+    navigateUp
   ]);
 
+  /**
+   * When a new item is designated as active we want to
+   * force focus on that element. This is normally handled
+   * by tabbing, but movement through the list is handled
+   * by up/down keys here, so focus needs to be managed
+   * manually.
+   */
   useEffect(() => {
     if(multiselectRef.current && active !== null) {
       const items = multiselectRef.current.getElementsByTagName('li');
@@ -170,7 +181,7 @@ export const MultiSelect = ({
   ]);
 
   return (
-    <>
+    <div className="dm-screen-design-system-multiselect">
       <input
         id={inputId}
         ref={inputRef}
@@ -178,16 +189,50 @@ export const MultiSelect = ({
         value={selected.join('|')}
       >
       </input>
-      <input
+      <div
+        className="dm-screen-design-system-multiselect-input"
+        onClick={() => {
+          isOpen ? closeField() : setIsOpen(true);
+        }}
         onKeyDown={(e) => {
+          /**
+           * We don't need to handle a closing state here, as focus is
+           * forced to the first list item. A KeyDown tab event there
+           * would close the dropdown and reset focus here.
+           */
           if (e.key === 'Enter') {
             setIsOpen(true);
           }
         }}
-        ref={mockInputRef}
-        style={{ width: '400px' }}
-        type="text"
-        value={selected.join('|')}/>
+        ref={pillInputRef}
+        style={{ width }}
+        tabIndex={0}
+      >
+        {
+          selected.map((value) => {
+            const onClose = () => {
+              const dataItem = dataItems.find((item) => item.value === value) as MultiSelectDataItem;
+              const newItems = selected.filter(item => item !== value);
+              
+              setSelected(newItems);
+
+              if (onSelect) {
+                onSelect(newItems.join('|'), dataItem, inputRef.current!);
+              }
+            };
+
+            const item = dataItems.find((dataItem) => dataItem.value === value);
+
+            return (
+              <Pill
+                closeFunc={onClose}
+                color="black-50"
+                key={value}
+                text={item?.displayValue ?? ''}/>
+            )
+          })
+        }
+      </div>
       {
         isOpen ? (
           <div
@@ -195,10 +240,10 @@ export const MultiSelect = ({
             ref={multiselectRef}
             style={{
               maxHeight: `${maxHeight}px`,
-              width: `${mockInputRef.current?.getBoundingClientRect().width ?? 0}px`
+              width: `${pillInputRef.current?.getBoundingClientRect().width ?? 0}px`
             }}>
             <ul
-              className="dm-screen-design-system-multiselect">
+              className="dm-screen-design-system-multiselect-list">
               {
                 dataItems.map((dataItem, index) => {
                   const isActive = active === index;
@@ -246,6 +291,6 @@ export const MultiSelect = ({
           </div>
         ) : null
       }
-    </>
+    </div>
   );
 };

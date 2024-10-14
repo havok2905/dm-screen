@@ -25,27 +25,27 @@ export const Default: Story = {
   args: {
     dataItems: [
       {
-        displayValues: ['Blinded'],
+        displayValue: 'Blinded',
         value: 'blinded'
       },
       {
-        displayValues: ['Charmed'],
+        displayValue: 'Charmed',
         value: 'charmed'
       },
       {
-        displayValues: ['Dead'],
+        displayValue: 'Dead',
         value: 'dead'
       },
       {
-        displayValues: ['Petrified'],
+        displayValue: 'Petrified',
         value: 'petrified'
       },
       {
-        displayValues: ['Poisoned'],
+        displayValue: 'Poisoned',
         value: 'poisoned'
       },
       {
-        displayValues: ['Prone'],
+        displayValue: 'Prone',
         value: 'prone'
       }
     ],
