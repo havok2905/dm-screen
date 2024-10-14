@@ -26,6 +26,7 @@ import {
   useInitiative
 } from '../../hooks';
 
+import { API_BASE } from '../../hooks/api/constants';
 import { InitiativeOrderComponent } from '../../components';
 import { PlayerSplash } from './PlayerSplash';
 
@@ -53,7 +54,7 @@ export const PlayerView = () => {
   useEffect(() => {
     if (!socketRef.current) {
       // @ts-expect-error socket.io type setup isn't the most well documented and needs to be solved later. 
-      socketRef.current = io('http://localhost:3000');
+      socketRef.current = io(API_BASE);
     }
 
     const ws = socketRef.current;

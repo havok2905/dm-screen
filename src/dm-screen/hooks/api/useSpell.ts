@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 export const useSpell = (id: string) => {
   const result = useQuery({
     queryKey: ['spellData'],
     queryFn: () => {
-      return fetch(`http://localhost:3000/spell/${id}`, {
+      return fetch(`${API_BASE}/spell/${id}`, {
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
         }

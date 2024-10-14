@@ -13,6 +13,7 @@ import {
   useState
 } from 'react';
 
+import { API_BASE } from '../../../hooks/api/constants';
 import { CompendiumNavbar } from '../../../components';
 import { useImportDnd5eApi } from '../../../hooks';
 
@@ -36,7 +37,7 @@ export const ImportsPage = () => {
   useEffect(() => {
     if (!socketRef.current) {
       // @ts-expect-error socket.io type setup isn't the most well documented and needs to be solved later. 
-      socketRef.current = io('http://localhost:3000');
+      socketRef.current = io(API_BASE);
     }
 
     const ws = socketRef.current;

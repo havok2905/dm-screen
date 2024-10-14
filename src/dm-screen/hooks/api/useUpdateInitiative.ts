@@ -3,6 +3,8 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 export const useUpdateInitiative = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -13,7 +15,7 @@ export const useUpdateInitiative = (onSuccess?: () => void) => {
         initiativeOrderState
       } = data;
       
-      return fetch(`http://localhost:3000/initiative/${id}`, {
+      return fetch(`${API_BASE}/initiative/${id}`, {
         method: 'PATCH',
         body: JSON.stringify({
           initiativeOrderState

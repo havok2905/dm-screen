@@ -3,6 +3,8 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 export const useCreateAdventure = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -18,7 +20,7 @@ export const useCreateAdventure = (onSuccess?: () => void) => {
       name: string;
       system: string;
     }) => {
-      return fetch('http://localhost:3000/adventures/', {
+      return fetch(`${API_BASE}/adventures/`, {
         method: 'POST',
         body: JSON.stringify({
           description,

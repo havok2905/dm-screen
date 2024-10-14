@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 export const useMagicItems = () => {
   const result = useQuery({
     queryKey: ['magicItemsData'],
     queryFn: () => {
-      return fetch('http://localhost:3000/magicItems', {
+      return fetch(`${API_BASE}/magicItems`, {
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
         }

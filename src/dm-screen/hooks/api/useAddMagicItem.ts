@@ -3,6 +3,8 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 export const useAddMagicItem = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -14,7 +16,7 @@ export const useAddMagicItem = (onSuccess?: () => void) => {
       id: string;
       itemId: string;
     }) => {
-      return fetch(`http://localhost:3000/adventure/${id}/addMagicItem/${itemId}`, {
+      return fetch(`${API_BASE}/adventure/${id}/addMagicItem/${itemId}`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json; charset=UTF-8',

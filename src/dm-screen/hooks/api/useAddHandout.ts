@@ -3,6 +3,8 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 export const useAddHandout = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -14,7 +16,7 @@ export const useAddHandout = (onSuccess?: () => void) => {
       id: string,
       formData: FormData
     }) => {
-      return fetch(`http://localhost:3000/adventure/${id}/addHandout`, {
+      return fetch(`${API_BASE}/adventure/${id}/addHandout`, {
         method: 'POST',
         body: formData
       }).then((response) => response.json())
