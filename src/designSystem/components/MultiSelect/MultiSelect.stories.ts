@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Dropdown } from './Dropdown';
+import { MultiSelect } from './MultiSelect';
 
 const meta = {
-  title: 'DesignSystem/Dropdown',
-  component: Dropdown,
+  title: 'DesignSystem/MultiSelect',
+  component: MultiSelect,
   parameters: {
     layout: 'centered',
   },
@@ -15,7 +15,7 @@ const meta = {
   args: {
 
   }
-} satisfies Meta<typeof Dropdown>;
+} satisfies Meta<typeof MultiSelect>;
 
 export default meta;
 
@@ -23,17 +23,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    columnLabels: [
-      'ID',
-      'Condition'
-    ],
     dataItems: [
       {
         displayValues: ['Blinded'],
         value: 'blinded'
       },
       {
-        displayValues: ['CharmedCharmedCharmedCharmedCharmedCharmed'],
+        displayValues: ['Charmed'],
         value: 'charmed'
       },
       {
@@ -55,7 +51,7 @@ export const Default: Story = {
     ],
     initialSelected: ['petrified'],
     inputId: 'Input Id',
-    maxHeight: 100,
+    maxHeight: 250,
     onSelect: (value, dataItem, el) => {
       console.log('onSelect', { value, dataItem, el });
     }

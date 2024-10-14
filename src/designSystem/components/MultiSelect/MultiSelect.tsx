@@ -4,29 +4,29 @@ import classNames from 'classnames';
 
 import { CheckIcon } from '../Icons';
 
-import './Dropdown.css';
+import './MultiSelect.css';
 
-export interface DropdownDataItem {
+export interface MultiSelectDataItem {
   displayValues: string[];
   value: string;
 }
 
-export interface DropdownItemProps {
-  dataItem: DropdownDataItem;
+export interface MultiSelectItemProps {
+  dataItem: MultiSelectDataItem;
   selected: boolean;
 }
 
-export const DropdownItem = ({
+export const MultiSelectItem = ({
   dataItem,
   selected
-}: DropdownItemProps) => {
+}: MultiSelectItemProps) => {
   const checkboxStyles = {
-    'dm-screen-design-system-dropdown-cell-checkbox-hidden': !selected,
+    'dm-screen-design-system-multiselect-cell-checkbox-hidden': !selected,
   };
 
   return (
     <>
-      <span className="dm-screen-design-system-dropdown-cell dm-screen-design-system-dropdown-cell-checkbox">
+      <span className="dm-screen-design-system-multiselect-cell dm-screen-design-system-multiselect-cell-checkbox">
         <div className={classNames(checkboxStyles)}>
           <CheckIcon/>
         </div>
@@ -35,7 +35,7 @@ export const DropdownItem = ({
         dataItem.displayValues.map((displayValue, index) => {
           return (
             <span
-              className="dm-screen-design-system-dropdown-cell"
+              className="dm-screen-design-system-multiselect-cell"
               key={index}>
               {displayValue}
             </span>
@@ -46,25 +46,23 @@ export const DropdownItem = ({
   );
 };
 
-export interface DropdownProps {
-  columnLabels: string[];
-  dataItems: DropdownDataItem[];
+export interface MultiSelectProps {
+  dataItems: MultiSelectDataItem[];
   initialSelected?: string[];
   inputId: string;
   maxHeight?: number;
   onChange?: (values: string, el: HTMLInputElement) => void;
-  onSelect?: (value: string, dataDropdownItem: DropdownDataItem, el: HTMLInputElement) => void;
+  onSelect?: (value: string, dataMultiSelectItem: MultiSelectDataItem, el: HTMLInputElement) => void;
 }
 
-export const Dropdown = ({
-  columnLabels,
+export const MultiSelect = ({
   dataItems,
   initialSelected = [],
   inputId,
   maxHeight,
   onSelect
-}: DropdownProps) => {
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+}: MultiSelectProps) => {
+  const multiselectRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const mockInputRef = useRef<HTMLInputElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
@@ -91,7 +89,7 @@ export const Dropdown = ({
   ]);
 
   useEffect(() => {
-    const current = dropdownRef.current;
+    const current = multiselectRef.current;
 
     const onKeyDown = (e) => {
       e.preventDefault();
@@ -119,7 +117,7 @@ export const Dropdown = ({
       }
 
       /**
-       * When we tab, we are closing the dropdown and
+       * When we tab, we are closing the multiselect and
        * refocusing on the parent input, to allow the
        * user to keep tabbing through the form.
        */
@@ -159,9 +157,9 @@ export const Dropdown = ({
   ]);
 
   useEffect(() => {
-    if(dropdownRef.current && active !== null) {
-      const items = dropdownRef.current.getElementsByTagName('li');
-      // First LI is dropdown headers
+    if(multiselectRef.current && active !== null) {
+      const items = multiselectRef.current.getElementsByTagName('li');
+      // First LI is multiselect headers
       if (items.length > 1) {
         setActive(active);
         items[active].focus();
@@ -193,23 +191,23 @@ export const Dropdown = ({
       {
         isOpen ? (
           <div
-            className="dm-screen-design-system-dropdown-wrapper"
-            ref={dropdownRef}
+            className="dm-screen-design-system-multiselect-wrapper"
+            ref={multiselectRef}
             style={{
               maxHeight: `${maxHeight}px`,
               width: `${mockInputRef.current?.getBoundingClientRect().width ?? 0}px`
             }}>
             <ul
-              className="dm-screen-design-system-dropdown">
+              className="dm-screen-design-system-multiselect">
               {
                 dataItems.map((dataItem, index) => {
                   const isActive = active === index;
                   const isSelected = selected.includes(dataItem.value);
     
                   const rowClassList = {
-                    'dm-screen-design-system-dropdown-row': true,
-                    'dm-screen-design-system-dropdown-row-active': isActive,
-                    'dm-screen-design-system-dropdown-row-selected': isSelected
+                    'dm-screen-design-system-multiselect-row': true,
+                    'dm-screen-design-system-multiselect-row-active': isActive,
+                    'dm-screen-design-system-multiselect-row-selected': isSelected
                   };
     
                   const onItemSelect = () => {
@@ -237,7 +235,7 @@ export const Dropdown = ({
                       }}
                       tabIndex={index + 1}
                     >
-                      <DropdownItem
+                      <MultiSelectItem
                         dataItem={dataItem}
                         selected={isSelected}/>
                     </li>
