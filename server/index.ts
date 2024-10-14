@@ -716,11 +716,21 @@ io.on('connection', (socket) => {
   });
 
   socket.on('handout:dispatch-show', (data) => {
-    io.emit('handout:receive-show', data);
+    const { adventureId, handout } = data;
+
+    if (adventureId && handout) {
+      const handoutReceiveEvent = `handout:receive-show:${adventureId}`;
+      io.emit(handoutReceiveEvent, handout);
+    }
   });
 
   socket.on('initiative:dispatch', (data) => {
-    io.emit('initiative:receive', data);
+    const { adventureId } = data;
+
+    if (adventureId) {
+      const initiativeReceiveEvent = `initiative:receive:${adventureId}`;
+      io.emit(initiativeReceiveEvent);
+    }
   });
 });
 

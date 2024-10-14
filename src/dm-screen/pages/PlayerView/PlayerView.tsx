@@ -19,6 +19,7 @@ import {
 
 import { io } from 'socket.io-client';
 import { Socket } from 'socket.io';
+import { useParams } from 'react-router-dom';
 
 import {
   useAdventure,
@@ -32,17 +33,22 @@ export const PlayerView = () => {
   const socketRef = useRef<Socket | null>(null);
   const [imageToDisplay, setImageToDisplay] = useState<Handout | null>(null);
 
+  const { id: adventureId } = useParams();
+
   const {
     data,
     isFetching,
     isLoading,
     isPending
-  } = useAdventure('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
+  } = useAdventure(adventureId ?? '');
 
   const {
     data: initiativeData,
     refetch: initiativeDataRefetch
-  } = useInitiative('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
+  } = useInitiative(adventureId ?? '');
+
+  const initiativeReceiveEvent = `initiative:receive:${adventureId}`;
+  const handoutReceiveEvent = `handout:receive-show:${adventureId}`;
 
   useEffect(() => {
     if (!socketRef.current) {
@@ -52,15 +58,17 @@ export const PlayerView = () => {
 
     const ws = socketRef.current;
 
-    ws?.on('handout:receive-show', (data) => {
+    ws?.on(handoutReceiveEvent, (data) => {
       setImageToDisplay(data);
     });
 
-    ws?.on('initiative:receive', () => {
+    ws?.on(initiativeReceiveEvent, () => {
       initiativeDataRefetch();
     });
   }, [
-    initiativeDataRefetch
+    handoutReceiveEvent,
+    initiativeDataRefetch,
+    initiativeReceiveEvent
   ]);
 
   if (

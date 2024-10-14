@@ -12,7 +12,6 @@ import {
 import {
   ADVENTURE_PATH,
   ADVENTURES_PATH,
-  COMPENDIUM_PATH,
   CREATE_ADVENTURE_PATH,
   CREATE_CREATURE_PATH,
   CREATE_EQUIPMENT_ITEM_PATH,
@@ -20,6 +19,7 @@ import {
   CREATE_SPELL_PATH,
   CREATURE_PATH,
   CREATURES_PATH,
+  DM_VIEW_PATH,
   EDIT_ADVENTURE_CREATURE_PATH,
   EDIT_ADVENTURE_ITEM_PATH,
   EDIT_ADVENTURE_PATH,
@@ -72,7 +72,7 @@ import { RouteErrorBoundary } from './dm-screen/components/RouteErrorBoundary';
 
 const router = createBrowserRouter([
   {
-    path: ROOT_PATH,
+    path: DM_VIEW_PATH,
     element: (
       <RouteErrorBoundary>
         <DmView/>
@@ -88,7 +88,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: COMPENDIUM_PATH,
+    path: ROOT_PATH,
     element: (
       <RouteErrorBoundary>
         <CompendiumPage/>

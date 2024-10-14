@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 
 import {
   ADVENTURES_PATH,
-  COMPENDIUM_PATH,
   CREATURES_PATH,
   EQUIPMENT_ITEMS_PATH,
   IMPORTS_PATH,
   MAGIC_ITEMS_PATH,
+  ROOT_PATH,
   SPELLS_PATH
 } from '../../routes';
 
@@ -16,7 +16,7 @@ export const CompendiumNavbar = () => {
   return (
     <nav className="compendium-navbar">
       <h1>
-        <Link to={COMPENDIUM_PATH}>
+        <Link to={ROOT_PATH}>
           Compendium
         </Link>
       </h1>
