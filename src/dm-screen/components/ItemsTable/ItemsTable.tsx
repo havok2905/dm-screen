@@ -1,10 +1,12 @@
 import {
   Handout,
-  MarkdownEntity
+  MarkdownEntity,
+  MetaData
 } from '@core/types';
 import {
   Modal,
-  Table
+  Table,
+  Tag
 } from '@designSystem/components';
 
 import { useState } from 'react';
@@ -51,19 +53,21 @@ export const ItemsTable = ({
         columns={
           [
             { name: 'Item' },
-            ...items[0].metadata.map((item) => {
-              return { name: item.name };
-            })
+            { name: 'Tags' }
           ]
         }
         rows={
           filtered.map((item) => {
             const { id, metadata } = item;
 
+            const tags = metadata.map((item) => {
+              return `${item.name}: ${item.value}`
+            }).join(', ');
+
             return {
               data: [
                 item.name,
-                ...metadata.map((i) => i.value)
+                tags
               ],
               actions: [
                 {

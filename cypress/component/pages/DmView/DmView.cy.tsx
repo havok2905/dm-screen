@@ -52,37 +52,37 @@ describe('DmView.cy.tsx', () => {
   it('should render default state', () => {
     // Renders table headers for creatures
     cy.getTableHeader(0, 0).should('contain', 'Creature');
-    cy.getTableHeader(0, 1).should('contain', 'Type');
-    cy.getTableHeader(0, 2).should('contain', 'AC');
+    cy.getTableHeader(0, 1).should('contain', 'AC');
+    cy.getTableHeader(0, 2).should('contain', 'CR');
     cy.getTableHeader(0, 3).should('contain', 'HP');
-    cy.getTableHeader(0, 4).should('contain', 'CR');
+    cy.getTableHeader(0, 4).should('contain', 'Type');
 
     // Renders table headers for items
     cy.getTableHeader(1, 0).should('contain', 'Item');
-    cy.getTableHeader(1, 1).should('contain', 'Rarity');
-    cy.getTableHeader(1, 2).should('contain', 'Cost');
+    cy.getTableHeader(1, 1).should('contain', 'Tags');
 
     // Renders table of creatures
     cy.getTableCell(0, 0, 0).should('contain', 'Playful Kitten');
-    cy.getTableCell(0, 0, 1).should('contain', 'Beast');
-    cy.getTableCell(0, 0, 2).should('contain', '15');
+    cy.getTableCell(0, 0, 1).should('contain', '15');
+    cy.getTableCell(0, 0, 2).should('contain', '1/2');
     cy.getTableCell(0, 0, 3).should('contain', '25');
-    cy.getTableCell(0, 0, 4).should('contain', '1/2');
+    cy.getTableCell(0, 0, 4).should('contain', 'Beast');
+
     cy.getTableCell(0, 1, 0).should('contain', 'Spectral Sock Puppet');
-    cy.getTableCell(0, 1, 1).should('contain', 'Undead');
-    cy.getTableCell(0, 1, 2).should('contain', '13');
+    cy.getTableCell(0, 1, 1).should('contain', '13');
+    cy.getTableCell(0, 1, 2).should('contain', '1');
     cy.getTableCell(0, 1, 3).should('contain', '40');
-    cy.getTableCell(0, 1, 4).should('contain', '1');
+    cy.getTableCell(0, 1, 4).should('contain', 'Undead');
+
     cy.getTableCell(0, 2, 0).should('contain', 'The Embroidermncer');
-    cy.getTableCell(0, 2, 1).should('contain', 'Humanoid');
-    cy.getTableCell(0, 2, 2).should('contain', '12');
+    cy.getTableCell(0, 2, 1).should('contain', '12');
+    cy.getTableCell(0, 2, 2).should('contain', '5');
     cy.getTableCell(0, 2, 3).should('contain', '60');
-    cy.getTableCell(0, 2, 4).should('contain', '5');
+    cy.getTableCell(0, 2, 4).should('contain', 'Humanoid');
 
     // Renders table of items
     cy.getTableCell(1, 0, 0).should('contain', 'Dagger');
-    cy.getTableCell(1, 0, 1).should('contain', 'Common');
-    cy.getTableCell(1, 0, 2).should('contain', '2GP');
+    cy.getTableCell(1, 0, 1).should('contain', 'Rarity: Common, Cost: 2GP');
 
     // Should not have players loaded on first render
     cy
@@ -217,10 +217,10 @@ describe('DmView.cy.tsx', () => {
 
   it('should search for a creature', () => {
     cy.getTableCell(0, 0, 0).should('contain', 'Playful Kitten');
-    cy.getTableCell(0, 0, 1).should('contain', 'Beast');
-    cy.getTableCell(0, 0, 2).should('contain', '15');
+    cy.getTableCell(0, 0, 1).should('contain', '15');
+    cy.getTableCell(0, 0, 2).should('contain', '1/2');
     cy.getTableCell(0, 0, 3).should('contain', '25');
-    cy.getTableCell(0, 0, 4).should('contain', '1/2');
+    cy.getTableCell(0, 0, 4).should('contain', 'Beast');
 
     cy
       .getSection()
@@ -230,18 +230,18 @@ describe('DmView.cy.tsx', () => {
       .type('Spect');
 
     cy.getTableCell(0, 0, 0).should('contain', 'Spectral Sock Puppet');
-    cy.getTableCell(0, 0, 1).should('contain', 'Undead');
-    cy.getTableCell(0, 0, 2).should('contain', '13');
+    cy.getTableCell(0, 0, 1).should('contain', '13');
+    cy.getTableCell(0, 0, 2).should('contain', '1');
     cy.getTableCell(0, 0, 3).should('contain', '40');
-    cy.getTableCell(0, 0, 4).should('contain', '1');
+    cy.getTableCell(0, 0, 4).should('contain', 'Undead');
   });
 
   it('should search for a creature and find nothing', () => {
     cy.getTableCell(0, 0, 0).should('contain', 'Playful Kitten');
-    cy.getTableCell(0, 0, 1).should('contain', 'Beast');
-    cy.getTableCell(0, 0, 2).should('contain', '15');
+    cy.getTableCell(0, 0, 1).should('contain', '15');
+    cy.getTableCell(0, 0, 2).should('contain', '1/2');
     cy.getTableCell(0, 0, 3).should('contain', '25');
-    cy.getTableCell(0, 0, 4).should('contain', '1/2');
+    cy.getTableCell(0, 0, 4).should('contain', 'Beast');
 
     cy
       .getSection()
@@ -258,7 +258,6 @@ describe('DmView.cy.tsx', () => {
   it('should search for an item', () => {
     cy.getTableCell(1, 0, 0).should('contain', 'Dagger');
     cy.getTableCell(1, 0, 1).should('contain', 'Common');
-    cy.getTableCell(1, 0, 2).should('contain', '2GP');
 
     cy
       .getSection()
@@ -269,13 +268,11 @@ describe('DmView.cy.tsx', () => {
 
     cy.getTableCell(1, 0, 0).should('contain', 'Dagger');
     cy.getTableCell(1, 0, 1).should('contain', 'Common');
-    cy.getTableCell(1, 0, 2).should('contain', '2GP');
   });
 
   it('should search for an item and find nothing', () => {
     cy.getTableCell(1, 0, 0).should('contain', 'Dagger');
     cy.getTableCell(1, 0, 1).should('contain', 'Common');
-    cy.getTableCell(1, 0, 2).should('contain', '2GP');
 
     cy
       .getSection()
@@ -712,7 +709,7 @@ describe('DmView.cy.tsx', () => {
 
   it('should show an item', () => {
     cy
-      .getTableCell(1, 0, 3)
+      .getTableCell(1, 0, 2)
       .find('button')
       .eq(1)
       .should('contain', 'Show')
@@ -755,7 +752,7 @@ describe('DmView.cy.tsx', () => {
 
   it('should open an item', () => {
     cy
-      .getTableCell(1, 0, 3)
+      .getTableCell(1, 0, 2)
       .find('button')
       .eq(0)
       .trigger('click');
