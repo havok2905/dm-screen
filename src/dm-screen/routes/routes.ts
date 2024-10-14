@@ -1,7 +1,5 @@
 export const ROOT_PATH = '/';
 
-export const COMPENDIUM_PATH = '/compendium';
-
 export const ADVENTURE_PATH = '/compendium/adventure/:id';
 export const ADVENTURES_PATH = '/compendium/adventures';
 export const CREATE_ADVENTURE_PATH = '/compendium/adventures/create';
@@ -32,4 +30,6 @@ export const SPELLS_PATH = '/compendium/spells';
 
 export const IMPORTS_PATH = '/compendium/imports';
 
-export const PLAYER_VIEW_PATH = '/player-view';
+export const DM_VIEW_PATH = '/dm-view/:id';
+
+export const PLAYER_VIEW_PATH = '/player-view/:id';

@@ -26,9 +26,9 @@ import {
   useState
 } from 'react';
 
-import { SocketClient } from '@core/socket';
-
 import { InitiativeOrder } from '@core/InitiativeOrder';
+import { SocketClient } from '@core/socket';
+import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -60,18 +60,22 @@ export const DmView = () => {
 
   const socketRef = useRef<SocketClient | null>(null);
 
+  const { id: adventureId } = useParams();
+
   const {
     data,
     isFetching,
     isLoading,
     isPending
-  } = useAdventure('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
+  } = useAdventure(adventureId ?? '');
 
   const {
     data: initiativeData,
     isError: initiativeItemIsError,
     refetch: initiativeDataRefetch
-  } = useInitiative('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
+  } = useInitiative(adventureId ?? '');
+
+  //console.log({ initiativeData });
 
   const { mutate: bootstrapInitiative } = useBootstrapInitiative();
   const { mutate: destroyInitiative } = useDestroyInitiative();
@@ -87,6 +91,7 @@ export const DmView = () => {
   useEffect(() => {
     if (!socketRef.current) {
       const socketClient = new SocketClient('http://localhost:3000');
+      
       socketClient.init();
       socketRef.current = socketClient;
     }
@@ -99,11 +104,12 @@ export const DmView = () => {
 
   useEffect(() => {
     if (initiativeData) {
-      socketRef.current?.emit('initiative:dispatch');
+      socketRef.current?.emit('initiative:dispatch', { adventureId });
     } else {
-      socketRef.current?.emit('initiative:dispatch', null);
+      socketRef.current?.emit('initiative:dispatch', { adventureId: null });
     }
   }, [
+    adventureId,
     initiativeData
   ]);
 
@@ -140,7 +146,7 @@ export const DmView = () => {
   }
 
   const handleBootstrapInitiativeOrder = () => {
-    bootstrapInitiative('68c8bd92-04ff-4359-9856-8d2d6b02b69b');
+    bootstrapInitiative(adventureId ?? '');
   };
 
   const handleDestroyInitiativeOrder = () => {
@@ -206,7 +212,10 @@ export const DmView = () => {
   }
 
   const handleShowHandout = (handout: Handout | null) => {
-    socketRef.current?.emit('handout:dispatch-show', handout);
+    socketRef.current?.emit('handout:dispatch-show', {
+      adventureId,
+      handout
+    });
   };
 
   const playerCharacterButtons = (

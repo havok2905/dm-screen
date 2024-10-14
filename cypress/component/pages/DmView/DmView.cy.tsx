@@ -7,6 +7,9 @@ import {SocketClient} from '@core/socket';
 const TEST_ADVENTURE_ID = '68c8bd92-04ff-4359-9856-8d2d6b02b69b';
 const TEST_INITIATIVE_ID = '213ab6dc-aa75-486f-b991-4df439bc8d59';
 
+const pagePath = `/dm-view/${TEST_ADVENTURE_ID}`;
+const pageRoute = '/dm-view/:id';
+
 describe('DmView.cy.tsx', () => {
   beforeEach(() => {
     cy.intercept('GET', `${TEST_API_BASE}/adventure/${TEST_ADVENTURE_ID}`, {
@@ -40,7 +43,7 @@ describe('DmView.cy.tsx', () => {
     cy.spy(SocketClient.prototype, 'emit').as('emit');
 
     cy.mount(
-      <ApplicationBootstrapper>
+      <ApplicationBootstrapper path={pagePath} route={pageRoute}>
         <DmView/>
       </ApplicationBootstrapper>
     );

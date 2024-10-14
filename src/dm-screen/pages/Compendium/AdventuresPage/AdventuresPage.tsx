@@ -18,7 +18,9 @@ import { Adventure } from '@core/types';
 import {
   ADVENTURE_PATH,
   CREATE_ADVENTURE_PATH,
-  EDIT_ADVENTURE_PATH
+  DM_VIEW_PATH,
+  EDIT_ADVENTURE_PATH,
+  PLAYER_VIEW_PATH
 } from '../../../routes';
 import {
   CompendiumNavbar,
@@ -97,6 +99,18 @@ export const AdventuresPage = () => {
     return {
       data: [id, name, system],
       actions: [
+        {
+          name: 'DM View',
+          onClick: () => {
+            navigate(DM_VIEW_PATH.replace(':id', id))
+          }
+        },
+        {
+          name: 'Player View',
+          onClick: () => {
+            navigate(PLAYER_VIEW_PATH.replace(':id', id))
+          }
+        },
         {
           name: 'View',
           onClick: () => {
