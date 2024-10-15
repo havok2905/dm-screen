@@ -5,6 +5,8 @@ import {
 
 import { MetaData } from '@core/types';
 
+import { API_BASE } from './constants';
+
 export const useUpdateMagicItem = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -22,7 +24,7 @@ export const useUpdateMagicItem = (onSuccess?: () => void) => {
       metadata: MetaData[],
       name: string
     }) => {
-      return fetch(`http://localhost:3000/magicItem/${id}`, {
+      return fetch(`${API_BASE}/magicItem/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
           content,

@@ -5,6 +5,8 @@ import {
 
 import { MetaData } from '@core/types';
 
+import { API_BASE } from './constants';
+
 export const useCreateSpell = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -22,7 +24,7 @@ export const useCreateSpell = (onSuccess?: () => void) => {
       metadata: MetaData[],
       name: string
     }) => {
-      return fetch('http://localhost:3000/spells/', {
+      return fetch(`${API_BASE}/spells/`, {
         method: 'POST',
         body: JSON.stringify({
           content,

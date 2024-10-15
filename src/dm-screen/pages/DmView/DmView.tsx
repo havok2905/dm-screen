@@ -51,6 +51,8 @@ import {
   useUpdateInitiative
 } from '../../hooks';
 
+import { API_BASE } from '../../hooks/api/constants';
+
 export const DmView = () => {
   const [creatureSearchTerm, setCreatureSearchTerm] = useState('');
   const [itemSearchTerm, setItemSearchTerm] = useState('');
@@ -90,7 +92,7 @@ export const DmView = () => {
 
   useEffect(() => {
     if (!socketRef.current) {
-      const socketClient = new SocketClient('http://localhost:3000');
+      const socketClient = new SocketClient(API_BASE);
       
       socketClient.init();
       socketRef.current = socketClient;

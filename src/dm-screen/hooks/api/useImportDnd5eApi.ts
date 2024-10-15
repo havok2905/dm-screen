@@ -3,12 +3,14 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 export const useImportDnd5eApi = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
   const result = useMutation({
     mutationFn: () => {
-      return fetch(`http://localhost:3000/import/dnd5eapi`, {
+      return fetch(`${API_BASE}/import/dnd5eapi`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json; charset=UTF-8',

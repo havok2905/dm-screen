@@ -5,6 +5,8 @@ import {
 
 import { MetaData } from '@core/types';
 
+import { API_BASE } from './constants';
+
 export const useUpdateAdventureItem = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -24,7 +26,7 @@ export const useUpdateAdventureItem = (onSuccess?: () => void) => {
       metadata: MetaData[],
       name: string
     }) => {
-      return fetch(`http://localhost:3000/adventureItem/${id}`, {
+      return fetch(`${API_BASE}/adventureItem/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
           adventureid,

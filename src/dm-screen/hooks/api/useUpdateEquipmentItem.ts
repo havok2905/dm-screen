@@ -5,6 +5,8 @@ import {
 
 import { MetaData } from '@core/types';
 
+import { API_BASE } from './constants';
+
 export const useUpdateEquipmentItem = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -22,7 +24,7 @@ export const useUpdateEquipmentItem = (onSuccess?: () => void) => {
       metadata: MetaData[],
       name: string
     }) => {
-      return fetch(`http://localhost:3000/equipmentItem/${id}`, {
+      return fetch(`${API_BASE}/equipmentItem/${id}`, {
         method: 'PUT',
         body: JSON.stringify({
           content,

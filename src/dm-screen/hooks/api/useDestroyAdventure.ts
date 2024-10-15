@@ -3,12 +3,14 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 export const useDestroyAdventure = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
   const result = useMutation({
     mutationFn: (id: string) => {
-      return fetch(`http://localhost:3000/adventures/${id}`, {
+      return fetch(`${API_BASE}/adventures/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json; charset=UTF-8',

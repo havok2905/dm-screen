@@ -3,6 +3,8 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 import { MetaData } from '@core/types';
 
 export const useCreateCreature = (onSuccess?: () => void) => {
@@ -22,7 +24,7 @@ export const useCreateCreature = (onSuccess?: () => void) => {
       metadata: MetaData[],
       name: string
     }) => {
-      return fetch('http://localhost:3000/creatures/', {
+      return fetch(`${API_BASE}/creatures/`, {
         method: 'POST',
         body: JSON.stringify({
           content,

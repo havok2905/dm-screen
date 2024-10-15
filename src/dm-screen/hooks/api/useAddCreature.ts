@@ -3,6 +3,8 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 
+import { API_BASE } from './constants';
+
 export const useAddCreature = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -14,7 +16,7 @@ export const useAddCreature = (onSuccess?: () => void) => {
       id: string;
       creatureId: string;
     }) => {
-      return fetch(`http://localhost:3000/adventure/${id}/addCreature/${creatureId}`, {
+      return fetch(`${API_BASE}/adventure/${id}/addCreature/${creatureId}`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json; charset=UTF-8',

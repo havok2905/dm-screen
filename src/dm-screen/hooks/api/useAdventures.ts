@@ -1,10 +1,11 @@
+import { API_BASE } from './constants';
 import { useQuery } from '@tanstack/react-query';
 
 export const useAdventures = () => {
   const result = useQuery({
     queryKey: ['adventuresData'],
     queryFn: () => {
-      return fetch('http://localhost:3000/adventures', {
+      return fetch(`${API_BASE}/adventures`, {
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
         }
