@@ -1,24 +1,41 @@
+/* Pill structure */
+
 .dm-screen-design-system-pill {
-    text-align: center;
-    align-items: center;
-    display: flex;
-    font-family: var(--base-font-family);
-    font-size: var(--sub-font-size);
-    font-weight: var(--font-weight-regular);
-    background: var(--light-grey);
-    border-radius: var(--border-radius);
-    color: var(--black);
-    padding: 5px 8px;
+  align-items: center;
+  border-radius: var(--border-radius);
+  display: inline-flex;
+  font-family: var(--base-font-family);
+  font-size: var(--sub-font-size);
+  font-weight: var(--font-weight-regular);
+  margin: 2px;
+  padding: 5px 8px;
+  text-align: center;
 }
 
-.dm-screen-design-system-pill-closeButton {
-    display: flex;
-    align-items: center;
-    margin-left: 8px;
-    cursor: pointer;
+.dm-screen-design-system-pill .dm-screen-design-system-pill-closeButton {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+  cursor: pointer;
 }
 
-.dm-screen-design-system-pill-closeButton:hover {
-    background: var(--off-white);
-    border-radius: 50%;
+.dm-screen-design-system-pill .dm-screen-design-system-pill-closeButton:hover button {
+  border-radius: 50%;
+}
+
+/* Pill themes */
+
+.dm-screen-design-system-pill.dm-screen-design-system-pill-black-50 {
+  background-color: var(--black-50);
+  border: solid 1px var(--black-300);
+  color: var(--off-white);
+}
+
+.dm-screen-design-system-pill.dm-screen-design-system-pill-black-50 .dm-screen-design-system-pill-closeButton button {
+  color: var(--off-white);
+}
+
+.dm-screen-design-system-pill.dm-screen-design-system-pill-black-50 .dm-screen-design-system-pill-closeButton:hover button {
+  background: var(--off-white);
+  color: var(--black-50);
 }

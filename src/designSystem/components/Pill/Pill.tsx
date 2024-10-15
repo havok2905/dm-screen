@@ -1,26 +1,56 @@
-import { MouseEvent } from "react";
+import classNames from 'classnames';
+
+import {
+  KeyboardEvent,
+  MouseEvent
+} from "react";
+
 import { IconButton } from '@designSystem/components';
-  
 
 import "./Pill.css";
 
 export interface PillProps {
-    closeFunc?: (e: MouseEvent) => void;
-    text: string;
-    customStyles?: any;
+  color: 'black-50',
+  closeFunc?: (e: MouseEvent | KeyboardEvent) => void;
+  text: string;
 }
 
-export const Pill = ({closeFunc, text, customStyles}: PillProps) => {
+export const Pill = ({
+  color,
+  closeFunc,
+  text
+}: PillProps) => {
+  const classList = {
+    'dm-screen-design-system-pill': true,
+    'dm-screen-design-system-pill-black-50': color === 'black-50'
+  };
 
-    const handleClose = (e: MouseEvent) => {
-        e.preventDefault();
-        // Prevent click from bubbling up to main click, if we have an interaction there.
-        e.stopPropagation();
+  const handleClose = (e: MouseEvent | KeyboardEvent) => {
+    e.preventDefault();
 
-        if (closeFunc) {
-            closeFunc(e);
-        }
+    // Prevent click from bubbling up to main click, if we have an interaction there.
+    e.stopPropagation();
+
+    if (closeFunc) {
+      closeFunc(e);
     }
+  }
 
-    return(<span className="dm-screen-design-system-pill" style={customStyles ? customStyles : undefined}>{text} <span className="dm-screen-design-system-pill-closeButton" onClick={handleClose}><IconButton icon="close" onClick={handleClose} /></span></span>);
+  return (
+    <span className={classNames(classList)}>
+      {text}
+      <span
+        className="dm-screen-design-system-pill-closeButton"
+        onClick={handleClose}>
+        <IconButton
+          icon="close"
+          onClick={handleClose}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleClose(e);
+            }
+          }} />
+      </span>
+    </span>
+  );
 }

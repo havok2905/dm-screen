@@ -177,6 +177,7 @@ export const DmView = () => {
       } = player;
 
       return {
+        conditions: '',
         entityId: id,
         entityType: EntityType.PLAYER,
         gmOnly: false,

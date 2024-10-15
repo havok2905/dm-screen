@@ -22,6 +22,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    color: 'black-50',
     text: "Paralyzed",
     closeFunc: () => { }
   }

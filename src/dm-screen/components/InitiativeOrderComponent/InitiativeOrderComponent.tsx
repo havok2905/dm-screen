@@ -1,4 +1,4 @@
-import { Button } from '@designSystem/components';
+import { Button, MultiSelect } from '@designSystem/components';
 
 import {
   InitiativeItem,
@@ -17,6 +17,7 @@ import { InitiativeOrderDmControls } from './InitiativeOrderDmControls';
 import { InitiativeOrderDmNavControls } from './InitiativeOrderDmNavControls';
 
 import './InitiativeOrderComponent.css';
+import {StatusEffects} from '@rules/enums';
 
 export interface InitiativeOrderComponentProps {
   creatures: MarkdownEntity[];
@@ -144,6 +145,14 @@ export const InitiativeOrderComponent = ({
     }
   };
 
+  const handleOnConditionChange = (conditions: string) => {
+    const initiativeOrder = getInitiativeOrder();
+    if (initiativeOrder) {
+      initiativeOrder.setConditions(openId ?? '', conditions);
+      handleUpdateInitiativeOrderInternal();
+    }
+  };
+
   const currentItem = initiativeOrderState?.items?.find((item: InitiativeItem) => item.id === openId) ?? null;
 
   return (
@@ -176,7 +185,7 @@ export const InitiativeOrderComponent = ({
                   resourceA={item.resourceA}
                   resourceB={item.resourceB}
                   sortValue={item.sortValue}
-                  statuses={[]}
+                  statuses={item.conditions ? item.conditions?.split('|') as StatusEffects[] : []}
                   visibilityState={item.visibilityState}
                 />
               );
@@ -245,41 +254,120 @@ export const InitiativeOrderComponent = ({
             type="checkbox"
           />
         </fieldset>
-        <Button
-          buttonText="Remove from initiative"
-          onClick={() => {
-            remove();
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+        <fieldset>
+          <Button
+            buttonText="Remove from initiative"
+            onClick={() => {
               remove();
-            }
-          }}
-        />
-        <Button
-          buttonText="Hide"
-          disabled={currentItem?.visibilityState !== 'on'}
-          onClick={() => {
-            hide();
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                remove();
+              }
+            }}
+          />
+          <Button
+            buttonText="Hide"
+            disabled={currentItem?.visibilityState !== 'on'}
+            onClick={() => {
               hide();
-            }
-          }}
-        />
-        <Button
-          buttonText="Reveal"
-          disabled={currentItem?.visibilityState !== 'hidden'}
-          onClick={() => {
-            reveal();
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                hide();
+              }
+            }}
+          />
+          <Button
+            buttonText="Reveal"
+            disabled={currentItem?.visibilityState !== 'hidden'}
+            onClick={() => {
               reveal();
-            }
-          }}
-        />
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                reveal();
+              }
+            }}
+          />
+        </fieldset>
+        <fieldset>
+          <MultiSelect
+            dataItems={[
+              {
+                displayValue: 'Blinded',
+                value: StatusEffects.BLINDED
+              },
+              {
+                displayValue: 'Charmed',
+                value: StatusEffects.CHARMED
+              },
+              {
+                displayValue: 'Dead',
+                value: StatusEffects.DEAD
+              },
+              {
+                displayValue: 'Deafened',
+                value: StatusEffects.DEAFENED
+              },
+              {
+                displayValue: 'Exhaustion',
+                value: StatusEffects.EXHAUSTION
+              },
+              {
+                displayValue: 'Frightened',
+                value: StatusEffects.FRIGHTENED
+              },
+              {
+                displayValue: 'Grappled',
+                value: StatusEffects.GRAPPLED
+              },
+              {
+                displayValue: 'Incapacitated',
+                value: StatusEffects.INCAPACITATED
+              },
+              {
+                displayValue: 'Invisible',
+                value: StatusEffects.INVISIBLE
+              },
+              {
+                displayValue: 'Paralyzed',
+                value: StatusEffects.PARALYZED
+              },
+              {
+                displayValue: 'Petriifed',
+                value: StatusEffects.PETRIFIED
+              },
+              {
+                displayValue: 'Poisoned',
+                value: StatusEffects.POISONED
+              },
+              {
+                displayValue: 'Prone',
+                value: StatusEffects.PRONE
+              },
+              {
+                displayValue: 'Restrained',
+                value: StatusEffects.RESTRAINED
+              },
+              {
+                displayValue: 'Stunned',
+                value: StatusEffects.STUNNED
+              },
+              {
+                displayValue: 'Unconscious',
+                value: StatusEffects.UNCONSCIOUS
+              }
+            ]}
+            initialSelected={(currentItem?.conditions ? currentItem?.conditions.split('|') : [])}
+            inputId="condition-dropdown"
+            maxHeight={150}
+            onSelect={(conditions) => {
+              handleOnConditionChange(conditions);
+            }}
+            width="400px"
+          />
+        </fieldset>
       </InitiativeItemModal>
     </>
   )

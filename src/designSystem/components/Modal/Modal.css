@@ -1,5 +1,5 @@
 .dm-screen-design-system-modal-backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.85);
   height: 100%;
   left: 0;
   position: fixed;
@@ -9,11 +9,11 @@
 }
 
 .dm-screen-design-system-modal {
-  background-color: var(--white);
+  background-color: var(--black-50);
   border-radius: var(--border-radius);
   box-shadow: var(--base-shadow);
   box-sizing: border-box;
-  color: var(--black-100);
+  color: var(--off-white);
   left: 0; 
   margin: 0 auto;
   max-height: 500px;

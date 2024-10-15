@@ -147,6 +147,7 @@ export const CreaturesTable = ({
                       initiativeOrder.setItems([
                         ...initiativeOrder.getItems(),
                         {
+                          conditions: '',
                           entityId: creature.id,
                           entityType: EntityType.CREATURE,
                           gmOnly: false,

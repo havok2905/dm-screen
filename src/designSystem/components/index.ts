@@ -12,6 +12,7 @@ export * from './Label';
 export * from './LinkButton';
 export * from './LoadingBar';
 export * from './Modal';
+export * from './MultiSelect';
 export * from './Section';
 export * from './SideDrawer';
 export * from './Spinner';
