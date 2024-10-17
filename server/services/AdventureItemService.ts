@@ -24,6 +24,8 @@ export class AdventureItemService {
       throw new AdventureItemNotFoundException();
     }
 
+    deleteImageFromDiskIfItExists(adventureItem.dataValues.image);
+
     adventureItem?.destroy();
     adventureItem?.save();
   
