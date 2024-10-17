@@ -1,0 +1,17 @@
+.dm-screen-design-system-simple-list {
+  margin: 0;
+}
+
+.dm-screen-design-system-simple-list-content {
+  margin-top: var(--spacing-standard);
+}
+
+.dm-screen-design-system-simple-list-item {
+  cursor: pointer;
+  list-style-type: none;
+  padding: var(--spacing-small) 0;
+}
+
+.dm-screen-design-system-simple-list-item:not(:last-of-type) {
+  border-bottom: solid 1px var(--black-300);
+}

@@ -15,4 +15,5 @@ export * from './PlayersContext';
 export * from './PlayersTable';
 export * from './RouteErrorBoundary';
 export * from './RulesSearch';
+export * from './SpellsSearch';
 export * from './ToolbarFooter';

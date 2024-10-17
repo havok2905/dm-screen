@@ -1,10 +1,13 @@
+import React from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import {
   BookIcon,
   CheckIcon,
   CloseIcon,
-  MenuIcon
+  MenuIcon,
+  MoonIcon
 } from './Icons';
 
 const IconsComponent = () => {
@@ -21,6 +24,9 @@ const IconsComponent = () => {
       </div>
       <div>
         <BookIcon/>
+      </div>
+      <div>
+        <MoonIcon/>
       </div>
     </>
   );

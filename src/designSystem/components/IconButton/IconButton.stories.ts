@@ -9,7 +9,7 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    icon: { control: 'select', options: ['close', 'menu'] }
+    icon: { control: 'select', options: ['close', 'menu', 'moon'] }
   },
   args: {
 

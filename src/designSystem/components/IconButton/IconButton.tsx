@@ -10,13 +10,14 @@ import {
 import {
   BookIcon,
   CloseIcon,
-  MenuIcon
+  MenuIcon,
+  MoonIcon
 } from '../Icons';
 
 import './IconButton.css';
 
 export interface IconButtonProps {
-  icon: 'book' | 'close' | 'menu' | null;
+  icon: 'book' | 'close' | 'menu' | 'moon' | null;
   onBlur?: (e: FocusEvent) => void;
   onClick?: (e: MouseEvent) => void;
   onFocus?: (e: FocusEvent) => void;
@@ -42,6 +43,7 @@ export const IconButton = forwardRef(({
     if (icon === 'book') return <BookIcon/>;
     if (icon === 'close') return <CloseIcon/>;
     if (icon === 'menu') return <MenuIcon/>;
+    if (icon === 'moon') return <MoonIcon/>;
     return null;
   }
   

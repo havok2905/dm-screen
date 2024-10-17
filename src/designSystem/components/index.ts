@@ -15,6 +15,7 @@ export * from './Modal';
 export * from './MultiSelect';
 export * from './Section';
 export * from './SideDrawer';
+export * from './SimpleList';
 export * from './Spinner';
 export * from './Table';
 export * from './Tag';

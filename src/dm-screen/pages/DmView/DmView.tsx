@@ -41,6 +41,7 @@ import {
   PlayersContext,
   PlayersTable,
   RulesSearch,
+  SpellsSearch,
   ToolbarFooter
 } from '../../components';
 import {
@@ -48,6 +49,7 @@ import {
   useBootstrapInitiative,
   useDestroyInitiative,
   useInitiative,
+  useSpells,
   useUpdateInitiative
 } from '../../hooks';
 
@@ -58,6 +60,7 @@ export const DmView = () => {
   const [itemSearchTerm, setItemSearchTerm] = useState('');
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
   const [isNotesDrawerOpen, setIsNotesDrawerOpen] = useState(false);
+  const [isSpellsDrawerOpen, setIsSpellsDrawerOpen] = useState(false);
   const [isManagePlayersModalOpen, setIsManagePlayersModalOpen] = useState(false);
 
   const socketRef = useRef<SocketClient | null>(null);
@@ -76,6 +79,12 @@ export const DmView = () => {
     isError: initiativeItemIsError,
     refetch: initiativeDataRefetch
   } = useInitiative(adventureId ?? '');
+
+  const {
+    data: spellsData
+  } = useSpells();
+
+  console.log({ spellsData });
 
   const { mutate: bootstrapInitiative } = useBootstrapInitiative();
   const { mutate: destroyInitiative } = useDestroyInitiative();
@@ -135,6 +144,10 @@ export const DmView = () => {
 
   const onNotesDrawerClose = () => {
     setIsNotesDrawerOpen(false);
+  };
+  
+  const onSpellDrawerClose = () => {
+    setIsSpellsDrawerOpen(false);
   };
 
   const handleManagePlayersModalClose = () => {
@@ -335,6 +348,7 @@ export const DmView = () => {
             handleShowHandout={handleShowHandout}
             setIsNotesDrawerOpen={setIsNotesDrawerOpen}
             setIsSideDrawerOpen={setIsSideDrawerOpen}
+            setIsSpellsDrawerOpen={setIsSpellsDrawerOpen}
           />
         </Footer>
       </FooterOffset>
@@ -353,6 +367,14 @@ export const DmView = () => {
         preserveScroll
       >
         <Markdown content={adventure.notes}/>
+      </SideDrawer>
+      <SideDrawer
+        isOpen={isSpellsDrawerOpen}
+        onClose={onSpellDrawerClose}
+        portalElement={document.body}
+        preserveScroll={false}
+      >
+        <SpellsSearch spells={spellsData}/>
       </SideDrawer>
       <ManagePlayersModal
         isOpen={isManagePlayersModalOpen}

@@ -20,12 +20,14 @@ export interface ToolbarFooterProps {
   handleShowHandout: (handout: Handout | null) => void;
   setIsNotesDrawerOpen: (value: boolean) => void;
   setIsSideDrawerOpen: (value: boolean) => void;
+  setIsSpellsDrawerOpen: (value: boolean) => void;
 }
 
 export const ToolbarFooter = ({
   handleShowHandout,
   setIsNotesDrawerOpen,
-  setIsSideDrawerOpen
+  setIsSideDrawerOpen,
+  setIsSpellsDrawerOpen
 }: ToolbarFooterProps) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [rolledValue, setRolledValue] = useState<number | null>(null);
@@ -73,6 +75,18 @@ export const ToolbarFooter = ({
           onClick={() => {
             handleShowHandout(null);
           }}/>
+        <span className="toolbar-footer-control">
+        <Tooltip
+          content="Spells"
+          orientation="top-left">
+          <IconButton
+            icon="moon"
+            onClick={() => {
+              setIsSpellsDrawerOpen(true);
+            }}
+          />
+        </Tooltip>
+        </span>
         <span className="toolbar-footer-control">
           <Tooltip
             content="Adventure"
