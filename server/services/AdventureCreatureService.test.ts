@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import { AdventureCreature } from '../sequelize/db';
 import { AdventureCreatureResponse } from '../responses';
 import { AdventureCreatureService } from './AdventureCreatureService';
@@ -9,8 +11,23 @@ import {
 } from '../exceptions';
 
 describe('AdventureCreatureService', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
   describe('destroyAdventureCreatureById', () => {
     it('should destroy an adventure', async () => {
+      jest.spyOn(fs, 'unlinkSync').mockImplementation();
+      jest.spyOn(fs, 'existsSync').mockImplementation(jest.fn(() => {
+        return true;
+      }));
+
       const mockAdventureCreature = AdventureCreature.build({
         id: '1',
         name: 'Foo',

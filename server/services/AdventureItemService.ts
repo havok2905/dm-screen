@@ -5,6 +5,7 @@ import {
 
 import { AdventureItem } from '../sequelize/db';
 import { AdventureItemResponse } from '../responses';
+import { deleteImageFromDiskIfItExists } from './utils/deleteImageFromDiskIfItExists';
 import { UpdateAdventureItemRequest } from '../requests';
 
 export class AdventureItemService {

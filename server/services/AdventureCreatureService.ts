@@ -5,6 +5,7 @@ import {
 
 import { AdventureCreature } from '../sequelize/db';
 import { AdventureCreatureResponse } from '../responses';
+import { deleteImageFromDiskIfItExists } from './utils/deleteImageFromDiskIfItExists';
 import { UpdateAdventureCreatureRequest } from '../requests';
 
 
@@ -23,6 +24,8 @@ export class AdventureCreatureService {
     if (!adventureCreature) {
       throw new AdventureCreatureNotFoundException();
     }
+
+    deleteImageFromDiskIfItExists(adventureCreature.dataValues.image);
 
     adventureCreature?.destroy();
     adventureCreature?.save();
