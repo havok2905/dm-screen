@@ -84,8 +84,6 @@ export const DmView = () => {
     data: spellsData
   } = useSpells();
 
-  console.log({ spellsData });
-
   const { mutate: bootstrapInitiative } = useBootstrapInitiative();
   const { mutate: destroyInitiative } = useDestroyInitiative();
   const { mutate: updateInitiative } = useUpdateInitiative();

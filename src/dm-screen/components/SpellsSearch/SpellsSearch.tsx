@@ -35,8 +35,6 @@ export const SpellsSearch = ({
       const aLevel = a.metadata.find(item => item.name === 'Level')!.value;
       const bLevel = b.metadata.find(item => item.name === 'Level')!.value;
 
-      console.log(aLevel, bLevel);
-
       if (aLevel > bLevel) return 1;
       if (aLevel < bLevel) return -1;
 
