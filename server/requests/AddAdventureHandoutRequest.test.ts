@@ -1,5 +1,5 @@
-import { AdventureHandoutRequestMalformedException } from '../exceptions';
 import { AddAdventureHandoutRequest } from './AddAdventureHandoutRequest';
+import { AdventureHandoutRequestMalformedException } from '../exceptions';
 
 describe('AddAdventureHandoutRequest', () => {
   describe('constructor', () => {

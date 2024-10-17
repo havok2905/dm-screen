@@ -77,8 +77,6 @@ export const DmView = () => {
     refetch: initiativeDataRefetch
   } = useInitiative(adventureId ?? '');
 
-  //console.log({ initiativeData });
-
   const { mutate: bootstrapInitiative } = useBootstrapInitiative();
   const { mutate: destroyInitiative } = useDestroyInitiative();
   const { mutate: updateInitiative } = useUpdateInitiative();

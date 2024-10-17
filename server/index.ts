@@ -7,23 +7,14 @@ import path from 'path';
 import { Server } from 'socket.io';
 
 import {
-  AdventureCreatureService,
-  AdventureHandoutService,
-  AdventureItemService,
-  AdventureService,
-  CreatureService,
-  ImportService,
-  InitiativeService,
-  ItemService,
-  SpellService
-} from './services';
-import {
   AddAdventureHandoutRequest,
+  AddImageRequest,
   CreateAdventureRequest,
   CreateCreatureRequest,
   CreateEquipmentItemRequest,
   CreateMagicItemRequest,
   CreateSpellRequest,
+  RemoveImageRequest,
   UpdateAdventureCreatureRequest,
   UpdateAdventureItemRequest,
   UpdateAdventureRequest,
@@ -33,6 +24,18 @@ import {
   UpdateMagicItemRequest,
   UpdateSpellRequest
 } from './requests';
+import {
+  AdventureCreatureService,
+  AdventureHandoutService,
+  AdventureItemService,
+  AdventureService,
+  CreatureService,
+  ImageService,
+  ImportService,
+  InitiativeService,
+  ItemService,
+  SpellService
+} from './services';
 
 import { errorHandler } from './middleware';
 import { ServerConfig } from './config';
@@ -80,8 +83,6 @@ const io = new Server(server, {
     origin: '*',
   }
 });
-
-console.log(path.join(__dirname, 'uploads'));
 
 app.use(cors());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -188,14 +189,6 @@ app.post('/adventure/:id/addHandout', upload.single('image'), async (request, re
     const file = request.file;
     const url = `/uploads/${file?.filename ?? ''}`;
 
-    console.log({
-      description,
-      file,
-      id,
-      name,
-      url
-    });
-
     const addAdventureHandoutRequest = new AddAdventureHandoutRequest(
       id,
       name,
@@ -207,7 +200,6 @@ app.post('/adventure/:id/addHandout', upload.single('image'), async (request, re
     
     response.json(responseJson);
   } catch(error) {
-    console.log(error);
     next(error);
   }
 });
@@ -340,6 +332,50 @@ app.put('/adventureItem/:id', async (request, response, next) => {
 
     response.json(responseJson);
   } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/image/:entityType/:id/addImage', upload.single('image'), async(request, response, next) => {
+  try {
+    const {
+      entityType,
+      id
+    } = request.params;
+
+    const file = request.file;
+    const url = `/uploads/${file?.filename ?? ''}`;
+
+    const addImageRequest = new AddImageRequest(
+      id,
+      entityType as ('creature' | 'equipment-item' | 'magic-item' | 'spell'),
+      url
+    );
+
+    const responseJson = await ImageService.addImage(addImageRequest);
+    
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.delete('/image/:entityType/:id/removeImage', async(request, response, next) => {
+  try {
+    const {
+      entityType,
+      id
+    } = request.params;
+
+    const removeImageRequest = new RemoveImageRequest(
+      id,
+      entityType as ('creature' | 'equipment-item' | 'magic-item' | 'spell'),
+    );
+
+    const responseJson = await ImageService.removeImage(removeImageRequest);
+    
+    response.json(responseJson);
+  } catch(error) {
     next(error);
   }
 });

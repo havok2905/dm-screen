@@ -2,6 +2,7 @@ export * from './CompendiumNavbar';
 export * from './ConfirmationModal';
 export * from './CreaturesTable';
 export * from './HandoutForm';
+export * from './ImageForm';
 export * from './InitiativeCard';
 export * from './InitiativeItemModal';
 export * from './InitiativeOrderComponent';

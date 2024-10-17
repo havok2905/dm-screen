@@ -1,4 +1,9 @@
 import {
+  AddAdventureHandoutRequest,
+  CreateAdventureRequest,
+  UpdateAdventureRequest
+} from '../requests';
+import {
   Adventure,
   AdventureCreature,
   AdventureHandout,
@@ -18,11 +23,6 @@ import {
   AdventureResponse,
   AdventuresResponse
 } from '../responses';
-import {
-  AddAdventureHandoutRequest,
-  CreateAdventureRequest,
-  UpdateAdventureRequest
-} from '../requests';
 
 import { v4 as uuidv4 } from 'uuid';
 

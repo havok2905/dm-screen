@@ -1,6 +1,7 @@
 export * from './useAddCreature';
 export * from './useAddEquipmentItem';
 export * from './useAddHandout';
+export * from './useAddImage';
 export * from './useAddMagicItem';
 export * from './useAdventure';
 export * from './useAdventureCreature';
@@ -29,6 +30,7 @@ export * from './useImportDnd5eApi';
 export * from './useInitiative';
 export * from './useMagicItem';
 export * from './useMagicItems';
+export * from './useRemoveImage';
 export * from './useSpell';
 export * from './useSpells';
 export * from './useUpdateAdventure';

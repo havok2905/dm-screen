@@ -18,6 +18,8 @@ import {
   CreaturesNotFoundException,
   EquipmentItemNotFoundException,
   EquipmentItemRequestMalformedException,
+  ImageRequestMalformedException,
+  ImageResourceNotFoundException,
   InitiativeNotFoundException,
   ItemsNotFoundException,
   MagicItemNotFoundException,
@@ -42,6 +44,7 @@ export const errorHandler = (
     error instanceof AdventureCreatureRequestMalformedException ||
     error instanceof CreatureRequestMalformedException ||
     error instanceof EquipmentItemRequestMalformedException ||
+    error instanceof ImageRequestMalformedException ||
     error instanceof MagicItemRequestMalformedException ||
     error instanceof SpellRequestMalformedException
   ) {
@@ -54,6 +57,7 @@ export const errorHandler = (
     error instanceof CreatureNotFoundException ||
     error instanceof CreaturesNotFoundException ||
     error instanceof EquipmentItemNotFoundException ||
+    error instanceof ImageResourceNotFoundException ||
     error instanceof InitiativeNotFoundException ||
     error instanceof ItemsNotFoundException ||
     error instanceof MagicItemNotFoundException ||
