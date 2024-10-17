@@ -1,5 +1,4 @@
-import fs from 'fs';
-import path from 'path';
+import { deleteImageFromDiskIfItExists } from './utils/deleteImageFromDiskIfItExists';
 
 import {
   AddImageRequest,
@@ -36,7 +35,7 @@ export class ImageService {
       throw new ImageResourceNotFoundException();
     }
 
-    ImageService.deleteImageFromDiskIfItExists(entity.image);
+    deleteImageFromDiskIfItExists(entity.image);
 
     entity.image = url;
     entity.save();
@@ -62,22 +61,12 @@ export class ImageService {
       throw new ImageResourceNotFoundException();
     }
 
-    ImageService.deleteImageFromDiskIfItExists(entity.image);
+    deleteImageFromDiskIfItExists(entity.image);
 
     entity.image = '';
     entity.save();
 
     return true;
-  }
-
-  static deleteImageFromDiskIfItExists(imagePath: string) {
-    if (imagePath) {
-      const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
-
-      if (fs.existsSync(fullImagePath)) {
-        fs.unlinkSync(fullImagePath);
-      }
-    }
   }
 
   static async getEntity(

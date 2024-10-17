@@ -1,3 +1,4 @@
+import fs from 'fs';
 
 import {
   EquipmentItem,
@@ -30,6 +31,11 @@ describe('ItemService', () => {
 
   describe('destroyEquipmentItemById', () => {
     it('should destroy an equipment item', async () => {
+      jest.spyOn(fs, 'unlinkSync').mockImplementation();
+      jest.spyOn(fs, 'existsSync').mockImplementation(jest.fn(() => {
+        return true;
+      }));
+
       const mockItem = EquipmentItem.build({
         id: '1',
         name: 'Foo',
@@ -71,6 +77,11 @@ describe('ItemService', () => {
 
   describe('destroyMagicItemById', () => {
     it('should destroy an magic item', async () => {
+      jest.spyOn(fs, 'unlinkSync').mockImplementation();
+      jest.spyOn(fs, 'existsSync').mockImplementation(jest.fn(() => {
+        return true;
+      }));
+
       const mockItem = MagicItem.build({
         id: '1',
         name: 'Foo',

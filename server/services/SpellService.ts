@@ -8,6 +8,7 @@ import {
   SpellsNotFoundException
 } from '../exceptions';
 
+import { deleteImageFromDiskIfItExists } from './utils/deleteImageFromDiskIfItExists';
 import { Spell } from '../sequelize/db';
 import { SpellResponse } from '../responses';
 
@@ -46,6 +47,8 @@ export class SpellService {
     if (!spell) {
       throw new SpellNotFoundException();
     }
+
+    deleteImageFromDiskIfItExists(spell.dataValues.image);
 
     spell?.destroy();
     spell?.save();

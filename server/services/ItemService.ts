@@ -15,6 +15,7 @@ import {
   MissingArgumentException
 } from '../exceptions';
 
+import { deleteImageFromDiskIfItExists } from './utils/deleteImageFromDiskIfItExists';
 import { ItemResponse } from '../responses';
 
 export class ItemService {
@@ -73,6 +74,8 @@ export class ItemService {
       throw new EquipmentItemNotFoundException();
     }
 
+    deleteImageFromDiskIfItExists(item.dataValues.image);
+
     item?.destroy();
     item?.save();
   
@@ -93,6 +96,8 @@ export class ItemService {
     if (!item) {
       throw new MagicItemNotFoundException();
     }
+
+    deleteImageFromDiskIfItExists(item.dataValues.image);
 
     item?.destroy();
     item?.save();

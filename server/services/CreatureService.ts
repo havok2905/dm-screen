@@ -10,7 +10,7 @@ import {
 
 import { Creature } from '../sequelize/db';
 import { CreatureResponse } from '../responses';
-
+import { deleteImageFromDiskIfItExists } from './utils/deleteImageFromDiskIfItExists';
 
 export class CreatureService {
   static async createCreature(
@@ -47,6 +47,8 @@ export class CreatureService {
     if (!creature) {
       throw new CreatureNotFoundException();
     }
+
+    deleteImageFromDiskIfItExists(creature.dataValues.image);
 
     creature?.destroy();
     creature?.save();

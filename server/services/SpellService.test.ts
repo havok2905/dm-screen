@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import {
   MissingArgumentException,
   SpellNotFoundException,
@@ -22,6 +24,11 @@ describe('SpellService', () => {
 
   describe('destroySpellById', () => {
     it('should destroy a spell', async () => {
+      jest.spyOn(fs, 'unlinkSync').mockImplementation();
+      jest.spyOn(fs, 'existsSync').mockImplementation(jest.fn(() => {
+        return true;
+      }));
+
       const mockSpell = Spell.build({
         id: '1',
         name: 'Foo',

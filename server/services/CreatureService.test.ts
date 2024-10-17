@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import {
   CreatureNotFoundException,
   CreaturesNotFoundException,
@@ -22,6 +24,11 @@ describe('CreatureService', () => {
 
   describe('destroyCreatureById', () => {
     it('should destroy a creature', async () => {
+      jest.spyOn(fs, 'unlinkSync').mockImplementation();
+      jest.spyOn(fs, 'existsSync').mockImplementation(jest.fn(() => {
+        return true;
+      }));
+
       const mockCreature = Creature.build({
         id: '1',
         name: 'Foo',
