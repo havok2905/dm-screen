@@ -754,7 +754,7 @@ io.on('connection', (socket) => {
   socket.on('handout:dispatch-show', (data) => {
     const { adventureId, handout } = data;
 
-    if (adventureId && handout) {
+    if (adventureId) {
       const handoutReceiveEvent = `handout:receive-show:${adventureId}`;
       io.emit(handoutReceiveEvent, handout);
     }

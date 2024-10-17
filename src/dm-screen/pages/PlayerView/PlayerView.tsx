@@ -121,9 +121,35 @@ export const PlayerView = () => {
   const currentPlayer = getCurrentPlayer();
   const nextPlayer = getNextPlayer();
 
+  const modalContent = imageToDisplay ? (
+    <Modal
+      isOpen={!!imageToDisplay}
+      isShowcaseView={true}
+      onClose={() => {
+        setImageToDisplay(null);
+      }}
+      portalElement={document.body}
+      >
+      <img
+        alt={imageToDisplay.description}
+        key={imageToDisplay.id}
+        src={imageToDisplay.url}
+        style={{
+          display: 'block',
+          margin: '0 auto',
+          maxHeight: '100%'
+        }}/>
+    </Modal>
+  ) : null;
+
   // Placeholder check until there's a better way to know when out of combat
   if (items.length === 0) {
-        return (<PlayerSplash adventure={adventure} />);
+    return (
+      <>
+        <PlayerSplash adventure={adventure} />
+        {modalContent}
+      </>
+    );
   } else {
     return (
       <>
@@ -168,28 +194,7 @@ export const PlayerView = () => {
               </Item>
             </GridRow>
           </Grid>
-          {
-            !!imageToDisplay && (
-              <Modal
-                isOpen={!!imageToDisplay}
-                isShowcaseView={true}
-                onClose={() => {
-                  setImageToDisplay(null);
-                }}
-                portalElement={document.body}
-                >
-                <img
-                  alt={imageToDisplay.description}
-                  key={imageToDisplay.id}
-                  src={imageToDisplay.url}
-                  style={{
-                    display: 'block',
-                    margin: '0 auto',
-                    maxWidth: '100%'
-                  }}/>
-              </Modal>
-            )
-          }
+          {modalContent}
         </Container>
       </>
     )

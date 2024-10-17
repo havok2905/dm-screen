@@ -27,8 +27,9 @@
 }
 
 .showcase {
-  height: fit-content;
-  width: fit-content;
+  height: 80%;
+  width: 80%;
+  top: 10%;
   overflow-y: unset;
   max-height: unset;
 }
