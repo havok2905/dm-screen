@@ -3,7 +3,8 @@ import {
   MouseEvent,
   ReactNode,
   useEffect,
-  useRef
+  useRef,
+  useState
 } from 'react';
 
 import classNames from 'classnames';
@@ -18,15 +19,20 @@ export interface SideDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   portalElement: HTMLElement;
+  preserveScroll: boolean;
 }
 
 export const SideDrawer = ({
   children,
   isOpen,
   onClose,
-  portalElement
+  portalElement,
+  preserveScroll
 }: SideDrawerProps) => {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const sideDrawerRef = useRef<HTMLDivElement>(null);
+
+  const [scrollPosition, setScrollPosition] = useState<number>(0);
 
   useEffect(() => {
     if (isOpen) {
@@ -34,13 +40,48 @@ export const SideDrawer = ({
         document.body.setAttribute('style', 'overflow: hidden');
         closeButtonRef.current.focus();
       }
+
+      if (preserveScroll && sideDrawerRef.current) {
+        sideDrawerRef.current.scrollTo(0, scrollPosition);
+      }
     } else {
       if (closeButtonRef.current) {
         document.body.setAttribute('style', '');
         closeButtonRef.current.blur();
       }
     }
-  }, [isOpen])
+  }, [isOpen]);
+
+  useEffect(() => {
+    const current = sideDrawerRef.current;
+    
+    const debounce = (fn, timeout = 300) => {
+      let timer;
+
+      return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => { fn.apply(this, args); }, timeout);
+      };
+    };
+
+    const scrollEvent = debounce((e) => {
+      if (isOpen) {
+        setScrollPosition(current?.scrollTop ?? 0);
+      }
+    }, 100);
+
+    if (preserveScroll && current) {
+      current.addEventListener('scroll', scrollEvent);
+    }
+
+    return () => {
+      if (preserveScroll && current) {
+        current.removeEventListener('scroll', scrollEvent);
+      }
+    }
+  }, [
+    isOpen
+  ]);
 
   const handleOnCloseClick = () => {
     onClose();
@@ -64,7 +105,10 @@ export const SideDrawer = ({
 
   const sideDrawer = (
     <>
-      <div className={classNames(classList)}>
+      <div
+        className={classNames(classList)}
+        ref={sideDrawerRef}
+      >
         <div
           className="dm-screen-design-system-side-drawer-header"
           data-test-id="dm-screen-design-system-side-drawer-header"

@@ -342,13 +342,16 @@ export const DmView = () => {
         isOpen={isSideDrawerOpen}
         onClose={onSideDrawerClose}
         portalElement={document.body}
+        preserveScroll={false}
       >
         <RulesSearch/>
       </SideDrawer>
       <SideDrawer
         isOpen={isNotesDrawerOpen}
         onClose={onNotesDrawerClose}
-        portalElement={document.body}>
+        portalElement={document.body}
+        preserveScroll
+      >
         <Markdown content={adventure.notes}/>
       </SideDrawer>
       <ManagePlayersModal
