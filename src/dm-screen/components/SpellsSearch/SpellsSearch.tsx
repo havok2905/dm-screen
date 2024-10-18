@@ -14,7 +14,7 @@ import {Markdown} from '../Markdown';
 
 export interface SpellsSearchProps {
   spells: MarkdownEntity[];
-};
+}
 
 export const SpellsSearch = ({
   spells

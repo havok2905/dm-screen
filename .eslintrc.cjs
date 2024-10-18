@@ -6,6 +6,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
+    "no-case-declarations": 0,
     'no-unused-disable': 0,
     'react-refresh/only-export-components': [
       'warn',
@@ -23,6 +24,7 @@ module.exports = {
         'allowSeparatedGroups': true
       }
     ],
-    '@typescript-eslint/no-explicit-any': false
+    '@typescript-eslint/no-explicit-any': 0,
+    "@typescript-eslint/no-namespace": 0
   },
 }

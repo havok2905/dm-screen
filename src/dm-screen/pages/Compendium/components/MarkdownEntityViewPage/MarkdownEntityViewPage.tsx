@@ -69,7 +69,9 @@ export const MarkdownEntityViewPage = ({
       });
     }
   }, [
-    markdownEntity
+    entityType,
+    markdownEntity,
+    removeImage
   ]);
 
   if (isLoading) {

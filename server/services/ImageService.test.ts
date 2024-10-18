@@ -6,8 +6,8 @@ import {
 } from '../requests';
 
 import { Creature } from '../sequelize/db';
-import { ImageService } from './ImageService';
 import { ImageResourceNotFoundException } from '../exceptions';
+import { ImageService } from './ImageService';
 
 describe('ImageService', () => {
   afterEach(() => {

@@ -1,7 +1,6 @@
 import {
   forwardRef,
   KeyboardEvent,
-  MouseEvent,
   ReactNode,
   RefObject
 } from 'react';

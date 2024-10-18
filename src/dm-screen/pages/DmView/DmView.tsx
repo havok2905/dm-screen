@@ -19,7 +19,6 @@ import {
 } from '@designSystem/components';
 import {
   ChangeEvent,
-  KeyboardEvent,
   useContext,
   useEffect,
   useRef,

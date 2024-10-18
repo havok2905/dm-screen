@@ -1,5 +1,10 @@
 import fs from 'fs';
 
+import { 
+  AddAdventureHandoutRequest,
+  CreateAdventureRequest,
+  UpdateAdventureRequest
+} from '../requests';
 import {
   Adventure,
   AdventureCreature,
@@ -23,11 +28,6 @@ import {
   AdventureResponse,
   AdventuresResponse
 } from '../responses';
-import { 
-  AddAdventureHandoutRequest,
-  CreateAdventureRequest,
-  UpdateAdventureRequest
-} from '../requests';
 
 import { AdventureService } from './AdventureService';
 

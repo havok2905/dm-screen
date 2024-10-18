@@ -13,9 +13,9 @@ import {
   Spell as SpellModel
 } from '../../sequelize/db';
 import {
+  Dnd5dApiNormalizer,
   Dnd5eApiAdapter,
-  Dnd5eApiClient,
-  Dnd5dApiNormalizer
+  Dnd5eApiClient
 } from '../dataPopulation/dnd5eapi';
 import {
   EquipmentItem,

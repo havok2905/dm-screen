@@ -1,7 +1,4 @@
-import {
-  KeyboardEvent,
-  MouseEvent
-} from 'react';
+import { KeyboardEvent } from 'react';
 
 import './Button.css';
 

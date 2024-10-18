@@ -314,7 +314,7 @@ export const EditAdventurePage = () => {
             <GridRow>
               <Item columns={12}>
                 {
-                  handouts.map(handout => {
+                  handouts.map((handout, index) => {
                     const onClick = () => {
                       navigator.clipboard.writeText(handout.url);
                       alert(`Copied ${handout.url} to clipboard`);
@@ -323,6 +323,7 @@ export const EditAdventurePage = () => {
                     return (
                       <img
                         alt={handout.description}
+                        key={index}
                         onClick={onClick}
                         src={handout.url}
                         style={{

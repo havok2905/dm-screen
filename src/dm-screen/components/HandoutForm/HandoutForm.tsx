@@ -153,6 +153,7 @@ export const HandoutForm = ({
                 <div>
                   <input
                     accept="image/png, image/jpeg"
+                    id="image"
                     name="image"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
@@ -164,7 +165,6 @@ export const HandoutForm = ({
                         setValue('image', null);
                       }
                     }}
-                    id="image"
                     type="file"
                   />
                 </div>

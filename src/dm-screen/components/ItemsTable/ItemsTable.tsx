@@ -1,12 +1,10 @@
 import {
   Handout,
-  MarkdownEntity,
-  MetaData
+  MarkdownEntity
 } from '@core/types';
 import {
   Modal,
-  Table,
-  Tag
+  Table
 } from '@designSystem/components';
 
 import { useState } from 'react';

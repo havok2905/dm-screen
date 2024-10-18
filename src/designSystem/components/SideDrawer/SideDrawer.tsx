@@ -1,5 +1,4 @@
 import {
-  KeyboardEvent,
   MouseEvent,
   ReactNode,
   useEffect,
@@ -50,7 +49,11 @@ export const SideDrawer = ({
         closeButtonRef.current.blur();
       }
     }
-  }, [isOpen]);
+  }, 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [
+    isOpen
+  ]);
 
   useEffect(() => {
     const current = sideDrawerRef.current;
@@ -64,7 +67,7 @@ export const SideDrawer = ({
       };
     };
 
-    const scrollEvent = debounce((e) => {
+    const scrollEvent = debounce(() => {
       if (isOpen) {
         setScrollPosition(current?.scrollTop ?? 0);
       }
@@ -79,7 +82,9 @@ export const SideDrawer = ({
         current.removeEventListener('scroll', scrollEvent);
       }
     }
-  }, [
+  }, 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [
     isOpen
   ]);
 
