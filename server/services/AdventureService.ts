@@ -1,3 +1,6 @@
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+
 import {
   AddAdventureHandoutRequest,
   CreateAdventureRequest,
@@ -24,7 +27,7 @@ import {
   AdventuresResponse
 } from '../responses';
 
-import { v4 as uuidv4 } from 'uuid';
+import { cloneFileOnDisk } from './utils/cloneFileOnDisk';
 
 export class AdventureService {
   static async addCreatureToAdventure (
@@ -55,12 +58,17 @@ export class AdventureService {
       throw new CreatureNotFoundException();
     }
 
+    const imagePath: string = creature.dataValues.image;
+    const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
+    const result = cloneFileOnDisk(imagePath, fullImagePath);
+    const { newImagePath } = result;
+
     const adventureCreature = AdventureCreature.build({
       id: uuidv4(),
       adventureid: id,
       content: creature.dataValues.content,
       name: creature.dataValues.name,
-      image: creature.dataValues.image,
+      image: newImagePath,
       metadata: creature.dataValues.metadata
     });
 
@@ -138,12 +146,17 @@ export class AdventureService {
       throw new EquipmentItemNotFoundException();
     }
 
+    const imagePath: string = equipmentItem.dataValues.image;
+    const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
+    const result = cloneFileOnDisk(imagePath, fullImagePath);
+    const { newImagePath } = result;
+
     const adventureItem = AdventureItem.build({
       id: uuidv4(),
       adventureid: id,
       content: equipmentItem.dataValues.content,
       name: equipmentItem.dataValues.name,
-      image: equipmentItem.dataValues.image,
+      image: newImagePath,
       metadata: equipmentItem.dataValues.metadata
     });
 
@@ -261,12 +274,17 @@ export class AdventureService {
       throw new EquipmentItemNotFoundException();
     }
 
+    const imagePath: string = magicItem.dataValues.image;
+    const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
+    const result = cloneFileOnDisk(imagePath, fullImagePath);
+    const { newImagePath } = result;
+
     const adventureItem = AdventureItem.build({
       id: uuidv4(),
       adventureid: id,
       content: magicItem.dataValues.content,
       name: magicItem.dataValues.name,
-      image: magicItem.dataValues.image,
+      image: newImagePath,
       metadata: magicItem.dataValues.metadata
     });
 

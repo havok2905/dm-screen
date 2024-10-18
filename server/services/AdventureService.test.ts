@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import {
   Adventure,
   AdventureCreature,
@@ -42,6 +44,12 @@ describe('AdventureService', () => {
 
   describe('addCreatureToAdventure', () => {
     it('should add a creature to an adventure', async () => {
+      jest.spyOn(fs, 'writeFileSync').mockImplementation();
+      jest.spyOn(fs, 'readFileSync').mockImplementation();
+      jest.spyOn(fs, 'existsSync').mockImplementation(jest.fn(() => {
+        return true;
+      }));
+
       const mockAdventure = Adventure.build({
         id: '1',
         name: 'Foo Adventure',
@@ -216,6 +224,12 @@ describe('AdventureService', () => {
 
   describe('addEquipmentItemToAdventure', () => {
     it('should add an equipment item to an adventure', async () => {
+      jest.spyOn(fs, 'writeFileSync').mockImplementation();
+      jest.spyOn(fs, 'readFileSync').mockImplementation();
+      jest.spyOn(fs, 'existsSync').mockImplementation(jest.fn(() => {
+        return true;
+      }));
+
       const mockAdventure = Adventure.build({
         id: '1',
         name: 'Foo Adventure',
@@ -554,6 +568,12 @@ describe('AdventureService', () => {
 
   describe('addMagicItemToAdventure', () => {
     it('should add a magic item to an adventure', async () => {
+      jest.spyOn(fs, 'writeFileSync').mockImplementation();
+      jest.spyOn(fs, 'readFileSync').mockImplementation();
+      jest.spyOn(fs, 'existsSync').mockImplementation(jest.fn(() => {
+        return true;
+      }));
+
       const mockAdventure = Adventure.build({
         id: '1',
         name: 'Foo Adventure',
