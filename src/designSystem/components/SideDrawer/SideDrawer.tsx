@@ -29,7 +29,6 @@ export const SideDrawer = ({
   portalElement,
   preserveScroll
 }: SideDrawerProps) => {
-  console.log('hello');
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const sideDrawerRef = useRef<HTMLDivElement>(null);
 

@@ -46,11 +46,9 @@ export const IconButton = forwardRef(({
     if (e.key === 'Enter') {
       e.preventDefault();
       if (onKeyDown) {
-        console.log('has onKeyDown');
         onKeyDown();
       } else {
         if (onClick) {
-          console.log('has no onKeyDown');
           handleOnClick();
         }
       }

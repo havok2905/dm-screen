@@ -82,7 +82,6 @@ export const ToolbarFooter = ({
           <IconButton
             icon="moon"
             onClick={() => {
-              console.log('hi');
               setIsSpellsDrawerOpen(true);
             }}
           />
