@@ -260,11 +260,6 @@ export const InitiativeOrderComponent = ({
             onClick={() => {
               remove();
             }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                remove();
-              }
-            }}
           />
           <Button
             buttonText="Hide"
@@ -272,22 +267,12 @@ export const InitiativeOrderComponent = ({
             onClick={() => {
               hide();
             }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                hide();
-              }
-            }}
           />
           <Button
             buttonText="Reveal"
             disabled={currentItem?.visibilityState !== 'hidden'}
             onClick={() => {
               reveal();
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                reveal();
-              }
             }}
           />
         </fieldset>

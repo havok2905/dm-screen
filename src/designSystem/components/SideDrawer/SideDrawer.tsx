@@ -29,6 +29,7 @@ export const SideDrawer = ({
   portalElement,
   preserveScroll
 }: SideDrawerProps) => {
+  console.log('hello');
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const sideDrawerRef = useRef<HTMLDivElement>(null);
 
@@ -87,12 +88,6 @@ export const SideDrawer = ({
     onClose();
   }
 
-  const handleOnCloseKeyboard = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      onClose();
-    }
-  }
-
   const handleBackgroundClick = (e: MouseEvent) => {
     e.stopPropagation();
     handleOnCloseClick();
@@ -116,7 +111,6 @@ export const SideDrawer = ({
           <IconButton
             icon="close"
             onClick={handleOnCloseClick}
-            onKeyDown={handleOnCloseKeyboard}
             ref={closeButtonRef}
             tabIndex={isOpen ? 0 : -1}
           />

@@ -25,33 +25,21 @@ export const InitiativeOrderDmNavControls = ({
         onClick={() => {
           prev();
         }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            prev();
-          }
-        }}/>
+      />
       <Button
         buttonText="Next"
         disabled={isDisabled}
         onClick={() => {
           next();
         }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            next();
-          }
-        }}/>
+      />
       <Button
         buttonText="Sort"
         disabled={isDisabled}
         onClick={() => {
           sort();
         }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            sort();
-          }
-        }}/>
+      />
     </div>
   );
 };

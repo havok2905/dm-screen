@@ -23,21 +23,13 @@ export const InitiativeOrderDmControls = ({
             buttonText="End Combat"
             color="red"
             onClick={handleRemoveInitiativeClick}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleRemoveInitiativeClick();
-              }
-            }}/>
+          />
         ) : (
           <LinkButton
             buttonText="Bootstrap Combat"
             color="green"
             onClick={handleBootstrapInitiativeClick}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleBootstrapInitiativeClick();
-              }
-            }}/>
+          />
         )
       }
     </div>

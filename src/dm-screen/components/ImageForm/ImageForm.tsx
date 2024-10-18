@@ -147,11 +147,6 @@ export const ImageForm = ({
           buttonText="Upload image"
           disabled={!isValid}
           onClick={handleSubmit(onSubmit)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              handleSubmit(onSubmit);
-            }
-          }}
         />
       </fieldset>
     </form>

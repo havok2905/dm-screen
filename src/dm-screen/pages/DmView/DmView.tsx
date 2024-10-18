@@ -236,19 +236,11 @@ export const DmView = () => {
         buttonText="Add all to combat"
         disabled={!players.length}
         onClick={handleAddAllToInitiativeOrder}
-        onKeyDown={(e: KeyboardEvent) => {
-          if (e.key === 'Enter') {
-            handleAddAllToInitiativeOrder();
-          }
-        }}/>
+      />
       <Button
         buttonText="Manage players"
         onClick={handleManagePlayersModalOpen}
-        onKeyDown={(e: KeyboardEvent) => {
-          if (e.key === 'Enter') {
-            handleManagePlayersModalOpen();
-          }
-        }}/>
+      />
     </>
   );
 

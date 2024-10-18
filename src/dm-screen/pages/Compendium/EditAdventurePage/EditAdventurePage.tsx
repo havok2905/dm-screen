@@ -341,11 +341,6 @@ export const EditAdventurePage = () => {
                   buttonText="Save adventure"
                   disabled={!isValid}
                   onClick={handleSubmit(onSubmit)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleSubmit(onSubmit);
-                    }
-                  }}
                 />
               </Item>
             </GridRow>

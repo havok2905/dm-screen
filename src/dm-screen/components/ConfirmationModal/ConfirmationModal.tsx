@@ -42,21 +42,11 @@ export const ConfirmationModal = ({
           onClick={() => {
             onOk();
           }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              onOk();
-            }
-          }}
         />
         <Button
           buttonText="Cancel"
           onClick={() => {
             onCancel();
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              onCancel();
-            }
           }}
         />
       </div>

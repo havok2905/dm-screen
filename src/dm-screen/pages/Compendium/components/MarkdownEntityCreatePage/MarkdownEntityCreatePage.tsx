@@ -239,11 +239,6 @@ export const MarkdownEntityCreatePage = ({
                   buttonText={saveButtonText}
                   disabled={!isValid}
                   onClick={handleSubmit(onSubmit)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      handleSubmit(onSubmit);
-                    }
-                  }}
                 />
               </form>
             </Item>

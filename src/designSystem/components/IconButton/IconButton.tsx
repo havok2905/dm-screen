@@ -1,5 +1,4 @@
 import {
-  FocusEvent,
   forwardRef,
   KeyboardEvent,
   MouseEvent,
@@ -18,25 +17,15 @@ import './IconButton.css';
 
 export interface IconButtonProps {
   icon: 'book' | 'close' | 'menu' | 'moon' | null;
-  onBlur?: (e: FocusEvent) => void;
-  onClick?: (e: MouseEvent) => void;
-  onFocus?: (e: FocusEvent) => void;
-  onKeyDown?: (e: KeyboardEvent) => void;
-  onKeyUp?: (e: KeyboardEvent) => void;
-  onMouseEnter?: (e: MouseEvent) => void;
-  onMouseLeave?: (e: MouseEvent) => void;
+  onClick?: () => void;
+  onKeyDown?: () => void;
   tabIndex?: number;
 }
 
 export const IconButton = forwardRef(({
   icon,
-  onBlur,
   onClick,
-  onFocus,
   onKeyDown,
-  onKeyUp,
-  onMouseEnter,
-  onMouseLeave,
   tabIndex = 0
 }: IconButtonProps, ref) => {
   const getIcon = (): ReactNode => {
@@ -46,47 +35,25 @@ export const IconButton = forwardRef(({
     if (icon === 'moon') return <MoonIcon/>;
     return null;
   }
-  
-  const handleOnBlur = (e: FocusEvent) => {
-    if (onBlur) {
-      onBlur(e);
-    }
-  };
 
-  const handleOnClick = (e: MouseEvent) => {
+  const handleOnClick = () => {
     if (onClick) {
-      onClick(e);
+      onClick();
     }
   };
-
-  const handleOnFocus = (e: FocusEvent) => {
-    if (onFocus) {
-      onFocus(e);
-    }
-  };
-
 
   const handleOnKeyDown = (e: KeyboardEvent) => {
-    if (onKeyDown) {
-      onKeyDown(e);
-    }
-  };
-
-  const handleOnKeyUp = (e: KeyboardEvent) => {
-    if (onKeyUp) {
-      onKeyUp(e);
-    }
-  };
-
-  const handleOnMouseEnter = (e: MouseEvent) => {
-    if(onMouseEnter) {
-      onMouseEnter(e);
-    }
-  };
-
-  const handleOnMouseLeave = (e: MouseEvent) => {
-    if(onMouseLeave) {
-      onMouseLeave(e);
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (onKeyDown) {
+        console.log('has onKeyDown');
+        onKeyDown();
+      } else {
+        if (onClick) {
+          console.log('has no onKeyDown');
+          handleOnClick();
+        }
+      }
     }
   };
 
@@ -94,13 +61,8 @@ export const IconButton = forwardRef(({
     <button
       className="dm-screen-design-system-icon-button"
       data-test-id="dm-screen-design-system-icon-button"
-      onBlur={handleOnBlur}
       onClick={handleOnClick}
-      onFocus={handleOnFocus}
       onKeyDown={handleOnKeyDown}
-      onKeyUp={handleOnKeyUp}
-      onMouseEnter={handleOnMouseEnter}
-      onMouseLeave={handleOnMouseLeave}
       ref={ref as RefObject<HTMLButtonElement>}
       role="button"
       tabIndex={tabIndex}>

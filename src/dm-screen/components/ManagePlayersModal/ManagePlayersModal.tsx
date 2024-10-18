@@ -142,21 +142,13 @@ export const ManagePlayersModal = ({
             buttonText="Add Player"
             disabled={!isValid}
             onClick={handleSubmit(newPlayersModalSubmit)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleSubmit(newPlayersModalSubmit);
-              }
-            }}/>
+          />
           <Button
             buttonText="Cancel"
             onClick={() => {
               newPlayersModalCancel();
             }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                newPlayersModalCancel();
-              }
-            }}/>
+          />
         </fieldset>
       </form>
     </Modal>

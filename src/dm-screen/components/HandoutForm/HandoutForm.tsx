@@ -210,11 +210,6 @@ export const HandoutForm = ({
           buttonText="Upload adventure handout"
           disabled={!isValid}
           onClick={handleSubmit(onSubmit)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              handleSubmit(onSubmit);
-            }
-          }}
         />
       </fieldset>
     </form>
