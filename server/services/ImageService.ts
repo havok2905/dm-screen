@@ -5,6 +5,7 @@ import {
   RemoveImageRequest
 } from '../requests';
 import {
+  Adventure,
   Creature,
   EquipmentItem,
   MagicItem,
@@ -14,6 +15,13 @@ import {
   ImageResourceNotFoundException,
   MissingArgumentException
 } from '../exceptions';
+
+type EntityType =
+  'adventure-splash-image' |
+  'creature' |
+  'magic-item' |
+  'equipment-item' |
+  'spell';
 
 export class ImageService {
   static async addImage(
@@ -35,9 +43,14 @@ export class ImageService {
       throw new ImageResourceNotFoundException();
     }
 
-    deleteImageFromDiskIfItExists(entity.image);
+    if (entityType === 'adventure-splash-image') {
+      deleteImageFromDiskIfItExists(entity.splashImgSrc);
+      entity.splashImgSrc = url;
+    } else {
+      deleteImageFromDiskIfItExists(entity.image);
+      entity.image = url;
+    }
 
-    entity.image = url;
     entity.save();
 
     return true;
@@ -61,7 +74,13 @@ export class ImageService {
       throw new ImageResourceNotFoundException();
     }
 
-    deleteImageFromDiskIfItExists(entity.image);
+    if (entityType === 'adventure-splash-image') {
+      deleteImageFromDiskIfItExists(entity.splashImgSrc);
+      entity.splashImgSrc = '';
+    } else {
+      deleteImageFromDiskIfItExists(entity.image);
+      entity.image = '';
+    }
 
     entity.image = '';
     entity.save();
@@ -71,30 +90,33 @@ export class ImageService {
 
   static async getEntity(
     entityId: string,
-    entityType: 'creature' | 'equipment-item' | 'magic-item' | 'spell'
+    entityType: EntityType
   ): Promise<any | null> {
     switch(entityType) {
+      case 'adventure-splash-image':
+        return await Adventure.findOne({
+          where: {
+            id: entityId
+          }
+        });
       case 'creature':
         return await Creature.findOne({
           where: {
             id: entityId
           }
         });
-        break;
       case 'equipment-item':
         return await EquipmentItem.findOne({
           where: {
             id: entityId
           }
         });
-        break;
       case 'magic-item':
         return await MagicItem.findOne({
           where: {
             id: entityId
           }
         });
-        break;
       case 'spell':
         return await Spell.findOne({
           where: {

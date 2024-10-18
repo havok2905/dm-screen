@@ -31,7 +31,7 @@ function randomSplashImage() {
 export const PlayerSplash = ({
   adventure
 }: PlayerSplashProps) => {
-  const bgImg = randomSplashImage();
+  const bgImg = adventure.splashImgSrc || randomSplashImage();
 
   return (
     <div

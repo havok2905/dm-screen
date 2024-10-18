@@ -36,12 +36,14 @@ import {
   CompendiumNavbar,
   ConfirmationModal,
   HandoutForm,
+  ImageForm,
   Markdown
 } from '../../../components';
 import {
   useAddCreature,
   useAddEquipmentItem,
   useAddHandout,
+  useAddImage,
   useAddMagicItem,
   useAdventure,
   useCreatures,
@@ -49,7 +51,8 @@ import {
   useDestroyAdventureHandout,
   useDestroyAdventureItem,
   useEquipmentItems,
-  useMagicItems
+  useMagicItems,
+  useRemoveImage
 } from '../../../hooks';
 
 import './AdventurePage.css';
@@ -68,6 +71,7 @@ export const AdventurePage = () => {
   const [isAdventureItemConfirmModalOpen, setIsAdventureItemConfirmModalOpen] = useState<boolean>(false);
   const [isCreatureCompendiumModalOpen, setIsCreatureCompendiumModalOpen] = useState<boolean>(false);
   const [isHandoutModalOpen, setIsHandoutModalOpen] = useState<boolean>(false);
+  const [isSplashImageModalOpen, setIsSplashImageModalOpen] = useState<boolean>(false);
   const [isItemCompendiumModalOpen, setIsItemCompendiumModalOpen] = useState<boolean>(false);
   const [isMagicItemCompendiumModalOpen, setIsMagicItemCompendiumModalOpen] = useState<boolean>(false);
 
@@ -134,6 +138,13 @@ export const AdventurePage = () => {
     refetch
   ]);
 
+  const onAddSplashImageSuccess = useCallback(() => {
+    refetch();
+    setIsSplashImageModalOpen(false);
+  }, [
+    refetch
+  ]);
+
   const {
     mutate: addCreature
   } = useAddCreature(onAddCreatureSuccess);
@@ -162,6 +173,16 @@ export const AdventurePage = () => {
     isError: addHandoutIsError,
     mutate: addHandout
   } = useAddHandout(onAddHandoutSuccess);
+
+  const {
+    mutate: addImage,
+    isError: addImageIsError
+  } = useAddImage(onAddSplashImageSuccess);
+
+  const {
+    mutate: removeImage,
+    isError: removeImageIsError
+  } = useRemoveImage(onSuccess);
 
   const onAdventureCreatureCancel = useCallback(() => {
     setIsAdventureCreatureConfirmModalOpen(false);
@@ -231,6 +252,7 @@ export const AdventurePage = () => {
     handouts,
     name,
     notes,
+    splashImgSrc,
     system
   } = data ?? {} as Adventure;
 
@@ -244,6 +266,13 @@ export const AdventurePage = () => {
     { name: 'Id' },
     { name: 'Name'}
   ];
+
+  const onRemoveImageClick = () => {
+    removeImage({
+      id,
+      entityType: 'adventure-splash-image'
+    });
+  };
 
   const toggleItem = (
     id: string,
@@ -459,6 +488,44 @@ export const AdventurePage = () => {
               rows={itemRows}
             />
             <h3>
+              Splash Image
+            </h3>
+            <fieldset>
+              <Button
+                buttonText="Add splash image"
+                onClick={() => {
+                  setIsSplashImageModalOpen(true);
+                }}
+              />
+            </fieldset>
+            {
+              splashImgSrc ? (
+                <fieldset>
+                  <Button
+                    buttonText="Remove image"
+                    onClick={onRemoveImageClick}
+                  />
+                </fieldset>
+              ) : null
+            }
+            {
+              removeImageIsError ? (
+                <p>
+                  There was a problem removing this image.
+                </p>
+              ) : null
+            }
+            {
+              splashImgSrc ? (
+                <img
+                  src={splashImgSrc}
+                  style={{
+                    maxWidth: '100%'
+                  }}
+                />
+              ) : null
+            }
+            <h3>
               Handouts
             </h3>
             <fieldset>
@@ -673,7 +740,28 @@ export const AdventurePage = () => {
           uploadIsError={addHandoutIsError}
         />
       </Modal>
-    )
+    );
+  };
+
+  const getSplashImageModal = (
+    isOpen: boolean,
+    onClose: () => void
+  ) => {
+    return (
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        portalElement={document.body}
+      >
+        <h2>Upload Splash Image</h2>
+        <ImageForm
+          entityId={id}
+          entityType="adventure-splash-image"
+          updateFunction={addImage}
+          uploadIsError={addImageIsError}
+        />
+      </Modal>
+    );
   };
 
   return (
@@ -691,6 +779,9 @@ export const AdventurePage = () => {
       </Container>
       {getHandoutsModal(isHandoutModalOpen, () => {
         setIsHandoutModalOpen(false);
+      })}
+      {getSplashImageModal(isSplashImageModalOpen, () => {
+        setIsSplashImageModalOpen(false);
       })}
       {getItemsModal(markdownItems, isItemCompendiumModalOpen, () => {
         setNameSearchTerm('');

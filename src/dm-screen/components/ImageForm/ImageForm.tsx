@@ -10,11 +10,18 @@ import {
 } from "react-hook-form";
 import { UseMutateFunction } from '@tanstack/react-query';
 
+type EntityType =
+  'adventure-splash-image' |
+  'creature' |
+  'magic-item' |
+  'equipment-item' |
+  'spell';
+
 export interface ImageFormProps {
   entityId: string,
-  entityType: 'creature' | 'magic-item' | 'equipment-item' | 'spell';
+  entityType: EntityType;
   updateFunction: UseMutateFunction<unknown, Error, {
-    entityType: 'creature' | 'magic-item' | 'equipment-item' | 'spell';
+    entityType: EntityType;
     id: string;
     formData: FormData;
   }>;

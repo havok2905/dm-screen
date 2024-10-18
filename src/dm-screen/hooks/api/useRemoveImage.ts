@@ -5,6 +5,13 @@ import {
 
 import { API_BASE } from './constants';
 
+type EntityType =
+  'adventure-splash-image' |
+  'creature' |
+  'magic-item' |
+  'equipment-item' |
+  'spell';
+
 export const useRemoveImage = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -13,7 +20,7 @@ export const useRemoveImage = (onSuccess?: () => void) => {
       entityType,
       id,
     }: {
-      entityType: 'creature' | 'magic-item' | 'equipment-item' | 'spell',
+      entityType: EntityType,
       id: string,
     }) => {
       return fetch(`${API_BASE}/image/${entityType}/${id}/removeImage`, {
@@ -26,6 +33,7 @@ export const useRemoveImage = (onSuccess?: () => void) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [
+          'adventureData',
           'creatureData',
           'equipmentItemData',
           'magicItemData',

@@ -1,14 +1,21 @@
 import { ImageRequestMalformedException } from '../exceptions';
 import { Request } from './Request';
 
+type EntityType =
+  'adventure-splash-image' |
+  'creature' |
+  'magic-item' |
+  'equipment-item' |
+  'spell';
+
 export class AddImageRequest implements Request {
   public entityId: string;
-  public entityType: 'creature' | 'equipment-item' | 'magic-item' | 'spell';
+  public entityType: EntityType;
   public url: string;
 
   constructor(
     entityId: string,
-    entityType: 'creature' | 'equipment-item' | 'magic-item' | 'spell',
+    entityType: EntityType,
     url: string
   ) {
     this.entityId = entityId;
@@ -18,6 +25,7 @@ export class AddImageRequest implements Request {
 
   validate() {
     if (
+      this.entityType !== 'adventure-splash-image' &&
       this.entityType !== 'creature' &&
       this.entityType !== 'equipment-item' &&
       this.entityType !== 'magic-item' &&

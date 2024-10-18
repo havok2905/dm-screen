@@ -5,6 +5,13 @@ import {
 
 import { API_BASE } from './constants';
 
+type EntityType =
+  'adventure-splash-image' |
+  'creature' |
+  'magic-item' |
+  'equipment-item' |
+  'spell';
+
 export const useAddImage = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
@@ -14,7 +21,7 @@ export const useAddImage = (onSuccess?: () => void) => {
       id,
       formData
     }: {
-      entityType: 'creature' | 'magic-item' | 'equipment-item' | 'spell',
+      entityType: EntityType,
       id: string,
       formData: FormData
     }) => {
@@ -26,6 +33,7 @@ export const useAddImage = (onSuccess?: () => void) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [
+          'adventureData',
           'creatureData',
           'equipmentItemData',
           'magicItemData',
