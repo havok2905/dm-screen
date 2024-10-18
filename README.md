@@ -28,7 +28,7 @@
 
 | Command | Description |
 | ------- | ----------- |
-| dev-client | Runs a development instance of the client app. |
+| run:client | Runs a development instance of the client app. |
 | storybook | Runs an instance of storybook. |
 
 ### Server Commands
