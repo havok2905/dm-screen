@@ -804,6 +804,24 @@ describe('AdventureService', () => {
         });
       });
 
+      jest.spyOn(AdventureCreature, 'findAll').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve([]);
+        });
+      });
+
+      jest.spyOn(AdventureHandout, 'findAll').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve([]);
+        });
+      });
+
+      jest.spyOn(AdventureItem, 'findAll').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve([]);
+        });
+      });
+
       jest.spyOn(mockAdventure, 'destroy').mockImplementation(jest.fn());
       jest.spyOn(mockAdventure, 'save').mockImplementation(jest.fn());
 

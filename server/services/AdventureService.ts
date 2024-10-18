@@ -27,6 +27,9 @@ import {
   AdventuresResponse
 } from '../responses';
 
+import { AdventureCreatureService } from './AdventureCreatureService';
+import { AdventureHandoutService } from './AdventureHandoutService';
+import { AdventureItemService } from './AdventureItemService';
 import { cloneFileOnDisk } from './utils/cloneFileOnDisk';
 
 export class AdventureService {
@@ -348,6 +351,39 @@ export class AdventureService {
 
     if (!adventure) {
       throw new AdventureNotFoundException();
+    }
+
+    const adventureCreatures = await AdventureCreature.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureHandouts = await AdventureHandout.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+  
+    const adventureItems = await AdventureItem.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+
+    for (let x=0; x<adventureCreatures.length; x++) {
+      const adventureCreature = adventureCreatures[x];
+      await AdventureCreatureService.destroyAdventureCreatureById(adventureCreature.dataValues.id);
+    }
+
+    for (let x=0; x<adventureHandouts.length; x++) {
+      const adventureHandout = adventureHandouts[x];
+      await AdventureHandoutService.destroyAdventureHandoutById(adventureHandout.dataValues.id);
+    }
+
+    for (let x=0; x<adventureItems.length; x++) {
+      const adventureItem = adventureItems[x];
+      await AdventureItemService.destroyAdventureItemById(adventureItem.dataValues.id);
     }
 
     adventure?.destroy();
