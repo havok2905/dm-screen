@@ -242,7 +242,10 @@ export const EditAdventurePage = () => {
     </CenteredContainer>
   );
 
-  const { id } = data ?? {};
+  const {
+    id,
+    handouts
+  } = data ?? {};
 
   return (
     <>
@@ -303,6 +306,30 @@ export const EditAdventurePage = () => {
                           rules={fieldModel.rules}
                         />
                       </fieldset>
+                    )
+                  })
+                }
+              </Item>
+            </GridRow>
+            <GridRow>
+              <Item columns={12}>
+                {
+                  handouts.map(handout => {
+                    const onClick = () => {
+                      navigator.clipboard.writeText(handout.url);
+                      alert(`Copied ${handout.url} to clipboard`);
+                    };
+
+                    return (
+                      <img
+                        alt={handout.description}
+                        onClick={onClick}
+                        src={handout.url}
+                        style={{
+                          cursor: 'pointer',
+                          maxWidth: '200px'
+                        }}
+                      />
                     )
                   })
                 }

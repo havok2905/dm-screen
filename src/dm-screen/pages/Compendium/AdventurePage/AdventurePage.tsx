@@ -486,6 +486,15 @@ export const AdventurePage = () => {
                       {description}
                     </p>
                     <fieldset>
+                      <Button
+                        buttonText="Copy image path"
+                        onClick={() => {
+                          navigator.clipboard.writeText(url);
+                          alert(`Copied ${url} to clipboard`);
+                        }}
+                      />
+                    </fieldset>
+                    <fieldset>
                       <LinkButton
                         buttonText="Remove handout"
                         color="red"
