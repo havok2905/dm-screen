@@ -168,7 +168,7 @@ describe('DmView.cy.tsx', () => {
   it('should open rules and search for a rule', () => {
     cy
       .getIconButton()
-      .eq(1)
+      .eq(2)
       .trigger('click');
 
     cy
@@ -191,10 +191,32 @@ describe('DmView.cy.tsx', () => {
       .should('not.exist');
   });
 
-  it('should open the adventure and render markdown', () => {
+  it('should open spells and search for a spell', () => {
     cy
       .getIconButton()
       .eq(0)
+      .trigger('click');
+
+    cy
+      .get('[data-test-id="spells-search-controls"]')
+      .type('Acid');
+    
+    cy
+      .getSideDrawerHeader()
+      .eq(2)
+      .find('[data-test-id="dm-screen-design-system-icon-button"]')
+      .eq(0)
+      .trigger('click');
+
+    cy
+      .getSideDrawerContent()
+      .should('not.exist');
+  });
+
+  it('should open the adventure and render markdown', () => {
+    cy
+      .getIconButton()
+      .eq(1)
       .trigger('click');
 
     // Trust largely that marked.js is doing its thing. Test that # is turned into h1

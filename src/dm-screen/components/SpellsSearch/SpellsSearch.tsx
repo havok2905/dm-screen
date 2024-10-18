@@ -59,8 +59,8 @@ export const SpellsSearch = ({
   return (
     <div>
       <div
-        className="rules-search-controls"
-        data-test-id="rules-search-controls"
+        className="spells-search-controls"
+        data-test-id="spells-search-controls"
       >
         <Input
           full
