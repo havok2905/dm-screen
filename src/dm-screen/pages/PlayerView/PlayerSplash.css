@@ -11,6 +11,6 @@
 .dm-screen-design-system-splash-title {
     box-sizing: border-box;
     text-align: center;
-    background: var(--black-100);
+    background: rgba(0, 0, 0, 0.5);
     padding: 20px 10px;
 }
