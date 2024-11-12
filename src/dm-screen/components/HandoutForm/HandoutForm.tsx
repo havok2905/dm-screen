@@ -209,7 +209,6 @@ export const HandoutForm = ({
         <Button
           buttonText="Upload adventure handout"
           disabled={!isValid}
-          onClick={handleSubmit(onSubmit)}
         />
       </fieldset>
     </form>

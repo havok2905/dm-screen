@@ -153,7 +153,6 @@ export const ImageForm = ({
         <Button
           buttonText="Upload image"
           disabled={!isValid}
-          onClick={handleSubmit(onSubmit)}
         />
       </fieldset>
     </form>

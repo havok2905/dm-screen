@@ -254,7 +254,6 @@ export const MarkdownEntityEditPage = ({
             <Button
               buttonText={saveButtonText}
               disabled={!isValid}
-              onClick={handleSubmit(onSubmit)}
             />
           </form>
         </Item>

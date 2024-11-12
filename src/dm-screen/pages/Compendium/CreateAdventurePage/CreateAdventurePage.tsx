@@ -173,7 +173,6 @@ export const CreateAdventurePage = () => {
                 <Button
                   buttonText="Save adventure"
                   disabled={!isValid}
-                  onClick={handleSubmit(onSubmit)}
                 />
               </form>
             </Item>

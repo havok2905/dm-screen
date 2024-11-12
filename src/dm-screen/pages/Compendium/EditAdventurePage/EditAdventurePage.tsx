@@ -368,7 +368,6 @@ export const EditAdventurePage = () => {
                 <Button
                   buttonText="Save adventure"
                   disabled={!isValid}
-                  onClick={handleSubmit(onSubmit)}
                 />
               </Item>
             </GridRow>
