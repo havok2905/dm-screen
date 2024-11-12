@@ -61,10 +61,14 @@ export class AdventureService {
       throw new CreatureNotFoundException();
     }
 
-    const imagePath: string = creature.dataValues.image;
-    const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
-    const result = cloneFileOnDisk(imagePath, fullImagePath);
-    const { newImagePath } = result;
+    let newImagePath = '';
+    const imagePath: string = creature.dataValues.image ?? '';
+
+    if (imagePath) {
+      const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
+      const result = cloneFileOnDisk(imagePath, fullImagePath);
+      newImagePath = result.newImagePath;
+    }
 
     const adventureCreature = AdventureCreature.build({
       id: uuidv4(),
@@ -149,10 +153,14 @@ export class AdventureService {
       throw new EquipmentItemNotFoundException();
     }
 
-    const imagePath: string = equipmentItem.dataValues.image;
-    const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
-    const result = cloneFileOnDisk(imagePath, fullImagePath);
-    const { newImagePath } = result;
+    let newImagePath = '';
+    const imagePath: string = equipmentItem.dataValues.image ?? '';
+
+    if (imagePath) {
+      const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
+      const result = cloneFileOnDisk(imagePath, fullImagePath);
+      newImagePath = result.newImagePath;
+    }
 
     const adventureItem = AdventureItem.build({
       id: uuidv4(),
@@ -277,10 +285,14 @@ export class AdventureService {
       throw new EquipmentItemNotFoundException();
     }
 
-    const imagePath: string = magicItem.dataValues.image;
-    const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
-    const result = cloneFileOnDisk(imagePath, fullImagePath);
-    const { newImagePath } = result;
+    let newImagePath = '';
+    const imagePath: string = magicItem.dataValues.image ?? '';
+
+    if (imagePath) {
+      const fullImagePath = path.join(path.resolve(__dirname), '..', '..', imagePath);
+      const result = cloneFileOnDisk(imagePath, fullImagePath);
+      newImagePath = result.newImagePath;
+    }
 
     const adventureItem = AdventureItem.build({
       id: uuidv4(),
