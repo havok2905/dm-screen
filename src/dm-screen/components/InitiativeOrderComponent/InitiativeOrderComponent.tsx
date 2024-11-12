@@ -1,4 +1,4 @@
-import { Button, MultiSelect } from '@designSystem/components';
+import { Button, Input, MultiSelect } from '@designSystem/components';
 
 import {
   InitiativeItem,
@@ -96,6 +96,14 @@ export const InitiativeOrderComponent = ({
     }
   };
 
+  const onLabelValueChange = (value: string) => {
+    const initiativeOrder = getInitiativeOrder();
+    if (initiativeOrder) {
+      initiativeOrder.setLabel(openId ?? '', value);
+      handleUpdateInitiativeOrderInternal();
+    }
+  };
+
   const next = () => {
     const initiativeOrder = getInitiativeOrder();
     if (initiativeOrder) {
@@ -167,6 +175,7 @@ export const InitiativeOrderComponent = ({
                   gmOnly={item.gmOnly}
                   imageSrc={item.imageSrc}
                   key={item.id}
+                  label={item.label ?? ''}
                   name={item.name}
                   onDoubleClick={() => {
                     setIsOpen(true);
@@ -351,6 +360,18 @@ export const InitiativeOrderComponent = ({
               handleOnConditionChange(conditions);
             }}
             width="400px"
+          />
+        </fieldset>
+        <fieldset>
+          <Input
+            full
+            inputId="label"
+            inputName="label"
+            label="Label"
+            onChange={(e) => {
+              onLabelValueChange(e.target.value);
+            }}
+            value={currentItem?.label ?? ''}
           />
         </fieldset>
       </InitiativeItemModal>

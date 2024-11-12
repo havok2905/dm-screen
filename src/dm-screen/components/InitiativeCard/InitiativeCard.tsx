@@ -1,8 +1,12 @@
-import { CircleBadgeForm } from '@designSystem/components';
 import classNames from 'classnames';
 import { StatusEffects } from '@rules/enums';
 import { useCallback } from 'react';
 import { VisibilityState } from '@core/types';
+
+import {
+  CircleBadgeForm,
+  Tooltip
+} from '@designSystem/components';
 
 import { StatusAvatarCollection } from '../StatusAvatar/StatusAvatarCollection';
 
@@ -12,6 +16,7 @@ export interface InitiativeCardProps {
   active?: boolean;
   gmOnly?: boolean;
   imageSrc?: string;
+  label?: string;
   name: string;
   onDoubleClick: () => void;
   onResourceAChange: (value: number) => void;
@@ -29,6 +34,7 @@ export const InitiativeCard = ({
   active,
   gmOnly,
   imageSrc,
+  label,
   name,
   onDoubleClick,
   onResourceAChange,
@@ -65,6 +71,8 @@ export const InitiativeCard = ({
       onDoubleClick();
     }
   };
+
+  const fullName = label ? `${label} - ${name}` : name;
 
   return (
     <div
@@ -106,7 +114,12 @@ export const InitiativeCard = ({
         />
       </div>
       <p className="initiative-card-character-name">
-        {name}
+        <Tooltip
+          content={fullName}
+          orientation="bottom"
+        >
+          {fullName}
+        </Tooltip>
       </p>
     </div>
   );

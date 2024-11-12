@@ -52,6 +52,7 @@
   bottom: 0;
   box-sizing: border-box;
   color: var(--white);
+  cursor: pointer;
   font-family: var(--base-font-family);
   font-size: var(--sub-font-size);
   line-height: 1;

@@ -17,6 +17,7 @@ export interface InitiativeOrderInterface {
   setConditions(id: string, conditions: string);
   setCurrentId(id: string): void;
   setItems(items: InitiativeItem[]): void;
+  setLabel(id: string, value: string): void;
   setResourceA(id: string, value: number): void;
   setResourceB(id: string, value: number): void;
   setSortValue(id: string, value: number): void;
@@ -178,6 +179,18 @@ export class InitiativeOrder implements InitiativeOrderInterface {
 
   setItems(items: InitiativeItem[]) {
     this.items = items;
+  }
+
+  setLabel(id: string, value: string) {
+    const newItems = this.items.map((item) => {
+      if (item.id === id) {
+        item.label = value;
+      }
+
+      return item;
+    });
+
+    this.items = newItems;
   }
 
   setResourceA(id: string, value: number) {

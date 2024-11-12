@@ -61,6 +61,7 @@ export interface InitiativeItem {
   gmOnly: boolean;
   id: string;
   imageSrc?: string;
+  label?: string;
   name: string;
   resourceA: number;
   resourceB: number;
