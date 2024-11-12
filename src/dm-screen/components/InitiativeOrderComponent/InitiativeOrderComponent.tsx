@@ -1,5 +1,9 @@
-import { Button, Input, MultiSelect } from '@designSystem/components';
-
+import {
+  Button,
+  Input,
+  Label,
+  MultiSelect
+} from '@designSystem/components';
 import {
   InitiativeItem,
   InitiativeOrderState,
@@ -286,6 +290,9 @@ export const InitiativeOrderComponent = ({
           />
         </fieldset>
         <fieldset>
+          <Label
+            inputId="conditions"
+            label="Conditions"/>
           <MultiSelect
             dataItems={[
               {
