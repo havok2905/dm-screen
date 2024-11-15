@@ -12,8 +12,7 @@ export const MagicItemPage = () => {
     data,
     isFetching,
     isLoading,
-    isPending,
-    refetch
+    isPending
   } = useMagicItem(itemId ?? '');
 
   const isPageLoading =
@@ -27,10 +26,8 @@ export const MagicItemPage = () => {
     <MarkdownEntityViewPage
       backLinkLabel="Back to magic items"
       backLinkPath={MAGIC_ITEMS_PATH}
-      entityType="magic-item"
       isLoading={isPageLoading}
       markdownEntity={itemData}
-      refetch={refetch}
     />
   );
 };

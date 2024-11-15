@@ -12,8 +12,7 @@ export const EquipmentItemPage = () => {
     data,
     isFetching,
     isLoading,
-    isPending,
-    refetch
+    isPending
   } = useEquipmentItem(itemId ?? '');
 
   const isPageLoading =
@@ -27,10 +26,8 @@ export const EquipmentItemPage = () => {
     <MarkdownEntityViewPage
       backLinkLabel="Back to equipment items"
       backLinkPath={EQUIPMENT_ITEMS_PATH}
-      entityType="equipment-item"
       isLoading={isPageLoading}
       markdownEntity={itemData}
-      refetch={refetch}
     />
   );
 };

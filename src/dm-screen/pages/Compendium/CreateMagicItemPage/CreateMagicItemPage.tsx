@@ -3,15 +3,19 @@ import { MAGIC_ITEM_TEMPLATE } from '@templates/markdown/magicItem';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { MAGIC_ITEMS_PATH } from '../../../routes';
 import { MarkdownEntityCreatePage } from '../components/MarkdownEntityCreatePage';
 import { useCreateMagicItem } from '../../../hooks';
+
+import {
+  EDIT_MAGIC_ITEM_PATH,
+  MAGIC_ITEMS_PATH
+} from '../../../routes';
 
 export const CreateMagicItemPage = () => {
   const navigate = useNavigate();
 
-  const onSuccess = useCallback(() => {
-    navigate(MAGIC_ITEMS_PATH);
+  const onSuccess = useCallback((id: string) => {
+    navigate(EDIT_MAGIC_ITEM_PATH.replace(':id', id));
   }, [
     navigate
   ]);

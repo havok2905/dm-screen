@@ -30,7 +30,8 @@ export const EditEquipmentItemPage = () => {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useEquipmentItem(equipmentItemId ?? '');
 
   const navigate = useNavigate();
@@ -75,7 +76,9 @@ export const EditEquipmentItemPage = () => {
           </Link>
         </p>
         <MarkdownEntityEditPage
+          entityType="equipment-item"
           item={data}
+          refetch={refetch}
           saveButtonText="Save equipment item"
           updateFunction={updateEquipmentItem}
           updateIsError={updateEquipmentItemIsError}

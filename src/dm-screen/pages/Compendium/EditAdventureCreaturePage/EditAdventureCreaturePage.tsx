@@ -28,7 +28,8 @@ export const EditAdventureCreaturePage = () => {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useAdventureCreature(adventureCreatureId ?? '');
 
   const navigate = useNavigate();
@@ -74,7 +75,9 @@ export const EditAdventureCreaturePage = () => {
           </Link>
         </p>
         <MarkdownEntityEditPage
+          entityType="adventure-creature"
           item={data}
+          refetch={refetch}
           saveButtonText="Save adventure creature"
           updateFunction={updateAdventureCreature}
           updateIsError={updateAdventureCreatureIsError}

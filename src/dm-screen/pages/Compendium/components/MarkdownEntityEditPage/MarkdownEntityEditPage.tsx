@@ -4,7 +4,8 @@ import {
   GridRow,
   Input,
   Item,
-  Label
+  Label,
+  Modal
 } from '@designSystem/components';
 import {
   Controller,
@@ -17,6 +18,7 @@ import {
   MetaData
 } from '@core/types';
 import {
+  ReactNode,
   useCallback,
   useEffect,
   useRef,
@@ -26,8 +28,15 @@ import {
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { UseMutateFunction } from '@tanstack/react-query';
 
-import { Markdown } from '../../../../components/Markdown';
-import { MetaDataForm } from '../../../../components/MetaDataForm';
+import { 
+  ImageForm,
+  Markdown,
+  MetaDataForm
+} from '../../../../components';
+import {
+  useAddImage,
+  useRemoveImage
+} from '../../../../hooks';
 
 enum InputId {
   CONTENT = 'content',
@@ -62,7 +71,15 @@ const formModel = [
 ];
 
 export interface MarkdownEntityEditPageProps {
+  entityType:
+    'adventure-creature' |
+    'adventure-item' |
+    'creature' |
+    'magic-item' |
+    'equipment-item' |
+    'spell';
   item: MarkdownEntity;
+  refetch: () => void;
   saveButtonText: string;
   updateFunction: UseMutateFunction<unknown, Error, {
     adventureid?: string;
@@ -77,7 +94,9 @@ export interface MarkdownEntityEditPageProps {
 }
 
 export const MarkdownEntityEditPage = ({
+  entityType,
   item,
+  refetch,
   saveButtonText,
   updateFunction,
   updateIsError,
@@ -86,6 +105,7 @@ export const MarkdownEntityEditPage = ({
   const monacoInstance = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const [monacoElement, setMonacoElement] = useState<HTMLDivElement | null>(null);
   const [metaDataModel, setMetaDataModel] = useState<MetaData[]>([]);
+  const [isImageModalOpen, setIsImageModalOpen] = useState<boolean>(false);
 
   const {
     control,
@@ -101,6 +121,36 @@ export const MarkdownEntityEditPage = ({
     errors,
     isValid
   } = useFormState({ control });
+
+  const onSuccess = useCallback(() => {
+    refetch();
+    setIsImageModalOpen(false);
+  }, [
+    refetch
+  ]);
+
+  const {
+    isError: addImageIsError,
+    mutate: addImage
+  } = useAddImage(onSuccess);
+
+  const {
+    isError: removeImageIsError,
+    mutate: removeImage
+  } = useRemoveImage(onSuccess);
+
+  const onRemoveImageClick = useCallback(() => {
+    if (item) {
+      removeImage({
+        id: item.id,
+        entityType
+      });
+    }
+  }, [
+    entityType,
+    item,
+    removeImage
+  ]);
 
   const watchContent = watch('content', '');
 
@@ -192,12 +242,76 @@ export const MarkdownEntityEditPage = ({
     trigger
   ]);
 
+  const getImageModal = (
+    isOpen: boolean,
+    onClose: () => void
+  ): ReactNode => {
+    const {
+      id = ''
+    } = item ?? {};
+
+    return (
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        portalElement={document.body}
+      >
+        <h2>Upload Image</h2>
+        <ImageForm
+          entityId={id}
+          entityType={entityType}
+          updateFunction={addImage}
+          uploadIsError={addImageIsError}
+        />
+      </Modal>
+    )
+  };
+
   const fieldModel = formModel[0];
 
   const error: string = errors[fieldModel.id as InputId]?.message ?? '';
 
+  const {
+    image,
+    name
+  } = item;
+
   return (
     <Grid>
+      <GridRow>
+        <Item columns={12}>
+          <fieldset>
+            <Button
+              buttonText="Add image"
+              onClick={() => {
+                setIsImageModalOpen(true);
+              }}
+            />
+          </fieldset>
+          {
+            image ? (
+              <fieldset>
+                <Button
+                  buttonText="Remove image"
+                  onClick={onRemoveImageClick}
+                />
+              </fieldset>
+            ) : null
+          }
+          {
+            removeImageIsError ? (
+              <p>
+                There was a problem removing this image.
+              </p>
+            ) : null
+          }
+          {
+            image ? (
+              <img alt={name} src={image}/>
+            ) : null
+          }
+        </Item>
+      </GridRow>
       <GridRow>
         <Item columns={6}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -261,6 +375,9 @@ export const MarkdownEntityEditPage = ({
           <Markdown content={watchContent}/>
         </Item>
       </GridRow>
+      {getImageModal(isImageModalOpen, () => {
+        setIsImageModalOpen(false);
+      })}
     </Grid>
   );
 };

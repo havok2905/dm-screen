@@ -28,7 +28,8 @@ export const EditAdventureItemPage = () => {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useAdventureItem(adventureItemId ?? '');
 
   const navigate = useNavigate();
@@ -74,7 +75,9 @@ export const EditAdventureItemPage = () => {
           </Link>
         </p>
         <MarkdownEntityEditPage
+          entityType="adventure-item"
           item={data}
+          refetch={refetch}
           saveButtonText="Save adventure item"
           updateFunction={updateAdventureItem}
           updateIsError={updateAdventureItemIsError}

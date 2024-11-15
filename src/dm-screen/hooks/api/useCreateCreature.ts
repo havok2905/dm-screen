@@ -7,7 +7,7 @@ import { API_BASE } from './constants';
 
 import { MetaData } from '@core/types';
 
-export const useCreateCreature = (onSuccess?: () => void) => {
+export const useCreateCreature = (onSuccess?: (id: string) => void) => {
   const queryClient = useQueryClient();
 
   const result = useMutation({
@@ -38,7 +38,7 @@ export const useCreateCreature = (onSuccess?: () => void) => {
         },
       }).then((response) => response.json())
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: [
           'creaturesData'
@@ -46,7 +46,7 @@ export const useCreateCreature = (onSuccess?: () => void) => {
       });
 
       if (onSuccess) {
-        onSuccess();
+        onSuccess(data.id);
       }
     },
   });

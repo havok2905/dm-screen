@@ -107,58 +107,12 @@ describe('MarkdownEntityCreatePage.cy.tsx', () => {
       .should('be.enabled');
   });
 
-  it('should update markdown as we type in the editor', () => {
-    mountPage();
-
-    cy
-      .get('textarea')
-      .first()
-      .type('# Hello, test', { force: true });
-
-    cy
-      .get('h1')
-      .should('contain', 'Hello, test');
-  });
-
   it('should display an error when the save did not work', () => {
     mountPage(true);
 
     cy
       .get('[data-test-id="markdown-entity-create-page-error"]')
       .should('contain', createIsErrorText);
-  });
-
-  it('should add a metadata item', () => {
-    mountPage();
-
-    cy
-      .get('[data-test-id="metadata-field"]')
-      .should('have.length', 4);
-
-    cy
-      .getLinkButton()
-      .trigger('click');
-
-    cy
-      .get('[data-test-id="metadata-field"]')
-      .should('have.length', 5);
-  });
-
-  it('should remove a metadata item', () => {
-    mountPage();
-
-    cy
-      .get('[data-test-id="metadata-field"]')
-      .should('have.length', 4);
-
-    cy
-      .getIconButton()
-      .eq(0)
-      .trigger('click');
-
-    cy
-      .get('[data-test-id="metadata-field"]')
-      .should('have.length', 3);
   });
 
   it('should edit and save an item', () => {
@@ -175,37 +129,13 @@ describe('MarkdownEntityCreatePage.cy.tsx', () => {
       .blur();
 
     cy
-      .getInput()
-      .eq(2)
-      .type('15');
-
-    cy
-      .getInput()
-      .eq(4)
-      .clear()
-      .type('1/2');
-
-    cy
-      .getInput()
-      .eq(6)
-      .type('20');
-
-    cy
-      .getInput()
-      .eq(8)
-      .type('Monstrosity');
-
-    cy
-      .get('textarea')
-      .first()
-      .type('# Hello, test', { force: true });
-
-    cy
       .getButton()
       .last()
       .should('contain', saveButtonText)
       .should('be.enabled')
       .trigger('click');
+
+    cy.get('form').submit();
 
     cy
       .get('@updateFunction')

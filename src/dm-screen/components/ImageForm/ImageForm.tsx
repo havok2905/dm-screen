@@ -12,6 +12,8 @@ import { UseMutateFunction } from '@tanstack/react-query';
 
 type EntityType =
   'adventure-splash-image' |
+  'adventure-creature' |
+  'adventure-item' |
   'creature' |
   'magic-item' |
   'equipment-item' |

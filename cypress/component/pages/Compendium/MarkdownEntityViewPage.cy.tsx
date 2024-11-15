@@ -18,7 +18,6 @@ const mountPage = (isLoading = false) => {
       <MarkdownEntityViewPage
         backLinkLabel={backLinkLabel}
         backLinkPath={backLinkPath}
-        entityType="creature"
         isLoading={isLoading}
         markdownEntity={{
           content: '# Acid Arrow',
@@ -48,7 +47,6 @@ const mountPage = (isLoading = false) => {
           ],
           name: 'Acid Arrow'
         }}
-        refetch={() => {}}
       />
     </ApplicationBootstrapper>
   );

@@ -12,8 +12,7 @@ export const CreaturePage = () => {
     data,
     isFetching,
     isLoading,
-    isPending,
-    refetch
+    isPending
   } = useCreature(creatureId ?? '');
 
   const isPageLoading =
@@ -27,10 +26,8 @@ export const CreaturePage = () => {
     <MarkdownEntityViewPage
       backLinkLabel="Back to creatures"
       backLinkPath={CREATURES_PATH}
-      entityType="creature"
       isLoading={isPageLoading}
       markdownEntity={creatureData}
-      refetch={refetch}
     />
   );
 };

@@ -7,7 +7,7 @@ import { MetaData } from '@core/types';
 
 import { API_BASE } from './constants';
 
-export const useCreateMagicItem = (onSuccess?: () => void) => {
+export const useCreateMagicItem = (onSuccess?: (id: string) => void) => {
   const queryClient = useQueryClient();
 
   const result = useMutation({
@@ -38,7 +38,7 @@ export const useCreateMagicItem = (onSuccess?: () => void) => {
         },
       }).then((response) => response.json())
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: [
           'magicItemsData'
@@ -46,7 +46,7 @@ export const useCreateMagicItem = (onSuccess?: () => void) => {
       });
 
       if (onSuccess) {
-        onSuccess();
+        onSuccess(data.id);
       }
     },
   });

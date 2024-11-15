@@ -18,6 +18,7 @@ const mountPage = (isError = false) => {
   cy.mount(
     <ApplicationBootstrapper path={pagePath} route={pageRoute}>
       <MarkdownEntityEditPage
+        entityType="creature"
         item={{
           content: '# Acid Arrow',
           id: TEST_ITEM_ID,
@@ -46,6 +47,7 @@ const mountPage = (isError = false) => {
           ],
           name: 'Acid Arrow'
         }}
+        refetch={() => {}}
         saveButtonText={saveButtonText}
         updateFunction={updateFunction}
         updateIsError={isError}
@@ -216,6 +218,8 @@ describe('MarkdownEntityEditPage.cy.tsx', () => {
       .should('contain', saveButtonText)
       .should('be.enabled')
       .trigger('click');
+
+    cy.get('form').submit();
 
     cy
       .get('@updateFunction')

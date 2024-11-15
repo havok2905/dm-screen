@@ -30,7 +30,8 @@ export const EditMagicItemPage = () => {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useMagicItem(magicItemId ?? '');
 
   const navigate = useNavigate();
@@ -75,7 +76,9 @@ export const EditMagicItemPage = () => {
           </Link>
         </p>
         <MarkdownEntityEditPage
+          entityType="magic-item"
           item={data}
+          refetch={refetch}
           saveButtonText="Save magic item"
           updateFunction={updateMagicItem}
           updateIsError={updateMagicItemIsError}

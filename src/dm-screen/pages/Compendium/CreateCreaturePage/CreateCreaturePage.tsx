@@ -3,15 +3,19 @@ import { CREATURE_TEMPLATE } from '@templates/markdown/creature';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { CREATURES_PATH } from '../../../routes';
 import { MarkdownEntityCreatePage } from '../components/MarkdownEntityCreatePage';
 import { useCreateCreature } from '../../../hooks';
+
+import {
+  CREATURES_PATH,
+  EDIT_CREATURE_PATH
+} from '../../../routes';
 
 export const CreateCreaturePage = () => {
   const navigate = useNavigate();
 
-  const onSuccess = useCallback(() => {
-    navigate(CREATURES_PATH);
+  const onSuccess = useCallback((id: string) => {
+    navigate(EDIT_CREATURE_PATH.replace(':id', id));
   }, [
     navigate
   ]);

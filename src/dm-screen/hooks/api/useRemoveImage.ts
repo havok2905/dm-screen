@@ -7,6 +7,8 @@ import { API_BASE } from './constants';
 
 type EntityType =
   'adventure-splash-image' |
+  'adventure-creature' |
+  'adventure-item' |
   'creature' |
   'magic-item' |
   'equipment-item' |

@@ -12,8 +12,7 @@ export const SpellPage = () => {
     data,
     isFetching,
     isLoading,
-    isPending,
-    refetch
+    isPending
   } = useSpell(spellId ?? '');
 
   const isPageLoading =
@@ -27,10 +26,8 @@ export const SpellPage = () => {
     <MarkdownEntityViewPage
       backLinkLabel="Back to spells"
       backLinkPath={SPELLS_PATH}
-      entityType="spell"
       isLoading={isPageLoading}
       markdownEntity={spellData}
-      refetch={refetch}
     />
   );
 };

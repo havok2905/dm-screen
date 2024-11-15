@@ -3,6 +3,8 @@ import { Request } from './Request';
 
 type EntityType =
   'adventure-splash-image' |
+  'adventure-creature' |
+  'adventure-item' |
   'creature' |
   'magic-item' |
   'equipment-item' |
@@ -26,6 +28,8 @@ export class AddImageRequest implements Request {
   validate() {
     if (
       this.entityType !== 'adventure-splash-image' &&
+      this.entityType !== 'adventure-creature' &&
+      this.entityType !== 'adventure-item' &&
       this.entityType !== 'creature' &&
       this.entityType !== 'equipment-item' &&
       this.entityType !== 'magic-item' &&

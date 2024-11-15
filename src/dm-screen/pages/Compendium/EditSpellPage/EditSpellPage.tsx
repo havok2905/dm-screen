@@ -30,7 +30,8 @@ export const EditSpellPage = () => {
     data,
     isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useSpell(spellId ?? '');
 
   const navigate = useNavigate();
@@ -75,7 +76,9 @@ export const EditSpellPage = () => {
           </Link>
         </p>
         <MarkdownEntityEditPage
+          entityType="spell"
           item={data}
+          refetch={refetch}
           saveButtonText="Save spell"
           updateFunction={updateSpell}
           updateIsError={updateSpellIsError}
