@@ -100,19 +100,19 @@ export const EquipmentItemsPage = () => {
       data: [name, id],
       actions: [
         {
-          name: 'View',
+          name: 'Review',
           onClick: () => {
             navigate(EQUIPMENT_ITEM_PATH.replace(':id', id));
           }
         },
         {
-          name: 'Edit',
+          name: 'Manage',
           onClick: () => {
             navigate(EDIT_EQUIPMENT_ITEM_PATH.replace(':id', id))
           }
         },
         {
-          name: 'Destroy',
+          name: 'Delete',
           onClick: () => {
             setIsConfirmModalOpen(true);
             setActiveId(id);

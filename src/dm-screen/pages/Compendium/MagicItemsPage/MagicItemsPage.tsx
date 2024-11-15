@@ -100,19 +100,19 @@ export const MagicItemsPage = () => {
       data: [name, id],
       actions: [
         {
-          name: 'View',
+          name: 'Review',
           onClick: () => {
             navigate(MAGIC_ITEM_PATH.replace(':id', id));
           }
         },
         {
-          name: 'Edit',
+          name: 'Manage',
           onClick: () => {
             navigate(EDIT_MAGIC_ITEM_PATH.replace(':id', id))
           }
         },
         {
-          name: 'Destroy',
+          name: 'Delete',
           onClick: () => {
             setIsConfirmModalOpen(true);
             setActiveId(id);

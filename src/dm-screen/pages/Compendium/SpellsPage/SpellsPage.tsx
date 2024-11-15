@@ -100,19 +100,19 @@ export const SpellsPage = () => {
       data: [name, id],
       actions: [
         {
-          name: 'View',
+          name: 'Review',
           onClick: () => {
             navigate(SPELL_PATH.replace(':id', id));
           }
         },
         {
-          name: 'Edit',
+          name: 'Manage',
           onClick: () => {
             navigate(EDIT_SPELL_PATH.replace(':id', id));
           }
         },
         {
-          name: 'Destroy',
+          name: 'Delete',
           onClick: () => {
             setIsConfirmModalOpen(true);
             setActiveId(id);

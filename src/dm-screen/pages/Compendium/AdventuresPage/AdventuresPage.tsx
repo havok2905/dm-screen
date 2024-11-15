@@ -116,19 +116,19 @@ export const AdventuresPage = () => {
           }
         },
         {
-          name: 'View',
+          name: 'Review',
           onClick: () => {
             navigate(ADVENTURE_PATH.replace(':id', id))
           }
         },
         {
-          name: 'Edit',
+          name: 'Manage',
           onClick: () => {
             navigate(EDIT_ADVENTURE_PATH.replace(':id', id))
           }
         },
         {
-          name: 'Destroy',
+          name: 'Delete',
           onClick: () => {
             setIsConfirmModalOpen(true);
             setActiveId(id);
