@@ -1,6 +1,7 @@
 import {
   CenteredContainer,
   Container,
+  Input,
   Spinner,
   Table
 } from '@designSystem/components';
@@ -32,6 +33,7 @@ import {
 export const CreaturesPage = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const {
     data,
@@ -86,7 +88,9 @@ export const CreaturesPage = () => {
     { name: 'Id' }
   ];
 
-  const rows = creatures.map((creature: MarkdownEntity) => {
+  const filteredCreatures = searchTerm ? creatures.filter((creature) => creature.name.includes(searchTerm)) : creatures;
+
+  const rows = filteredCreatures.map((creature: MarkdownEntity) => {
     const {
       id,
       name,
@@ -123,11 +127,23 @@ export const CreaturesPage = () => {
       <CompendiumNavbar/>
       <Container>
         <h2>Creatures</h2>
-        <Link to={CREATE_CREATURE_PATH}>
-          Create new creature
-        </Link>
+        <p>
+          <Link to={CREATE_CREATURE_PATH}>
+            Create new creature
+          </Link>
+        </p>
+        <Input
+          full
+          inputId="search"
+          inputName="search"
+          label="Search"
+          onChange={(e) => {
+            setSearchTerm(e.target.value)
+          }}
+          value={searchTerm}
+        />
         {
-          creatures.length ? (
+          filteredCreatures.length ? (
             <Table
               columns={columns}
               rows={rows}

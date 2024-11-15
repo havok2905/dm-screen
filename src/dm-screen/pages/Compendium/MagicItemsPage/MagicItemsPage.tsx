@@ -1,6 +1,7 @@
 import {
   CenteredContainer,
   Container,
+  Input,
   Spinner,
   Table
 } from '@designSystem/components';
@@ -32,6 +33,7 @@ import {
 export const MagicItemsPage = () => {  
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const {
     data,
@@ -86,7 +88,9 @@ export const MagicItemsPage = () => {
     { name: 'Id' }
   ];
 
-  const rows = items.map((item: MarkdownEntity) => {
+  const filteredItems = searchTerm ? items.filter((item) => item.name.includes(searchTerm)) : items;
+
+  const rows = filteredItems.map((item: MarkdownEntity) => {
     const {
       id,
       name,
@@ -123,11 +127,23 @@ export const MagicItemsPage = () => {
       <CompendiumNavbar/>
       <Container>
         <h2>Magic Items</h2>
-        <Link to={CREATE_MAGIC_ITEM_PATH}>
-          Create new magic item
-        </Link>
+        <p>
+          <Link to={CREATE_MAGIC_ITEM_PATH}>
+            Create new magic item
+          </Link>
+        </p>
+        <Input
+          full
+          inputId="search"
+          inputName="search"
+          label="Search"
+          onChange={(e) => {
+            setSearchTerm(e.target.value)
+          }}
+          value={searchTerm}
+        />
         {
-          items.length ? (
+          filteredItems.length ? (
             <Table
               columns={columns}
               rows={rows}

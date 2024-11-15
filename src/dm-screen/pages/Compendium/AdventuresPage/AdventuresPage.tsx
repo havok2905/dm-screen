@@ -1,6 +1,7 @@
 import {
   CenteredContainer,
   Container,
+  Input,
   Spinner,
   Table
 } from '@designSystem/components';
@@ -34,7 +35,8 @@ import {
 export const AdventuresPage = () => {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string>('');
-  
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
   const {
     data,
     isFetching,
@@ -89,7 +91,9 @@ export const AdventuresPage = () => {
     { name: 'System'}
   ];
 
-  const rows = adventures.map((adventure: Adventure) => {
+  const filteredAdventures = searchTerm ? adventures.filter((spell) => spell.name.includes(searchTerm)) : adventures;
+
+  const rows = filteredAdventures.map((adventure: Adventure) => {
     const {
       id,
       name,
@@ -139,11 +143,23 @@ export const AdventuresPage = () => {
       <CompendiumNavbar/>
       <Container>
         <h2>Adventures</h2>
-        <Link to={CREATE_ADVENTURE_PATH}>
-          Create new adventure
-        </Link>
+        <p>
+          <Link to={CREATE_ADVENTURE_PATH}>
+            Create new adventure
+          </Link>
+        </p>
+        <Input
+          full
+          inputId="search"
+          inputName="search"
+          label="Search"
+          onChange={(e) => {
+            setSearchTerm(e.target.value)
+          }}
+          value={searchTerm}
+        />
         {
-          adventures.length ? (
+          filteredAdventures.length ? (
             <Table
               columns={columns}
               rows={rows}
