@@ -11,7 +11,6 @@ export * from './ItemsTable';
 export * from './ManagePlayersModal';
 export * from './Markdown';
 export * from './MetaDataForm';
-export * from './PlayersContext';
 export * from './PlayersTable';
 export * from './RouteErrorBoundary';
 export * from './RulesSearch';

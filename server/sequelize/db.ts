@@ -8,6 +8,7 @@ import adventure from './models/adventure';
 import adventurecreature from './models/adventurecreature';
 import adventurehandout from './models/adventurehandout';
 import adventureitem from './models/adventureitem';
+import adventureplayer from './models/adventureplayer';
 import creature from './models/creature';
 import equipmentitem from './models/equipmentitem';
 import initiative from './models/initiative';
@@ -29,6 +30,7 @@ const Adventure = adventure(db);
 const AdventureCreature = adventurecreature(db);
 const AdventureHandout = adventurehandout(db);
 const AdventureItem = adventureitem(db);
+const AdventurePlayer = adventureplayer(db);
 const Creature = creature(db);
 const EquipmentItem = equipmentitem(db);
 const Initiative = initiative(db);
@@ -40,6 +42,7 @@ export {
   AdventureCreature,
   AdventureHandout,
   AdventureItem,
+  AdventurePlayer,
   Creature,
   db,
   EquipmentItem,

@@ -8,6 +8,7 @@ import {
   Adventure,
   AdventureCreature,
   AdventureItem,
+  AdventurePlayer,
   Creature,
   EquipmentItem,
   MagicItem,
@@ -22,6 +23,7 @@ type EntityType =
   'adventure-splash-image' |
   'adventure-creature' |
   'adventure-item' |
+  'adventure-player' |
   'creature' |
   'magic-item' |
   'equipment-item' |
@@ -111,6 +113,12 @@ export class ImageService {
         });
       case 'adventure-item':
         return await AdventureItem.findOne({
+          where: {
+            id: entityId
+          }
+        });
+      case 'adventure-player':
+        return await AdventurePlayer.findOne({
           where: {
             id: entityId
           }

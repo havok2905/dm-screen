@@ -5,32 +5,38 @@ import {
 
 import { API_BASE } from './constants';
 
-type EntityType =
-  'adventure-splash-image' |
-  'adventure-creature' |
-  'adventure-item' |
-  'adventure-player' |
-  'creature' |
-  'magic-item' |
-  'equipment-item' |
-  'spell';
-
-export const useRemoveImage = (onSuccess?: () => void) => {
+export const useUpdateAdventurePlayer = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
 
   const result = useMutation({
     mutationFn: ({
-      entityType,
+      ac,
+      adventureid,
+      charactername,
       id,
+      image,
+      playername
     }: {
-      entityType: EntityType,
+      ac: number,
+      adventureid: string,
+      charactername: string,
       id: string,
+      image: string,
+      playername: string
     }) => {
-      return fetch(`${API_BASE}/image/${entityType}/${id}/removeImage`, {
-        method: 'DELETE',
+      return fetch(`${API_BASE}/adventurePlayer/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          ac,
+          adventureid,
+          charactername,
+          id,
+          image,
+          playername
+        }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
-        }
+        },
       }).then((response) => response.json())
     },
     onSuccess: () => {
@@ -38,11 +44,7 @@ export const useRemoveImage = (onSuccess?: () => void) => {
         queryKey: [
           'adventureData',
           'adventurePlayerData',
-          'AdventurePlayersData',
-          'creatureData',
-          'equipmentItemData',
-          'magicItemData',
-          'spellData'
+          'adventurePlayersData'
         ]
       });
 

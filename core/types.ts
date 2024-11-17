@@ -8,6 +8,15 @@ export interface MetaData {
   value: MetaDataValue
 }
 
+export interface AdventurePlayer {
+  ac: number;
+  adventureid: string;
+  charactername: string;
+  id: string;
+  image?: string;
+  playername: string;
+}
+
 export interface MarkdownEntity {
   adventureid?: string;
   content: string;
@@ -32,6 +41,7 @@ export interface Adventure {
   splashImgSrc: string;
   system: string;
   creatures: MarkdownEntity[];
+  players: Player[];
   handouts: Handout[];
   items: MarkdownEntity[];
 }

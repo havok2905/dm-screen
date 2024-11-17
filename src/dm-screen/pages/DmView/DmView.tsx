@@ -37,7 +37,6 @@ import {
   ItemsTable,
   ManagePlayersModal,
   Markdown,
-  PlayersContext,
   PlayersTable,
   RulesSearch,
   SpellsSearch,
@@ -68,9 +67,9 @@ export const DmView = () => {
 
   const {
     data,
-    isFetching,
     isLoading,
-    isPending
+    isPending,
+    refetch
   } = useAdventure(adventureId ?? '');
 
   const {
@@ -86,8 +85,6 @@ export const DmView = () => {
   const { mutate: bootstrapInitiative } = useBootstrapInitiative();
   const { mutate: destroyInitiative } = useDestroyInitiative();
   const { mutate: updateInitiative } = useUpdateInitiative();
-
-  const { players } = useContext(PlayersContext);
 
   const {
     getInitiativeOrder,
@@ -179,11 +176,13 @@ export const DmView = () => {
   };
 
   const handleAddAllToInitiativeOrder = () => {
-    const newItems: InitiativeItem[]= players.map((player) => {
+    const players = data.players ?? [];
+  
+    const newItems: InitiativeItem[] = players.map((player) => {
       const {
         ac,
         id,
-        characterName
+        charactername
       } = player;
 
       return {
@@ -192,7 +191,7 @@ export const DmView = () => {
         entityType: EntityType.PLAYER,
         gmOnly: false,
         id: uuidv4(),
-        name: characterName,
+        name: charactername,
         resourceA: ac,
         resourceB: 0,
         sortValue: 0,
@@ -229,22 +228,7 @@ export const DmView = () => {
     });
   };
 
-  const playerCharacterButtons = (
-    <>
-      <Button
-        buttonText="Add all to combat"
-        disabled={!players.length}
-        onClick={handleAddAllToInitiativeOrder}
-      />
-      <Button
-        buttonText="Manage players"
-        onClick={handleManagePlayersModalOpen}
-      />
-    </>
-  );
-
   if (
-    isFetching ||
     isLoading ||
     isPending
   ) return null;
@@ -252,6 +236,20 @@ export const DmView = () => {
   if (!data) {
     return null;
   }
+
+  const playerCharacterButtons = (
+    <>
+      <Button
+        buttonText="Add all to combat"
+        disabled={!data.players?.length}
+        onClick={handleAddAllToInitiativeOrder}
+      />
+      <Button
+        buttonText="Add player"
+        onClick={handleManagePlayersModalOpen}
+      />
+    </>
+  );
 
   const adventure = data as Adventure;
   const initiativeOrderState = initiativeItemIsError ? null : initiativeData?.initiativeOrderState ?? null;
@@ -264,7 +262,9 @@ export const DmView = () => {
           handleBootstrapInitiativeOrder={handleBootstrapInitiativeOrder}
           handleDestroyInitiativeOrder={handleDestroyInitiativeOrder}
           handleUpdateInitiativeOrder={handleUpdateInitiativeOrder}
-          initiativeOrderState={initiativeOrderState}/>
+          initiativeOrderState={initiativeOrderState}
+          players={adventure.players}
+        />
         <Container>
           <Grid>
             <GridRow>
@@ -273,7 +273,11 @@ export const DmView = () => {
                   sectionActions={playerCharacterButtons}
                   sectionHeaderEl="h3"
                   sectionTitle="Player Characters">
-                  <PlayersTable/>
+                  <PlayersTable
+                    adventureId={data.id ?? ''}
+                    players={data.players ?? []}
+                    refetch={refetch}
+                  />
                 </Section>
                 <Section
                   sectionActions={(
@@ -366,8 +370,12 @@ export const DmView = () => {
         <SpellsSearch spells={spellsData}/>
       </SideDrawer>
       <ManagePlayersModal
+        adventureId={data.id}
         isOpen={isManagePlayersModalOpen}
-        onClose={handleManagePlayersModalClose}/>
+        mutateType="create"
+        onClose={handleManagePlayersModalClose}
+        refetch={refetch}
+      />
     </>
   );
 };

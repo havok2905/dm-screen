@@ -25,6 +25,15 @@ export interface AdventureHandoutResponse {
 
 export interface AdventureItemResponse extends MarkdownEntityResponse { }
 
+export interface AdventurePlayerResponse {
+  id: string;
+  ac: number;
+  adventureid: string;
+  charactername: string;
+  image: string;
+  playername: string;
+}
+
 export interface AdventureResponse {
   description: string;
   id: string;
@@ -34,6 +43,7 @@ export interface AdventureResponse {
   creatures?: AdventureCreatureResponse[];
   handouts?: AdventureHandoutResponse[];
   items?: AdventureItemResponse[];
+  players?: AdventurePlayerResponse[];
 }
 
 export type AdventuresResponse = {

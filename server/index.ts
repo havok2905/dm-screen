@@ -9,6 +9,7 @@ import { Server } from 'socket.io';
 import {
   AddAdventureHandoutRequest,
   AddImageRequest,
+  CreateAdventurePlayerRequest,
   CreateAdventureRequest,
   CreateCreatureRequest,
   CreateEquipmentItemRequest,
@@ -17,6 +18,7 @@ import {
   RemoveImageRequest,
   UpdateAdventureCreatureRequest,
   UpdateAdventureItemRequest,
+  UpdateAdventurePlayerRequest,
   UpdateAdventureRequest,
   UpdateCreatureRequest,
   UpdateEquipmentItemRequest,
@@ -28,6 +30,7 @@ import {
   AdventureCreatureService,
   AdventureHandoutService,
   AdventureItemService,
+  AdventurePlayerService,
   AdventureService,
   CreatureService,
   ImageService,
@@ -329,6 +332,71 @@ app.put('/adventureItem/:id', async (request, response, next) => {
     );
 
     const responseJson = await AdventureItemService.updateAdventureItemById(request.params.id ?? '', updateAdventureItemRequest);
+
+    response.json(responseJson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/adventurePlayers', async (request, response, next) => {
+  try {
+    const {
+      ac,
+      adventureid,
+      charactername,
+      id,
+      image,
+      playername
+    } = request.body;
+
+    const createAdventurePlayerRequest = new CreateAdventurePlayerRequest(
+      ac,
+      adventureid,
+      charactername,
+      id,
+      image,
+      playername
+    );
+
+    const responseJson = await AdventurePlayerService.createAdventurePlayer(createAdventurePlayerRequest);
+
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.delete('/adventurePlayers/:id', async(request, response, next) => {
+  try {
+    const responseJson = await AdventurePlayerService.destroyAdventurePlayerById(request.params.id ?? '');
+    response.json(responseJson);
+  } catch(error) {
+    next(error);
+  }
+});
+
+app.put('/adventurePlayer/:id', async (request, response, next) => {
+  try {
+    const {
+      ac,
+      adventureid,
+      charactername,
+      id,
+      image,
+      playername
+    } = request.body;
+
+    const updateAdventurePlayerRequest = new UpdateAdventurePlayerRequest(
+      ac,
+      adventureid,
+      charactername,
+      id,
+      image,
+      playername
+    );
+
+    const responseJson = await AdventurePlayerService.updateAdventurePlayerById(request.params.id ?? '', updateAdventurePlayerRequest);
 
     response.json(responseJson);
   } catch (error) {

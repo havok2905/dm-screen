@@ -7,7 +7,8 @@ import {
 import {
   InitiativeItem,
   InitiativeOrderState,
-  MarkdownEntity
+  MarkdownEntity,
+  Player
 } from '@core/types';
 import {
   useContext,
@@ -30,6 +31,7 @@ export interface InitiativeOrderComponentProps {
   handleUpdateInitiativeOrder?: () => void;
   initiativeOrderState: InitiativeOrderState | null;
   playerView?: boolean;
+  players: Player[];
 }
 
 export const InitiativeOrderComponent = ({
@@ -38,7 +40,8 @@ export const InitiativeOrderComponent = ({
   handleDestroyInitiativeOrder,
   handleUpdateInitiativeOrder,
   initiativeOrderState,
-  playerView
+  playerView,
+  players
 }: InitiativeOrderComponentProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
@@ -252,7 +255,9 @@ export const InitiativeOrderComponent = ({
         creatures={creatures}
         isOpen={isOpen}
         item={currentItem}
-        onClose={handleModalClose}>
+        onClose={handleModalClose}
+        players={players}
+      >
         <fieldset>
           <label>
             GM Only

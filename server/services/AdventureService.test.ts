@@ -10,6 +10,7 @@ import {
   AdventureCreature,
   AdventureHandout,
   AdventureItem,
+  AdventurePlayer,
   Creature,
   EquipmentItem,
   MagicItem
@@ -101,6 +102,17 @@ describe('AdventureService', () => {
         })
       ];
 
+      const mockAdventurePlayers = [
+        AdventureItem.build({
+          ac: 10,
+          id: '89e29c09-cf56-4141-90ca-6ee567fb95e7',
+          adventureid: '68c8bd92-04ff-4359-9856-8d2d6b02b69b',
+          charactername: 'Character Name',
+          image: '/dagger.png',
+          player: 'Player Name'
+        })
+      ];
+
       const mockCreature = Creature.build({
         id: 'dcc17f12-c9ce-4529-994d-dd705e5e5fac',
         adventureid: '68c8bd92-04ff-4359-9856-8d2d6b02b69b',
@@ -137,6 +149,12 @@ describe('AdventureService', () => {
       jest.spyOn(AdventureItem, 'findAll').mockImplementation(() => {
         return new Promise((resolve) => {
           resolve(mockAdventureItems);
+        });
+      });
+
+      jest.spyOn(AdventurePlayer, 'findAll').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockAdventurePlayers);
         });
       });
 
@@ -183,6 +201,13 @@ describe('AdventureService', () => {
       expect(result.items?.[0].metadata[0].name).toEqual('Rarity');
       expect(result.items?.[0].metadata[0].type).toEqual('string');
       expect(result.items?.[0].metadata[0].value).toEqual('Common');
+
+      expect(result.players?.[0].id).toEqual(mockAdventurePlayers[0].dataValues.id);
+      expect(result.players?.[0].ac).toEqual(mockAdventurePlayers[0].dataValues.ac);
+      expect(result.players?.[0].adventureid).toEqual(mockAdventurePlayers[0].dataValues.adventureid);
+      expect(result.players?.[0].charactername).toEqual(mockAdventurePlayers[0].dataValues.charactername);
+      expect(result.players?.[0].image).toEqual(mockAdventurePlayers[0].dataValues.image);
+      expect(result.players?.[0].playername).toEqual(mockAdventurePlayers[0].dataValues.playername);
     });
 
     it('should throw when adventure id is not present', () => {
@@ -281,6 +306,17 @@ describe('AdventureService', () => {
         })
       ];
 
+      const mockAdventurePlayers = [
+        AdventureItem.build({
+          ac: 10,
+          id: '89e29c09-cf56-4141-90ca-6ee567fb95e7',
+          adventureid: '68c8bd92-04ff-4359-9856-8d2d6b02b69b',
+          charactername: 'Character Name',
+          image: '/dagger.png',
+          player: 'Player Name'
+        })
+      ];
+
       const mockEquipmentItem = EquipmentItem.build({
         id: '8c1d96db-2b9b-457d-ba59-7d7132ded9bc',
           adventureid: '68c8bd92-04ff-4359-9856-8d2d6b02b69b',
@@ -317,6 +353,12 @@ describe('AdventureService', () => {
       jest.spyOn(AdventureItem, 'findAll').mockImplementation(() => {
         return new Promise((resolve) => {
           resolve(mockAdventureItems);
+        });
+      });
+
+      jest.spyOn(AdventurePlayer, 'findAll').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockAdventurePlayers);
         });
       });
 
@@ -363,6 +405,13 @@ describe('AdventureService', () => {
       expect(result.items?.[0].metadata[0].name).toEqual('Rarity');
       expect(result.items?.[0].metadata[0].type).toEqual('string');
       expect(result.items?.[0].metadata[0].value).toEqual('Common');
+
+      expect(result.players?.[0].id).toEqual(mockAdventurePlayers[0].dataValues.id);
+      expect(result.players?.[0].ac).toEqual(mockAdventurePlayers[0].dataValues.ac);
+      expect(result.players?.[0].adventureid).toEqual(mockAdventurePlayers[0].dataValues.adventureid);
+      expect(result.players?.[0].charactername).toEqual(mockAdventurePlayers[0].dataValues.charactername);
+      expect(result.players?.[0].image).toEqual(mockAdventurePlayers[0].dataValues.image);
+      expect(result.players?.[0].playername).toEqual(mockAdventurePlayers[0].dataValues.playername);
     });
 
     it('should throw when adventure id is not present', () => {
@@ -455,6 +504,17 @@ describe('AdventureService', () => {
         })
       ];
 
+      const mockAdventurePlayers = [
+        AdventureItem.build({
+          ac: 10,
+          id: '89e29c09-cf56-4141-90ca-6ee567fb95e7',
+          adventureid: '68c8bd92-04ff-4359-9856-8d2d6b02b69b',
+          charactername: 'Character Name',
+          image: '/dagger.png',
+          player: 'Player Name'
+        })
+      ];
+
       const mockAdventureHandout = {
           save: jest.fn()
         }
@@ -486,7 +546,13 @@ describe('AdventureService', () => {
           resolve(mockAdventureItems);
         });
       });
-  
+
+      jest.spyOn(AdventurePlayer, 'findAll').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockAdventurePlayers);
+        });
+      });
+
       jest.spyOn(mockAdventureHandout, 'save').mockImplementation(jest.fn());
 
       const request = new AddAdventureHandoutRequest(
@@ -525,6 +591,13 @@ describe('AdventureService', () => {
       expect(result.items?.[0].metadata[0].name).toEqual('Rarity');
       expect(result.items?.[0].metadata[0].type).toEqual('string');
       expect(result.items?.[0].metadata[0].value).toEqual('Common');
+
+      expect(result.players?.[0].id).toEqual(mockAdventurePlayers[0].dataValues.id);
+      expect(result.players?.[0].ac).toEqual(mockAdventurePlayers[0].dataValues.ac);
+      expect(result.players?.[0].adventureid).toEqual(mockAdventurePlayers[0].dataValues.adventureid);
+      expect(result.players?.[0].charactername).toEqual(mockAdventurePlayers[0].dataValues.charactername);
+      expect(result.players?.[0].image).toEqual(mockAdventurePlayers[0].dataValues.image);
+      expect(result.players?.[0].playername).toEqual(mockAdventurePlayers[0].dataValues.playername);
     });
 
     it('should throw when request is not present', () => {
@@ -640,6 +713,17 @@ describe('AdventureService', () => {
           content: '# Dagger 2'
       });
 
+      const mockAdventurePlayers = [
+        AdventureItem.build({
+          ac: 10,
+          id: '89e29c09-cf56-4141-90ca-6ee567fb95e7',
+          adventureid: '68c8bd92-04ff-4359-9856-8d2d6b02b69b',
+          charactername: 'Character Name',
+          image: '/dagger.png',
+          player: 'Player Name'
+        })
+      ];
+
       jest.spyOn(mockMagicItem, 'save').mockImplementation(jest.fn());
   
       jest.spyOn(Adventure, 'findOne').mockImplementation(() => {
@@ -663,6 +747,12 @@ describe('AdventureService', () => {
       jest.spyOn(AdventureItem, 'findAll').mockImplementation(() => {
         return new Promise((resolve) => {
           resolve(mockAdventureItems);
+        });
+      });
+
+      jest.spyOn(AdventurePlayer, 'findAll').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve(mockAdventurePlayers);
         });
       });
 
@@ -707,6 +797,13 @@ describe('AdventureService', () => {
       expect(result.items?.[0].metadata[0].name).toEqual('Rarity');
       expect(result.items?.[0].metadata[0].type).toEqual('string');
       expect(result.items?.[0].metadata[0].value).toEqual('Common');
+
+      expect(result.players?.[0].id).toEqual(mockAdventurePlayers[0].dataValues.id);
+      expect(result.players?.[0].ac).toEqual(mockAdventurePlayers[0].dataValues.ac);
+      expect(result.players?.[0].adventureid).toEqual(mockAdventurePlayers[0].dataValues.adventureid);
+      expect(result.players?.[0].charactername).toEqual(mockAdventurePlayers[0].dataValues.charactername);
+      expect(result.players?.[0].image).toEqual(mockAdventurePlayers[0].dataValues.image);
+      expect(result.players?.[0].playername).toEqual(mockAdventurePlayers[0].dataValues.playername);
     });
 
     it('should throw when adventure id is not present', () => {
@@ -817,6 +914,12 @@ describe('AdventureService', () => {
       });
 
       jest.spyOn(AdventureItem, 'findAll').mockImplementation(() => {
+        return new Promise((resolve) => {
+          resolve([]);
+        });
+      });
+
+      jest.spyOn(AdventurePlayer, 'findAll').mockImplementation(() => {
         return new Promise((resolve) => {
           resolve([]);
         });

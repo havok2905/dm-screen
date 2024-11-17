@@ -9,23 +9,88 @@ import {
   useForm,
   useFormState
 } from "react-hook-form";
+import {
+  useCallback,
+  useEffect
+} from 'react';
 
-import { useContext } from 'react';
+import { AdventurePlayer } from '@core/types';
 import { v4 as uuidv4 } from 'uuid';
 
-import { PlayersContext } from '../PlayersContext';
+import {
+  useCreateAdventurePlayer,
+  useUpdateAdventurePlayer
+} from '../../hooks';
 
 export interface ManagePlayersModal {
+  adventureId: string;
   isOpen: boolean;
+  mutateType: 'create' | 'update';
   onClose: () => void;
+  player?: AdventurePlayer;
+  refetch: () => void;
 }
 
 export const ManagePlayersModal = ({
+  adventureId,
   isOpen,
-  onClose
+  mutateType,
+  onClose,
+  player,
+  refetch
 }: ManagePlayersModal) => {
-  const { players, setPlayers } = useContext(PlayersContext);
+  const {
+    control,
+    handleSubmit,
+    reset,
+    setValue,
+    trigger
+  } = useForm({
+    defaultValues: {
+      playerName: "",
+      characterName: "",
+      characterAc: 0
+    }, 
+  });
 
+  useEffect(() => {
+    if (mutateType === 'update' && player) {
+      const {
+        ac,
+        charactername,
+        playername
+      } = player;
+  
+      setValue('characterAc', ac);
+      setValue('characterName', charactername);
+      setValue('playerName', playername);
+      trigger();
+    }
+  }, [
+    mutateType,
+    player,
+    setValue,
+    trigger
+  ]);
+
+  const onSuccess = useCallback(() => {
+    refetch();
+    reset();
+    onClose();
+  }, [
+    onClose,
+    refetch,
+    reset
+  ]);
+
+  const {
+    mutate: createAdventureCreature
+  } = useCreateAdventurePlayer(onSuccess);
+
+  const {
+    mutate: updateAdventurePlayer
+  } = useUpdateAdventurePlayer(onSuccess);
+  
   const newPlayersModalCancel = () => {
     reset();
     onClose();
@@ -38,28 +103,35 @@ export const ManagePlayersModal = ({
   }
 
   const newPlayersModalSubmit: SubmitHandler<PlayerModalInputs> = (data) => {
-    if (data.playerName && data.characterName) {
-      setPlayers([
-        ...players,
-        {
+    if (mutateType === 'create') {
+      if (data.playerName && data.characterName) {
+        createAdventureCreature({
           ac: data.characterAc,
+          adventureid: adventureId,
+          charactername: data.characterName,
           id: uuidv4(),
-          name: data.playerName,
-          characterName: data.characterName
-        }
-      ]);
-      reset();
-      onClose();
+          image: '',
+          playername: data.playerName
+        })
+      }
     }
-  }
 
-  const { control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      playerName: "",
-      characterName: "",
-      characterAc: 0
-    }, 
-  });
+    if (mutateType === 'update' && player) {
+      if (data.playerName && data.characterName) {
+        updateAdventurePlayer({
+          ac: data.characterAc,
+          adventureid: player.adventureid,
+          charactername: data.characterName,
+          id: player.id,
+          image: player.image ?? '',
+          playername: data.playerName
+        })
+      }
+    }
+
+    reset();
+    onClose();
+  }
 
   const { isValid } = useFormState({control});
 
@@ -70,7 +142,9 @@ export const ManagePlayersModal = ({
       portalElement={document.body}>
       <form onSubmit={handleSubmit(newPlayersModalSubmit)}>
         <h2>
-          Manage Players
+          {
+            mutateType === 'create' ? 'Add Player' : 'Edit Player'
+          }
         </h2>
         <fieldset>
           <label htmlFor="playerName">
@@ -139,7 +213,7 @@ export const ManagePlayersModal = ({
         </fieldset>
         <fieldset>
           <Button
-            buttonText="Add Player"
+            buttonText={mutateType === 'create' ? 'Add Player' : 'Save Player'}
             disabled={!isValid}
             onClick={handleSubmit(newPlayersModalSubmit)}
           />

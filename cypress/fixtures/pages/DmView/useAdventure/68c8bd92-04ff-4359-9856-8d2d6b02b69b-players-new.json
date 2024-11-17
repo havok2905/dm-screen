@@ -135,5 +135,15 @@
       "createdAt": null,
       "updatedAt": null
     }
+  ],
+  "players": [
+    {
+      "ac": 15,
+      "adventureid": "68c8bd92-04ff-4359-9856-8d2d6b02b69b",
+      "charactername": "Character",
+      "id": "",
+      "image": "",
+      "playername": "Player"
+    }
   ]
 }

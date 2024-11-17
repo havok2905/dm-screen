@@ -9,6 +9,7 @@ type EntityType =
   'adventure-splash-image' |
   'adventure-creature' |
   'adventure-item' |
+  'adventure-player' |
   'creature' |
   'magic-item' |
   'equipment-item' |
@@ -36,6 +37,8 @@ export const useAddImage = (onSuccess?: () => void) => {
       queryClient.invalidateQueries({
         queryKey: [
           'adventureData',
+          'adventurePlayerData',
+          'adventurePlayersData',
           'creatureData',
           'equipmentItemData',
           'magicItemData',

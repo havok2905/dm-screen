@@ -12,7 +12,6 @@ import { ReactNode } from 'react';
 
 import {
   InitiativeOrderContextProvider,
-  PlayersContextProvider,
   RouteErrorBoundary
 } from '../../src/dm-screen/components';
 
@@ -36,33 +35,29 @@ export const ApplicationBootstrapper = ({
   if (path && route) {
     return (
       <QueryClientProvider client={queryClient}>
-        <PlayersContextProvider>
-          <InitiativeOrderContextProvider>
-            <MemoryRouter initialEntries={[
-              path
-            ]}>
-              <Routes>
-                <Route
-                  element={children}
-                  path={route}
-                />
-              </Routes>
-            </MemoryRouter>
-          </InitiativeOrderContextProvider>
-        </PlayersContextProvider>
+        <InitiativeOrderContextProvider>
+          <MemoryRouter initialEntries={[
+            path
+          ]}>
+            <Routes>
+              <Route
+                element={children}
+                path={route}
+              />
+            </Routes>
+          </MemoryRouter>
+        </InitiativeOrderContextProvider>
       </QueryClientProvider>
     )
   }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <PlayersContextProvider>
-        <InitiativeOrderContextProvider>
-          <RouteErrorBoundary>
-            {children}
-          </RouteErrorBoundary>
-        </InitiativeOrderContextProvider>
-      </PlayersContextProvider>
+      <InitiativeOrderContextProvider>
+        <RouteErrorBoundary>
+          {children}
+        </RouteErrorBoundary>
+      </InitiativeOrderContextProvider>
     </QueryClientProvider>
   );
 };

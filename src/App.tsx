@@ -67,7 +67,6 @@ import {
 } from './dm-screen/pages';
 
 import { InitiativeOrderContextProvider } from './dm-screen/components/InitiativeOrderContext';
-import { PlayersContextProvider } from './dm-screen/components/PlayersContext';
 import { RouteErrorBoundary } from './dm-screen/components/RouteErrorBoundary';
 
 const router = createBrowserRouter([
@@ -286,11 +285,9 @@ const queryClient = new QueryClient();
 export const App = () =>  {
   return (
     <QueryClientProvider client={queryClient}>
-      <PlayersContextProvider>
-        <InitiativeOrderContextProvider>
-          <RouterProvider router={router} />
-        </InitiativeOrderContextProvider>
-      </PlayersContextProvider>
+      <InitiativeOrderContextProvider>
+        <RouterProvider router={router} />
+      </InitiativeOrderContextProvider>
     </QueryClientProvider>
   );
 };

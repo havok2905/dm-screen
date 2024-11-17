@@ -1,6 +1,7 @@
 export * from './AddAdventureHandoutRequest';
 export * from './AddImageRequest';
 export * from './CreateAdventureRequest';
+export * from './CreateAdventurePlayerRequest';
 export * from './CreateCreatureRequest';
 export * from './CreateEquipmentItemRequest';
 export * from './CreateMagicItemRequest';
@@ -10,6 +11,7 @@ export * from './UpdateAdventureRequest';
 export * from './UpdateInitiativeRequest';
 export * from './UpdateAdventureCreatureRequest';
 export * from './UpdateAdventureItemRequest';
+export * from './UpdateAdventurePlayerRequest';
 export * from './UpdateCreatureRequest';
 export * from './UpdateEquipmentItemRequest';
 export * from './UpdateMagicItemRequest';

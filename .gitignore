@@ -39,5 +39,6 @@ uploads/*.jpeg
 
 db.sqlite
 db.development.sqlite
+db.development-backup.sqlite
 db.production.sqlite
 db.test.sqlite

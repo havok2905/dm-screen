@@ -11,6 +11,8 @@ import {
   AdventureItemNotFoundException,
   AdventureItemRequestMalformedException,
   AdventureNotFoundException,
+  AdventurePlayerNotFoundException,
+  AdventurePlayerRequestMalformedException,
   AdventureRequestMalformedException,
   AdventuresNotFoundException,
   CreatureNotFoundException,
@@ -42,6 +44,7 @@ export const errorHandler = (
     error instanceof AdventureHandoutRequestMalformedException ||
     error instanceof AdventureRequestMalformedException ||
     error instanceof AdventureCreatureRequestMalformedException ||
+    error instanceof AdventurePlayerRequestMalformedException ||
     error instanceof CreatureRequestMalformedException ||
     error instanceof EquipmentItemRequestMalformedException ||
     error instanceof ImageRequestMalformedException ||
@@ -54,6 +57,7 @@ export const errorHandler = (
     error instanceof AdventuresNotFoundException ||
     error instanceof AdventureCreatureNotFoundException ||
     error instanceof AdventureItemNotFoundException ||
+    error instanceof AdventurePlayerNotFoundException ||
     error instanceof CreatureNotFoundException ||
     error instanceof CreaturesNotFoundException ||
     error instanceof EquipmentItemNotFoundException ||

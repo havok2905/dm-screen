@@ -11,6 +11,7 @@ import {
   AdventureCreature,
   AdventureHandout,
   AdventureItem,
+  AdventurePlayer,
   Creature,
   EquipmentItem,
   MagicItem
@@ -30,6 +31,7 @@ import {
 import { AdventureCreatureService } from './AdventureCreatureService';
 import { AdventureHandoutService } from './AdventureHandoutService';
 import { AdventureItemService } from './AdventureItemService';
+import { AdventurePlayerService } from './AdventurePlayerService';
 import { cloneFileOnDisk } from './utils/cloneFileOnDisk';
 
 export class AdventureService {
@@ -116,12 +118,25 @@ export class AdventureService {
         ]
       ]
     });
+
+    const adventurePlayers = await AdventurePlayer.findAll({
+      where: {
+        adventureid: id
+      },
+      order: [
+        [
+          'playername',
+          'ASC'
+        ]
+      ]
+    });
   
     return this.mapResponseJson(
       adventure,
       adventureCreatures,
       adventureHandouts,
-      adventureItems
+      adventureItems,
+      adventurePlayers
     );
   }
 
@@ -190,12 +205,19 @@ export class AdventureService {
         adventureid: id
       }
     });
+
+    const adventurePlayers = await AdventurePlayer.findAll({
+      where: {
+        adventureid: id
+      }
+    });
   
     return this.mapResponseJson(
       adventure,
       adventureCreatures,
       adventureHandouts,
-      adventureItems
+      adventureItems,
+      adventurePlayers
     );
   }
 
@@ -248,12 +270,19 @@ export class AdventureService {
         adventureid: id
       }
     });
+
+    const adventurePlayers = await AdventurePlayer.findAll({
+      where: {
+        adventureid: id
+      }
+    });
   
     return this.mapResponseJson(
       adventure,
       adventureCreatures,
       adventureHandouts,
-      adventureItems
+      adventureItems,
+      adventurePlayers
     );
   }
 
@@ -322,12 +351,19 @@ export class AdventureService {
         adventureid: id
       }
     });
+
+    const adventurePlayers = await AdventurePlayer.findAll({
+      where: {
+        adventureid: id
+      }
+    });
   
     return this.mapResponseJson(
       adventure,
       adventureCreatures,
       adventureHandouts,
-      adventureItems
+      adventureItems,
+      adventurePlayers
     );
   }
 
@@ -383,6 +419,12 @@ export class AdventureService {
       }
     });
 
+    const adventurePlayers = await AdventurePlayer.findAll({
+      where: {
+        adventureid: id
+      }
+    });
+
     for (let x=0; x<adventureCreatures.length; x++) {
       const adventureCreature = adventureCreatures[x];
       await AdventureCreatureService.destroyAdventureCreatureById(adventureCreature.dataValues.id);
@@ -396,6 +438,11 @@ export class AdventureService {
     for (let x=0; x<adventureItems.length; x++) {
       const adventureItem = adventureItems[x];
       await AdventureItemService.destroyAdventureItemById(adventureItem.dataValues.id);
+    }
+
+    for (let x=0; x<adventurePlayers.length; x++) {
+      const adventurePlayer = adventurePlayers[x];
+      await AdventurePlayerService.destroyAdventurePlayerById(adventurePlayer.dataValues.id);
     }
 
     adventure?.destroy();
@@ -471,12 +518,19 @@ export class AdventureService {
         adventureid: id
       }
     });
+
+    const adventurePlayers = await AdventurePlayer.findAll({
+      where: {
+        adventureid: id
+      }
+    });
   
     return this.mapResponseJson(
       adventure,
       adventureCreatures,
       adventureHandouts,
-      adventureItems
+      adventureItems,
+      adventurePlayers
     );
   }
 
@@ -502,7 +556,8 @@ export class AdventureService {
     adventure,
     adventureCreatures,
     adventureHandouts,
-    adventureItems
+    adventureItems,
+    adventurePlayers,
   ): AdventureResponse {
     const responseJson: AdventureResponse = {
       ...adventure?.dataValues,
@@ -518,7 +573,8 @@ export class AdventureService {
           ...i.dataValues,
           metadata: JSON.parse(i.dataValues.metadata)
         };
-      })
+      }),
+      players: adventurePlayers.map((p) => p.dataValues),
     };
   
     return responseJson;

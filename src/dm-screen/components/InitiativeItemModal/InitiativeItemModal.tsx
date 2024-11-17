@@ -1,17 +1,14 @@
 import {
   EntityType,
   InitiativeItem,
-  MarkdownEntity
+  MarkdownEntity,
+  Player
 } from '@core/types';
-import {
-  ReactNode,
-  useContext
-} from 'react';
 
 import { Modal } from '@designSystem/components';
+import { ReactNode } from 'react';
 
 import { Markdown } from '../Markdown';
-import { PlayersContext } from '../PlayersContext';
 
 import './InitiativeItemModal.css';
 
@@ -19,6 +16,7 @@ export interface InitiativeItemModalProps {
   children: ReactNode;
   creatures: MarkdownEntity[];
   onClose: () => void;
+  players: Player[];
   isOpen: boolean;
   item: InitiativeItem | null;
 }
@@ -27,14 +25,10 @@ export const InitiativeItemModal = ({
   children,
   creatures,
   onClose,
+  players,
   isOpen,
   item
 }: InitiativeItemModalProps) => {
-
-  const {
-    players
-  } = useContext(PlayersContext);
-
   const getContentForModal = () => {
     if (!item || !isOpen)  return null;
 

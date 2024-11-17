@@ -5,6 +5,7 @@ type EntityType =
   'adventure-splash-image' |
   'adventure-creature' |
   'adventure-item' |
+  'adventure-player' |
   'creature' |
   'magic-item' |
   'equipment-item' |
@@ -30,6 +31,7 @@ export class AddImageRequest implements Request {
       this.entityType !== 'adventure-splash-image' &&
       this.entityType !== 'adventure-creature' &&
       this.entityType !== 'adventure-item' &&
+      this.entityType !== 'adventure-player' &&
       this.entityType !== 'creature' &&
       this.entityType !== 'equipment-item' &&
       this.entityType !== 'magic-item' &&

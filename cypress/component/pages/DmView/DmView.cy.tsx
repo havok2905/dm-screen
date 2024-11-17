@@ -2,7 +2,7 @@ import { TEST_API_BASE } from '../../../support/constants';
 
 import { ApplicationBootstrapper } from '../../../support/ApplicationBootstrapper';
 import { DmView } from '../../../../src/dm-screen/pages';
-import {SocketClient} from '@core/socket';
+import { SocketClient } from '@core/socket';
 
 const TEST_ADVENTURE_ID = '68c8bd92-04ff-4359-9856-8d2d6b02b69b';
 const TEST_INITIATIVE_ID = '213ab6dc-aa75-486f-b991-4df439bc8d59';
@@ -14,7 +14,22 @@ describe('DmView.cy.tsx', () => {
   beforeEach(() => {
     cy.intercept('GET', `${TEST_API_BASE}/adventure/${TEST_ADVENTURE_ID}`, {
       statusCode: 200,
-      fixture: `pages/useAdventure/${TEST_ADVENTURE_ID}`
+      fixture: `pages/DmView/useAdventure/${TEST_ADVENTURE_ID}-players-empty`
+    });
+
+    cy.intercept('DELETE', `${TEST_API_BASE}/adventurePlayers`, {
+      statusCode: 200,
+      fixture: 'pages/DmView/useDestroyAdventurePlayer/destroy'
+    });
+
+    cy.intercept('POST', `${TEST_API_BASE}/adventurePlayers`, {
+      statusCode: 200,
+      fixture: 'pages/DmView/useCreateAdventurePlayer/create'
+    });
+
+    cy.intercept('PUT', `${TEST_API_BASE}/adventurePlayer`, {
+      statusCode: 200,
+      fixture: 'pages/DmView/useUpdateAdventurePlayer/update'
     });
 
     cy.intercept('GET', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
@@ -35,6 +50,11 @@ describe('DmView.cy.tsx', () => {
     cy.intercept('POST', `${TEST_API_BASE}/initiative/${TEST_ADVENTURE_ID}`, {
       statusCode: 200,
       fixture: `pages/DmView/useBootstrapInitiative/${TEST_ADVENTURE_ID}`
+    });
+
+    cy.intercept('GET', `${TEST_API_BASE}/spells`, {
+      statusCode: 200,
+      fixture: 'pages/DmView/useSpells/spells-empty'
     });
 
     cy.stub(SocketClient.prototype, 'disconnect');
@@ -98,7 +118,7 @@ describe('DmView.cy.tsx', () => {
     cy
       .getButton()
       .eq(4)
-      .should('contain', 'Manage players')
+      .should('contain', 'Add player')
       .should('be.enabled');
 
     // Should render handout
@@ -427,10 +447,15 @@ describe('DmView.cy.tsx', () => {
       fixture: `pages/DmView/useInitiative/${TEST_ADVENTURE_ID}-added-player`
     });
 
+    cy.intercept('GET', `${TEST_API_BASE}/adventure/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useAdventure/${TEST_ADVENTURE_ID}-players-new`
+    });
+
     cy
       .getButton()
       .eq(4)
-      .should('contain', 'Manage players')
+      .should('contain', 'Add player')
       .trigger('click');
 
     cy
@@ -816,7 +841,7 @@ describe('DmView.cy.tsx', () => {
     cy
       .getButton()
       .eq(4)
-      .should('contain', 'Manage players')
+      .should('contain', 'Add player')
       .trigger('click');
 
       cy
@@ -831,11 +856,16 @@ describe('DmView.cy.tsx', () => {
         .should('not.exist');
   });
 
-  it('should add a player and remove it', () => {
+  it('should add a player, edit it, and remove it', () => {
+    cy.intercept('GET', `${TEST_API_BASE}/adventure/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useAdventure/${TEST_ADVENTURE_ID}-players-new`
+    });
+
     cy
       .getButton()
       .eq(4)
-      .should('contain', 'Manage players')
+      .should('contain', 'Add player')
       .trigger('click');
 
     cy
@@ -884,6 +914,59 @@ describe('DmView.cy.tsx', () => {
     cy.getTableCell(0, 0, 1).should('contain', 'Character');
     cy.getTableCell(0, 0, 2).should('contain', '15');
 
+
+    cy
+      .getTableCell(0, 0, 3)
+      .find('button')
+      .eq(0)
+      .trigger('click');
+
+    cy
+      .getModal()
+      .find('input')
+      .eq(0)
+      .clear()
+      .type('Player Edit');
+
+    cy
+      .getModal()
+      .find('input')
+      .eq(1)
+      .clear()
+      .type('Character Edit');
+
+    cy
+      .getModal()
+      .find('input')
+      .eq(2)
+      .clear()
+      .type('20');
+
+    cy.intercept('GET', `${TEST_API_BASE}/adventure/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useAdventure/${TEST_ADVENTURE_ID}-players-edit`
+    });
+
+    cy
+      .getModal()
+      .find('button')
+      .eq(0)
+      .should('contain', 'Save Player')
+      .should('be.enabled')
+      .trigger('click');
+
+    cy
+      .getModal()
+      .should('not.exist');
+
+    cy.getTableHeader(0, 0).should('contain', 'Player');
+    cy.getTableHeader(0, 1).should('contain', 'Character');
+    cy.getTableHeader(0, 2).should('contain', 'AC');
+
+    cy.getTableCell(0, 0, 0).should('contain', 'Player Edit');
+    cy.getTableCell(0, 0, 1).should('contain', 'Character Edit');
+    cy.getTableCell(0, 0, 2).should('contain', '20');
+
     cy
       .get('[data-test-id="players-missing-text"]')
       .should('not.exist');
@@ -891,8 +974,13 @@ describe('DmView.cy.tsx', () => {
     cy
       .getTableCell(0, 0, 3)
       .find('button')
-      .eq(0)
+      .eq(1)
       .trigger('click');
+    
+    cy.intercept('GET', `${TEST_API_BASE}/adventure/${TEST_ADVENTURE_ID}`, {
+      statusCode: 200,
+      fixture: `pages/DmView/useAdventure/${TEST_ADVENTURE_ID}-players-empty`
+    });
 
     cy
       .get('[data-test-id="players-missing-text"]')

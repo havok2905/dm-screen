@@ -156,7 +156,9 @@ export const PlayerView = () => {
         <InitiativeOrderComponent
           creatures={adventure.creatures}
           initiativeOrderState={initiativeData?.initiativeOrderState ?? null}
-          playerView/>
+          playerView
+          players={adventure.players}
+        />
         <Container>
           <Grid>
             <GridRow>
