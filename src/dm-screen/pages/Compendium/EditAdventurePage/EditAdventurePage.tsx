@@ -179,21 +179,18 @@ export const EditAdventurePage = () => {
 
   const {
     data: creaturesData,
-    isFetching: creaturesIsFetching,
     isLoading: creaturesIsLoading,
     isPending: creaturesIsPending
   } = useCreatures();
 
   const {
     data: itemsData,
-    isFetching: itemsIsFetching,
     isLoading: itemsIsLoading,
     isPending: itemsIsPending
   } = useEquipmentItems();
 
   const {
     data: magicItemsData,
-    isFetching: magicItemsIsFetching,
     isLoading: magicItemsIsLoading,
     isPending: magicItemsIsPending
   } = useMagicItems();
