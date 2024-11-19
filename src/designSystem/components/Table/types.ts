@@ -6,7 +6,12 @@ export interface Column {
 
 export type Columns = Column[];
 
-export type RowData = (string | number | boolean)[];
+export interface TableImageData {
+  image: string;
+  type: 'table-image-data'
+}
+
+export type RowData = (string | number | boolean | TableImageData)[];
 
 export interface RowAction {
   name: string;

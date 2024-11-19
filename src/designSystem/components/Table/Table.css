@@ -19,6 +19,7 @@
 .dm-screen-design-system-table-cell {
   background-color: var(--black-100);
   border-radius: 0;
+  height: 46px;
   padding-bottom: var(--spacing-small);
   padding-top: var(--spacing-small);
   vertical-align: middle;

@@ -88,6 +88,7 @@ export const CreaturesTable = ({
       <Table
         columns={
           [
+            { name: '' },
             { name: 'Creature' },
             ...columns
           ]
@@ -116,6 +117,10 @@ export const CreaturesTable = ({
 
             return {
               data: [
+                {
+                  type: 'table-image-data',
+                  image: creature.image ?? ''
+                },
                 creature.name,
                 ...rowData.map((item) => item.value)
               ],

@@ -1,11 +1,15 @@
+import { ReactNode } from 'react';
+
+import { TableImageData } from './types';
+
 export interface TableCellProps {
-  value: string | number | boolean | null;
+  value: TableImageData | string | number | boolean | null;
 }
 
 export const TableCell = ({
   value
 }: TableCellProps) => {
-  const getStringValue = (): string => {
+  const getStringValue = (): string | ReactNode => {
     if (typeof value === 'string') {
       return value;
     }
@@ -15,6 +19,17 @@ export const TableCell = ({
       typeof value === 'number'
     ) {
       return String(value);
+    }
+
+    if (value?.type === 'table-image-data') {
+      return (
+        <>
+          <img
+            src={value.image}
+            style={{ height: '100%' }}
+          />
+        </>
+      );
     }
 
     return '';
